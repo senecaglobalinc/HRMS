@@ -1,0 +1,37 @@
+
+.form-control {
+  
+  border: none;
+}
+
+ 
+
+button[type="submit"]
+{
+    width: 105px;  
+}
+.ui-inputtext{
+    width: 70%;   
+}
+
+.buttons {
+    margin-top: 22px;
+    margin-right: 82px;
+  }
+
+  @media (max-width: 1024px){
+    .buttons {
+      // margin-top: 22px;
+       margin-right:67px !important;
+     }
+  
+  }
+  input[type="text"],
+  input[type="email"],
+  .dropdowns
+  {
+      width: 70%;
+      border:none;
+      border-bottom: 1px solid rgb(184, 159, 174);
+   
+  }

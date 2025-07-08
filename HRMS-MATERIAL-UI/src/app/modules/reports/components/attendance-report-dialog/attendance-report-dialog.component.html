@@ -1,0 +1,18 @@
+<!--   -->
+<div class="row">
+    <div class="col-9 text-left">
+       <b> {{employeeName}} </b> Attendance   &nbsp; (Total Days: {{daysWorked}})
+    </div>
+    <div class="col-3 text-right">
+      <button mat-stroked-button (click)="onClose()">
+        <mat-icon>close</mat-icon></button>       
+    </div>
+  </div>    
+
+    <mat-dialog-content>   
+        <div class="row">
+            <div class="col-md-12">
+                <full-calendar defaultView="dayGridMonth"   [options]="calendarOptions"></full-calendar> 
+            </div>
+        </div>        
+    </mat-dialog-content>

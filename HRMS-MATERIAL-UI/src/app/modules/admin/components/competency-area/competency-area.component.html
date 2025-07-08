@@ -1,0 +1,75 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form class="form-horizontal row justify-content-center" [formGroup]="addCompetencyArea">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <mat-form-field appearance="{{ themeConfigInput }}">
+          <mat-label>Competency Area Code<span class="text-danger"> *</span></mat-label>
+          <input matInput formControlName="CompetencyAreaCode" appValidationImpSpecialChars appEmptySpacesValidations minlength="2" />
+          <mat-error>
+            <span *ngIf="addCompetencyArea.get('CompetencyAreaCode').errors">Competency
+              Area Code required</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <mat-form-field appearance="{{ themeConfigInput }}">
+          <mat-label>Competency Area Description<span class="text-danger"> *</span></mat-label>
+          <input matInput formControlName="CompetencyAreaDescription" appEmptySpacesValidations minlength="2" />
+          <mat-error>
+            <span *ngIf="addCompetencyArea.get('CompetencyAreaDescription').errors">Competency
+              Area Description required</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 text-right">
+        <button mat-stroked-button (click)="Reset()">
+          <mat-icon>close</mat-icon>Clear
+        </button>
+        <button mat-flat-button color="primary" (click)="CreateCompetencyArea()">
+          {{ btnLabel }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="CompetencyAreaCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Competency Area Code
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.CompetencyAreaCode }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="CompetencyAreaDescription">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Competency Area Description
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.CompetencyAreaDescription }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+            Edit
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon style="cursor: pointer" (click)="setEditObj(element)">edit</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

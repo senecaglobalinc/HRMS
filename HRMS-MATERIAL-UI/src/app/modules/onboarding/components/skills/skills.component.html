@@ -1,0 +1,156 @@
+<div class="row">
+                <div class="col-md-12">
+                        <h3 class="dividerHeading">Skills</h3>
+                </div>
+            </div>
+        
+                <form [formGroup]="addSkill" class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-8">
+                                <section>
+                                        <br>
+                                        <mat-checkbox  
+                                        (click)="CheckedIsPrimary(true)" 
+                                        name="checked" [formControl]="addSkill.controls['IsPrimary']"> Is Primary:</mat-checkbox>
+                                        <br>
+                                        <br>
+                                </section>       
+                        </div>
+                        <div class="col-md-4">
+                                <br>
+                                <span class="warning">
+                                        <mat-icon class="icon">warning</mat-icon>
+                                        <p class="text">
+                                                Ensure Atleast one skill should be primary
+                                </span>
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="col-md-3">
+                                <mat-form-field appearance={{themeConfigInput}}>
+                                        <mat-label>Skill<span class="text-danger">*</span></mat-label>
+                                        <input  autocomplete="disabled" (click)="getFilteredskills()" (keypress)="getFilteredskills()" type="text" matInput [matAutocomplete]="auto" formControlName="SkillId"/>
+                                        <button  *ngIf="addSkill.value.SkillId" mat-button matSuffix mat-icon-button aria-label="Clear"
+                                                (click)="clearInput($event, 'SkillId')">
+                                                <mat-icon class="clearFieldIcon">close</mat-icon>
+                                        </button>
+                                           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='enableVersions($event.option.value)'>
+                                              <mat-option *ngFor="let option of filteredMultipleSkill | async" [value]="option" >
+                                                           {{ option.Name }}
+                                              </mat-option>
+                                           </mat-autocomplete>
+                                           <mat-error *ngIf="formSubmitted && addSkill.get('SkillId').hasError('required') " >Skill Required </mat-error>
+                                </mat-form-field>
+                               
+                        </div>
+
+                        <div class="col-md-3" *ngIf="showVersionTextBox">
+                                <mat-form-field appearance={{themeConfigInput}}>
+                                        <mat-label>Version</mat-label>
+                                        <input matInput formControlName="Version">
+                                       
+                                </mat-form-field>
+                                <p style="color: red; margin-top: -13px;">Note : Version Allows Only Numbers, Decimals, Commas </p>
+                                       
+                        </div>
+                        <div class ="col-md-3">
+                                <mat-form-field appearance={{themeConfigInput}}>
+                                  <mat-label>Proficiency Level<span class="text-danger">*</span></mat-label>
+                                  <mat-select formControlName="ProficiencyLevelId">
+                                    <mat-option *ngFor="let p of proficiencyLevels" [value]="p.value">
+                                      {{p.label}} </mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="formSubmitted && addSkill.get('ProficiencyLevelId').hasError('required')">Proficiency Level is required</mat-error>
+                                </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                                <mat-form-field appearance={{themeConfigInput}}>
+                                    <mat-label>Last used(Year)<span class="text-danger">*</span></mat-label>
+                                    <input matInput type="text" (keypress)="onlyForNumbers($event)"  formControlName="LastUsed"
+                                    placeholder="(In year)">
+                                    <mat-error *ngIf="formSubmitted && addSkill.get('LastUsed').hasError('required')">Last Used is required</mat-error>
+                                    <!-- <mat-error *ngIf="errorMsg">Last Used is Invalid</mat-error> -->
+                                    <mat-error *ngIf="formSubmitted && addSkill.get('LastUsed').hasError('pattern')">Last Used is Invalid</mat-error>
+                                </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                                <mat-form-field appearance={{themeConfigInput}}>
+                                    <mat-label>Experience(In Years)<span class="text-danger" >*</span></mat-label>
+                                    <input matInput  formControlName="Experience"
+                                    placeholder="(In Years)" maxlength="5">
+                                    <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('pattern')">Should be in
+                                        # or #.# or ##.# or ##.## format! where # is a number</mat-error>
+                                    <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('required')">Experience is required</mat-error>
+                                    <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('experienceError')">
+                                        Months Can't be greater than 11!
+                                    </mat-error>
+                                    <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('zeroErrorHandler')">
+                                        Experience Can't be Zero!
+                                    </mat-error>
+                                </mat-form-field>
+                        </div>
+        
+                    </div>
+                    <div class="row">
+                            <div class="col-12 text-right mt-4">
+                                    <button mat-stroked-button (click)="cancel()">
+                                      <mat-icon>close</mat-icon>Clear
+                                    </button>
+                                    <button mat-flat-button color="primary" (click)="onSave()">{{btnLabel}}</button>
+                            </div>
+                    </div>
+                </form>   
+           
+        
+                <mat-card mb='2'>
+                        <mat-card-content>
+                        <div class="row">
+                                <div class="col-md-12 text-right">
+                                        <section class="pull-right">
+                              <mat-form-field appearance={{themeConfigInput}}>
+                                 <mat-label>Search</mat-label>
+                                   <input matInput (keyup)="applyFilter($event)" #input >
+                               </mat-form-field>
+                            </section>
+                          </div>
+                        </div>
+                        <div class="table-responsive">
+                                <table mat-table [dataSource]="dataSource" matSort>
+                                        <ng-container matColumnDef="SkillName">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.SkillCode}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Experience">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Experience </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="IsPrimary">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> IsPrimary </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.IsPrimary}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="LastUsed">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Last used </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.LastUsed}} </td>
+                                        </ng-container>
+                                        <!-- <ng-container matColumnDef="Edit">
+                                                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                  <mat-icon (click)="editSkill(element)" style="cursor: pointer;">edit</mat-icon>
+                                                </td>
+                                             </ng-container> -->
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        <tr class="mat-row" *matNoDataRow>
+                                        <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+                                </table>
+                        </div>
+                        <div class="row justify-content-center">
+                                <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+                         </div>
+                        </mat-card-content>
+                </mat-card>
+                <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="true" type="ball-clip-rotate-multiple"
+                        size="medium">
+                        <p class="loading">Loading ...</p>
+                </ngx-spinner>

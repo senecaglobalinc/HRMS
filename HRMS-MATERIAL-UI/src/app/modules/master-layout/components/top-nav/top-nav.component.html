@@ -1,0 +1,78 @@
+<div class="flex-container">
+  <mat-toolbar>
+      <div *ngIf="dispLogoDiv" class="logoDiv">
+      <b class="mr-2 mr-sm-5">HRMS</b>
+      <button mat-icon-button id="menu" (click)="navService.toggle()">
+          <img  class="wimg" src="../../../../../assets/icons/Hamburger-Menu.svg" alt="Hamburger Menu">
+      </button>
+  </div>
+  
+    <div class="child-container1">
+  <h2 [ngClass]="{'ml-2 ml-sm-5': dispLogoDiv}">{{pageTitle}}</h2>
+  </div>
+      <!-- <span class="flex-spacer"></span> -->
+     <div class="child-container">
+      <div class="topNavGlobalSearch">
+      <mat-form-field appearance={{themeConfigInput}}>
+        <mat-label>Search</mat-label>
+        <mat-icon class="clearFieldIcon"  *ngIf="!searchField"  matSuffix>search</mat-icon>
+        <input matInput [(ngModel)]="searchField"  (keyup)="applyFilter($event)" placeholder="Type anything to search" #input>
+        <button class="clearFieldIcon" mat-button *ngIf="searchField" matSuffix mat-icon-button
+        aria-label="Clear" (click)="clearField()">
+        <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+     <div class="child-container3">
+      <!-- <button mat-icon-button> -->
+        <!-- <img class="rounded-circle" src="../../../../../assets/images/avatar.png" alt="Avatar" /> -->
+        <span class="header-welcome">
+          Welcome 
+        </span>
+        
+          <!-- <button  mat-icon-button> -->
+              <!-- <img class="rounded-circle" src="../../../../../assets/images/avatar.png" alt="Avatar" /> -->
+            <span class="content-info">
+              {{this.associateFullName}}
+            </span>
+              
+          <!-- </button> -->
+    <!-- </button> -->
+    
+      
+      <button mat-icon-button aria-label="Account Menu"  [matMenuTriggerFor]="accountmenu" style="text-align:right">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+    </div>
+      
+  </mat-toolbar>
+  </div>
+  
+  <mat-menu #accountmenu="matMenu">
+    <!-- <p>{{{{fullName | uppercase}}</p> -->
+     <!--  <button mat-menu-item>
+        <mat-icon>{{darktheme? 'wb_sunny' : 'brightness_2'}}</mat-icon>
+        <span> <mat-slide-toggle color="primary" class="mr-3" (change)="onSetTheme($event)"><small>{{darktheme? 'Light' : 'Dark'}}</small></mat-slide-toggle></span>
+      </button> -->
+      <button mat-menu-item (click)="openProfileDialog()">
+        <mat-icon>person</mat-icon>
+        <span> Profile</span>
+      </button>
+  
+      <!-- <button mat-menu-item (click)='logout()'>
+        <mat-icon>power_settings_new</mat-icon>
+        <span> Sign out</span>
+      </button> -->
+  
+      <button mat-menu-item  (click)="switchRole()" [hidden]="role == 1">
+        <mat-icon>shuffle</mat-icon>
+        <span> Switch Role</span>
+      </button>
+  
+  
+      <button mat-menu-item (click)='logout()'>
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Sign Out</span>
+      </button>
+    </mat-menu>

@@ -1,0 +1,99 @@
+<mat-card class="mb-2">
+  <mat-card-content class="container">
+    <form class="form-horizontal" [formGroup]="addClient">
+      <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Client Code<span class="text-danger"> *</span></mat-label>
+            <input [readonly]="isEdit" matInput type="text" formControlName="ClientCode" size="30" maxlength="6" appEmptySpacesValidations
+              (keypress)="validate_clientCode($event)">
+            <mat-error *ngIf="addClient.get('ClientCode').hasError('required')">
+              Client Code Required
+            </mat-error>
+            <mat-error *ngIf="addClient.get('ClientCode').hasError('maxlength')">
+              Only 6 characters are allowed.
+            </mat-error>
+            <mat-error *ngIf="addClient.get('ClientCode').hasError('pattern')">
+              Client Code should be in pattern 'c#####'
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Client Name <span class="text-danger"> *</span></mat-label>
+            <input matInput type="text" formControlName="ClientName" size="30" maxlength="50"
+              (keypress)="validate_clientCode($event)" appValidations appEmptySpacesValidations>
+            <mat-error *ngIf="addClient.get('ClientName').hasError('required')">
+              Client Name Required
+            </mat-error>
+            <mat-error *ngIf="addClient.get('ClientName').hasError('maxlength')">
+              Only 50 characters.
+            </mat-error>
+            <mat-error *ngIf="addClient.get('ClientName').hasError('minLength')">Enter atleast 2 characters</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Client Register Name</mat-label>
+            <input matInput type="text" formControlName="ClientRegisterName" size="30" maxlength="150" appValidations appEmptySpacesValidations
+              minlength="2" (keypress)="validate_clientRegisterName($event)">
+            <mat-error *ngIf="addClient.get('ClientRegisterName').hasError('minLength')">
+              Enter atleast 2 characters
+            </mat-error>
+            <mat-error *ngIf="addClient.get('ClientRegisterName').hasError('maxlength')">
+              Only 150 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-12 text-right">
+          <button mat-stroked-button (click)="cancel()">
+            <mat-icon>close</mat-icon>Clear
+          </button>
+          <button mat-flat-button color="primary" (click)="addClients()">{{btnLabel}}</button>
+
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="ClientCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client Code </th>
+          <td mat-cell *matCellDef="let client"> {{client.ClientCode}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ClientName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client Name </th>
+          <td mat-cell *matCellDef="let client"> {{client.ClientName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ClientRegisterName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client Register Name </th>
+          <td mat-cell *matCellDef="let client"> {{client.ClientRegisterName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let client">
+            <mat-icon style="cursor: pointer" (click)="editClients(client)">edit</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

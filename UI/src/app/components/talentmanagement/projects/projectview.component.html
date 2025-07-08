@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+        <div class="panel-heading">
+                <h4 >Projects Dashboard  <button type = "button" id = "dashboardbtn" class="btn btn-primary pull-right" 
+                  (click) = "CreateProject()">
+                    <i class="fa fa-plus"></i>&nbsp; Add Project</button></h4>
+              </div>
+ <div class="panel-body">
+                <div style="text-align: right">        
+                    <input type="text" pInputText size="50" placeholder="Search" style="width: 30%" (input)="dt1.filterGlobal($event.target.value, 'contains')" class = "inputCls">
+                </div>
+   <p-table #dt1 [columns]="cols" [value]="ProjectsList" [paginator]="true"    [rows]="PageSize"
+[rowsPerPageOptions]="PageDropDown"
+[resizableColumns]="true" [reorderableColumns]="true"
+ [(selection)]="selectedAssignUserRole" stateStorage="session" stateKey="statedemo-session">
+    
+    <ng-template pTemplate="header" let-columns>     
+        <tr>        
+            <th *ngFor="let col of columns" class = "headers" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th class = "editCls">Edit</th>  
+            <!-- <th class = "editCls">View</th>   -->
+        </tr>
+       
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                        {{rowData[col.field]}}   
+            </td>    
+            <td style="text-align: center;" class = "editBtn" (click) = "EditProject(rowData)">
+                <a>
+                    <i  title="Edit" class="fa fa-pencil-square-o fa-lg editCls" ></i>
+                </a>
+            </td>
+            <!-- <td  (click) = "ViewProject(rowData)"><a >View</a></td> -->
+        </tr>
+    </ng-template>
+   </p-table>
+ </div>
+</div>

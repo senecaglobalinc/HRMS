@@ -1,0 +1,96 @@
+<mat-card *ngIf="resignationSubmitted">
+  <mat-card-header>
+    <mat-card-title>Associate Exit Actions</mat-card-title>
+  </mat-card-header>
+    <mat-card-content>
+      <!-- <div class="col-md-6 font-weight-bold">
+        Associate Exit Actions
+      </div> -->
+        <div class ="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                  <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status </th>
+                    <td mat-cell *matCellDef="let element">
+                      <span *ngIf="element.StatusCode != 'ResignationInProgress'">{{element.StatusDesc}}</span>
+                      <a Style="color:blue; text-decoration: underline; cursor: pointer;" *ngIf="element.StatusCode === 'ResignationInProgress'" (click)="ViewDetailedStatus(element.EmployeeId)">{{element.StatusDesc}}</a>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="RevokeStatus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Revoke Status </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element.RevokeStatusDesc}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="RejectReason">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Reject Reason </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{element.RevokeComment}}
+                    </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="ExitDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Exit Date </th>
+                    <td mat-cell *matCellDef="let element">{{element.ExitDate}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Action </th>
+                    <td mat-cell  *matCellDef="let element">
+                        <button [disabled] = "disableRevokeButton" class="mr-0 ml-0" mat-flat-button color="primary" (click)="revokeResignation('Revoke')">Revoke </button>
+                    </td>
+                  </ng-container>
+
+                  <ng-container *ngIf="showTransitionPlan" matColumnDef="TransitionPlan">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Transition Plan </th>
+                  <td mat-cell  *matCellDef="let element">
+                    <button [routerLink]="['/shared/KtForm/Associate', element.EmployeeId,  element.ProjectId]" class="mr-0 ml-0 transition-plan" mat-flat-button color="primary"><mat-icon>assignment</mat-icon>Transition Plan </button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+        </div>
+<div *ngIf="multipleKTPlans">
+        <div class="col-md-6 font-weight-bold">
+          Transition Plan Details
+        </div>
+          <div class ="table-responsive">
+              <table mat-table [dataSource]="dataSourceKTPlan" matSort>
+  
+                    <ng-container matColumnDef="Project">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Project </th>
+                      <td mat-cell *matCellDef="let element">{{element.ProjectName}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="Status">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status </th>
+                      <td mat-cell *matCellDef="let element">{{element.StatusDesc}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="TransitionPlan">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Transition Plan </th>
+                      <td mat-cell  *matCellDef="let element">
+                        <div *ngIf="element.Status=='KTPlanInProgress' || element.Status=='KTPlanSubmitted'">
+                        <a mat-stroked-button color="primary" [routerLink]="['/shared/KtForm/Associate', element.EmployeeId, element.ProjectId]">Transition Plan</a>
+                      </div>
+                      <div *ngIf="element.Status=='NotYetStarted' || element.Status=='KTPlanCompleted'">
+                        <a mat-stroked-button disabled color="primary">Transition Plan</a>
+                      </div>
+                      </td>
+                    </ng-container>
+  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsKTPlan"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsKTPlan"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data</td>
+                    </tr>
+              </table>
+          </div>
+
+        </div>
+
+    </mat-card-content>
+</mat-card>

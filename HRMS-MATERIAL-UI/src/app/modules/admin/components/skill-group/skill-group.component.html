@@ -1,0 +1,108 @@
+<mat-card class="mb-2">
+  <form [formGroup]="addSkillGroup">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Competency Area <span class="text-danger">*</span></mat-label>
+          <input [SearchList]="competencyAreaList" appEmptySpacesValidations
+          appRequirematch type="text" placeholder="Select Competency Area" aria-label="competencyarea" matInput
+            formControlName="CompetencyAreaId" [matAutocomplete]="auto">
+
+          <button class="clearFieldIcon" *ngIf="addSkillGroup.value.CompetencyAreaId" mat-button matSuffix
+            mat-icon-button aria-label="Clear" (click)="clearCompArea()">
+            <mat-icon>close</mat-icon>
+          </button>
+
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option  disabled *ngIf="addSkillGroup.get('CompetencyAreaId').hasError('invalidValue')
+            && addSkillGroup.value.CompetencyAreaId">
+              No matching value found
+            </mat-option>
+            <mat-option [disabled]="isEdit" *ngFor="let compArea of filteredCompArea | async" [value]="compArea">
+              {{compArea.label}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="addSkillGroup.get('CompetencyAreaId').hasError('required')">
+            Competency Area Required
+          </mat-error>
+          <mat-error *ngIf="addSkillGroup.get('CompetencyAreaId').hasError('requireMatch')">
+            Select Competency Area from given options
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Skill Group<span class="text-danger">*</span></mat-label>
+          <input matInput placeholder="Skill Group Name" formControlName="SkillGroupName" appValidationImpSpecialChars appEmptySpacesValidations minlength="2">
+          <mat-error *ngIf="addSkillGroup.get('SkillGroupName').hasError('required')">
+            Skill Group Required
+          </mat-error>
+          <mat-error *ngIf="addSkillGroup.get('SkillGroupName').hasError('minlength')">
+            Atleast enter 2 characters
+          </mat-error>
+          <mat-error *ngIf="addSkillGroup.get('SkillGroupName').hasError('maxlength')">
+            Only 100 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Skill Group Description</mat-label>
+          <input matInput placeholder="Skill Group Description" formControlName="Description"
+            minlength="2">
+          <mat-error *ngIf="addSkillGroup.get('Description').hasError('minlength')">
+            Atleast enter 2 characters
+          </mat-error>
+          <mat-error *ngIf="addSkillGroup.get('Description').hasError('maxlength')">
+            Only 4000 characters allowed
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-12 text-right">
+        <button mat-stroked-button (click)="cancel()">
+          <mat-icon>clear</mat-icon>
+          Clear
+        </button>
+        <button class="mr-0" mat-flat-button color="primary" (click)="addSkillGroups()">{{btnLabel}}</button>
+      </div>
+    </div>
+  </form>
+
+</mat-card>
+<mat-card>
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="CompetencyAreaCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Competency Area </th>
+        <td mat-cell *matCellDef="let skillGroup">{{skillGroup.CompetencyArea.CompetencyAreaCode}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="SkillGroupName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill Group </th>
+        <td mat-cell *matCellDef="let skillGroup"> {{skillGroup.SkillGroupName}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill Description</th>
+        <td mat-cell *matCellDef="let skillGroup"> {{skillGroup.Description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let skillGroup">
+          <mat-icon class="edit" style="cursor: pointer" (click)="editSkillGroup(skillGroup)">edit</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div class="row justify-content-center">
+    <mat-paginator [pageSizeOptions]="[10, 20,30,40,50]"></mat-paginator>
+  </div>
+
+</mat-card>

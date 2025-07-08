@@ -1,0 +1,137 @@
+<!-- Start Status KRA Here  -->
+<!-- <mat-toolbar><span>Status</span></mat-toolbar> -->
+
+<div class="bg-white mb-100">
+   <!-- // Start - Freezed Define KRA -->
+   <div class="row">
+      <div class="col-md-2">
+         <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Finacial Year</mat-label>
+            <mat-select (selectionChange)="changeValue($event)">
+               <mat-option selected value="2021-2022">
+                  2021 - 2022
+               </mat-option>
+               <mat-option value="2019-2020">
+                  2019 - 2020
+               </mat-option>
+            </mat-select>
+         </mat-form-field>
+      </div>
+      <div class="col-md-3">
+         <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Filter by Status</mat-label>
+            <mat-select>
+               <mat-option selected value="all">
+                  All
+               </mat-option>
+               <mat-option value="admin">
+                  Admin
+               </mat-option>
+            </mat-select>
+         </mat-form-field>
+      </div>
+      <div class="col-md-3">
+         <span>
+            <p>KRA Sent to CEO On</p>
+            <p><b>12 AUG 2020</b> </p>
+         </span>
+      </div>
+   </div>
+
+
+   <div class="row">
+      <!-- // Start - Status KRA -->
+      <div class="row">
+         <div class="col-md-12">
+            <table mat-table [dataSource]="dataSource">
+               <ng-container matColumnDef="departmentname">
+                  <th mat-header-cell *matHeaderCellDef> DEPARTMENT NAME </th>
+                  <td mat-cell *matCellDef="let element"> <b>{{element.kraaspect}}</b> <br />
+                     <i class="text-muted"><small>Sarma Manthravadi</small></i></td>
+               </ng-container>
+               <ng-container matColumnDef="noofrloetypes">
+                  <th mat-header-cell *matHeaderCellDef> NO OF ROLE TYPES <br /><span class="versmallfont"><span
+                           class="text-muted">TOTAL |</span> <span class="text-success">ACCEPTED |</span> <span
+                           class="text-danger">FOR REVIEW</span></span></th>
+                  <td mat-cell *matCellDef="let element">
+                     <p class="wspan"><span>{{element.noofrloetypes}}</span>
+                        <span>-</span>
+                        <span *ngIf="element.status !=='KRA recived'"> -</span>
+                        <span color="warn" *ngIf="element.status =='KRA recived'">
+                           <img class="pull-right" src="../../../../assets/images/hrms/icons/arrow.svg"
+                              alt="comment" />{{element.noofrloetypes}}
+                        </span>
+                     </p>
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> STATUS </th>
+                  <td mat-cell *matCellDef="let element"> {{element.status}} <br />
+                     <span class="text-muted">
+                        <small *ngIf="element.status !=='KRA recived'">N A</small></span>
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="comments">
+                  <th mat-header-cell *matHeaderCellDef> COMMENTS </th>
+                  <td mat-cell *matCellDef="let element"> {{element.comments}} <br />
+                  <div>
+                        <button *ngIf="undoDivs" mat-button color="accent" 
+                           (click)="onclick()">Add
+                           Comments</button>
+                        <span *ngIf="element.status =='KRA recived'">
+                           <!-- <form [formGroup]="formGroup" (click)="onclick()" class="form"> -->
+                              <form  (click)="onclick()" class="form">
+                              <mat-form-field style="width:20vw;" *ngIf="undoDiv">
+                                 <mat-label>Comment</mat-label>
+                                 <textarea matInput  >
+                           </textarea>
+                           <span align="end"  *ngIf="imgdiv">
+                              <img  class="pull-right" src="../../../../assets/images/hrms/icons/badge.svg" alt="comment" /> 
+                           </span>
+                              </mat-form-field> 
+                           </form>
+                           <div align="end" *ngIf="undoDivss"> 
+                              <button mat-button (click)="clickimg()" color="primary">ADD </button>
+                              <br/>
+                           <button mat-button color="accent">CANCLE</button>
+                          </div>
+                        </span>
+                     </div>
+                      
+
+                  </td>
+               </ng-container>
+
+               <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>ACTION </th>
+                  <td mat-cell *matCellDef="let element">
+                     <span *ngIf="element.status =='KRA recived'">
+                        <button mat-button class="greenClr">ACCEPT</button> |
+                        <button mat-button color="warn">REJECT</button>
+                     </span>
+
+               </ng-container>
+               <!-- <ng-container matColumnDef="action">
+            <th  mat-header-cell *matHeaderCellDef> Action </th>
+            <td   mat-cell *matCellDef="let element">
+              
+              <button  mat-button  class="greenClr">Accept</button>
+            
+              <button   mat-button color="warn">Reject</button></div>
+              
+            </td>
+         </ng-container> -->
+
+
+
+               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+         </div>
+      </div>
+      <!-- // End - Status Define KRA -->
+   </div>
+
+
+
+   <!-- Ends Status KRA Here  -->

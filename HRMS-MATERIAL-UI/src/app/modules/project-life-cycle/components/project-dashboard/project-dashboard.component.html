@@ -1,0 +1,179 @@
+    
+    <div class="panel-heading">
+      <h4>Projects Dashboard
+              <button mat-flat-button color="primary"  type="button" (click)="CreateProject()" class="btn btn-custom pull-right">
+                Add Project</button>
+      </h4>
+  </div><mat-card>
+        <mat-card-content class="fluid">
+          <div class="table-responsive">
+            <table
+              class="mat-elevation-z8 col-12"
+              mat-table
+              [dataSource]="dataSource"
+              cdkDropList
+              cdkDropListOrientation="horizontal"
+              matSort
+            >
+              <ng-container matColumnDef="ProjectName">
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  Project Name
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.ProjectName }}
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="ManagerName" *ngIf = "showCol" >
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  Project Manager
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.ManagerName }}
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="PracticeAreaCode">
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  Technology
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.PracticeAreaCode }}
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="ClientName">
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  Client Name
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.ClientName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="ActualStartDate">
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  Start Date
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.ActualStartDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="ActualEndDate">
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  End Date
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.ActualEndDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="ProjectState">
+                <th
+                  mat-header-cell
+                  cdkDrag
+                  *matHeaderCellDef
+                  mat-sort-header
+                  class="font-weight-bold"
+                >
+                  Status
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.ProjectState }}
+                </td>
+              </ng-container>
+           
+              <ng-container matColumnDef="ProjectDetails">
+                <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                  Project Details
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align: center">
+                  <mat-icon style="cursor: pointer" (click)="ViewProject(element)"
+                    >visibility</mat-icon
+                  >
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="AllocationDetails">
+                <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                  Allocation Details
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align: center">
+                  <mat-icon style="cursor: pointer" [ngStyle] =" canViewAllocation(element)" (click)="ViewAllocationDetails(element)"
+                    >visibility</mat-icon
+                  >
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                  Action
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align: center">
+                  <div class="row">
+                  <div class="col-7">
+                    <mat-icon style="cursor: pointer"(click)="EditProject(element)" [ngStyle]="CanEdit(element)"
+                    >edit</mat-icon
+                  >
+                </div >
+                <div  class="col-0" style="text-align: center">
+                  <mat-icon [ngStyle]="canClose(element)" title="Initiate Closure" (click)="canCloseProject(element)">close</mat-icon>
+                </div>
+                  <!-- <div class="col-md-1">
+                  <button type="button" mat-flat-button color="primary" (click)="canCloseProject(element)">Initiate Closure</button>
+                </div> -->
+              </div>
+                </td>
+              </ng-container>
+            
+              <tr mat-header-row *matHeaderRowDef="cols"></tr>
+              <tr mat-row *matRowDef="let row; columns: cols"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="9">No data</td>
+              </tr>
+            </table>
+          </div>
+          <div class="row justify-content-center">
+            <mat-paginator
+              [pageSizeOptions]="[10, 20, 30]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      
+
+
+

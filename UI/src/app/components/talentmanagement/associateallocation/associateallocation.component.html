@@ -1,0 +1,312 @@
+﻿<!-- <div class="panel panel-default"> -->
+<div class="panel-heading">
+    <div class="panel-title">Associate Allocation
+        <li *ngIf="disableAssociateName" id="back" (click)="backToTagList()">
+            <i class="fa fa-arrow-left" title="Back to Tag-list" aria-hidden="true">&nbsp;Back</i>
+        </li>
+    </div>
+
+</div>
+<div class="panel-body">
+    <!-- <div class="center"> -->
+    <form class="form-horizontal" [formGroup]="allocationForm">
+        <div class="row">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <div class="ui-fluid">
+                            <label style="padding-right: 15px;">
+                                <input style="font-size : 50px;" type="checkbox" [attr.disabled]="disableBilling?'':null" formControlName="Billable" (change)="IsBillable($event)">Billable
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Associate Name
+                            <i style="color:red">*</i>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-dropdown [autoWidth]="false" [disabled]="disableAssociateName" [filter]="true" formControlName="EmployeeId" [options]="employeesList"
+                                [style]="{'width':'70%'}" (onChange)="getAllocationHistory(allocationForm.value.EmployeeId)"></p-dropdown>
+
+                        </div>
+                        <span style="color: red" *ngIf="!allocationForm.controls['EmployeeId'].valid && formsubmitted">
+                            Select Associate Name
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Project Name
+                            <i style="color: red">*</i>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-dropdown [options]="projectsList" [filter]="true" [style]="{'width':'70%'}" formControlName="ProjectId" (onChange)="getProjectManagerDetails(allocationForm.value.ProjectId);getClientBillingRolesByProject(allocationForm.value.ProjectId);">
+                            </p-dropdown>
+                        </div>
+                        <span style="color: red" *ngIf="(!allocationForm.controls['ProjectId'].valid && formsubmitted)">
+                            Select Project Name
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Role
+                            <i style="color:red">*</i>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-dropdown [autoWidth]="false" [filter]="true" formControlName="RoleMasterId" [options]="trRolesList" [style]="{'width':'70%'}"></p-dropdown>
+                        </div>
+                        <span style="color: red;" *ngIf="!allocationForm.controls['RoleMasterId'].valid && formsubmitted">
+                            Select Role
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Allocation(%)
+                            <i style="color: red">*</i>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-dropdown [options]="allocationOptions" [style]="{'width':'70%'}" formControlName="AllocationPercentage" maxlength="3"
+                                [attr.max]="availableAllocationPercentage" (onChange)="validateAllocationPercentage(allocationForm.value.AllocationPercentage,allocationForm.value.EmployeeId)">
+                            </p-dropdown>
+                        </div>
+                        <span style="color: red" *ngIf="(!allocationForm.controls['AllocationPercentage'].valid && formsubmitted)">
+                            Select Allocation Percentage
+                        </span>
+                        <span *ngIf="allocationForm.value.AllocationPercentage!=null && (allocatedPercentage>availableAllocationPercentage)">
+                            <i style="color: red">Available Allocation(%) is: {{availableAllocationPercentage}} </i>
+                        </span>
+
+                    </div>
+                </div>
+                <!-- <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Internal Billing(%) </label>
+                        <div class="ui-fluid">
+                            <input type="text" maxlength="3" (keypress)="onlyNumbers($event)" formControlName="InternalBillingPercentage" class="form-control input-md">
+                        </div>
+                    </div>
+                </div> -->
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Client</label>
+                        <div class="ui-fluid">
+                            <input type="text" name="clientName" class="form-control input-md" disabled="true" value="{{clientName}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label for="requestedDate">Effective Date:
+                            <i style="color: red">*</i>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-calendar name="EffectiveDate" [style]="{'width':'70%'}" formControlName="EffectiveDate" yearRange="2000:2030" showIcon="true"
+                                [minDate]="firstDate" [maxDate]="lastDate" monthNavigator="true" yearNavigator="true" dateFormat="yy-mm-dd"></p-calendar>
+                        </div>
+                        <span style="color: red" *ngIf="!allocationForm.controls['EffectiveDate'].valid && formsubmitted">
+                            Enter Effective Date
+                        </span>
+                    </div>
+                </div>
+
+
+
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Reporting Manager
+                            <i style="color: red">*</i>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-dropdown [autoWidth]="false" [filter]="true" formControlName="ReportingManagerId" [options]="ManagersList" [style]="{'width':'70%'}"></p-dropdown>
+                        </div>
+                        <span style="color: red;" *ngIf="!allocationForm.controls['ReportingManagerId'].valid && formsubmitted">
+                            Select Reporting Manager
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box ">
+                        <label>Client Billing(%)
+                            <span *ngIf="(allocationForm.value.Billable==true)">
+                                <i style="color: red">*</i>
+                            </span>
+                        </label>
+                        <div class="ui-fluid">
+                            <input type="text" [attr.disabled]="true" maxlength="3" (keypress)="onlyNumbers($event)" formControlName="ClientBillingPercentage"
+                                class="form-control input-md">
+                        </div>
+                        <span style="color: red" *ngIf="(!allocationForm.value.ClientBillingPercentage && ((allocationForm.value.Billable==true) && formsubmitted))">
+                            Enter Client Billing(%)
+                        </span>
+
+                        <span style="color: red" *ngIf="(allocationForm.get('ClientBillingPercentage').hasError('max') && ((allocationForm.value.Billable==true) && formsubmitted ))">
+                            Maximum Client Billing(%) can be 100
+                        </span>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <!-- <a *ngIf="(allocationForm.value.Billable==true)" 
+                                (click)="selectClientBillingRoles()">Client Billing Role</a> -->
+
+
+                        <label>Client Billing Role
+                            <span *ngIf="(allocationForm.value.Billable==true)">
+                                <i style="color: red">*</i>
+                            </span>
+                            &nbsp;                            
+                        </label>
+                        <div class="ui-fluid" *ngIf="(allocationForm.value.Billable == true); else noClientBillingRole">
+                            <input type="text" formControlName="ClientBillingRoleName" (click)="selectClientBillingRoles()" class="form-control input-md">
+                            <span style="color: red;" *ngIf="(!allocationForm.value.ClientBillingRoleId && (allocationForm.value.Billable==true && formsubmitted))">
+                                    Select Client Billing Role
+                                </span>
+                        </div>
+                        <ng-template #noClientBillingRole>
+                                <input type="text" class="form-control input-md" [attr.disabled]="true">
+                        </ng-template>
+                        
+                    </div>
+                </div>
+
+
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Client Billing Start Date</label>
+                        <div class="ui-fluid">
+                            <input type="text" [attr.disabled]="true" formControlName="BillingStartDate" class="form-control input-md">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box ">
+                        <div class="ui-fluid checkboxs">
+                            <label style="padding-right: 15px;">
+                                <input type="checkbox" formControlName="isCritical">Critical
+                                <!-- <input type="checkbox" formControlName="isCritical" [attr.disabled]="!disableCBR?'':null">Critical -->
+                            </label>
+                            <label style="padding-right: 15px;">
+                                <input type="checkbox" formControlName="IsPrimary">Primary                                
+                            </label>
+                            <label>
+                                <input type="checkbox" formControlName="NotifyAll">&nbsp;Notify All</label>
+                        </div>
+                        <span style="color: red;padding-left: 68px;" *ngIf="!allocationForm.value.IsPrimary">Is it primary!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+ 
+    <div class="col-lg-12">
+        <section class="pull-right buttons">
+            <button class="btn btn-custom " type="button" style="cursor:pointer;" (click)="Allocate(allocationForm.value)">
+                <i class="fa fa-user-arrow"></i>&nbsp;Allocate
+            </button> &nbsp;
+            <button *ngIf="!disableAssociateName" id="btn-cancel" style="cursor:pointer;" class="btn btn-default" type="button" (click)="OpenConfirmationDialog()">
+                <i class="fa fa-eraser "></i>Clear
+            </button>
+        </section>
+
+    </div>
+    <div class="col-md-12 floating-main" *ngIf="showAllocationHistoryGrid">
+        <h5>
+            <b>{{requisitionList.AssociateName}}'s</b> - Current Allocation</h5>
+        <div class="col-lg-12">
+            <table class="table table-bordered">
+                <!-- <table class="table table-nowraptext"> -->
+                <tr class="d-center">
+                    <th>
+                        <span class="text">Project Name</span>
+                    </th>
+                    <th>
+                        <span class="text">Effective From</span>
+                    </th>
+                    <th>
+                        <span class="text">Utilization (%)</span>
+                    </th>
+                    <th>
+                        <span class="text">Billable</span>
+                    </th>
+                    <th>
+                        <span class="text">Critical</span>
+                    </th>
+                    <th>
+                        <span class="text">Primary</span>
+                    </th>
+                </tr>
+                <tbody *ngFor="let al of allocationHistory">
+                    <tr class="text-center data-rows">
+                        <td class="text-left">{{al.Project}}</td>
+                        <td class="text-left">{{al.EffectiveDate | date:"yyyy/MM/dd"}}</td>
+                        <td class="text-left">{{al.AllocationPercentage}}</td>
+                        <td class="text-left">
+                            <input name="HRABillable" type="checkbox" [checked]="al.Billable" disabled>
+                        </td>
+                        <td class="text-left">
+                            <input name="HRABillable" type="checkbox" [checked]="al.isCritical" disabled>
+                        </td>
+                        <td class="text-left">
+                            <input name="HRABillable" type="checkbox" [checked]="al.IsPrimary" disabled>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
+
+<!-- <p-confirmDialog></p-confirmDialog> -->
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-dialog [(visible)]="displaySelectProject" appendTo="body" [modal]="true" [responsive]="true" width=300 height=100>
+    <p> Select Project</p>
+    <button type="button" class="pull-right btn btn-custom" (click)="close()">Ok</button>
+</p-dialog>
+<p-dialog header="Client billing Role(s)" [(visible)]="displayAllCBR" appendTo="body" [modal]="true" [responsive]="true"
+    width=750 height=450>
+    <!-- <p style = "color : red" *ngIf = "!allocationForm.value.ProjectId"> Select Project </p> -->
+    <div>
+        <p-table [columns]="CBRcols" [value]="clientBillingRoleData" columnResizeMode="expand" [(selection)]="CBRselectedData" [resizableColumns]="true"
+            [responsive]="true" [reorderableColumns]="true"  [paginator]="true" [rows]="10" >
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 5em">Select</th>
+                    <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                        {{ col.header }}
+
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td>
+                        <p-tableRadioButton [value]="rowData" *ngIf="rowData['AvailablePositions'] > 0"></p-tableRadioButton>
+                        <!-- <p [value]="rowData" *ngIf = "rowData['AvailablePositions'] != 0"> No Available positions.</p> -->
+                    </td>
+                    <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                        <div>{{ rowData[col.field] }}</div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div *ngIf="clientBillingRoleData.length == 0" style="text-align: left">
+                    No Client billing roles found
+                </div>
+            </ng-template>
+        </p-table>
+        <button class="btn btn-custom pull-right" type="button" style="cursor:pointer;" (click)="selectedCBR()">Apply</button>
+    </div>
+</p-dialog>

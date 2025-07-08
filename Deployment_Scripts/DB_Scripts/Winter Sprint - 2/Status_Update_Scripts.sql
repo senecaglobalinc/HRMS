@@ -1,0 +1,4 @@
+UPDATE public."Status" SET "StatusCode"='ResignationInProgress',"StatusDescription"='Resignation in Progress' WHERE "StatusId"=26 and "CategoryMasterId"=2 and "IsActive"=true;
+UPDATE public."Status" SET "StatusCode"='DepartmentActivityInProgress' WHERE "StatusId"=27 and "CategoryMasterId"=2 and "IsActive"=true;
+UPDATE public."Status" SET "StatusCode"='DepartmentActivityCompleted' WHERE "StatusId"=28 and "CategoryMasterId"=2 and "IsActive"=true;
+UPDATE public."Status" SET "StatusCode"='ReadyForClearance', "StatusDescription"='Ready for Clearance' WHERE "StatusId" =40 and "CategoryMasterId"=2 and "IsActive"=true;

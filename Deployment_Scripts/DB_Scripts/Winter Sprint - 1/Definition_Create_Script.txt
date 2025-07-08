@@ -1,0 +1,96 @@
+-- Rename the Definition table
+-- ======================================
+ALTER TABLE public."Definition"
+  RENAME TO "Definition_OLD";
+
+-- Table: public.Definition
+
+-- DROP TABLE public."Definition";
+
+CREATE TABLE IF NOT EXISTS public."Definition"
+(
+    "DefinitionId" uuid NOT NULL DEFAULT uuid_generate_v4(),
+	"FinancialYearId" integer NOT NULL,
+	"RoleTypeId" integer NOT NULL,
+	"StatusId" integer NOT NULL,
+    "AspectId" integer NOT NULL,
+	"MeasurementTypeId" integer NOT NULL,
+	"ScaleId" integer,
+	"OperatorId" integer NOT NULL,
+	"Metric" character varying(255) COLLATE pg_catalog."default",
+	"TargetValue" character varying(50) COLLATE pg_catalog."default",
+    "TargetPeriodId" integer NOT NULL,
+    "IsActive" boolean NOT NULL,
+    "CreatedBy" character varying(100) COLLATE pg_catalog."default",
+    "CreatedDate" timestamp with time zone,
+    "ModifiedBy" character varying(100) COLLATE pg_catalog."default",
+    "ModifiedDate" timestamp with time zone,
+    "SystemInfo" character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT "PK_Definition1" PRIMARY KEY ("DefinitionId"),
+    CONSTRAINT "FK_Definition_Aspect_AspectId" FOREIGN KEY ("AspectId")
+        REFERENCES public."Aspect" ("AspectId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT,		
+	CONSTRAINT "FK_Definition_MeasurementType_MeasurementTypeId" FOREIGN KEY ("MeasurementTypeId")
+        REFERENCES public."MeasurementType" ("MeasurementTypeId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT,
+    CONSTRAINT "FK_Definition_Operator_OperatorId" FOREIGN KEY ("OperatorId")
+        REFERENCES public."Operator" ("OperatorId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT,
+    CONSTRAINT "FK_Definition_Scale_ScaleId" FOREIGN KEY ("ScaleId")
+        REFERENCES public."Scale" ("ScaleId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT,
+    CONSTRAINT "FK_Definition_TargetPeriod_TargetPeriodId" FOREIGN KEY ("TargetPeriodId")
+        REFERENCES public."TargetPeriod" ("TargetPeriodId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."Definition"
+    OWNER to hrmsdev;	
+
+-- Index: IX_Definition_AspectId1
+
+-- DROP INDEX public."IX_Definition_AspectId1";
+
+CREATE INDEX "IX_Definition_AspectId1"
+    ON public."Definition" USING btree
+    ("AspectId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: IX_Definition_MeasurementTypeId
+
+-- DROP INDEX public."IX_Definition_MeasurementTypeId";
+
+CREATE INDEX "IX_Definition_MeasurementTypeId"
+    ON public."DefinitionDetails" USING btree
+    ("MeasurementTypeId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: IX_Definition_OperatorId
+
+-- DROP INDEX public."IX_Definition_OperatorId";
+
+CREATE INDEX "IX_Definition_OperatorId"
+    ON public."DefinitionDetails" USING btree
+    ("OperatorId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: IX_Definition_ScaleId
+
+-- DROP INDEX public."IX_Definition_ScaleId";
+
+CREATE INDEX "IX_Definition_ScaleId"
+    ON public."DefinitionDetails" USING btree
+    ("ScaleId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: IX_Definition_TargetPeriodId
+
+-- DROP INDEX public."IX_Definition_TargetPeriodId";
+
+CREATE INDEX "IX_Definition_TargetPeriodId"
+    ON public."DefinitionDetails" USING btree
+    ("TargetPeriodId" ASC NULLS LAST)
+    TABLESPACE pg_default;

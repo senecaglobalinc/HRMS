@@ -1,0 +1,34 @@
+.exportToExcel {
+    background: url('../../../../../../src/assets/images/excel.png') no-repeat;
+    margin-top: -3px;
+    padding-right: 47px;
+    width: 50px;
+    float: right;
+    padding-top: 27px;
+    cursor: pointer;
+    }
+
+    .th-center{
+        text-align: center !important;
+      }
+      .th-left{
+        text-align: left !important;
+      }
+      .th-right{
+        text-align: right !important;
+      }
+
+      .td-center{
+        text-align: center !important;
+      }
+      .td-left{
+        text-align: left !important;
+      }
+      .td-right{
+        text-align: right !important;
+      }
+.titleClass {
+  margin-bottom: 10px;
+  margin-left: 14px;
+  font-size: medium;
+}

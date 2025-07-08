@@ -1,0 +1,270 @@
+
+            <div class="row">
+                    <div class="col-md-12">
+                            <h3 class="dividerHeading">Previous Employer Details</h3>
+                    </div>
+                </div>
+    
+    <form *ngIf="PreviousEmployer" [formGroup]="PreviousEmployer">
+        
+            <div class="col-md-12">
+            <div  >
+                <div class="table-responsive">
+                    <div class="row">
+                    <div class="col-md-12">
+                    <table mat-table #table [dataSource]="_Associate.PrevEmploymentDetails" formArrayName="PreviousEmployerArray">
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Company Name
+                                    <span class="text-danger"> *</span>
+                                </th>
+                                <td mat-cell  *matCellDef="let employee; let i = index;" [formGroupName]="i">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <input type="text" name="Name" formControlName="Name" matInput (paste)="$event.preventDefault()"  
+                                            [value]="employee.Name" (change)="employee.Name = $event.target.value" (keypress)="omit_special_char($event)">
+                                            <mat-error *ngIf="testArrayPrev.controls[i].get('Name').hasError('required')">Company Name is required</mat-error>
+                                            <mat-error *ngIf="testArrayPrev.controls[i].get('Name').hasError('maxlength')">Maximum 100 characters are allowed</mat-error>
+                                            <mat-error *ngIf="testArrayPrev.controls[i].get('Name').hasError('pattern')">Only Alphabets are allowed</mat-error>
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Address">
+                                    <th mat-header-cell  *matHeaderCellDef class="font-weight-bold"> Company Address
+                                        <span class="text-danger"> *</span>
+                                    </th>
+                                    <td mat-cell *matCellDef="let employee; let i = index;" [formGroupName]="i">
+                                        <mat-form-field appearance={{themeAppearence}}>
+                                            <textarea  matInput  formControlName="Address" (keypress)="forAddress($event)"
+                                            (paste)="$event.preventDefault()" [value]="employee['Address']" (change)="employee.Address = $event.target.value"></textarea>
+                                                <mat-error *ngIf="testArrayPrev.controls[i].get('Address').hasError('required')">Company Address is required</mat-error>
+                                                <mat-error *ngIf="testArrayPrev.controls[i].get('Address').hasError('maxlength')">Maximum 100 characters are allowed</mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                    <td></td>
+                                </ng-container>
+                                <ng-container matColumnDef="Designation">
+                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Designation
+                                            <span class="text-danger"> *</span>
+                                        </th>
+                                        <td mat-cell  *matCellDef="let employee; let i = index;" [formGroupName]="i">
+                                            <mat-form-field appearance={{themeAppearence}}>
+                                                <input type="text" matInput formControlName="Designation" (paste)="$event.preventDefault()" (keypress)="onlychar($event)"
+                                                     [value]="employee['Designation']" (change)="employee.Designation = $event.target.value">
+                                                    <mat-error *ngIf="testArrayPrev.controls[i].get('Designation').hasError('required')">Designation is required</mat-error>
+                                                    <mat-error *ngIf="testArrayPrev.controls[i].get('Designation').hasError('maxlength')">Maximum 25 characters are allowed</mat-error>
+                                                    <mat-error *ngIf="testArrayPrev.controls[i].get('Designation').hasError('pattern')">Only Alphabets are allowed</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        <td></td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ServiceFrom">
+                                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Service From <span class="text-danger"> *</span>
+                                            </th>
+                                            <td mat-cell *matCellDef="let employee; let i = index;" [formGroupName]="i">
+                                                    <mat-form-field appearance={{themeAppearence}}>
+                                                            <mat-label>Choose From date</mat-label>
+                                                            <input  matInput [matDatepicker]="ServiceFrom" formControlName="ServiceFrom"  format='yyyy-MM-dd' 
+                                                            (dateChange)="service($event, i)" (dateChange)="validate(employee.ServiceTo,employee.ServiceFrom)" [value]="employee.ServiceFrom" (paste)="$event.preventDefault()" readonly (click)="ServiceFrom.open()" style="cursor: pointer;">
+                                                            <mat-datepicker-toggle matSuffix *ngIf="testArrayPrev.controls[i].value.ServiceFrom"
+                                                                (click)="clearInput($event, 'ServiceFrom', i)">
+                                                                <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker-toggle matSuffix [for]="ServiceFrom"></mat-datepicker-toggle>
+                                                            <mat-datepicker #ServiceFrom ></mat-datepicker>
+                                                            <mat-error *ngIf="testArrayPrev.controls[i].get('ServiceFrom').hasError('required')">Service From is required</mat-error>
+                                            </mat-form-field>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="ServiceTo">
+                                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Service To <span class="text-danger"> *</span>
+                                            </th>
+                                            <td mat-cell *matCellDef="let employee; let i = index;" [formGroupName]="i">
+                                                <mat-form-field appearance={{themeAppearence}}>
+                                                    <mat-label>Choose To date</mat-label>
+                                                    <input matInput formControlName="ServiceTo" (click)="ServiceTo.open()" [value]="employee.ServiceTo"  [matDatepicker]="ServiceTo" format='yyyy-MM-dd' readonly (click)="ServiceTo.open()" style="cursor: pointer;"
+                                                    (dateChange)="serviceTo($event,i)" (dateChange)="validate(employee.ServiceTo,employee.ServiceFrom)" (paste)="$event.preventDefault()">
+                                                    <mat-datepicker-toggle matSuffix *ngIf="testArrayPrev.controls[i].value.ServiceTo"
+                                                        (click)="clearInput($event, 'ServiceTo', i)">
+                                                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker-toggle matSuffix [for]="ServiceTo" ></mat-datepicker-toggle>
+                                                    <mat-datepicker #ServiceTo ></mat-datepicker>
+                                                    <mat-error *ngIf="testArrayPrev.controls[i].get('ServiceTo').hasError('required')">Service To is required</mat-error>
+                                                </mat-form-field>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="LeavingReason">
+                                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Reason for Leaving
+                                                    <span class="text-danger"> *</span>
+                                                </th>
+                                                <td  mat-cell *matCellDef="let employee; let i = index;" [formGroupName]="i">
+                                                    <mat-form-field appearance={{themeAppearence}}>
+                                                        <textarea  matInput formControlName="LeavingReason" 
+                                                             (change)="LeavingReasonChange($event, i)" [value]="employee['LeavingReason']" (paste)="$event.preventDefault()" (keypress)="onlyStrings($event)"></textarea>
+                                                            <mat-error *ngIf="testArrayPrev.controls[i].get('LeavingReason').hasError('required')">Reason for Leaving is required</mat-error>
+                                                            <mat-error *ngIf="testArrayPrev.controls[i].get('LeavingReason').hasError('maxlength')">Maximum 256 characters are allowed</mat-error>
+                                                            <mat-error *ngIf="testArrayPrev.controls[i].get('LeavingReason').hasError('pattern')">Only Alphabets are allowed</mat-error>
+                                                    </mat-form-field>
+                                                </td>
+                                                
+                                            </ng-container>
+                                        <ng-container matColumnDef="Action">
+                                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Action </th>
+                                                <td mat-cell *matCellDef ="let employee; let i = index; let lst = last; let fst=first">
+                                                            <button mat-icon-button type="submit" [hidden]="!lst" (click)="onNewEmployment(emp, 'add')">
+                                                                            <mat-icon>add</mat-icon>
+                                                            </button>
+                                                </td>
+                                        </ng-container> 
+                                        <ng-container matColumnDef = "Delete">
+                                                <th mat-header-cell *matHeaderCellDef></th>
+                                                <td mat-cell *matCellDef ="let employee; let i = index; let lst = last; let fst=first" ><button mat-icon-button type="button"  (click)="onDeleteEmployment(i)" [hidden]="fst&&lst"><mat-icon>delete</mat-icon></button></td>
+                                    </ng-container>       
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsPrevious"></tr>
+                            
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsPrevious;"></tr>
+                            <br>
+                    </table>
+                    </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+        
+        <div class="row">
+                <div class="col-md-12">
+                        <h3 class="dividerHeading">Professional Reference</h3>
+                </div>
+                <br>
+            </div>
+       
+
+            <div class="col-md-12">
+            <div  formArrayName="ProfessionalReferencesArray">
+            <div class="table-responsive">
+                    <table mat-table #table2 [dataSource]="_Associate.ProfReferences" >
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Name
+                                    <span class="text-danger"> *</span>
+                                </th>
+                                <td mat-cell *matCellDef="let professional; let i = index;" [formGroupName]="i">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <input type="text" matInput formControlName="Name" name="Name"
+                                             [value]="professional['Name']" (change) = "professional['Name'] = $event.target.value" (paste)="$event.preventDefault()" (keypress)="onlychar($event)">
+                                            <mat-error *ngIf="testArrayProfRef.controls[i].get('Name').hasError('required')">Name is required</mat-error>
+                                            <mat-error *ngIf="testArrayProfRef.controls[i].get('Name').hasError('maxlength')">Maximum 30 characters are allowed</mat-error>
+                                            <mat-error *ngIf="testArrayProfRef.controls[i].get('Name').hasError('pattern')">Only Alphabets are allowed</mat-error>
+                                    </mat-form-field>
+                                </td>
+                                
+                            </ng-container>
+                            <ng-container matColumnDef="Designation">
+                                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Designation
+                                        <span class="text-danger"> *</span>
+                                    </th>
+                                    <td mat-cell *matCellDef="let professional; let i = index;" [formGroupName]="i">
+                                        <mat-form-field appearance={{themeAppearence}}>
+                                            <input type="text" matInput formControlName="Designation" name="Designation"
+                                                 [value]="professional['Designation']" (change) = "professional['Designation'] = $event.target.value" (paste)="$event.preventDefault()" (keypress)="onlychar($event)">
+                                                <mat-error *ngIf="testArrayProfRef.controls[i].get('Designation').hasError('required')">Designation is required</mat-error>
+                                                <mat-error *ngIf="testArrayProfRef.controls[i].get('Designation').hasError('maxlength')">Maximum 25 characters are allowed</mat-error>
+                                                <mat-error *ngIf="testArrayProfRef.controls[i].get('Designation').hasError('pattern')">Only Alphabets are allowed</mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                   
+                                </ng-container>
+                                <ng-container matColumnDef="CompanyName">
+                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Company Name
+                                            <span class="text-danger"> *</span>
+                                        </th>
+                                        <td mat-cell *matCellDef="let professional; let i = index;" [formGroupName]="i">
+                                            <mat-form-field appearance={{themeAppearence}}>
+                                                <input type="text" matInput formControlName="CompanyName" name="CompanyName"
+                                                    maxlength="100" [value]="professional['CompanyName']" (change) = "professional['CompanyName'] = $event.target.value" (paste)="$event.preventDefault()"
+                                                    (keypress)="omit_special_char($event)" (keypress)="onlyStrings($event)">
+                                                    <mat-error *ngIf="testArrayProfRef.controls[i].get('CompanyName').hasError('required')">Company Name is required</mat-error>
+                                                    <mat-error *ngIf="testArrayProfRef.controls[i].get('CompanyName').hasError('maxlength')">Maximum 25 characters are allowed</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        
+                                    </ng-container>
+                                    <ng-container matColumnDef="CompanyAddress">
+                                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Company Address
+                                                <span class="text-danger"> *</span>
+                                            </th>
+                                            <td mat-cell *matCellDef="let professional; let i = index;" [formGroupName]="i">
+                                                <mat-form-field appearance={{themeAppearence}}>
+                                                    <textarea type="text" matInput formControlName="CompanyAddress" name="CompanyAddress" (keypress)="forAddress($event)"
+                                                        maxlength="100" [value]="professional['CompanyAddress']" (change) = "professional['CompanyAddress'] = $event.target.value" (paste)="$event.preventDefault()"></textarea>
+                                                        <mat-error *ngIf="testArrayProfRef.controls[i].get('CompanyAddress').hasError('required')">Company Address is required</mat-error>
+                                                        <mat-error *ngIf="testArrayProfRef.controls[i].get('CompanyAddress').hasError('maxlength')">Maximum 100 characters are allowed</mat-error>
+                                                </mat-form-field>
+                                            </td>
+                                            
+                                        </ng-container>
+                                        <ng-container matColumnDef="OfficeEmailAddress">
+                                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Official Email Address
+                                                    <span class="text-danger"> *</span>
+                                                </th>
+                                                <td mat-cell *matCellDef="let professional; let i = index;" [formGroupName]="i">
+                                                    <mat-form-field appearance={{themeAppearence}}>
+                                                        <input type="email" matInput formControlName="OfficeEmailAddress" name="OfficeEmailAddress"
+                                                            maxlength="50" [value]="professional['OfficeEmailAddress']" (change) = "professional['OfficeEmailAddress'] = $event.target.value" (paste)="$event.preventDefault()">
+                                                            <mat-error *ngIf="testArrayProfRef.controls[i].get('OfficeEmailAddress').hasError('required')">Office Email Address is required</mat-error>
+                                                            <mat-error *ngIf="testArrayProfRef.controls[i].get('OfficeEmailAddress').hasError('maxlength')">Maximum 25 characters are allowed</mat-error>
+                                                            <mat-error *ngIf="testArrayProfRef.controls[i].get('OfficeEmailAddress').hasError('pattern') && testArrayProfRef.controls[i].get('OfficeEmailAddress').touched">Enter Valid Office Email Address</mat-error>
+                                                    </mat-form-field>
+                                                </td>
+                                                
+                                            </ng-container>
+                                            <ng-container matColumnDef="MobileNo">
+                                                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Contact Number
+                                                        <span class="text-danger"> *</span>
+                                                    </th>
+                                                    <td mat-cell *matCellDef="let professional; let i = index;" [formGroupName]="i">
+                                                        <mat-form-field appearance={{themeAppearence}}>
+                                                            <input type="text" matInput formControlName="MobileNo" name="MobileNo" (keypress)="onlyForNumbers($event)"
+                                                                maxlength="10" minlength="10" [value]="professional['MobileNo']" (change) = "professional['MobileNo'] = $event.target.value" (paste)="$event.preventDefault()">
+                                                                <mat-error *ngIf="testArrayProfRef.controls[i].get('MobileNo').hasError('required')">Contact Number is required</mat-error>
+                                                                <mat-error *ngIf="testArrayProfRef.controls[i].get('MobileNo').hasError('maxlength') || testArrayProfRef.controls[i].get('MobileNo').hasError('minlength')">Enter Valid Contact Number</mat-error>
+                                                                <mat-error *ngIf="testArrayProfRef.controls[i].get('MobileNo').hasError('pattern')">Enter Valid Contact Number</mat-error>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    
+                                                </ng-container>
+                                                <ng-container matColumnDef="ActionProf">
+                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Action </th>
+                                                        <td mat-cell *matCellDef ="let professional; let i = index; let lst = last; let fst=first">
+                                                                    <button mat-icon-button type="submit" [hidden]="!lst" (click)="onNewProfRef(emp)">
+                                                                                    <mat-icon>add</mat-icon>
+                                                                    </button>
+                                                        </td>
+                                                </ng-container> 
+                                                <ng-container matColumnDef = "DeleteProf">
+                                                        <th mat-header-cell *matHeaderCellDef></th>
+                                                        <td mat-cell *matCellDef ="let professional; let i = index; let lst = last; let fst=first" ><button type="button" mat-icon-button (click)="onDeleteProfessionalRef(i)" [hidden]="fst&&lst"><mat-icon>delete</mat-icon></button></td>
+                                            </ng-container>     
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumnsProfReferences"></tr>
+                            
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsProfReferences;"></tr>
+                    </table>
+                    </div>
+                    <br>
+            </div>
+            <div class="col-md-12">
+                <section class="pull-right buttons">
+                    <button mat-flat-button color="primary" type="buttons" *ngIf="type == 'new'"   (click)="onSaveorUpdate(_Associate, true) ">
+                         Save</button>
+                    <button mat-flat-button color="primary" type="buttons" *ngIf="type != 'new'"  (click)="onSaveorUpdate(_Associate, false)">
+                        Update</button>
+                </section>
+            </div>
+                </div>
+        
+        
+    </form>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="true" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+    </ngx-spinner>
+

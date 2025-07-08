@@ -1,0 +1,13 @@
+<form [formGroup]="UpdatektPlan">
+    <h1 mat-dialog-title>Remarks for KT not required</h1>
+    <mat-dialog-content>     
+        <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Remarks <span class="text-danger" >*</span></mat-label>
+            <textarea rows="5" cols="40" formControlName="Remarks" maxlength="1000" matInput></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-flat-button  color="primary" type="submit" (click)="UpdateKTPlan()" >Submit</button>
+      <button mat-flat-button  mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

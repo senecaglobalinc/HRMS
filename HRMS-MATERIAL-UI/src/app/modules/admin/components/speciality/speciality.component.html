@@ -1,0 +1,62 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form [formGroup]="addSpecialityName">
+      <div class="row">
+        <div class="col-md-9">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Speciality Name: <span class="text-danger">*</span></mat-label>
+            <input matInput type="text" formControlName="SuffixName" appValidationImpSpecialChars appEmptySpacesValidations minlength="2">
+
+            <mat-error *ngIf="addSpecialityName.get('SuffixName').hasError('required')">
+              <span> Speciality Name Required</span>
+            </mat-error>
+            <mat-error *ngIf="addSpecialityName.get('SuffixName').hasError('minlength')">
+              Only characters allowed
+            </mat-error>
+            <mat-error *ngIf="addSpecialityName.get('SuffixName').hasError('maxlength')">
+              Only 100 characters
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-3">
+          <div class="d-flex justify-content-end align-items-center mnh60">
+            <button mat-stroked-button (click)="cancel()">
+              <mat-icon>clear</mat-icon> Clear
+            </button>
+            <button mat-flat-button color="primary" class="mr-0" (click)="addSpeciality()">
+              {{btnLabel}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="SuffixName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Speciality Name </th>
+          <td mat-cell *matCellDef="let speciality"> {{speciality.SuffixName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let speciality">
+            <mat-icon style="cursor: pointer" (click)="editSpecialities(speciality)">edit</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator showFirstLastButtons [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

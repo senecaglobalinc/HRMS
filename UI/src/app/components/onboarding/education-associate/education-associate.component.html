@@ -1,0 +1,126 @@
+<div class="panel panel-default">
+        <div class="panel-heading">
+                <div class="panel-title">
+                        Education Details
+                </div>
+              </div>
+<div class="panel-body">
+    <form  ngNativeValidate #qualificationsForm="ngForm" ondragstart="return false;"
+        ondrop="return false;" (ngSubmit)="OnSubmit()">
+        <div class="col-md-12">
+                <table class="table table-bordered table-striped mb-0">
+            <thead>
+                <tr>
+
+                    <!-- <td class="text-middle text-center text-bold">S.No</td> -->
+                    <td class=" text-bold" style="width: 200px;">Qualification <span class="mandatory">*</span>
+                    </td>
+                    <td class="text-bold">Program Type <span class="mandatory">*</span></td>
+                    <td class="text-bold">Specialization<span *ngIf="!is10th"
+                            class="mandatory">*</span></td>
+                    <!-- <td *ngIf = "is10th && qualification == '10th'" class="text-middle text-center text-bold">Specialization</td> -->
+                    <td class="text-bold">Completed Year<span
+                            class="mandatory">*</span></td>
+                    <td class="text-bold">Institute/University<span
+                            class="mandatory">*</span></td>
+                    <td class="text-bold">Grade<span class="mandatory">*</span></td>
+                    <td class="text-bold">Marks/Percentage<span class="mandatory">*</span>
+                    </td>
+                    <td colspan="2" class="text-bold" style="width: 100px">Action</td>
+                </tr>
+            </thead>
+            <tbody *ngFor="let qual of qualifications; let i = index; let lst = last; let fst=first">
+                <tr>
+
+                    <td>
+                        <select class="form-control" name="ddlQualification{{i}}" [value]="qual.EducationalQualification"
+                            (change)="qual.EducationalQualification = $event.target.value"
+                            (change)="checkqualification($event.target.value)" required>
+                            <option value=""></option>
+                            <option *ngFor="let q of ddlQualifications" value={{q.ValueId}}>{{q.ValueName}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" name="programType{{i}}" [value]="qual.ProgramTypeId"
+                            (change)="qual.ProgramTypeId = $event.target.value" required>
+                            <option value=null></option>
+                            <option *ngFor="let g of programType" value={{g.value}}>{{g.label}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="Specialization" [value]="qual.Specialization"
+                            (change)="qual.Specialization = $event.target.value" (keypress)="onlyStrings($event)"
+                            maxlength="100" class="form-control" [required]="qual.EducationalQualification != '10th'">
+                    </td>
+
+                    <td>
+                            <div class="ui-fluid">
+                                    <p-calendar name="AcademicCompletedYear{{i}}" [showIcon]="true" readonlyInput="true"
+                                    monthNavigator="true" yearNavigator="true" [yearRange]="yearRange"
+                                    [(ngModel)]="qual.AcademicCompletedYear" value="qual.AcademicCompletedYear" dateFormat="yy-mm-d"
+                                    required></p-calendar>
+                                </div>
+                       
+                    </td>
+                    <td>
+                        <input type="text" name="Institution" [value]="qual.Institution"
+                            (change)="qual.Institution = $event.target.value" (keypress)="onlyStrings($event)"
+                            class="form-control" maxlength="100" required>
+                    </td>
+                    <td>
+                        <select class="form-control" name="ddlGradeType{{i}}" [value]="qual.Grade"
+                            onchange="gradeChange($event)" (change)="qual.Grade = $event.target.value" required>
+                            <option value=""></option>
+                            <option *ngFor="let g of ddlGrades" value={{g.ValueId}}>{{g.ValueName}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="Marks" [value]="qual.Marks" maxlength="5"
+                            (change)="qual.Marks = $event.target.value" class="form-control"
+                            (paste)="$event.preventDefault()" (keypress)="onlyNumbers($event)" required>
+                    </td>
+                    <td class="text-center">
+                            <button type="submit" (click)="setonNewQualification()"[hidden]="!lst"><i class="fa fa-plus"></i></button>
+                        </td>
+                    <td class="text-center">
+                        <button (click)="onDelete(i)" [hidden]="fst&&lst"  style="color: red"  type="button" ><i class="fa
+                                fa-trash" title="delete"  ></i></button>
+                       
+                    </td>
+                  
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="col-md-12">
+                <section class="pull-right buttons">
+                <button type="submits" class="btn btn-custom" style="cursor:pointer;" *ngIf="type == 'new'" (click)="OnSave()">
+                    <i title="save" class="fa fa-floppy-o"></i>&nbsp;Save
+                </button>
+                        <button type="submits" class="btn btn-custom"  style="cursor:pointer;" *ngIf="type != 'new'" (click)="OnUpdate()">
+                            Update
+                </button>
+                </section>
+        </div>
+    </form>
+</div>
+<p-toast [style]="{marginTop: '80px'}" #messageToaster id="messageToaster"></p-toast>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+</div>
+<!-- <p-toast position="center" key="c" (onClose)="onCancel()" [modal]="true" [baseZIndex]="10000">
+        <ng-template let-message pTemplate="message">
+            <div style="text-align: center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+                <h3>{{message.summary}}</h3>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-6">
+                    <button type="button" pButton (click)="Delete()" label="Yes" class="ui-button-success"></button>
+                </div>
+                <div class="ui-g-6">
+                    <button type="button" pButton (click)="onCancel()" label="No" class="ui-button-secondary"></button>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast> -->

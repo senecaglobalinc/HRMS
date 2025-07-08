@@ -1,0 +1,17 @@
+a.txt
+Admin.svg
+ADR.svg
+Aspect-Library.svg
+Associates.svg
+Dashboard.svg
+Define.svg
+Hamburger-Menu.svg
+KRA.svg
+Project-Details.svg
+Prospective-Associates.svg
+Reports.svg
+Status.svg
+Talent-Management.svg
+TransitionNotRequired.svg
+TransitionPlan.svg
+

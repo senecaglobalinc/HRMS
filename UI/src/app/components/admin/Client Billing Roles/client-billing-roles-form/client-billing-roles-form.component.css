@@ -1,0 +1,26 @@
+
+.btn-default {
+    border: 1px solid #337ab7;
+    color: #337ab7;
+}
+.buttons{
+ margin-top: 15px;
+ margin-right: 80px;
+
+}
+
+input[type=text], select, textarea {
+   /* width: 50%;
+    padding: 12px;*/
+    border: 1px solid #ccc;
+    border-radius: 4px;
+   
+}
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+.pb-0{
+    padding-bottom: 0px;
+}
+

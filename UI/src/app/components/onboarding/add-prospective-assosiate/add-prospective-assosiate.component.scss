@@ -1,0 +1,52 @@
+input[type="text"],
+input[type="email"],
+.dropdowns
+{
+    width: 70%;
+    border:none;
+    border-bottom: 1px solid rgb(184, 159, 174);
+ 
+}
+
+.form-control {
+  
+  border: none;
+}
+
+.buttons {
+    margin-top: 22px;
+    margin-right: 82px;
+  }
+
+  :host ::ng-deep .ui-inputtext,
+  :host ::ng-deep .ui-multiselect .ui-multiselect-label-container,
+  :host ::ng-deep .ui-multiselect .ui-multiselect-trigger{
+    border:none;
+    border-bottom: 1px solid blue;
+  }
+  
+  :host ::ng-deep.ui-dropdown ,
+  :host ::ng-deep .ui-dropdown .ui-dropdown-trigger,
+  :host ::ng-deep .ui-multiselect
+  {
+    border:none;
+  
+  }
+
+
+  @media (min-width: 1024px){
+    .buttons {
+      // margin-top: 22px;
+       margin-right:64px;
+     }
+  
+  }
+  // .form-horizontal{
+  //    padding-left: 20px;
+  //    padding-right: 20px;
+
+  // }
+  button[type="submit"]
+{
+    width: 105px;  
+}

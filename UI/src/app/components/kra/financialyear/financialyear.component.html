@@ -1,0 +1,104 @@
+<div class="panel-heading">
+    <div class="panel-title">
+        Financial Years
+    </div>
+</div>
+<div class="panel-body">
+        <div class="center">
+    <div class="row">
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                <div class="box">
+                    <label>From Year:</label>&nbsp;
+                    <input type="number" *ngIf="buttonName == 'Add'" pInputText name="fromYear" #fromFinancialYear (clear)="onFromChange(financialYear.FromYear)"
+                        (change)="onFromChange(financialYear.FromYear)" style="width:70%;" [(ngModel)]="financialYear.FromYear" (paste)="$event.preventDefault()"
+                        placeholder="From Year" min="2016" max="9998" />
+                    <input type="number" *ngIf="buttonName == 'Update'" disabled="true" style="width:70%;" pInputText name="fromYear"
+                        (change)="onFromChange(financialYear.FromYear)" [(ngModel)]="financialYear.FromYear" (paste)="$event.preventDefault()"
+                        placeholder="From Year" />
+                    <div *ngIf="(formSubmmited && !financialYear.FromYear)">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                        <span style="color: red">From Year is Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                <div class="box">
+                    <label>To Year:</label>&nbsp;
+                    <input type="number" pInputText name="toYear" disabled="true" style="width:70%; " [(ngModel)]="financialYear.ToYear"
+                        (paste)="$event.preventDefault()" placeholder="To Year" />
+                </div>
+            </div>
+            <!-- </div>
+            <div class="ui-g"> -->
+            <div class="ui-g-12 ui-md-6 ui-lg-4">
+                <div class="box">
+                    <label>
+                        <input type="checkbox" [checked]="isActive" [disabled]="buttonName == 'Update' && currentActive" [value]="isActive"
+                            (change)="onIsActiveChange(financialYear.FromYear, $event.target.checked)">&nbsp;Active</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-12">
+                <section class="pull-right buttons">
+                        <button type="submit" class="btn btn-primary" (click)="saveFinancialYear(financialYear)" [title]="btnTitle">
+                                <i class="fa fa-plus"></i>&nbsp;{{buttonName}}</button>&nbsp;
+                            <button type="button" class="btn btn-default" (click)="clear()">
+                                <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+                </section>
+            </div>
+        
+
+    </div>
+    <br><br>
+    <div class="tables">
+        <!-- <p-table #dt1 [columns]="cols" [value]="financialYearList" [paginator]="true" dataKey="vin" [rows]="PageSize" 
+            [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap', 'margin-right':'1%'}"
+            selectionMode="single" stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <ng-container *ngFor="let col of columns; let i = index" class="text-center" [pSortableColumn]="col.field" pResizableColumn>
+                        <th *ngIf="i != 1">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                    </ng-container>
+                    <th>Edit</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <ng-container *ngFor="let col of columns; let i = index" [pSelectableRow]="rowData[col]">
+                        <td *ngIf="i == 0">
+                            {{ rowData[col.field] + '-' + rowData[columns[i + 1].field] }}
+                        </td>
+                        <td *ngIf="i > 1">
+                            <i *ngIf="rowData[col.field]" class="fa fa-check" aria-hidden="true"></i>
+                            <i *ngIf="!rowData[col.field]" class="fa fa-times" aria-hidden="true"></i>
+                        </td>
+                        <td *ngIf="i > 1 && rowData[col.field]" class="text-center">
+                            <a style="cursor:pointer;" >
+                                <i title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="onGroupRowSelect(rowData)"></i>
+                            </a>
+                        </td>
+                        <td *ngIf="i > 1 && !rowData[col.field]" class="text-center">
+                            <a style="cursor:not-allowed; opacity: 0.5;" >
+                                <i class="fa fa-pencil-square-o fa-lg" ></i>
+                            </a>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template *ngIf="!financialYearList" pTemplate="summary">
+                <div style="text-align: left">
+                    No records found
+                </div>
+            </ng-template>
+        </p-table> -->
+    </div>
+    </div>
+</div>
+
+<p-confirmDialog appendTo="body" key="financialYearConfirmation" width="500"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

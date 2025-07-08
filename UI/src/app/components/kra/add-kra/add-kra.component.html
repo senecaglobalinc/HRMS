@@ -1,0 +1,289 @@
+
+<div class="panel-heading">
+   <div class="panel-title">
+      <b>KRA Definitions</b>
+   </div>
+</div>
+<div class="panel-body">
+   <div class="center">
+      <div class="row">
+         <form>
+            <div class="row">
+               <div class="ui-g">
+                  <div class="ui-g-12 ui-md-4 ui-lg-3">
+                     <div class="box">
+                        <label>Financial Year:</label>&nbsp;
+                        <p-dropdown [options]="financialYearsList" [style]="{'width':'70%'}"
+                        name="financialYearId" [(ngModel)]="financialYearId" [autoWidth]="false" required
+                        (onChange)="getKRAGroups()" filter="filter">
+                        </p-dropdown>
+                        <div>
+                           <span style="color: red" *ngIf="(kraFormSubmitted&&(financialYearId==null))">
+                           Financial Year is required
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-4 ui-lg-3">
+                     <div class="box">
+                        <label>Department:</label>
+                        <span style="color: red">
+                        *
+                        </span>&nbsp;
+                        <p-dropdown [options]="dhDepartmentList" [style]="{'width':'70%'}"
+                        name="departmentHeadDepartmentId" [(ngModel)]="departmentHeadDepartmentId"
+                        [autoWidth]="false" required (onChange)="getKRAGroups()" filter="filter">
+                        </p-dropdown>
+                        <div>
+                           <span style="color: red"
+                              *ngIf="(kraFormSubmitted&&(departmentHeadDepartmentId==null))">
+                           Department is required.</span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-4 ui-lg-3">
+                     <div class="box">
+                        <a id="btn-login" *ngIf="showKRAGroupButton" (click)="addKraGroup()"
+                        class="btn btn-primary">
+                        <i class="fa fa-plus"></i>&nbsp;Add KRA Group</a>&nbsp;
+                        <a id="btn-login" *ngIf="showHRMControls" (click)="CallService('HRM')"
+                        class="btn btn-primary">
+                        <i class="fa fa-paper-plane"></i>&nbsp;Send For Approval</a>&nbsp;
+                        <a id="btn-login" *ngIf="showHRHeadControls" (click)="CallService('SendBacktoDH')"
+                        class="btn btn-primary">
+                        <i class="fa fa-paper-plane"></i>&nbsp;Send To Department Head</a>&nbsp;
+                        <a id="btn-login" *ngIf="showHRHeadControls" (click)="CallService('HRHead')"
+                        class="btn btn-primary">
+                        <i class="fa fa-check-circle-o"></i>&nbsp;Accept</a>&nbsp;
+                        <a id="btn-login" *ngIf="showDHControls" (click)="CallService('SendBacktoHRM')"
+                        class="btn btn-primary">
+                        <i class="fa fa-paper-plane"></i>&nbsp;Send To HRM</a>&nbsp;
+                        <a id="btn-login" *ngIf="showDHControls" (click)="CallService('SendtoHRHead')"
+                        class="btn btn-primary">
+                        <i class="fa fa-paper-plane"></i>&nbsp;Send To HR Head</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="tables">
+         <div *ngIf="departmentHeadDepartmentId > 0">
+            <div class="ui-g">
+               <div class="ui-g-12 ui-md-3"> {{gridMessage}}</div>
+               <div class="ui-g-12 ui-md-3 ui-md-offset-6">
+                  <i class="fa fa-search" class="iconCls"></i>
+                  <input type="text" pInputText size="50" style="width: 60%; margin-bottom: 10px;"
+                     placeholder="Search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                     class="inputCls" />
+               </div>
+            </div>
+            <p-table #dt1 [columns]="cols" [value]="kraGroupList" [paginator]="true" [rows]="PageSize"
+            [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}"
+            dataKey="KRAGroupId" columnResizeMode="expand" [(selection)]="selectedkraGroup"
+            (onRowSelect)="onRowSelect($event)">
+            <ng-template pTemplate="header" let-columns>
+               <tr>
+                  <th class="select">Select</th>
+                  <th *ngFor="let col of columns" [ngStyle]="{'display': col.display}" class="text-center"
+                  [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                  <th colspan="1" class="comment">Add</th>
+                  <th colspan="3" class="action">Action(s)</th>
+               </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+               <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+               <td *ngIf="checkValue(rowData)">
+                  <p-tableCheckbox disabled="true" [value]="rowData"></p-tableCheckbox>
+               </td>
+               <td *ngIf="!checkValue(rowData)">
+                  <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+               </td>
+               <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]"
+               [ngStyle]="{'display': col.display}">
+               <div>{{ rowData[col.field] }}</div>
+               </td>
+               <td
+                  *ngIf="loggedinUserRole.indexOf('HRM') != -1 && (rowData[cols[1].field] != 1 && rowData[cols[1].field] != 3)">
+                  <button type="button" class="btn btn-primary" style="cursor: pointer"
+                     (click)="onGroupRowSelect(rowData)" title="Add KRA">
+                  <i class="fa fa-eye"></i>&nbsp;View KRA</button>
+               </td>
+               <td
+                  *ngIf="loggedinUserRole.indexOf('HRM') != -1 && (rowData[cols[1].field] == 1 || rowData[cols[1].field] == 3)">
+                  <button type="button" class="btn btn-primary" style="cursor: pointer"
+                     (click)="onGroupRowSelect(rowData)" title="View KRA">
+                  <i class="fa fa-plus"></i>&nbsp;Add KRA</button>
+               </td>
+               <td
+                  *ngIf="loggedinUserRole.indexOf('HRM') != -1 && (rowData[cols[1].field] == 1 || rowData[cols[1].field] == 3)">
+                  <a style="cursor: pointer" title="Add Comments" (click)="addComment(rowData)">
+                  <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+                  </a>
+               </td>
+               <td
+                  *ngIf="loggedinUserRole.indexOf('HRM') != -1 && (rowData[cols[1].field] != 1 && rowData[cols[1].field] != 3)">
+                  <a style="cursor: not-allowed; opacity: 0.5;" title="">
+                  <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+                  </a>
+               </td>
+               <td>
+                  <a style="cursor: pointer" title="View Comments"
+                     (click)="showComments(rowData.FinancialYearId,rowData.KRAGroupId)">
+                  <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i>
+                  </a>
+               </td>
+               <td class="del"
+                  *ngIf="loggedinUserRole.indexOf('HRM') != -1 && (rowData[cols[1].field] == 1 || rowData[cols[1].field] == 3)">
+                  <a style="color:red; cursor: pointer;" title="Delete KRA Group"
+                     (click)="deletekraGroup(rowData)">
+                  <i class="fa fa fa-trash fa-lg" aria-hidden="true"></i>
+                  </a>
+               </td>
+               <td class="del"
+                  *ngIf="loggedinUserRole.indexOf('HRM') != -1 && (rowData[cols[1].field] != 1 && rowData[cols[1].field] != 3)">
+                  <a style="color:red; cursor: not-allowed; opacity: 0.5;" title="">
+                  <i class="fa fa fa-trash fa-lg" aria-hidden="true"></i>
+                  </a>
+               </td>
+               </tr>
+            </ng-template>
+            </p-table>
+         </div>
+      </div>
+   </div>
+</div>
+<p-dialog header="{{heading}}" appendTo="body" width=900 height=400 [(visible)]="display" responsive="true" modal=true
+showEffect="fade" showHeader=true closeOnEscape=true closable=true>
+<div style="height:400px;">
+   <form [formGroup]="kraGroupForm">
+      <div class="ui-g">
+         <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+               <label for="aspect">Department: </label>
+               <div class="ui-fluid">
+                  <p-dropdown id="ddlDepartments" formControlName="department" [disabled]="true"
+                  [options]="departmentList" [autoWidth]="false" filter="filter">
+                  </p-dropdown>
+               </div>
+               <div
+                  *ngIf="(!kraGroupForm.controls['department'].valid&&kraGroupForm.controls['department'].dirty)||(kraGroupFormSubmitted&&!kraGroupForm.controls['department'].valid)">
+                  <i style="color: red" class="fa fa-exclamation-circle"></i>
+                  <span style="color: red">Department is required.</span>
+               </div>
+            </div>
+         </div>
+         <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+               <label for="metric">Role Type: </label>
+               <div class="ui-fluid">
+                  <p-dropdown id="ddlRoleCategory" [options]="rolecategoryList" [autoWidth]="false"
+                  [(ngModel)]="kraGroupData.RoleCategoryId" formControlName='rolecategory' required
+                  (onChange)="setKRATitle()" filter="filter">
+                  </p-dropdown>
+               </div>
+               <div
+                  *ngIf="(!kraGroupForm.controls['rolecategory'].valid&&kraGroupForm.controls['rolecategory'].dirty)||(kraGroupFormSubmitted&&!kraGroupForm.controls['rolecategory'].valid)">
+                  <i style="color: red" class="fa fa-exclamation-circle"></i>
+                  <span style="color: red">Role Type is required.</span>
+               </div>
+            </div>
+         </div>
+         <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+               <label for="target">Role Type Instance: </label>
+               <div class="ui-fluid">
+                  <input pInputText id="kraTitle" formControlName="kraTitle"
+                  [(ngModel)]="kraGroupData.KRATitle" [placeholder]="kratitleplaceholder" />
+               </div>
+               <div *ngIf="(kraGroupFormSubmitted&&kraGroupData.KRATitle =='')">
+                  <i style="color: red" class="fa fa-exclamation-circle"></i>
+                  <span style="color: red">Role Type Instance is required.</span>
+               </div>
+               <div *ngIf="kraGroupFormSubmitted && kraGroupForm.controls['kraTitle'].hasError('pattern')">
+                  <i style="color: red" class="fa fa-exclamation-circle"></i>
+                  <span style="color: red">Role Type Instance is invalid</span>
+               </div>
+            </div>
+         </div>
+         <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box" *ngIf="IsDeliveryDept">
+               <label for="target">Project Type: </label>
+               <div class="ui-fluid">
+                  <p-dropdown id="ddlProjectType" [options]="projectTypeList" [autoWidth]="false"
+                  [(ngModel)]="kraGroupData.ProjectTypeId" formControlName='projecttype' required
+                  (onChange)="setKRATitle()" filter="filter">
+                  </p-dropdown>
+               </div>
+               <div *ngIf="(kraGroupFormSubmitted&&IsDeliveryDept&&kraGroupData.ProjectTypeId==null)">
+                  <i style="color: red" class="fa fa-exclamation-circle"></i>
+                  <span style="color: red">Project Type is required.</span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="col-lg-12">
+         <section class="pull-right buttons">
+            <button type="button" class="btn btn-primary" (click)="saveKRAGroup()" title="Save">
+            <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;
+            <button type="button" class="btn btn-default" (click)="cancelKRAGroup()" title="Cancel">
+            <i class="fa fa-eraser"></i>&nbsp;Cancel</button>
+         </section>
+      </div>
+   </form>
+</div>
+</p-dialog>
+<p-confirmDialog appendTo="body" key="kraGroupConfirmation" width="500"></p-confirmDialog>
+<!-- </div> -->
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-dialog appendTo="body" header="{{titleForComments}}" [(visible)]="commentsDispaly" [responsive]="true"
+showEffect="fade" [modal]="true" width="600">
+<div style="height:300px;">
+   <p-editor name="kraComments" id="metric" [style]="{'min-height':'260px'}" contenteditable="true"
+   [(ngModel)]="kraComments" contenteditable="true">
+   <p-header>
+      <span class="ql-formats">
+      <button class="ql-bold" aria-label="Bold"></button>
+      <button class="ql-italic" aria-label="Italic"></button>
+      <button class="ql-underline" aria-label="Underline"></button>
+      <button class="ql-list" value="ordered" aria-label="Ordered List"></button>
+      <button class="ql-list" value="bullet" aria-label="Unordered List"></button>
+      </span>
+   </p-header>
+   </p-editor>
+</div>
+<div class="col-lg-12">
+   <section class="pull-right buttons">
+      <button type="button" class="btn btn-primary" (click)="SaveComents()" title="Save">
+      <i class="fa fa-floppy-o"></i>&nbsp;Save</button>
+   </section>
+</div>
+</p-dialog>
+<p-dialog appendTo="body" header="Comments" height="300" width="700" [(visible)]="showCommentsDialog"
+closeOnEscape="true" modal="true">
+<div style="height:300px;">
+   <table class="table table-bordered">
+      <thead class="d-center">
+         <tr>
+            <th width="133">Commented Date</th>
+            <th width="245">Commented By</th>
+            <th>Comments</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let comm of commentsList; let i = index;">
+            <td>{{comm.CommentedDate}}</td>
+            <td>{{comm.EmployeeName}}</td>
+            <td [innerHTML]="transformSanitizer(comm.Comments)"></td>
+         </tr>
+         <tr *ngIf="commentsList.length==0">
+            <td colspan="3">No records found</td>
+         </tr>
+      </tbody>
+   </table>
+</div>
+</p-dialog>
+

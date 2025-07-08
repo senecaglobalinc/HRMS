@@ -1,0 +1,42 @@
+.exportToExcel {
+    background: url('../../../../../../src/assets/images/excel.png') no-repeat;
+    margin-top: -3px;
+    padding-right: 47px;
+    width: 50px;
+    float: right;
+    padding-top: 27px;
+    cursor: pointer;
+    }
+
+    .workfromhome
+    {
+      background-color: skyblue;
+    }
+
+    .workfromoffice
+    {
+      background-color: white;
+    }
+
+    ::ng-deep snack-bar-container.success-alert {
+        background-color: green !important;
+        color: white !important;
+      }
+      
+      ::ng-deep snack-bar-container.error-alert {
+        background-color: red !important;
+        color: white !important;
+      }
+      
+      ::ng-deep mat-simple-snackbar-action {
+        color: white !important;
+      }
+      .td-center{
+        text-align: center !important;
+      }
+
+      mat-icon.info-css {
+        margin-top: 7px !important;
+        font-size: 17px !important;
+      }
+    

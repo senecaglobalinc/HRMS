@@ -1,0 +1,102 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">ADR Sections</div>
+  </div>
+</div>
+<div class="panel-body">
+  <div class="center">
+    <form class="form-horizontal" [formGroup]="addADRSections">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label>Department:</label>
+              <span style="color: red">*</span>&nbsp;
+              <br>
+              <p-multiSelect [disabled]='deptDisable' [style]="{'width':'80%'}" name="DepartmentId" [options]="departmentList" [panelStyle]="{minWidth:'12em'}"
+                formControlName="DepartmentId" [(ngModel)]="DepartmentId" defaultLabel="Choose Departments" filter="filter"></p-multiSelect>
+              <div>
+                <span style="color: red" *ngIf="(formSubmitted&&(DepartmentId.length==0))">
+                  Department is required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <label id="label">ADR Measurement Area:</label>
+            <span style="color: red">*</span>&nbsp;
+            <p-dropdown [options]="adrMeasurementAreaList" [style]="{ 'width': '70%'}" name="adrMeasurementArea" [autoWidth]="false"
+              formControlName="ADRMeasurementAreaId" [filter]="true"></p-dropdown>
+            <div *ngIf="addADRSections.get('ADRMeasurementAreaId').hasError('required') && formSubmitted">
+              <span style="color: red">ADR Measurement Area is Required</span>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <label id="label">ADR Section:</label>
+            <span style="color: red">*</span>
+            <br>
+            <textarea rows="2" cols="46" formControlName="ADRSectionName" name="ADRSectionName" required type="text" autoResize="autoResize" pInputTextarea
+              style="background-color:white;"></textarea>
+
+            <div class="ADRSectionName" *ngIf="addADRSections.get('ADRSectionName').hasError('required') && formSubmitted">
+              <span style="color: red">ADR Section Required</span>
+            </div>
+            <div class="ADRSectionName" *ngIf="addADRSections.get('ADRSectionName').hasError('maxlength') ">
+              <span style="color: red">Only 150 characters</span>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box buttons">
+              <br>
+              <button type="submit" class="btn btn-custom submit" style="cursor:pointer;" (click)="toAddorUpdateADRSection();">
+                &nbsp;{{btnLabel}}</button>&nbsp;
+              <button type="button" class="btn btn-default cancel" style="cursor:pointer;" (click)="clear()">
+                <i class="fa fa-eraser"></i>Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<div class="content-fluid center">
+  <div class="tables">
+    <p-table #dt1 [columns]="cols" [value]="adrSectionsList" [paginator]="true" [rows]="PageSize" [responsive]="true" columnResizeMode="expand"
+      [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}" selectionMode="single" [(selection)]="selectedRow"
+      stateStorage="session" stateKey="statedemo-session" >
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">
+          <i class="fa fa-search" class="iconCls"></i>
+
+          <input type="text" pInputText size="50" placeholder="Search" style="width: 40%" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+            class="inputCls" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+            {{ col.header }}
+
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th class="editCls">Edit</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+            <div>{{ rowData[col.field] }}</div>
+          </td>
+          <td>
+            <a style="cursor:pointer;">
+              <i class="editCls" style="cursor: pointer;" title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="editADRSection(rowData)"></i>
+
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-toast [style]="{marginTop: '80px'}"></p-toast>
+  </div>
+</div>

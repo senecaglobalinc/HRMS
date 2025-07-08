@@ -1,0 +1,1 @@
+ALTER TABLE public."TransitionPlanDetail" ADD CONSTRAINT "UNIQUE_TPID_ACTIVITYID" UNIQUE ("TransitionPlanId", "ActivityId");

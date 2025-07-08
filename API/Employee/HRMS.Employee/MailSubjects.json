@@ -1,0 +1,28 @@
+{
+  "AssociateExitMailSubjects": {
+    "ResignationSubmittedNotification": "Resignation Acknowledgement and Exit Terms – {EmployeeFirstName} {EmployeeLastName}",
+    "ResignationReviewedByPMNotification": "{EmployeeFirstName} {EmployeeLastName} Resignation is Reviewed",
+    "ResignationApprovedNotification": "{EmployeeFirstName} {EmployeeLastName} Resignation is Acknowledged by HRM",
+    "KTPlanSubmittedNotification": "{EmployeeFirstName} {EmployeeLastName} KT Plan is Submitted",
+    "KTPlanInProgressNotification": "{EmployeeFirstName} {EmployeeLastName} KT Plan is Defined and Submitted by TL",
+    "KTPlanCompletedNotification": "{EmployeeFirstName} {EmployeeLastName} KT Plan is Verified and Completed by TL",
+    "ActivitiesInProgressNotification": "{EmployeeFirstName} {EmployeeLastName} Exit Activities Initiated",
+    "ClearanceGivenNotification": "{EmployeeFirstName} {EmployeeLastName} Clearance is given by HRA",
+    "ResignedNotification": "{EmployeeFirstName} {EmployeeLastName} Resignation is Completed",
+    "ResignationRevokedNotification": "{EmployeeFirstName} {EmployeeLastName} Resignation Revoke is Accepted",
+    "ActivitiesCompletedByDepartmentNotification": "{EmployeeFirstName} {EmployeeLastName} Activities are Completed by {Dept} Department",
+    "FeedbackGivenNotification": "{EmployeeFirstName} {EmployeeLastName} Exit Interview is Completed",
+    "ResignationRevokeInitiated": "{EmployeeFirstName} {EmployeeLastName} Resignation Revoke is Initiated",
+    "ResignationRevokeRejected": "{EmployeeFirstName} {EmployeeLastName} Resignation Revoke is Rejected",
+    "RequestForWithdrawResignation": "{EmployeeFirstName} {EmployeeLastName} Resignation Withdraw is Requested",
+    "ITReturnNotification": "Initiation of your exit formalities",
+    "ExitDateUpdated": "{EmployeeFirstName} {EmployeeLastName} Last Working Date is Updated",
+    "ReviewReminder": "{EmployeeFirstName} {EmployeeLastName} Resignation Review is Pending",
+    //Abscond subjects
+    "MarkedForAbscond": "{EmployeeFirstName} {EmployeeLastName} is Marked as Abscond by the Lead",
+    "AcknowledgeAbscond": "{EmployeeFirstName} {EmployeeLastName} is Acknowledged as Abscond by HRA",
+    "ConfirmAbscond": "{EmployeeFirstName} {EmployeeLastName} is Confirmed as Abscond by HRM",
+    "DisproveAbscond": "{EmployeeFirstName} {EmployeeLastName} is Disproved as Abscond by HRM",
+    "Absconded": "{EmployeeFirstName} {EmployeeLastName} is Absconded"
+  }
+}

@@ -1,0 +1,49 @@
+ul.node li {
+    display: inline-block;
+    width: 15%;
+}
+
+#messageToaster {
+    background-color: #00A65A;
+    color: black;
+}
+
+paper-toast {
+    left: auto !important;
+    right: 10px;
+}
+// #formContent{
+//    height: 200px;
+// }
+p-dialog .ui-dialog {
+    overflow: scroll !important;
+    
+}
+
+.professional-details {
+    .header-container {
+        border-right: 0;
+        border-left: 0;
+        border-top: 0;
+    }
+
+  
+}
+
+#dashboardbtn{
+    margin-top: -7px;
+   // margin-top: 10px;
+ //  margin-right:12px;
+}
+.inputCls{
+    margin-bottom:10px;
+}
+input[type="text"],
+input[type="email"],
+.dropdowns
+{
+    width: 70%;
+    border:none;
+    border-bottom: 1px solid rgb(184, 159, 174);
+ 
+}

@@ -1,0 +1,286 @@
+<div class="container-fluid">
+  <mat-card class="mb-2" >
+      <div class="row">
+        <div class="col-md-6 font-weight-bold">
+          Associate Details
+        </div>
+        <div class="col-md-6 text-right">
+              <button  mat-stroked-button  *ngIf="showback" (click)="onBack()">
+                  <mat-icon>arrow_back</mat-icon>Back
+              </button>
+        </div>
+      </div>
+      <div class="row"></div>
+      <mat-card-content>
+        <div class="row">
+        <div class="col-md-4 col-xs-12">
+        <div class="row">
+        <div class=" col-md-5 font-weight-bold">Associate Id</div>
+        <div class="col-md-7">: {{AssociateExit.EmployeeCode}}</div>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Associate Name</div>
+          <div class="col-md-7">: {{AssociateExit.EmployeeName}}</div>
+        </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="row">
+            <ng-container *ngIf="showProject">
+                <div class=" col-md-3 font-weight-bold">Project</div>
+                <div class="col-md-7">: {{AssociateExit.ProjectName}}</div>
+            </ng-container>
+            <ng-container *ngIf="!showProject">
+              <div class=" col-md-5 font-weight-bold">Department</div>
+              <div class="col-md-7">: {{AssociateExit.Department}}</div>
+            </ng-container>
+          </div>
+          </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+      <div class="row">
+        <div class=" col-md-5 font-weight-bold">Designation</div>
+        <div class="col-md-7">: {{AssociateExit.Designation}}</div>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Program Manager</div>
+          <div class="col-md-7">: {{AssociateExit.ProgramManager}}</div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+      <div class="row">
+        <div class=" col-md-5 font-weight-bold">Date of Joining</div>
+        <div class="col-md-7">: {{AssociateExit?.DateOfJoin| date: 'mediumDate' }}</div>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Exit Date</div>
+          <div class="col-md-7">: {{AssociateExit?.ExitDate| date: 'mediumDate' }}</div>
+        </div>
+        </div>
+    </div>
+    </mat-card-content>
+    </mat-card>
+    
+  
+  <mat-card class="mb-2">
+      <mat-card-content>
+          <form [formGroup] ="KtForm" >
+                  <div class="row">
+                     <div class="col-md-6">
+                      <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label> KT Provided to :<span class="text-danger">*</span></mat-label>
+                       <input appDropDownSuggestion [readonly]="KtPlanInProgress||!TeamLeadScreen || (KtPlan && KtPlan.Status == 'KTPlanSubmitted')" type="text" placeholder="Select Associate" matInput
+                        [SearchList]="associatesList" appRequirematch formControlName="transitionTo" name="transitionTo" [matAutocomplete]="auto1">
+                        <button class="clearFieldIcon" *ngIf="KtForm.value.transitionTo"  (click)="clearField('transitionTo')" mat-button matSuffix
+                       mat-icon-button aria-label="Clear" [disabled]="KtForm.disabled || KtPlanInProgress||!TeamLeadScreen || (KtPlan && KtPlan.Status == 'KTPlanSubmitted')">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete [displayWith]="displayFn" #auto1="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredAssociates | async;" [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="KtForm.get('transitionTo').hasError('required') ">
+                          KT Provided to is required
+                        </mat-error>
+                        <mat-error *ngIf="KtForm.get('transitionTo').hasError('requireMatch')">
+                          Select Employee from given options
+                      </mat-error>
+                    </mat-form-field>
+                 </div> 
+                 <div class="col-md-6">
+                  <mat-form-field appearance={{themeConfigInput}}>
+                   <mat-label> Other</mat-label>
+                   <input type="text" matInput formControlName="others" name="other" [readonly]="!TeamLeadScreen">
+                  </mat-form-field>
+                 </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>KT Start Date<span class="text-danger">*</span></mat-label>
+                          <input matInput [matDatepicker]="KTStartDate" [min]="minKTPlanDate" [max]="maxKTPlanDate" formControlName="startDate" name="startDate" [disabled]="!TeamLeadScreen" onkeydown="event.preventDefault()" readonly (dateChange)="onDateChange()">
+                          <mat-datepicker-toggle matSuffix [for]="KTStartDate"></mat-datepicker-toggle>
+                          <mat-datepicker #KTStartDate></mat-datepicker>
+                          <mat-error *ngIf="KtForm.get('startDate').hasError('required')">
+                            Start Date is required.
+                        </mat-error>
+                          </mat-form-field>
+                         
+                      </div>
+                      <div class="col-md-6">
+                          <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>KT End Date<span class="text-danger">*</span></mat-label>
+                          <input matInput [matDatepicker]="KTEndDate" [min]="KtForm.get('startDate').value" [max]="maxKTPlanDate" formControlName="endDate" name="endDate" [disabled]="!TeamLeadScreen || (KtForm.get('startDate').value === null)" onkeydown="event.preventDefault()" readonly (dateChange)="onDateChange()">
+                          <mat-datepicker-toggle matSuffix [for]="KTEndDate"></mat-datepicker-toggle>
+                          <mat-datepicker #KTEndDate></mat-datepicker>
+                          <mat-error *ngIf="KtForm.get('endDate').hasError('required') ">
+                            End Date is required.
+                        </mat-error>
+                          </mat-form-field>
+                         
+                      </div>
+                  </div>
+          </form>
+      </mat-card-content>
+  </mat-card>
+  
+  <mat-card class="mb-2">
+      <mat-card-content>
+          <div class="row" style="padding-bottom: 15px;">
+              <div class="col-md-6 font-weight-bold">
+                Details of Knowledge Handover Takeover Plan
+              </div>
+            </div> 
+          <mat-accordion class="categoriesAccordion">
+              <mat-expansion-panel *ngFor="let item of ActivityList; let i=index;">
+                  <mat-expansion-panel-header>
+                      <mat-panel-title>
+                          {{item.ActivityType}}
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  
+                  <ng-template matExpansionPanelContent>
+                  
+                    <form [formGroup]="KtForm">
+                      <div class="col-md-12">
+                        <div class="table-responsive addNewRowTbl">
+                          <div formGroupName="activityType">
+                            <div [formGroupName]="i">
+                                <table formArrayName="updateTransitionDetail" class="mat-table">
+                                  <tr *ngFor="let control of KtForm['controls']['activityType']['controls'][i]['controls']['updateTransitionDetail']['controls']; let j =index; let lst = last; let fst=first;">
+                                  <ng-container [formGroupName]="j">
+                                    <td>
+                                        <mat-form-field *ngIf="item.ActivityType!='Others'" appearance={{themeConfigInput}}>
+                                          <mat-label>Task <span class="text-danger" *ngIf="control.get('ActivityId').value!==null&&control.get('ActivityId').value!==undefined">*</span></mat-label>
+                                        <mat-select formControlName="ActivityId" (selectionChange)="onSelectMandataory(control)" [disabled]="!TeamLeadScreen || (control.get('ActivityId').value && control.get('IsAdded').value===false)">
+                                            <ng-container *ngFor="let activity of item.TransitionActivityDetails">
+                                              <mat-option *ngIf="activity.ActivityId==null&&control.get('IsAdded').value===true"> {{activity.Description}}</mat-option>
+                                              <mat-option [value]="activity.ActivityId" *ngIf="activity.ActivityId!=null">
+                                                  {{activity.Description}}
+                                              </mat-option>
+                                            </ng-container>
+                                          </mat-select>
+                                          <mat-error *ngIf="control.get('ActivityId').hasError('required')">
+                                            Task is required.
+                                        </mat-error>
+                                      </mat-form-field>
+                                      <mat-form-field *ngIf="item.ActivityType=='Others'" appearance={{themeConfigInput}}>
+                                        <mat-label>Task <span class="text-danger" *ngIf="control.get('ActivityId').value!==null&&control.get('ActivityId').value!==undefined">*</span></mat-label>
+                                        <input type="text" matInput formControlName="ActivityDescription" name="ActivityDescription" (keyup)="setActivityId(control)" [readonly]="!TeamLeadScreen">
+                                        <mat-error *ngIf="control.get('ActivityId').hasError('required')">
+                                          Task is required.
+                                      </mat-error>
+                                      </mat-form-field>
+                                      
+                                    </td>
+                                    <td>
+                                      <mat-form-field  appearance={{themeConfigInput}}>
+                                        <mat-label>Start Date <span class="text-danger" *ngIf="control.get('ActivityId').value!==null&&control.get('ActivityId').value!==undefined">*</span></mat-label>
+                                        <input matInput [matDatepicker]="StartDate" [min]="KtForm.value.startDate" [max]="KtForm.value.endDate" formControlName="StartDate" [disabled]="control.get('ActivityId').value===null||!TeamLeadScreen" onkeydown="event.preventDefault()" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="StartDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #StartDate></mat-datepicker>
+                                        <mat-error *ngIf="control.get('StartDate').hasError('required')">
+                                          Start Date is required.
+                                      </mat-error>
+                                    </mat-form-field>
+                                  
+                                    </td>
+                                    <td>
+                                      <mat-form-field  appearance={{themeConfigInput}}>
+                                        <mat-label>End Date <span class="text-danger" *ngIf="control.get('ActivityId').value!==null&&control.get('ActivityId').value!==undefined " >*</span></mat-label>
+                                        <input matInput [matDatepicker]="EndDate" [min]="control.get('StartDate').value" [max]="KtForm.value.endDate" formControlName="EndDate" [disabled]="control.get('ActivityId').value===null||!TeamLeadScreen || (control.get('ActivityId').value !==null && control.get('StartDate').value===null)" onkeydown="event.preventDefault()" readonly>
+                                       <mat-datepicker-toggle matSuffix [for]="EndDate"></mat-datepicker-toggle>
+                                       <mat-datepicker #EndDate></mat-datepicker>
+                                       <mat-error *ngIf="control.get('EndDate').hasError('required')||control.get('EndDate').invalid">
+                                        <span *ngIf="control.get('EndDate').hasError('required')">End Date is required.</span>
+                                    </mat-error>
+                                     </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  appearance={{themeConfigInput}}>
+                                          <mat-label>Status <span class="text-danger" *ngIf="control.get('ActivityId').value!==null&&control.get('ActivityId').value!==undefined">*</span></mat-label>
+                                          <!-- <input type="text" matInput formControlName="Status"> -->
+                                          <mat-select formControlName="Status" (selectionChange)="statusChange(control)"
+                                           [disabled]="control.get('ActivityId').value===null || (control.get('Status').value === '2'  && control.get('StatusNotChangedToCompleted').value  === true && !TeamLeadScreen)">
+                                           <ng-container *ngFor="let activity of control.get('StatusOptions').value" >
+                                              <mat-option [value]="activity.StatusId" >
+                                                  {{activity.StatusName}}
+                                              </mat-option>
+                                            </ng-container>
+                                          </mat-select>
+                                          <mat-error *ngIf="control.get('Status').hasError('required')">
+                                            Status is required.
+                                        </mat-error>
+                                      </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance={{themeConfigInput}}>
+                                          <mat-label>Remarks</mat-label>
+                                          <input  type="text" matInput formControlName="Remarks" [readonly]="control.get('ActivityId').value===null">
+                                      </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <button *ngIf="TeamLeadScreen && (!submitDisable)" type="button" mat-icon-button (click)="onNewTask(i,j)" [hidden]="!lst">
+                                          <mat-icon>add</mat-icon>
+                                      </button>
+                                      <button *ngIf="TeamLeadScreen && (!submitDisable) && control.get('Status').value == 0" type="button" mat-icon-button (click)="onDelete(i,j)" [hidden]="fst&&lst">
+                                          <mat-icon>delete</mat-icon>
+                                      </button>
+                                    </td>
+                                </ng-container>
+                              </tr>
+                            </table>
+                               
+                          </div>
+                      </div>
+                    </div>
+                    </div>
+                </form>           
+                  </ng-template>
+              </mat-expansion-panel>
+          </mat-accordion>
+          <form *ngIf="finalSubmission" [formGroup] ="KtForm">
+            <div class="p-md-4">
+            <div class="row">
+                <div class="col-md-3 font-weight-bold">
+                    <mat-label>Knowledge Transfer Complete</mat-label>
+                </div>
+                <div class="col-md-2">
+                    <mat-radio-group formControlName="knowledgeTransferred" color="primary">
+                        <mat-radio-button [value]=true>Yes</mat-radio-button>
+                        <mat-radio-button [value]=false>No</mat-radio-button>
+                    </mat-radio-group>
+                    </div>
+                <div class="col-md-7">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Knowledge Transfer Remarks</mat-label>
+                        <textarea placeholder="Knowledge Transfer Remarks" matInput
+                        formControlName="knowledgeTransferredRemarks" name="knowledgeTransferredRemarks"></textarea>
+                    </mat-form-field>
+                </div>  
+            </div>
+          </div>
+          </form>
+          <br>
+     
+  <div class="row">
+      <div *ngIf="previous=='/associateexit/associateexitinformation'; else elseblock"> </div>
+      <ng-template #elseblock>
+          <div class="col-md-12 text-right">
+            <button *ngIf="(KtPlan && KtPlan.Status == 'KTPlanSubmitted') && roleName === 'Team Lead'" class="mr-0" mat-flat-button color="primary" (click)="submitDialog(true)">Update</button>
+            <button *ngIf="!submitDisable" class="mr-0" mat-flat-button color="primary" (click)="submitDialog()">{{btnLabel}}</button>
+            </div>
+        </ng-template>
+  </div>
+      </mat-card-content>
+  </mat-card>
+  </div>

@@ -1,0 +1,36 @@
+<div class="container-fluid">
+	<div class="row">
+		<ul>
+			<li id="back" (click)="onBack()">
+				<i class="fa fa-arrow-left" title="Back to Associates list" aria-hidden="true">&nbsp;Back</i>
+			</li>
+		</ul>
+	</div>
+
+	<p-steps [model]="items" [(activeIndex)]="activeIndex" (activeIndexChange)="onSelect($event)" [readonly]="false"> </p-steps>
+
+	<div *ngIf="activeIndex == 0">
+		<app-personal-details (onAssociateSave)="onAssociateSave($event)" [type]="Type"></app-personal-details>
+	</div>
+	<div *ngIf="activeIndex == 1">
+		<app-family-associate></app-family-associate>
+	</div>
+	<div *ngIf="activeIndex == 2">
+		<app-education-associate></app-education-associate>
+	</div>
+	<div *ngIf="activeIndex == 3">
+		<app-associate-employment></app-associate-employment>
+	</div>
+	<div *ngIf="activeIndex == 4">
+		<app-associate-professional></app-associate-professional>
+	</div>
+	<div *ngIf="activeIndex == 5">
+		<app-projectassociate></app-projectassociate>
+	</div>
+	<div *ngIf="activeIndex == 6">
+		<app-skills></app-skills>
+	</div>
+	<div *ngIf="activeIndex == 7">
+		<app-assosiateupload></app-assosiateupload>
+	</div>
+</div>

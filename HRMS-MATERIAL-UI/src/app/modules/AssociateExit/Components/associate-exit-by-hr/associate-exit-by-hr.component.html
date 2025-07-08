@@ -1,0 +1,196 @@
+
+<mat-card  class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="userform" >
+            <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Associate Name</mat-label>
+                            <!--<mat-select placeholder="Select Department" formControlName="EmpId" required>
+                                <mat-option *ngFor="let user of _usersList" [value]="user.value">
+                                    {{user.label}}
+                                </mat-option>
+                            </mat-select>-->
+                            <mat-select placeholder="Select Associate" [disabled]="disableAssociateName" formControlName="EmpId" name="EmpId"
+                            (selectionChange)=getCurrentUserDetails($event.value) required>
+                            <mat-option *ngFor="let user of _usersList" [value]="user.value">
+                                {{user.label}}</mat-option>
+                        </mat-select>
+                            <!-- <mat-error *ngIf="(!userform.controls['EmpId'].valid&&userform.controls['EmpId'].dirty)||(formSubmitted&&!userform.controls['EmpId'].valid)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Associate Required.</span>
+                            </mat-error> -->
+                            <mat-error *ngIf="userform.get('EmpId').hasError('required') && formSubmitted">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                              <span style="color: red">Assosiate Name Required</span>
+                            </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+           <mat-card class="col-md-12 floating-main">
+                        <mat-card-content>
+                            
+                          <div class="table-responsive">
+                            <!-- <table mat-table [dataSource]="dataSourceAssociateExit1" class="example-table">
+
+                            <ng-container matColumnDef="DateOfJoin">
+                            <th mat-header-cell *matHeaderCellDef>Date of Joining</th>
+                            <td mat-cell *matCellDef="let row">{{row.DateOfJoin}}</td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="Designation">
+                            <th mat-header-cell *matHeaderCellDef>Designation</th>
+                            <td mat-cell *matCellDef="let row">{{row.Designation}}</td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="ReportingManager">
+                            <th mat-header-cell *matHeaderCellDef>Reporting Manager</th>
+                            <td mat-cell *matCellDef="let row">{{row.ReportingManager}}</td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data</td>
+                            </table> -->
+
+                            <table mat-table [dataSource]="dataSource">
+
+                                    <ng-container matColumnDef="DateOfJoin">
+                                      <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Date of Joining </th>
+                                      <td mat-cell *matCellDef="let element">{{element.DateOfJoin}}</td>
+                                    </ng-container>
+                  
+                                    <ng-container matColumnDef="Designation">
+                                      <th mat-header-cell *matHeaderCellDef  class="font-weight-bold">Designation</th>
+                                      <td mat-cell *matCellDef="let element">{{element.Designation}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ReportingManager">
+                                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Reporting Manager</th>
+                                            <td mat-cell *matCellDef="let element">{{element.ReportingManager}}</td>
+                                          </ng-container>
+                  
+                                    
+                  
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                              </table>
+
+
+
+
+                          </div>
+                        </mat-card-content>
+            </mat-card>
+                    
+<mat-card class="col-md-12">
+    <mat-card-content>
+        <div>
+            <form [formGroup]="abscondForm">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Type of Exit</mat-label>
+                        <mat-select formControlName="ExitType"
+                            required>
+                            <mat-option *ngFor="let aspect of exitTypesList" [value]="aspect.value">{{aspect.label}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="(!abscondForm.controls['ExitType'].valid&&abscondForm.controls['ExitType'].dirty)||(formSubmitted&&!abscondForm.controls['ExitType'].valid)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                          <span style="color: red">Exit Type Required</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Cause Category</mat-label>
+                            <mat-select formControlName="IsActive" (selectionChange)="onStatusChange($event.value)"
+                                required>
+                                <mat-option *ngFor="let aspect of exitReasonsList" [value]="aspect.value">{{aspect.label}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="(!abscondForm.controls['IsActive'].valid&&abscondForm.controls['IsActive'].dirty)||(formSubmitted&&!abscondForm.controls['IsActive'].valid)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                              <span style="color: red">Cause Category Required</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                <div class="col-md-6" *ngIf="showSeparation">
+                    <mat-form-field appearance={{themeAppearence}} >
+                        <mat-label>Separation Date</mat-label>
+                        <input matInput formControlName="tagretDate" [matDatepicker]="target">
+                        <mat-datepicker-toggle matSuffix [for]="target"></mat-datepicker-toggle>
+                        <mat-datepicker #target></mat-datepicker>
+                        <mat-error *ngIf="(!abscondForm.controls['tagretDate'].valid&&abscondForm.controls['tagretDate'].dirty)||(formSubmitted&&!abscondForm.controls['tagretDate'].valid)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Separation Date Required.</span>
+                        </mat-error>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="{{themeConfigInput}}">
+                            <mat-label>Last Working Date</mat-label>
+                            <input formControlName="LastWorkingDate" matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="(!abscondForm.controls['LastWorkingDate'].valid&&abscondForm.controls['LastWorkingDate'].dirty)||(formSubmitted&&!abscondForm.controls['LastWorkingDate'].valid)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Last Working Date Required.</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance={{themeConfigInput}}>
+                                <mat-label>Cause Details</mat-label>
+                                <textarea matInput formControlName="associateRemarks" name="associateRemarks"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4" *ngIf="showAbscond">
+                        <mat-form-field  appearance={{themeConfigInput}}>
+                            <mat-label>Period of absence from</mat-label>
+                            <input [disabled]="PMScreen" matInput [matDatepicker]="from">
+                            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                            <mat-datepicker #from></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4" *ngIf="showAbscond">
+                        <mat-form-field  appearance={{themeConfigInput}}>
+                            <mat-label>Period of absence to</mat-label>
+                            <input [disabled]="PMScreen" matInput [matDatepicker]="to">
+                            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                            <mat-datepicker #to></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4" *ngIf="showAbscond">
+                        <mat-form-field  appearance={{themeConfigInput}}>
+                            <mat-label>Personal E-mail
+    
+                            </mat-label>
+                            <input  type="email" matInput >
+    
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4" *ngIf="showAbscond || showTermination">
+                        <mat-form-field  appearance={{themeConfigInput}}>
+                            <mat-label>Evidence</mat-label>
+                            <textarea matInput ></textarea>
+    
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-12 text-right">
+                        <button (click)="clearValues()" mat-stroked-button><mat-icon>clear
+                        </mat-icon>Clear</button>
+                        <button  type="submit" (click)="onSubmit()" mat-flat-button color="primary">Submit</button>
+                    </div>
+        </form>
+    </div>
+    </mat-card-content>
+</mat-card>

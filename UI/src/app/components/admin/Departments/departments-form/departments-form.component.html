@@ -1,0 +1,71 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      Departments
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="center">
+    <form [formGroup]="addDepartment">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label for="DepartmentCode">Department Code</label>
+              <span style="color: red">*</span>&nbsp;
+              <div class="ui-fluid">
+              <input *ngIf="!isEdit" style="width: 70%" type="text" maxlength="50" name="DepartmentCode" (keypress)="omit_special_char($event)"
+                formControlName="DepartmentCode"  pInputText />
+              <input *ngIf="isEdit" style="width: 70%" disabled="true" name="DepartmentCode" formControlName="DepartmentCode" pInputText
+                readonly></div>
+              <div class="errMsg" *ngIf="addDepartment.get('DepartmentCode').hasError('required') && formSubmitted">
+                <span style="color: red">Department Code Required </span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label for="Description">Department Name</label>
+              <span style="color: red">*</span>&nbsp;
+              <div class="ui-fluid">
+              <input type="text" maxlength="50" style="width: 70%" name="Description" (keypress)="omit_special_char($event)" formControlName="Description"
+                pInputText /></div>
+              <div class="errMsg" *ngIf="addDepartment.get('Description').hasError('required') && formSubmitted">
+                <span style="color: red">
+                  Department Name Required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label for="DepartmentHead">Department Head</label>&nbsp;&nbsp;
+              <div class="ui-fluid">
+              <p-autoComplete formControlName="DepartmentHead" [suggestions]="filteredAssociateIds" [style]="{'width':'70%'}"   (completeMethod)="filteredAssociatesMultiple($event)"
+                field="Name"  [forceSelection]="true">
+              </p-autoComplete></div>
+            </div>
+          </div>
+         
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label for="IsDelivery" class="switchLabel">Delivery</label>&nbsp;
+              <p-inputSwitch formControlName="IsDelivery" id="toogle"></p-inputSwitch>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <section class="pull-right buttons">
+              <button type="button" class="btn btn-primary" (click)="CreateDepartment()">
+                <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+              <button type="button" class="btn btn-default" (click)="cancel()">
+                <i  class="fa fa-eraser"></i>&nbsp;Clear</button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

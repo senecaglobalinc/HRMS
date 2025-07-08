@@ -1,0 +1,56 @@
+﻿<mat-card class="mb-2">
+  <mat-card-content>
+  <form [formGroup]="aspectForm" (ngSubmit)="submitForm()">    
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">      
+        <div class="row">
+          <div class="col-md-8">
+            <mat-form-field  appearance="outline">
+              <mat-label>Aspect Name</mat-label>
+              <input matInput placeholder="Aspect Name" formControlName="AspectName" (keypress)="omit_special_char($event)" maxlength="70" size="35" (change)="validateAspectName(aspectData)">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 text-right">
+            <div class="mt-10 pr-15">
+            <button  type="reset" (click)="clear()" mat-flat-button><mat-icon>clear
+            </mat-icon> Clear</button>
+            <button type="submit" mat-flat-button color="primary"><mat-icon>add
+            </mat-icon> {{saveButton}}</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  </mat-card-content>
+</mat-card>
+
+           
+                <mat-card matSort>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSource" cdkDropList cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)" matSort>
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="AspectName">
+                    <th mat-header-cell *matHeaderCellDef>Aspect Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.AspectName}} </td>
+                  </ng-container>
+              
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="Edit">
+                    <th   class="mnw-70 w-70" mat-header-cell *matHeaderCellDef>Edit </th>
+                    <td class="mnw-70 w-70" mat-cell *matCellDef="let element"> 
+                         <button type="button" mat-icon-button color="primary" (click)="editAspect(element)">  <!--[disabled]="element.IsMappedAspect" -->
+                            <mat-icon class="mat-18">edit</mat-icon>
+                    </button> </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

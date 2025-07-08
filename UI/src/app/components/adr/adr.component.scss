@@ -1,0 +1,49 @@
+
+@media screen and (min-width: 64.063em){
+    .ui-lg-3 {
+      width: 29%;
+  }
+  .del{
+    color: red;     
+  }
+  
+  }
+  ::ng-deep .ui-table-thead tr th.comment,
+  ::ng-deep .ui-table-thead tr th.action,
+  ::ng-deep .ui-table-thead tr th.select {
+    width: 120px;
+    
+  }
+  .center{
+    margin-left:148px;
+  }
+  .tables{
+    padding-right:179px;
+  }
+  @media only screen and (max-width:1024px){
+    #btn-login{
+        margin-top:20px !important;
+    }
+      .sentBtn {
+      margin-left: 465px;
+    }
+    .center{
+      margin-left:auto !important;
+    }
+    .tables{
+      padding-right:0 !important;
+    }
+  }
+  :host ::ng-deep .ui-inputtext{
+    border:none;
+    border-bottom: 1px solid blue;
+  }
+  
+  :host ::ng-deep.ui-dropdown ,
+  :host ::ng-deep .ui-dropdown .ui-dropdown-trigger
+  {
+    border:none;
+  
+  }
+  
+  

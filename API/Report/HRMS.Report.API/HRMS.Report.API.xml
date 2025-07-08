@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HRMS.Report.API</name>
+    </assembly>
+    <members>
+        <member name="M:HRMS.Report.API.Controllers.NightlyjobController.GetResourceReportByFilter">
+            <summary>
+            This endpoint is used in HRMSReportsConsole job. 
+            Enforces Authorization policy to check its headers for its configuration
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetFinanceReports(HRMS.Report.Infrastructure.Models.Request.FinanceReportFilter)">
+            <summary>
+            Get Finance Reports with filters
+            </summary>
+            <param name="filter"></param>
+            <returns>Finance Report</returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetUtilizationReports(HRMS.Report.Infrastructure.Models.Request.UtilizationReportFilter)">
+            <summary>
+            Get Utilization Reports with filters
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetDomainReportCount">
+            <summary>
+            Get Domain Report Count
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetTalentPoolReportCount">
+            <summary>
+            Get Talent Pool Report Count
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetDomainReport(System.Int32)">
+            <summary>
+            Get Domain Report by domainId
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetTalentPoolReport(System.Int32)">
+            <summary>
+            Get Talent Pool Report by projectId
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetEmployeeDetailsBySkill(HRMS.Report.Infrastructure.Models.Request.AssociateSkillSearchFilter)">
+            <summary>
+            Get Employee Details By Skill by filters
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetServiceTypeReport(System.String)">
+            <summary>
+            Get Service Type Report with string filter
+            </summary>  
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetServiceTypeReportProject(System.Int32)">
+            <summary>
+            Get Service Type Report by serviceTypeId
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetCriticalResourceReport">
+            <summary>
+            Get Critical Resource Report
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetNonCriticalResourceReport">
+            <summary>
+            Get Non Critical Resource Report
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetTalentPoolResourceReport">
+            <summary>
+            Get TalentPool Resource Report
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Report.API.Controllers.ReportsController.GetAssociatesForFutureAllocation">
+            <summary>
+            Get Associates For Future Allocation
+            </summary>        
+            <returns></returns>
+        </member>
+    </members>
+</doc>

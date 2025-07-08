@@ -1,0 +1,29 @@
+ul.node li {
+    display: inline-block;
+    width: 10%;
+}
+#messageToaster {
+    background-color: #00A65A;
+    color: black;
+}
+.ng-valid[required].ng-touched.ng-dirty {
+    border-left: 0px solid #42a948 !important;
+
+}
+.ng-invalid.ng-touched.ng-dirty {
+    border-left: 0px solid #a94442 !important;
+}
+
+button[type="submits"]
+{
+    width: 105px;  
+}
+input[type="text"],
+input[type="email"],
+.dropdowns
+{
+    width: 70%;
+    border:none;
+    border-bottom: 1px solid rgb(184, 159, 174);
+ 
+}

@@ -1,0 +1,91 @@
+
+    <div class="panel-heading">
+        <div class="panel-title">Clone KRA</div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+        <div class="row">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="box">
+                        <label>From Year:</label><span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <p-dropdown [options]="financialYearsList" [style]="{'width':'70%'}" name="fromYear" [(ngModel)]="cloneKRA.FromFinancialYearId"
+                                [autoWidth]="false" filter="filter">
+                            </p-dropdown>
+                        </div>
+                        <span style="color: red" *ngIf="(cloneSubmitted && cloneKRA.FromFinancialYearId==0)">
+                            From Financial Year is required
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="box">
+                        <label>To Year:</label><span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <p-dropdown [options]="financialYearsList" [style]="{'width':'70%'}" name="toYear" [(ngModel)]="cloneKRA.ToFinancialYearId"
+                                [autoWidth]="false" filter="filter" (onChange)="onChangeToYear(cloneKRA)">
+                            </p-dropdown>
+                        </div>
+                        <span style="color: red" *ngIf="(cloneSubmitted && cloneKRA.ToFinancialYearId==0)">
+                            To Financial Year is required
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="box">
+                        <label>Clone By:</label><span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <p-dropdown [options]="cloneTypeList" [style]="{'width':'70%'}" name="cloneType" [(ngModel)]="cloneKRA.CloneType" [autoWidth]="false"
+                                filter="filter" (onChange)="onChangeCloneType(cloneKRA)">
+                            </p-dropdown>
+                        </div>
+                        <span style="color: red" *ngIf="(cloneSubmitted && cloneKRA.CloneType==0)">
+                            Clone Type is required
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="box">
+                        <label *ngIf="cloneKRA.CloneType == 3 || cloneKRA.CloneType == 2">Department:</label>
+                        <div *ngIf="cloneKRA.CloneType == 2" class="ui-fluid">
+                            <p-multiSelect [style]="{'width':'70%'}" name="departments" [options]="departmentList" [panelStyle]="{minWidth:'12em'}" [(ngModel)]="cloneKRA.DepartmentIds"
+                                defaultLabel="Choose Departments" filter="filter"></p-multiSelect>
+                        </div>
+                        <div *ngIf="cloneKRA.CloneType == 3" class="ui-fluid">
+                            <p-dropdown name="department" [style]="{'width':'70%'}" [options]="departmentList" [(ngModel)]="cloneKRA.DepartmentId" [style]="{'width':'100%'}"
+                                placeholder="Select a Department" required (onChange)="onChangeDepartment(cloneKRA)" filter="filter"></p-dropdown>
+                        </div>
+                        <span style="color: red" *ngIf="(cloneSubmitted && ((cloneKRA.DepartmentIds.length==0 && cloneKRA.CloneType == 2) || (cloneKRA.DepartmentId==0 && cloneKRA.CloneType == 3)))">
+                            Department is required
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="box">
+                        <label *ngIf="cloneKRA.CloneType == 3">Group:</label>
+                        <div *ngIf="cloneKRA.CloneType == 3" class="ui-fluid">
+                            <p-multiSelect [style]="{'width':'70%'}" name="groups" [options]="groupList" [panelStyle]="{minWidth:'12em'}" [(ngModel)]="cloneKRA.GroupIds"
+                                defaultLabel="Choose Group" filter="filter"></p-multiSelect>
+                        </div>
+                        <span style="color: red" *ngIf="(cloneSubmitted && cloneKRA.GroupIds.length==0 && cloneKRA.CloneType == 3)">
+                            Group is required
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <section class="pull-right buttons">
+                    <button type="button" class="btn btn-primary" (click)="cloneKRAs(cloneKRA)" title="Save">
+                        <i class="fa fa-clone"></i>&nbsp;Clone</button>&nbsp;
+                    <button type="button" class="btn btn-default" (click)="clear()">
+                        <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+                </section>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+<p-confirmDialog appendTo="body" key="cloneConfirmation" width="500"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

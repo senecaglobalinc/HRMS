@@ -1,0 +1,47 @@
+
+.buttons{
+ margin-top: 15px;
+ margin-right: 80px;
+
+}
+
+input[type=text], select, textarea {
+    border:none;
+    border-bottom: 1px solid blue;
+   
+}
+@media screen and (min-width: 64.063em){
+.ui-lg-3 {
+    width: 38%;
+}
+}
+.center{
+    margin-left:257px;
+  
+  }
+  .buttons{
+    margin-right:285px;
+}
+
+  /* Desktops and laptops ---------- */
+@media screen and (max-width: 1440px){
+
+    .buttons {
+      margin-right: 253px;
+    }
+    .center{
+     margin-left:202px;
+    
+    }
+    }
+             /* tablets, iPads (landscape) ---------- */
+             @media screen and (max-width: 1024px){
+           
+                .center{
+                    margin-left:auto;
+                   
+                   }
+                   .buttons {
+                    margin-right: auto;
+                  }
+          }

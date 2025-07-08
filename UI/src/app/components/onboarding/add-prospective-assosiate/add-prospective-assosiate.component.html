@@ -1,0 +1,193 @@
+
+<!-- <div class="panel panel-default"> -->
+<div class="panel-heading">
+    <h4>Prospective Associate</h4>
+</div>
+<div class="panel-body">
+    <form class="form-horizontal" ngNativeValidate [formGroup]="newAssocaiteForm" (ngSubmit)="onCreate()">
+        <div class="row">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>First Name
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <input type="text" formControlName="firstName" maxlength="30" [(ngModel)]="newAssociate.FirstName" (keypress)="onlychar($event)"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Middle Name</label>
+                        <div class="ui-fluid">
+                            <input type="text" formControlName="middleName" maxlength="30" [(ngModel)]="newAssociate.MiddleName" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Last Name
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <input type="text" formControlName="lastName" maxlength="30" [(ngModel)]="newAssociate.LastName" class="form-control" (keypress)="onlychar($event)"
+                                required>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Personal Email ID
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <input type="email" formControlName="PersonalEmailAddress" maxlength="50" [(ngModel)]="newAssociate.PersonalEmailAddress" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Mobile Number
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <input type="text" formControlName="MobileNo" [(ngModel)]="newAssociate.MobileNo" pattern="^[1-9]{1}[0-9]{9}$" title="Please enter valid formate"
+                                maxlength="10" minlength="10" (paste)="$event.preventDefault()" (keypress)="onlyForNumbers($event)"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Joining Date
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-calendar formControlName="dateOfJoining" [style]="{'width':'70%'}" [inputStyle]="{'border-bottom-color':'none'}" dataType="string"
+                                showIcon="true" readonlyInput="true" monthNavigator="true" yearNavigator="true" yearRange="2007:+2050"
+                                [maxDate]="lastDate" [(ngModel)]="newAssociate.DateofJoining" dateFormat="yy-mm-dd" required>
+                            </p-calendar>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Designation
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <p-autoComplete formControlName="ddldesignationID" [style]="{'width':'70%'}" [suggestions]="filteredDesignationIds" (onSelect)="getGradeByDesignation(designation)"
+                                [(ngModel)]="designation" (completeMethod)="filteredDesignation($event)" (onBlur)="getGradeByDesignation(designation)"
+                                field="DesignationName"  required>
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Grade</label>
+                        <div>
+                            <input type="text" formControlName="ddlgradeName" [(ngModel)]="newAssociate.GradeName" (paste)="$event.preventDefault()"
+                                disabled="true" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Employment Type
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="dropdowns">
+                            <select class="form-control" formControlName="ddlemploymentType" [(ngModel)]="newAssociate.EmploymentType" required oninvalid="setCustomValidity('Please select employment type')"
+                                onchange="try{setCustomValidity('')}catch(e){}">
+                                <option value=""></option>
+                                <option *ngFor="let e of empTypes" value={{e.EmpType}}>{{e.EmpType}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Department
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="dropdowns">
+                            <select class="form-control" formControlName="ddlDepartmentId" [(ngModel)]="newAssociate.DepartmentId" (change)="requiredTechnolgy($event)"
+                                required oninvalid="setCustomValidity('Please select department')" onchange="try{setCustomValidity('')}catch(e){}">
+                                <option value=""></option>
+                                <option *ngFor="let d of departments" value={{d.DepartmentId}}>{{d.Description}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Technology
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="dropdowns">
+                            <select class="form-control" formControlName="ddltechnology" [(ngModel)]="newAssociate.TechnologyID" [required]="isRequired"
+                                oninvalid="setCustomValidity('Please select technology')" onchange="try{setCustomValidity('')}catch(e){}">
+                                <option value=""></option>
+                                <option *ngFor="let t of technologies" value={{t.PracticeAreaId}}>{{t.PracticeAreaDescription}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Manager
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="dropdowns">
+                            <select class="form-control" formControlName="ddlmanagerId" [(ngModel)]="newAssociate.ManagerId" required oninvalid="setCustomValidity('Please select manager')"
+                                onchange="try{setCustomValidity('')}catch(e){}">
+                                <option value=""></option>
+                                <option *ngFor="let rm of reportingmanagers" value={{rm.EmpId}}>{{rm.EmpName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>HR Advisor
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid dropdowns">
+                            <select class="form-control" formControlName="ddlHRAdvisorName" [(ngModel)]="newAssociate.HRAdvisorName" required oninvalid="setCustomValidity('Please select HR advisor')"
+                                onchange="try{setCustomValidity('')}catch(e){}">
+                                <option value=""></option>
+                                <option *ngFor="let hra of hradvisors" value={{hra.Name}}>{{hra.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <label>Recruited By</label>
+                        <div class="ui-fluid">
+                            <input type="text" formControlName="recruitedBy" (keypress)="onlychar($event)" maxlength="50" [(ngModel)]="newAssociate.RecruitedBy"
+                                class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <span>{{newAssociate.ID}}</span>
+            <section class="pull-right buttons">
+                <button type="submit" #btnSubmit name="btnSubmit" href="#" class="btn btn-custom" style="cursor:pointer;">
+                    <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;
+                <button type="button" href="#" name="btnclear" class="btn btn-default" style="cursor:pointer;" (click)="onClear()">
+                    <i class="fa fa-eraser"></i>&nbsp;Clear</button>&nbsp;
+                <button type="button" href="#" name="btncancel" class="btn btn-default" style="cursor:pointer;" (click)="onCancel()">&nbsp;Cancel</button>&nbsp;
+            </section>
+        </div>
+    </form>
+</div>
+<!-- </div> -->
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

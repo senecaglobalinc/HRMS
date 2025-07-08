@@ -1,0 +1,2 @@
+ALTER TABLE public."AssociateExitInterview"
+ADD COLUMN "IsNotified" BOOLEAN NOT NULL DEFAULT FALSE;

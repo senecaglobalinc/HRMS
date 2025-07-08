@@ -1,0 +1,59 @@
+ .editCls{
+     width : 70px;
+ }
+
+  button[type="buttons"]
+{
+    width: 105px;  
+}
+button[type="submit"]
+{
+    width: 105px;  
+}
+.inputCls{
+  margin-bottom:10px;
+}
+.center{
+     margin-left:295px;
+
+  }
+  .tables{
+    padding-right:407px;
+  }
+  
+    /* tablets, iPads (landscape) ---------- */
+    @media screen and (max-width: 1024px){
+               .buttons{
+            margin-top:20px !important;
+        }
+        .center {
+            margin: auto !important;
+          
+           
+          }
+          .tables{
+      
+            padding-right:252px !important;
+            padding-left: 0px !important;
+           
+          }
+      }
+      /* Desktops and laptops ---------- */
+      @media screen and (max-width: 1440px){
+       
+        .tables{
+          padding-right: 360px;
+         }
+         .center{
+          margin-left:224px;
+        
+        }
+      }
+
+
+@media screen and (min-width: 40.063em){
+.ui-md-4 {
+    width: 41.3333%;
+}
+
+}

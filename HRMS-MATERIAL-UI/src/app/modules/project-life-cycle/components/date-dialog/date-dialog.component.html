@@ -1,0 +1,54 @@
+<div class="container">
+  <h3 mat-dialog-title>Project Closure</h3>
+  <h3 mat-dialog-title>Project Name : {{projectName}}</h3>
+</div>
+<mat-dialog-content>
+
+  <form [formGroup]="closeProjectData" style="height: fit-content;">
+
+    <div class="col-6">
+      <mat-form-field appearance={{themeConfigInput}}>
+        <mat-label>End Date
+          <span class="text-danger"> *</span>
+        </mat-label>
+        <input matInput [min]="minClosureStartDate" [max]="maxClosureEndDate" formControlName="ActualEndDate" [matDatepicker]="ActualEndDate"
+          (dateChange)="validFromYear($event.value)" (click)="ActualEndDate.open()" style="cursor: pointer">
+        <mat-datepicker-toggle matSuffix *ngIf="closeProjectData.value.ActualEndDate"
+          (click)="clearInput($event, 'ActualEndDate')">
+          <mat-icon matDatepickerToggleIcon>close</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="ActualEndDate"></mat-datepicker-toggle>
+        <mat-datepicker #ActualEndDate color="primary"></mat-datepicker>
+        <mat-error *ngIf="closeProjectData.get('ActualEndDate').hasError('required')">
+          End Date Required
+        </mat-error>
+        <mat-error *ngIf="validFromErrorMessage">
+          {{validFromErrorMessage}}
+        </mat-error>
+
+      </mat-form-field>
+
+    </div>
+    <div class="col-12">
+      <mat-form-field appearance={{themeConfigInput}}>
+        <mat-label>Remarks
+          <span class="text-danger"> *</span>
+        </mat-label>
+        <textarea matInput formControlName="Remarks" cdkTextareaAutosize #autosize="cdkTextareaAutosize"  style="padding: 0ch; overflow-y:unset;"></textarea>
+        <mat-error *ngIf="closeProjectData.get('Remarks').hasError('required')">
+          Remarks is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 text-right">
+      <button mat-stroked-button (click)="onNoClick()">
+        <mat-icon>close</mat-icon>Cancel
+      </button>
+      <button type="submit" mat-flat-button color="primary" (click)="save()"
+        [disabled]="!closeProjectData.valid">Initiate</button>
+
+    </div>
+  </form>
+
+</mat-dialog-content>

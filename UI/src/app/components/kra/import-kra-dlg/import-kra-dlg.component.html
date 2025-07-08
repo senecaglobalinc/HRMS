@@ -1,0 +1,144 @@
+<div class="row">
+  <div class="col-md-8 col-xs-8">
+    <h1 mat-dialog-title>Import KRA</h1>
+  </div>
+  <div class="col-md-4 col-xs-4 text-right">
+    <button (click)="onNoClick()"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+      <img class="nounicons" src="../../../../assets/images/hrms/icons/cross.svg"
+          alt="import" />
+  </button>
+  </div>
+</div>
+<div class="vph50">
+<div class="row">
+  <div class="col-md-2">
+    <mat-form-field appearance="{{themeappeareance}}">
+      <mat-label>Finacial Year</mat-label>
+      <mat-select (selectionChange)="changeValue($event)">
+        <mat-option value="2021-2022">
+          2021 - 2022
+        </mat-option>
+        <mat-option value="2019-2020">
+          2019 - 2020
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-3">
+    <mat-form-field appearance="{{themeappeareance}}">
+      <mat-label>Select Department</mat-label>
+      <mat-select  (selectionChange)="changeValue($event)">
+        <mat-option value="hr">
+          Human Resources
+        </mat-option>
+        <mat-option value="admin">
+          Admin
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-3">
+    <mat-form-field appearance="{{themeappeareance}}">
+      <mat-label>Select Grade</mat-label>
+      <mat-select>
+        <mat-option value="g1">
+          G1
+        </mat-option>
+        <mat-option value="g2">
+          G2
+        </mat-option>
+        <mat-option value="g3">
+          G3
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-3">
+    <mat-form-field appearance="{{themeappeareance}}">
+      <mat-label>Select Role Type</mat-label>
+      <mat-select>
+        <mat-option value="deliveryleader">
+          Delivery Leader
+        </mat-option>
+        <mat-option value="2020">
+          Manager
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+
+
+  <div class="col-md-12" *ngIf="leaderRole">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 text-center">
+        <div class="m-5">
+        <img src="../../../../assets/images/hrms/icons/bigCross.svg" alt="Cross icon"/>
+      </div>
+        <p class="mb-5">Delivery leader role type didn’t exist for selected year Please select from available role to import KRA's</p>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="row" *ngIf="!leaderRole">
+  <div class="col-md-12">
+
+
+      <table mat-table [dataSource]="dataSource">
+
+          <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox  color="primary" (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="kraaspect">
+            <th class="w25p" mat-header-cell *matHeaderCellDef> KRA ASPECTS </th>
+            <td mat-cell *matCellDef="let element"> {{element.kraaspect}} <br/><i class="text-muted"><small>Added on Thursday, 9 Jul 2020, 4:45 PM</small></i></td>
+          </ng-container>
+        
+          <!-- Name Column -->
+          <ng-container matColumnDef="metrics">
+            <th mat-header-cell *matHeaderCellDef> METRICS </th>
+            <td mat-cell *matCellDef="let element"> {{element.metrics}} </td>
+          </ng-container>
+        
+          <!-- Weight Column -->
+          <ng-container matColumnDef="ration">
+            <th class="w20p" mat-header-cell *matHeaderCellDef> TARGET </th>
+            <td mat-cell *matCellDef="let element"> {{element.ration}} <br/><span class="text-muted"><small>Half Yearly</small></span></td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 text-center">
+    <div class="mt-5 mb-1">
+      <button mat-flat-button [mat-dialog-close]="true" [disabled]="!selection.selected.length >0"  [ngClass]="{'primarydisabled': !selection.selected.length >0}" color="primary">IMPORT SELECTED</button>
+  </div>
+  </div>
+
+</div>

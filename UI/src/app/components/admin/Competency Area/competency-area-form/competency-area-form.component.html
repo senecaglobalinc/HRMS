@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <div>Competency Area</div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+            <form [formGroup]="addCompetencyArea">
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label for="CompetencyAreaCode" class="pb-0">Competency Area Code</label>
+                                <span style="color: red">*</span>&nbsp;
+                                <input formControlName="CompetencyAreaCode" name="CompetencyAreaCode" style="width: 50%" required type="text" size="30" pInputText>
+                                <div class="errMsg CompetencyAreaCode" *ngIf="addCompetencyArea.get('CompetencyAreaCode').hasError('required') && formSubmitted">
+                                    <span style="color: red"> Competency Area Code Required </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label for="CompetencyAreaDescription" class="pb-0">Competency Area Description
+                                    <span style="color: red">*</span>
+                                </label>
+
+                                <input formControlName="CompetencyAreaDescription" style="width: 50%" name="CompetencyAreaDescription" required type="text"
+                                    size="30" pInputText>
+                                <div class="errMsg" *ngIf="addCompetencyArea.get('CompetencyAreaDescription').hasError('required') && formSubmitted">
+                                    <span style="color: red"> Competency Area Description Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <section class="pull-right buttons">
+                                <button type="submit" class="btn btn-custom" (click)="CreateCompetencyArea()">
+                                    <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                                <button type="button" class="btn btn-default" (click)="Reset()">
+                                    <i class="fa fa-eraser"></i>Clear</button>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

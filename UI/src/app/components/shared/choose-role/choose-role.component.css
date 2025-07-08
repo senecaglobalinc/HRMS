@@ -1,0 +1,101 @@
+
+.iconbox {
+
+  cursor: pointer;
+ 
+  }
+  .featureinfo h4 {
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-right:8px;
+    text-align: center;
+    margin-top:21px;
+
+
+  
+    }
+
+
+    .ionbox{
+ 
+      background: url(../../../../assets/images/hrms.jpg)no-repeat center center fixed;
+      background-size: cover;
+  background-repeat: no-repeat;
+    padding: 0;
+     margin: 0;
+     height: 100%;
+    }
+.container {
+  /* position: absolute; */
+  margin: auto;
+
+  /* background-color: #ccc;
+  border-radius: 3px; */
+  align-items: center;
+  justify-content: center;
+  padding-top: 150px;
+  padding-bottom:100px;
+  padding-left: 90px;
+  
+
+}
+ .col-md-4, .col-lg-4 {
+  margin-top: 38px !important;
+}
+
+
+.mat-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.main-header{
+  background-color: #367fa9 !important;
+}
+.layoutCls{
+  height : 690px;
+}
+.user-name{
+  font-size: 12px;
+}
+.logo-lg{
+  color:#ffff;
+  background-image:url("../../../../assets/images/logo_45x45.png")no-repeat ;
+  width:50px;
+  height:50px;
+}
+.toolbar-icon {
+    padding: 0 14px;
+  }
+  
+  .toolbar-spacer {
+    flex: 1 1 auto;
+  }
+  
+  .logout-button {
+  justify-content: center;
+  /* padding-left: 50px; */
+    cursor: pointer;
+  letter-spacing: 1px;
+ display: block;
+  width: 100%;
+  border: none;
+   padding: 14px 28px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  }
+  
+
+
+img{
+  border-radius: 50%;
+  height : 40px;
+  width: 40px;
+  
+}
+
+
+

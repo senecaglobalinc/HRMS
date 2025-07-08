@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;QA;UAT;DEV</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200616095008_AllocationPercentage.cs" />
+    <Compile Remove="Migrations\20200616095008_AllocationPercentage.Designer.cs" />
+    <Compile Remove="Migrations\20200616095158_AllocationPercentage.cs" />
+    <Compile Remove="Migrations\20200616095158_AllocationPercentage.Designer.cs" />
+    <Compile Remove="Migrations\20200616095339_AllocationPercentage.cs" />
+    <Compile Remove="Migrations\20200616095339_AllocationPercentage.Designer.cs" />
+    <Compile Remove="Migrations\20200616095446_AllocationPercentage.cs" />
+    <Compile Remove="Migrations\20200616095446_AllocationPercentage.Designer.cs" />
+    <Compile Remove="Migrations\20200616095755_AllocationPercentage.cs" />
+    <Compile Remove="Migrations\20200616095755_AllocationPercentage.Designer.cs" />
+    <Compile Remove="Migrations\20200616101132_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616101132_ProjectDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200616101349_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616101349_ProjectDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200616102136_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616102136_ProjectDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200616102431_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616102431_ProjectDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200616102612_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616102612_ProjectDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200616102743_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616102743_ProjectDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20200616103118_ProjectDatabase.cs" />
+    <Compile Remove="Migrations\20200616103118_ProjectDatabase.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Migrations\20200722151140_ClientBillingRolesHistory.cs.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.6" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.Project.Entities\HRMS.Project.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

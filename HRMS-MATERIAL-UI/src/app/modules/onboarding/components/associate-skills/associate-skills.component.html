@@ -1,0 +1,380 @@
+<div>
+    <mat-card>
+        <form [formGroup]="addSkill" class="form-horizontal">
+            <div class="row">
+                <div class="col-md-8">
+                    <section>
+                        <br>
+                        <mat-checkbox (change)="CheckedIsPrimary($event)" name="checked"
+                            [formControl]="addSkill.controls['IsPrimary']"> Is Primary:</mat-checkbox>
+                        <br>
+                        <br>
+                    </section>
+                </div>
+                <div class="col-md-4">
+                    <p style="color: red;">Note : Version Allows Only Numbers, Decimals, Commas </p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mt-2">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Skill<span class="text-danger">*</span></mat-label>
+                        <input appDropDownSuggestion [SearchList]="skillsList" type="text"
+                            (keyup)="GetSkillsBySearchString(addSkill.value.SkillId)" min="3" matInput
+                            [matAutocomplete]="auto2" formControlName="SkillId" #trigger="matAutocompleteTrigger" />
+                        <button class="clearFieldIcon" *ngIf="addSkill.value.SkillId" mat-button matSuffix
+                            mat-icon-button aria-label="Clear" (click)="clearInput($event, 'SkillId')">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn"
+                            (optionSelected)='enableVersions($event.option.value)'>
+                            <mat-option (click)="selectedChangeIds('SkillId',option)"
+                                *ngFor="let option of filteredSkillsList | async" [value]="option">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="addSkill.get('SkillId').hasError('required') ">Skill Required </mat-error>
+                        <mat-error *ngIf="addSkill.get('SkillId').hasError('requireMatch') ">Please Select Skill from
+                            given
+                            options</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Skill Group<span class="text-danger">*</span></mat-label>
+                        <input matInput type="text" readonly formControlName="SkillGroup">
+                    </mat-form-field>
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Last used<span class="text-danger">*</span></mat-label>
+                        <input matInput type="number" maxlength="4" minlength="4" (keypress)="onlyForNumbers($event)"
+                            formControlName="LastUsed" placeholder="(In years)">
+                        <mat-error *ngIf="formSubmitted && addSkill.get('LastUsed').hasError('required')">Last Used is
+                            required</mat-error>
+                        <mat-error *ngIf="formSubmitted && addSkill.get('LastUsed').hasError('pattern')">Last Used is
+                            Invalid</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Version</mat-label>
+                        <input matInput formControlName="Version" type="text">
+                    </mat-form-field>
+                    <!-- <span>Note: Only Numbers, Decimals, Commas are allowed</span> -->
+
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Proficiency Level<span class="text-danger">*</span></mat-label>
+                        <mat-select formControlName="ProficiencyLevelId">
+                            <mat-option *ngFor="let p of proficiencyLevels" [value]="p.value">
+                                {{p.label}} </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="formSubmitted && addSkill.get('ProficiencyLevelId').hasError('required')">Proficiency
+                            Level is required</mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-4 mt-2">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Competency Area<span class="text-danger">*</span></mat-label>
+                        <input matInput type="text" readonly formControlName="CompetencyAreaCode">
+                    </mat-form-field>
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Experience<span class="text-danger">*</span></mat-label>
+                        <input matInput formControlName="Experience" placeholder="(In Years)" maxlength="5">
+                        <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('pattern')">Should be in
+                            # or #.# or ##.# or ##.## format! where # is a Number</mat-error>
+                        <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('required')">Experience
+                            is
+                            required</mat-error>
+                        <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('experienceError')">
+                            Months Can't be greater than 11!
+                        </mat-error>
+                        <mat-error *ngIf="formSubmitted && addSkill.get('Experience').hasError('zeroErrorHandler')">
+                            Experience Can't be Zero!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button mat-stroked-button (click)="cancel()">
+                        <mat-icon>close</mat-icon>Clear
+                    </button>
+                    <button mat-flat-button color="primary" (click)="onSave()">{{btnLabel}}</button>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+
+    <div class="col-md-12 text-right">
+        <button *ngIf="count>1" mat-flat-button color="primary" (click)="submitForApproval()">{{count}} Skill(s) are
+            pending for approval</button>
+        <button *ngIf="count==1" mat-flat-button color="primary" (click)="submitForApproval()">{{count}} Skill is
+            pending for approval</button>
+        <mat-form-field class="col-md-3 mt-2" appearance={{themeConfigInput}}>
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+    </div>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="Primary Skills">
+            <mat-card mb='2'>
+                <mat-card-content class="row justify-content-center">
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSourcePrimary" matSort multiTemplateDataRows>
+                            <ng-container matColumnDef="SkillCode">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.SkillCode}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Version">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Version
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.Version}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Proficiency">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                                    Proficiency </th>
+                                <td mat-cell *matCellDef="let element"> {{element.ProficiencyLevelCode}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Experience">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                                    Experience(In Years) </th>
+                                <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="LastUsed">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Last
+                                    used </th>
+                                <td mat-cell *matCellDef="let element"> {{element.LastUsed}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Status">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.StatusName}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Action">
+                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button *ngIf="!checkStatus(element)" mat-button mat-icon-button>
+                                        <mat-icon [hidden]="checkStatus(element)" (click)="editSkill(element)"
+                                            style="cursor: pointer;">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="checkStatus(element)" [disabled]="checkStatus(element)" mat-button
+                                        mat-icon-button>
+                                        <mat-icon style="cursor: pointer;">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="element.StatusName == 'Created' && element.IsAlreadyExist==false" mat-button mat-icon-button>
+                                        <mat-icon style="cursor: pointer;"
+                                            (click)="deleteSkill(element)">delete</mat-icon>
+                                    </button>
+
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="expandedDetail">
+                                <td mat-cell *matCellDef="let element" [attr.colspan]="_historyDisplayedColumns.length">
+                                    <div class="example-element-detail"
+                                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                        <mat-card style="width: 100%;">
+                                            <table [dataSource]="_skillHistoryDS" mat-table class="mat-elevation-z8">
+
+                                                <ng-container matColumnDef="SubmittedRating">
+                                                    <th mat-header-cell *matHeaderCellDef> Submitted Rating </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        {{element.SubmittedRatingName}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="RMRating">
+                                                    <th mat-header-cell *matHeaderCellDef> RM Rating </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        {{element.ReportingManagerRatingName}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Experience">
+                                                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                                                        Experience(In Years) </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="LastUsed">
+                                                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Last
+                                                        used </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.LastUsed}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Status">
+                                                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.StatusName}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="Remarks">
+                                                    <th mat-header-cell *matHeaderCellDef> Remarks </th>
+                                                    <td class="hidden-text" matTooltip="{{element.Remarks}}" mat-cell
+                                                        *matCellDef="let element"> {{element.Remarks}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="RequestedDate">
+                                                    <th mat-header-cell *matHeaderCellDef> Requested Date </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.SubmittedDate |
+                                                        date:"MM/dd/yyyy"}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="ApprovedDate">
+                                                    <th mat-header-cell *matHeaderCellDef> Approved Date </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.ApprovedDate |
+                                                        date:"MM/dd/yyyy"}} </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="_historyDisplayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: _historyDisplayedColumns;">
+                                                </tr>
+                                            </table>
+
+                                        </mat-card>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                                [class.example-expanded-row]="expandedElement === element"
+                                (click)="onRowClick(element)">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row justify-content-center">
+                        <mat-paginator #primaryPaginator="matPaginator"
+                            [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+        <mat-tab label="Secondary Skills">
+            <mat-card mb='2'>
+                <mat-card-content class="row justify-content-center">
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSourceSecondary" matSort multiTemplateDataRows>
+                            <ng-container matColumnDef="SkillCode">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.SkillCode}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Version">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Version
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.Version}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Proficiency">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                                    Proficiency </th>
+                                <td mat-cell *matCellDef="let element"> {{element.ProficiencyLevelCode}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Experience">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                                    Experience(In Years) </th>
+                                <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="LastUsed">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Last
+                                    used </th>
+                                <td mat-cell *matCellDef="let element"> {{element.LastUsed}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Status">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.StatusName}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Action">
+                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button *ngIf="!checkStatus(element)" mat-button mat-icon-button>
+                                        <mat-icon [hidden]="checkStatus(element)" (click)="editSkill(element)"
+                                            style="cursor: pointer;">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="checkStatus(element)" [disabled]="checkStatus(element)" mat-button
+                                        mat-icon-button>
+                                        <mat-icon style="cursor: pointer;">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="element.StatusName == 'Created' && element.IsAlreadyExist==false" mat-button mat-icon-button>
+                                        <mat-icon style="cursor: pointer;"
+                                            (click)="deleteSkill(element)">delete</mat-icon>
+                                    </button>
+
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="expandedDetail">
+                                <td mat-cell *matCellDef="let element" [attr.colspan]="_historyDisplayedColumns.length">
+                                    <div class="example-element-detail"
+                                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                                        <mat-card style="width: 100%;">
+                                            <table [dataSource]="_skillHistoryDS" mat-table class="mat-elevation-z8">
+
+                                                <ng-container matColumnDef="SubmittedRating">
+                                                    <th mat-header-cell *matHeaderCellDef> Submitted Rating </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        {{element.SubmittedRatingName}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="RMRating">
+                                                    <th mat-header-cell *matHeaderCellDef> RM Rating </th>
+                                                    <td mat-cell *matCellDef="let element">
+                                                        {{element.ReportingManagerRatingName}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Experience">
+                                                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                                                        Experience(In months) </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="LastUsed">
+                                                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Last
+                                                        used </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.LastUsed}} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Status">
+                                                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.StatusName}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="Remarks">
+                                                    <th mat-header-cell *matHeaderCellDef> Remarks </th>
+                                                    <td class="hidden-text" matTooltip="{{element.Remarks}}" mat-cell
+                                                        *matCellDef="let element"> {{element.Remarks}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="RequestedDate">
+                                                    <th mat-header-cell *matHeaderCellDef> Requested Date </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.SubmittedDate |
+                                                        date:"MM/dd/yyyy"}} </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="ApprovedDate">
+                                                    <th mat-header-cell *matHeaderCellDef> Approved Date </th>
+                                                    <td mat-cell *matCellDef="let element"> {{element.ApprovedDate |
+                                                        date:"MM/dd/yyyy"}} </td>
+                                                </ng-container>
+
+                                                <tr mat-header-row *matHeaderRowDef="_historyDisplayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: _historyDisplayedColumns;">
+                                                </tr>
+                                            </table>
+
+                                        </mat-card>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                                [class.example-expanded-row]="expandedElement === element"
+                                (click)="onRowClick(element)">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row justify-content-center">
+                        <mat-paginator #secondaryPaginator="matPaginator"
+                            [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+    </mat-tab-group>
+
+</div>

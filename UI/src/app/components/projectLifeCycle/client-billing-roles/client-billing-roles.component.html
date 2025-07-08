@@ -1,0 +1,258 @@
+<div class="panel-body">
+  <div class="container-fluid">
+    <form class="form-horizontal" [formGroup]="clientBillingRolesForm">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label>Project</label>
+              <div class="ui-fluid">
+                <p-dropdown formControlName="ProjectId" [options]="projectsList" [autoWidth]="false" [filter]="true" (onChange)="getClientBillingRolesByProjectId(clientBillingRolesForm.value.ProjectId);billingRoles.reset()"
+                  [style]="{'width':'70%'}" [disabled]="disableProject">
+                </p-dropdown>
+              </div>
+              <div *ngIf="formSubmitted && clientBillingRolesForm.get('ProjectId').hasError('required') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Project is required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Role Name</label>
+              <span class="delCls">*</span>
+              <div class="ui-fluid">
+                <input formControlName="ClientBillingRoleName" maxlength="60" name="ClientBillingRoleName" required type="text"
+                  [maxlength]="60" style="width:70%;"  pInputText>
+              </div>
+              <div *ngIf="formSubmitted && clientBillingRolesForm.get('ClientBillingRoleName').hasError('required') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Required Field.</span>
+              </div>
+              <div *ngIf="clientBillingRolesForm.get('ClientBillingRoleName').hasError('pattern') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Only characters are allowed.</span>
+              </div>
+              <div *ngIf="formSubmitted && clientBillingRolesForm.get('ClientBillingRoleName').hasError('maxlength') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Only 50 characters allowed.</span>
+              </div>
+              <div *ngIf="clientBillingRolesForm.get('ClientBillingRoleName').hasError('unAllowed') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Invalid Role Name.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Number of Positions</label>
+              <span class="delCls">*</span>
+              <div class="ui-fluid">
+                <p-spinner formControlName="NoOfPositions"  (keypress)="onlyNumbers($event)" name="NoOfPositions" [maxlength]="2" 
+                  [formatInput]='true' [size]="2" [min]="1" [max]="99"></p-spinner>
+              </div>
+              <div *ngIf="formSubmitted && clientBillingRolesForm.get('NoOfPositions').hasError('required') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Client Billing % </label>
+              <span class="delCls">*</span>
+              <div class="ui-fluid">
+                <p-dropdown [options]="clientBillingRoleOptions" [style]="{'width':'70%'}" formControlName="ClientBillingPercentage" maxlength="3">
+                </p-dropdown>
+              </div>
+              <div *ngIf="formSubmitted && clientBillingRolesForm.get('ClientBillingPercentage').hasError('required') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Billing Start Date</label>
+              <span class="delCls">*</span>
+              <div class="ui-fluid">
+                <p-calendar name="StartDate"  formControlName="StartDate" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true"
+                  [showIcon]="true" [style]="{'width':'70%'}"></p-calendar>
+              </div>
+              <div *ngIf="formSubmitted && clientBillingRolesForm.get('StartDate').hasError('required') ">
+                <i class="fa fa-exclamation-circle delCls"></i>
+                <span class="delCls">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Billing End Date</label>
+              <div class="ui-fluid">
+                <p-calendar name="EndDate" formControlName="EndDate" [showIcon]="true" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true"
+                  [style]="{'width':'70%'}"></p-calendar>                 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <br>
+    <div class="col-lg-12">
+      <section class="pull-right buttons">
+        <button type="submit" class="btn btn-custom" *ngIf='saveRoleData' (click)="addClientBillingRole()">
+          <i class="fa fa-plus"></i>&nbsp;Add</button> &nbsp;
+        <button type="submit" class="btn btn-custom" *ngIf='!saveRoleData' (click)="updateClientBillingRole()">
+          <i class="fa fa-floppy-o"></i>&nbsp;Update</button> &nbsp;
+        <button type="button" class="btn btn-default" (click)="OpenConfirmationDialog()">
+          <i class="fa fa-eraser"></i>{{ cancelBtnLabel }}</button>
+      </section>
+    </div>
+  </div>
+  <br>
+
+  <div class="tables">
+    <div class="col-lg-12">
+      <div style="text-align: right">
+        <input type="text" pInputText size="50" style="width: 20%" placeholder="Search"
+          (input)="billingRoles.filterGlobal($event.target.value, 'contains')" class="inputCls" />
+      </div>
+      <p-table #billingRoles [columns]="cols" [value]="clientBillingRoleData" [paginator]="true" [rows]="10"
+        [resizableColumns]="true" [reorderableColumns]="true" [style]="{'margin-left':'1%', 'margin-right':'6%'}"
+        selectionMode="single" [(selection)]="selectedBillingRole" stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <!-- <th [colSpan]="canCloseRole() == true ? 4 : 3" class="text-center">Action</th> -->
+            <th [colSpan]="2" *ngIf="canEditOrDelete()" class="text-center">Action</th>
+            <th *ngIf="canCloseRole()" class="text-center"> Close Role </th>
+            <th class="text-center"> Clone </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="cols">
+          <tr>
+            <ng-container *ngFor="let col of cols; let i = index" [pSelectableRow]="rowData[col]">
+              <td *ngIf="i != 2">
+                {{ rowData[col.field] }}
+              </td>
+              <!-- If there are any allocated positions against the Client Billing Role, display as a link, else display as a text  -->
+              <td *ngIf="i == 2 && rowData[col.field] > 0" style="cursor:pointer;" class="text-left">
+                <a style="color: #169af1;" (click)="getResourceReportByProjectId(rowData.ProjectId, rowData.ClientBillingRoleId)"> {{ rowData[col.field] }} </a>
+              </td>
+              <td *ngIf="i == 2 && rowData[col.field] <= 0">
+                {{ rowData[col.field] }}
+              </td>
+            </ng-container>
+            <td *ngIf=" canEditOrDelete()" class="editBtn" class="text-center">
+              <a [ngStyle]="disableEditAndDelete(rowData)" (click)="editBillingRole(rowData)">
+                <i title="edit" class="fa fa-pencil-square-o fa-lg editCls"></i>
+                <!-- <i title = "edit" class="fa fa-pencil-square-o fa-lg editCls" (click)="editBillingRole(rowData)"></i> -->
+              </a>
+            </td>
+            <td class="text-center" *ngIf=" canEditOrDelete()">
+              <a [ngStyle]="disableEditAndDelete(rowData)" (click)="deleteDialog(rowData)">
+                <i title="delete"  class="fa fa-trash delCls"></i>
+              </a>
+            </td>
+            <td *ngIf="canCloseRole()" class="text-center">
+              <b class="delCls" *ngIf="canShowActions(rowData) == false">Closed </b>
+              <a  *ngIf="canShowActions(rowData)" (click)="closeCBRData(rowData)">
+                <i title="Close role" class="close-icon fa fa-times" aria-hidden="true"></i> </a>
+            </td>
+            <td class="text-center">
+              <a title="clone" (click)="CloneData(rowData)"> <i class="fa fa-clone"></i></a>
+            </td>  
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <br>
+  <!-- <div class="col-lg-12">
+    <section class="pull-right butt">
+      <button type="submits" class="btn btn-custom" (click)="CompleteProjectCreation()">
+        {{ submitBtnLabel }} </button> &nbsp;
+      <button type="button" *ngIf="isDrafted" class="btn btn-default" (click)="RollbackDialog()">
+        <i class="fa fa-eraser"></i>Cancel</button> &nbsp;
+    </section>
+  </div> -->
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-confirmDialog header="Confirmation"  appendTo="body"  icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  <p-dialog header="Client Billing Roles" [(visible)]="displayDialog" appendTo="body" [modal]="true" [style]="{width: '350px', minWidth: '200px'}"
+    [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <span>Update SOW details, if available.</span>
+    <p-footer>
+      <button type="button" class="btn btn-custom" (click)="isSowPresent()">Ok</button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Close Roles" [(visible)]="displayCloseRoleErrorDialog" appendTo="body" [modal]="true" [style]="{width: '350px', minWidth: '200px'}"
+    [minY]="70" [baseZIndex]="10000">
+    <span>This Role has active allocation(s). First Release associate(s)</span>
+    <p-footer>
+      <button type="button" class="btn btn-custom" (click)="closeDialog()">Ok</button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog [(visible)]="displayCloseCBRDialog" width=600 height=450 [closable]="false" appendTo="body" [modal]="true" header="Close client billing record">
+    <div style="height:450px;">
+      <form [formGroup]="closeRoleData">
+        <div class="row">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <div class="box">
+                <label class="labels">Billing End Date</label>
+                <span class="delCls">* </span>
+                
+                <p-calendar  name = "BillingEndDate" formControlName="BillingEndDate" [showIcon]="true" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true"
+                  [style]="{'width':'70%'}" [minDate]="minDate" [maxDate] = "maxDate" ></p-calendar>
+                  <br><span> Note : Only one month back date is allowed</span>
+                <div *ngIf="closeRoleData.get('BillingEndDate').hasError('required') && submitted" style="color: red">End Date is Required</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <section class="pull-right buttons">
+              <button type="button" class="btn btn-custom" (click)="closeClientBillingRecord()">
+                <i class="fa fa-floppy-o"></i>&nbsp;Save</button> &nbsp;
+              <button type="button" class="btn btn-default" (click)="clearData()">
+                <i class="fa fa-eraser"></i>&nbsp; Cancel</button>
+            </section>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+
+<p-dialog [(visible)]="showAllocatedPositionsList" appendTo="body" header="Allocated Resources" height="350" width="900"
+  responsive="true" modal=true showHeader=true closeOnEscape=true closable=true>
+  <p-table #allocation [value]="billableResourceAllocationList" [resizableColumns]="true" columnResizeMode="expand"
+    [reorderableColumns]="true" [scrollable]="true" scrollHeight="250px">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of cols1" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+          {{ col.header }}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td *ngFor="let col of cols1">
+          {{ col.type ? col.type.transform(rowData[col.field]) : rowData[col.field]}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div *ngIf="!billableResourceAllocationList || billableResourceAllocationList.length==0" style="text-align: center">
+    <br>
+    No Data found
+  </div>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}" position="top-center" key="stickyToaster"></p-toast>

@@ -1,0 +1,407 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav position="end">
+    <form [formGroup]="commentForm">
+    <mat-card class="no-shadow">
+    <h4 class="commentTitle">Comments <span class="pull-right" ><span class="filter">All  <img src="../../../../assets/images/downarrow.svg" ></span><img src="../../../../assets/images/settings.svg"/>       <button (click)="sidenav.toggle()" mat-icon-button  aria-label="Example icon button with a home icon">
+       <mat-icon>close</mat-icon>
+     </button> </span></h4>
+  </mat-card>
+  
+  <mat-card class="no-shadow commentCard"> 
+  <!-- <h6 class="commentTitle">Today</h6> -->
+  <div class="commentMxH">
+  
+  <!-- <div class="commentDiv"> -->
+  <!-- <p class="cmntHeading"><img src="../../../../assets/images/hrms/icons/commentsmall.svg"/> 2</p>
+  <p class="cmntHeading">Upadhyay, Deshpande 1 hours ago</p> -->
+  <!-- <p  class="cmntDesc"><b>{{commentText}}</b></p> -->
+  
+  <!-- <p class="cmntHeading">7 reply</p> -->
+  
+  <!-- <div class="commentDiv">
+  <p class="cmntHeading"><img src="../../../../assets/images/hrms/icons/commentsmall.svg"/> 2</p>
+  <p class="cmntHeading">Upadhyay, Deshpande 1 hours ago</p>
+  <p  class="cmntDesc"><b>Please have a look at this particular KRA, I feel we could add another one</b></p>
+  <p class="cmntHeading">7 reply</p>
+  </div> -->
+  <div>
+  <mat-label class="cmntDesc">{{commentText}}</mat-label>
+  </div>
+  </div>
+  
+  <div class="row">
+  <div class="col-md-11">
+    <mat-form-field appearance="legacy">
+       <mat-label>Type a new comment</mat-label>
+       <input matInput formControlName="comment">
+     </mat-form-field>
+  </div>
+  <div class="col-md-1">
+    <button  color="primary" (click)="saveComment()" mat-icon-button aria-label="Example icon button with a home icon">
+       <mat-icon>send</mat-icon>
+     </button> 
+  </div>
+  </div>
+  
+  </mat-card>
+  </form>
+  </mat-sidenav>
+  
+  <mat-card class="mb-2">
+    <mat-card-content>
+      <form [formGroup]="reviewKRAForm">
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field appearance="{{themeappeareance}}">
+              <mat-label>Financial Year</mat-label>
+              <mat-select placeholder="Select Financial Year" formControlName="financialYearId" (selectionChange)=onchange($event) required>
+                <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                  {{fin.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="{{themeappeareance}}">
+              <mat-label>Select Department {{selectedParameters.DepartmentName}}</mat-label>
+              <mat-select placeholder="Select Department" formControlName="departmentId" (selectionChange)=ondepartmentchange($event) required>
+                <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                  {{dept.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-md-2">
+            <mat-form-field appearance="{{themeappeareance}}">
+              <mat-label>Select Grade {{selectedParameters.GradeName}} </mat-label>
+              <mat-select placeholder="Select Grade" formControlName="gradeId" (selectionChange)=getApplicableGradeRoleTypesByGrade() required>
+                <mat-option *ngFor="let grade of gradeList" [value]="grade.value">
+                  {{grade.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+          <!-- <div class="col-md-5"> -->
+            <!-- <div class="row"> -->
+              <div class="col-md-4 p-0 mt-0">
+                <mat-form-field appearance="{{themeappeareance}}">
+                  <mat-label>Select Role Type {{selectedParameters.RoleTypeName}}</mat-label>
+                  <mat-select placeholder="Select Role Type" formControlName="roleTypeId" (selectionChange)="onRoleTypeChange()" required>
+                    <mat-option *ngFor="let role of roleTypeList" [value]="role.value">
+                      {{role.label}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <p *ngIf="gradeNames"><b>Applicable Grades :</b>&nbsp;{{gradeNames}}</p>
+              </div>
+              <div class="col-md-2">
+                <!-- <div class="text-right mt-1"> -->
+                  <button *ngIf="addNewKRA&&isHODLoggedIn" (click)="openAddKRA('add')" mat-button color="primary">+ ADD
+                       KRA</button>
+                  <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">                 
+                    </button>
+                <!-- </div> -->
+              </div>
+            <!-- </div> -->
+          <!-- </div> -->
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card matSort>
+    <mat-card-content>
+      <div class="table-responsive" *ngIf="!approvedByHOD && !acceptedbyCEO">
+        <table mat-table [dataSource]="dataSource" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"
+          matSort>
+          <ng-container matColumnDef="kraaspect">
+            <th class="w25p" mat-header-cell *matHeaderCellDef>ASPECT</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="row">
+                <div *ngIf="element.isDeleted && marksAsFinish" class="col-md-2">
+                  <span class="redcircle" (mouseover)="dispDelKRA(element)">{{element.DeleteCount}}</span>
+                  <span *ngIf="deletedKRAdiv" class="undomsg">This KRA is deleted<br />
+                   <button mat-button class="redClr" (click)="ADDKRAAgain(element.DefinitionDetailsId)">ADD AGAIN</button></span>
+                </div>
+                <div *ngIf="element.isAdded && marksAsFinish" class="col-md-2">
+                  <span class="greencircle" (mouseover)="dispAddedKRA()">{{element.CreateCount}}</span>
+                  <span *ngIf="dispAddedKRADiv" class="undomsg">This KRA was added<br />
+                   <button mat-button style="cursor: pointer" class="redClr" (click)="DeleteKRA(element.DefinitionDetailsId)">Delete</button></span>
+                </div>
+                <!-- <div [ngClass]="{'greenClr': (element.DefinitionId===null&&!isHODLoggedIn),'redClr':true, 'op-50': element.isDeleted }" class="col-md-10"> {{element.AspectName}}{{element.IsActive===false&&!isHODLoggedIn}}{{element.DefinitionId===null&&!isHODLoggedIn}} <br /><i class="text-muted"><small>{{element.Date}}</small></i></div> -->
+                <div [ngClass]="element.DefinitionId===null&&!isHODLoggedIn&&element.Status==='SentToOpHead'?'greenClr':element.IsActive===false&&element.Status==='SentToOpHead'&&!isHODLoggedIn?'redClr':''" class="col-md-10"> {{element.AspectName}} <br /><i class="text-muted"><small>{{element.Date}}</small></i></div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="metrics">
+            <th mat-header-cell *matHeaderCellDef> METRICS </th>
+            <td mat-cell *matCellDef="let element">
+              <span><span [ngClass]="element.DefinitionId===null&&element.Status==='SentToOpHead'&&!isHODLoggedIn?'greenClr':element.IsActive===false&&element.Status==='SentToOpHead'&&!isHODLoggedIn?'redClr':''">{{element.Metric}}</span>
+              <span *ngIf="dispMetricDiv && element.PreviousMetric!=null && marksAsFinish">Previous metric was {{element.OldMetric}} <br /><button mat-button                                          
+                                            (click)="SetPreviousMetricValues(element.DefinitionDetailsId)"  class="blueClr">USE THIS</button></span>
+              <span *ngIf="element.PreviousMetric!=null && marksAsFinish && element.ModifiedMetricCount>0" (mouseover)="dispMetric()" class="orangecircle">{{element.ModifiedMetricCount}}</span><br
+              />
+              <span class="text-muted"><small></small></span>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ration">
+            <th mat-header-cell *matHeaderCellDef> TARGET </th>
+            <td mat-cell *matCellDef="let element">
+              <span [ngClass]="element.DefinitionId===null&&element.Status==='SentToOpHead'&&!isHODLoggedIn?'greenClr':element.IsActive===false&&element.Status==='SentToOpHead'&&!isHODLoggedIn?'redClr':''">{{element.Target}}</span>
+               <!-- <span *ngIf="!isHODLoggedIn"  class="undomsg">
+                 <span *ngIf="element.OldMetric&&element.Metric!==element.OldMetric">Previous metric was {{element.OldMetric}} </span><br />
+                <span *ngIf="element.OldTargetValue&&element.OldTargetValue!==element.TargetValue">Previous target value was {{element.OldTargetValue}} </span><br />
+                <span *ngIf="element.OldMeasurementType&&element.OldMeasurementType!==element.MeasurementType">Previous target value was {{element.OldMeasurementType}} </span><br />
+                <span *ngIf="element.OldOperatorValue&&element.OldOperatorValue!==element.OperatorId">Previous operator value was {{element.OldTarget.split(' ')[0]}} </span><br />
+                <span *ngIf="element.OldTargetPeriod&&element.OldTargetPeriod!==element.TargetPeriodId">Previous target period value was {{element.OldTarget.split(' ').length>3?element.OldTarget.split(' ')[2]+''+element.OldTarget.split(' ')[3]:element.OldTarget.split(' ')[2]}} </span><br />
+                <button mat-button (click)="SetPreviousTargetValues(element)"  class="blueClr">Accept</button>
+                <button mat-button (click)="UnSetPreviousTargetValues(element)"  class="blueClr">Reject</button>
+              </span> -->
+              <!-- <span (mouseover)="dispTarget()" class="orangecircle">{{element.ModifiedTargetCount}}</span><br
+              />
+              <span class="text-muted"><small></small></span>
+              </span>
+              <span *ngIf="!marksAsFinish">{{element.ration}} <br /><span class="text-muted"><small></small></span></span> -->
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Count">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="!isHODLoggedIn && element.DefinitionTransactionId>0 && element.DefinitionId!==null && element.Status==='SentToOpHead' && element.IsAccepted===null" class="orangecircle" (mouseover)="dispDelKRA(element)">{{element.OldCount}}</span>
+              <span *ngIf="element.DefinitionId===null && element.Status==='SentToOpHead' && !isHODLoggedIn&&element.IsAccepted===null" class="greencircle" (mouseover)="dispDelKRA(element)">1</span>
+              <span *ngIf="element.IsActive===false&& element.Status==='SentToOpHead' &&!isHODLoggedIn && element.IsAccepted===null" class="redcircle" (mouseover)="dispDelKRA(element)">1</span>
+              
+               <mat-list role="list" *ngIf="!isHODLoggedIn&&element.IsShowCountDetails&&element.IsAccepted===null"  class="undomsg">
+                <mat-list-item role="listitem" *ngIf="element.OldMetric&&element.Metric!==element.OldMetric">Previous metric was {{element.OldMetric}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="element.OldTargetValue&&element.OldTargetValue!==element.TargetValue">Previous target value was {{element.OldTargetValue}} </mat-list-item>
+                <mat-list-item role="listitem" *ngIf="element.OldMeasurementType&&element.OldMeasurementType!==element.MeasurementType">Previous target value was {{element.OldMeasurementType}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="element.OldOperatorValue&&element.OldOperatorValue!==element.OperatorId">Previous operator value was {{element.OldTarget.split(' ')[0]}} </mat-list-item>
+                <mat-list-item role="listitem" *ngIf="element.OldTargetPeriod&&element.OldTargetPeriod!==element.TargetPeriodId">Previous target period value was {{element.OldTarget.split(' ').length>3?element.OldTarget.split(' ')[2]+''+element.OldTarget.split(' ')[3]:element.OldTarget.split(' ')[2]}}</mat-list-item>
+                <mat-list-item role="listitem" *ngIf="element.DefinitionId===null && element.Status==='SentToOpHead'">Newly added KRA by HOD </mat-list-item>
+                <mat-list-item role="listitem" *ngIf="element.IsActive===false && element.Status==='SentToOpHead'">Deleted KRA by HOD </mat-list-item>
+                <button mat-button (click)="SetPreviousTargetValues(element)"  class="blueClr">Accept</button>
+                <button mat-button (click)="UnSetPreviousTargetValues(element)"  class="blueClr">Reject</button>
+               </mat-list>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Edit">
+            <th mat-header-cell *matHeaderCellDef> Edit </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- <mat-icon *ngIf="editKRA" (click)="openAddKRA(element.DefinitionDetailsId)">edit</mat-icon> -->
+              <mat-icon style="cursor: pointer" (click)="openAddKRA(element)">edit</mat-icon>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Delete </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- <mat-icon style="cursor: pointer;" class="delete" *ngIf="editKRA" (click)="onDeleteKRA(element.DefinitionDetailsId)">delete</mat-icon> -->
+              <mat-icon style="cursor: pointer" (click)="onDeleteKRA(element)">delete</mat-icon>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row [ngClass]="{'hideRow' : (!row.IsShowItem||row.IsAccepted===false)&&!isHODLoggedIn}" *matRowDef="let row; columns: displayedColumns;">
+          </tr>
+        </table>
+        <!-- <div class="row justify-content-center">
+          <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+        </div> -->
+        <div>
+          <div *ngIf="!marksAsFinish && length > 0&&isHODLoggedIn" >
+              <div class="mt-2">
+                <button mat-flat-button color="primary" (click)="ApproveKRA()">ACCEPT</button>
+              </div>
+          </div>
+  
+          <div *ngIf="marksAsFinish && length > 0" class="row mt-5 mb-5">
+            <div class="mt-2">
+              <button (click)="markAsFinish()" mat-flat-button color="primary">MARK AS FINISHED</button>
+              <span class="op-50">&nbsp; &nbsp; &nbsp; or &nbsp;</span>
+              <button (click)="ApproveKRA()" mat-button color="primary">ACCEPT ORIGINAL KRA'S</button>
+            </div>
+          </div>
+          <div *ngIf="markedAsFinish" class="row mt-5 mb-5">
+            <div class="col-md-10 text-center">
+              <div class="row">
+                <div class="col-md-4 border-right">
+                  <div class="mt-2 circleCheckbox  mn-h54">
+                    <mat-checkbox [checked]='true' color="primary" class="lightradiosCheckbBtns"></mat-checkbox>
+                    <p class="checkboxlabel">Marked as finished</p>
+                  </div>
+                </div>
+                <div class="col-md-4 border-right">
+                  <div class="mt-2 mn-h54">
+                    <img src="../../../../../assets/icons/clock.svg">
+                    <p class="checkboxlabel">Awaiting to be sent to Head HR for acceptance</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mt-4 circleCheckbox">
+                    <button mat-button color="primary" (click)="ContinueEditing()">CONTINUE EDITING</button>
+                    <span class="op-100">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;</span>
+                    <button mat-icon-button aria-label="Comment">
+                            <img class="iconimg" [routerLink]="['/kra/commentmode']" src="../../../../../assets/icons/comment.svg" alt="Comment">
+                            </button>
+                  </div>
+                </div>
+                <!--<div class="col-md-4">
+                    <div>
+                    
+                    </div>
+                  </div>-->
+              </div>
+            </div>
+            <!--<div class="col-md-3 text-right op-50">
+              <button mat-icon-button aria-label="Comment">
+             <img class="iconimg" [routerLink]="['/kra/commentmode']" src="../../../../../assets/icons/comment.svg" alt="Comment">
+            </button>
+            </div>-->
+          </div>
+        </div>
+      </div>
+      <!--AcceptedByHOD Start-->
+      <div class="row" *ngIf="approvedByHOD">
+        <div class="col-md-12">
+          <table class="approvedByHOD" mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="kraaspect">
+              <th class="w25p" mat-header-cell *matHeaderCellDef>ASPECT</th>
+              <td mat-cell *matCellDef="let element"> <b>{{element.AspectName}}</b></td>
+            </ng-container>
+            <ng-container matColumnDef="metrics">
+              <th mat-header-cell *matHeaderCellDef> METRICS </th>
+              <td mat-cell *matCellDef="let element"> {{element.Metric}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ration">
+              <th class="w20p" mat-header-cell *matHeaderCellDef> TARGET </th>
+              <td mat-cell *matCellDef="let element"> {{element.Target}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Count">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element">
+                <span class="redcircle" (mouseover)="dispDelKRA(element)">5</span>
+              </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="Edit">
+              <th mat-header-cell *matHeaderCellDef>
+                Edit
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon style="cursor: pointer" *ngIf="editKRA">Edit</mat-icon>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Delete">
+              <th mat-header-cell *matHeaderCellDef>
+                Delete
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon style="cursor: pointer" *ngIf="editKRA">Delete</mat-icon>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row [ngClass]="{'hideRow' : (!row.IsShowItem||row.IsAccepted===false)&&!isHODLoggedIn}" *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div class="mt-100 mb-5">
+            <div class="row mt-5 mb-5" *ngIf="!acceptedbyCEO && length > 0">
+              <div class="col-md-6 text-center">
+                <div class="row">
+                  <div class="col-md-4 border-right">
+                    <div class="mt-2 circleCheckbox  mn-h54">
+                      <mat-checkbox [checked]='true' color="primary" class="lightradiosCheckbBtns"></mat-checkbox>
+                      <p class="checkboxlabel">Accepted KRA's</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 border-right">
+                    <div class="mt-2 mn-h54">
+                      <img src="../../../../../assets/icons/clock.svg">
+                      <p class="checkboxlabel">Awaiting to be sent to Head of HR</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="mt-4 circleCheckbox">
+                      <!-- <button mat-button color="primary" (click)="ContinueEditing()">DECLINE & EDIT</button> -->
+                      <button mat-button color="primary" (click)="sendToHR()" [disabled]="sentToHR">SEND TO OPERATION HEAD</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-3 text-right op-50">
+                <button mat-icon-button aria-label="Comment">
+                       <img class="iconimg" [routerLink]="['/kra/commentmode']" src="../../../../../assets/icons/comment.svg" alt="Comment">
+                    </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--AcceptedByHOD End-->
+  
+      <!--AcceptedByCEO Start-->
+      <!-- <div class="row" *ngIf="acceptedbyCEO">
+        <div class="col-md-12">
+          <table class="approvedKRA" mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="kraaspect">
+              <th class="w25p" mat-header-cell *matHeaderCellDef>ASPECT</th>
+              <td mat-cell *matCellDef="let element"> <b>{{element.AspectName}}</b> <br/><i class="text-muted"><small>Added on Thursday, 9 Jul 2020, 4:45 PM</small></i></td>
+            </ng-container>
+            <ng-container matColumnDef="metrics">
+              <th mat-header-cell *matHeaderCellDef> METRICS </th>
+              <td mat-cell *matCellDef="let element"> {{element.Metric}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ration">
+              <th class="w20p" mat-header-cell *matHeaderCellDef> TARGET </th>
+              <td mat-cell *matCellDef="let element"> {{element.ration}} <br/><span class="text-muted"><small>Half Yearly</small></span> </td>
+            </ng-container>
+            <ng-container matColumnDef="Count">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element">
+                <span class="redcircle" (mouseover)="dispDelKRA(element)">5</span>
+              </td>
+            </ng-container>  
+            <ng-container matColumnDef="Edit">
+              <th mat-header-cell *matHeaderCellDef>
+                Edit
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon style="cursor: pointer" *ngIf="editKRA">Edit</mat-icon>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Delete">
+              <th mat-header-cell *matHeaderCellDef>
+                Delete
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon style="cursor: pointer" *ngIf="editKRA">Delete</mat-icon>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row [ngClass]="{'hideRow' : (!row.IsShowItem||row.IsAccepted===false)&&!isHODLoggedIn}" *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+          </table>
+        </div>
+      </div> -->
+      <!-- <div class="col-md-10 text-center" *ngIf="acceptedbyCEO">   
+          <div class="mt-2 mn-h54">
+            <img src="../../../../../assets/icons/clock.svg">
+            <p class="checkboxlabel">Above KRA are freezed</p>
+          </div>     
+      </div> -->
+      <!--AcceptedByCEO End-->
+    </mat-card-content>
+  </mat-card>
+  </mat-sidenav-container>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="deleteKRA()">Delete</button>
+  </mat-menu>
+  <ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

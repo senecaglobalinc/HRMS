@@ -1,0 +1,113 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+
+    <form [formGroup]="KRAStatusForm">
+      <div class="row">
+        <div class="col-md-2">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Financial Year</mat-label>
+            <mat-select placeholder="Select Financial Year" formControlName="Id" (selectionChange)=onchange() required>
+              <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                {{fin.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-7 p-0 mt-0">
+          <div class="text-right mt-1">
+            <button *ngIf="showSendToCEO" (click)="SendtoCEO()" mat-flat-button color="primary">Send to CEO</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+  <mat-card matSort>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSource" cdkDropList cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)" matSort>
+        <ng-container matColumnDef="departmentname">
+          <th class="w25p" mat-header-cell *matHeaderCellDef>Department Name </th>
+          <td mat-cell *matCellDef="let element"> <b>{{element.DepartmentName}}</b> </td>
+        </ng-container>    
+        <ng-container matColumnDef="noofroletypes">
+               <th class="w30p" mat-header-cell *matHeaderCellDef> NO OF ROLE TYPES <br/><span class="versmallfont"><span class="text-muted">TOTAL |</span> <span class="text-success">ACCEPTED |</span> <span class="text-info">MODIFIED |</span> <span class="text-danger">FOR REVIEW</span></span></th>
+               <td  mat-cell *matCellDef="let element">
+                    <p class="wspan"><span>{{element.TotalRoleTypeCount}}</span> 
+                        <span>
+                        {{element.AcceptedRoleTypesCount}}
+                        <!-- <img class="pull-right" 
+                        src="../../../../../assets/icons/arrow.svg"  alt="comment" /> -->
+                      </span> 
+                      <span>
+                        {{element.EditedRoleTypesCount}}
+                      </span>
+                        <span>{{element.UnderReviewRoleTypesCount}}
+                        </span> 
+                       
+            </p>  </td>
+            </ng-container>
+        <ng-container matColumnDef="status">
+          <th class="w20p" mat-header-cell *matHeaderCellDef> STATUS </th>
+          <td mat-cell *matCellDef="let element"> {{element.Status}} <br/>
+          <!-- <span *ngIf="element.Status =='Completed'" class="text-success"></span> -->
+          <p *ngIf="element.Status ==null">
+            <mat-icon>message</mat-icon>
+          </p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th class="w20p" mat-header-cell *matHeaderCellDef> ACTION </th>
+          <td mat-cell *matCellDef="let element">
+
+            <!--HR Statuses START-->
+            <!-- <button *ngIf="element.Status =='Drafting in-progress'" class="broadbtns orangedisabled" disabled="true" mat-flat-button
+              color="primary">{{element.Action}}</button>
+            <button *ngIf="element.Status =='Awaiting to be send to HOD for acceptance'" class="broadbtns" (click)="SendToHOD(element)"
+              mat-flat-button color="primary">{{element.Action}}</button>
+            <button *ngIf="element.Status =='Feedback received from HOD'" class="broadbtns reddisabled" mat-flat-button color="primary">{{element.Action}}</button>
+            <span *ngIf="element.Status =='Sent for acceptance to HOD, awaiting feedback'" class="text-success">{{element.Action}}</span>
+            <span *ngIf="element.Status =='Sent to CEO'" class="text-success">{{element.Action}}</span>
+            <button *ngIf="element.Status =='KRAs modifed by HOD'" class="reddisabled" (click)="StartHRReview(element)" mat-flat-button
+              color="primary">{{element.Action}}</button>
+            <span *ngIf="element.Status =='Accepted by HOD'" class="text-success">Ready to be sent to CEO</span>
+            <span *ngIf="element.Status =='Completed'" class="text-success"></span> -->
+            <button mat-flat-button [disabled]="(element.TotalRoleTypeCount === 0) ||((element.TotalRoleTypeCount-element.KRARoleTypesNotDefinedCount) - element.EditedRoleTypesCount-element.UnderReviewRoleTypesCount-element.AcceptedRoleTypesCount) <= 0"
+            color="primary" (click)="sendToHod(element)">Send to HOD</button>
+
+            <!--HR Statuses END-->
+
+            <!--HOD Statuses START-->
+
+            <!-- <button *ngIf="element.Status =='KRAs Received from Head HR'" class="reddisabled" (click)="StartHODReview(element)" mat-flat-button
+              color="primary">{{element.Action}}</button>
+            <button *ngIf="element.Status =='Review is in progress'" disabled="true" class="reddisabled" mat-flat-button color="primary">{{element.Action}}</button> -->
+            <!-- <button *ngIf="element.Status =='Ready to be send to HR'" class="broadbtns" (click)="SendToHR(element)" mat-flat-button color="primary">{{element.Action}}</button> -->
+            <!-- <span *ngIf="element.Status =='KRAs Sent to HR'" class="text-success">{{element.Action}}</span>
+            <span *ngIf="element.Status =='KRAs accepted by HOD'" class="text-success">{{element.Action}}</span> -->
+
+            <!--HOD Statuses END-->
+
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+ 
+
+
+
+ 

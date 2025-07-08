@@ -1,0 +1,171 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 *ngIf="!editDisable" class="panel-title text-middle text-bold">
+            Add Functional Role
+        </h4>
+        <h4 *ngIf="editDisable" class="panel-title text-middle text-bold">
+            Update Functional Role
+        </h4>
+        <a style="margin-top: -20px;" class="pull-right" (click)="backToRoleList()">
+            <i class="fa fa-arrow-circle-left fa-2x" title="Back" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="panel-body roleContainer">
+        <form [formGroup] = "addRole" > 
+            <div class="form-group row" [hidden]="editDisable">
+                <div class="col-lg-1" style="width:9%">
+                    <label  class="label">Department
+                        <span style="color: red">*</span>
+                    </label>
+                </div>
+                <div class="col-lg-4 ui-fluid">
+                    <p-dropdown styleClass="roleDropdown" [style]="{ width: '100%' }" name="DepartmentId" formControlName="DepartmentId" 
+                    [options]="departmentList" [disabled] = "disableDepartment"
+                        filter="true" (onChange)="getKRAGroupList($event)" placeholder="Select a Department"></p-dropdown>
+                        <span *ngIf="addRole.get('DepartmentId').hasError('required') && formSubmitted"
+                                  style="color: red">Select Department</span>
+                    <!-- (onChange)="getKRAList(roleMasterdata.DepartmentId)" -->
+                </div>
+
+                <div class="col-lg-1">
+                    <label for="PrefixID" class="label">Seniority</label>
+                </div>
+                <div class="col-lg-4 ui-fluid">
+                    <p-dropdown styleClass="roleDropdown" [style]="{ width: '100%' }" name="PrefixID" formControlName="PrefixID" [options]="prefixList"
+                        filter="true" placeholder="Select seniority"></p-dropdown>
+                </div>
+            </div>
+            <div class="form-group row" [hidden]="editDisable">
+                    <div class="col-lg-1">
+                            <label for="SuffixID" class="label">Speciality</label>
+                        </div>
+                        <div class="col-lg-4 ui-fluid">
+                            <p-dropdown styleClass="roleDropdown" [style]="{ width: '100%' }" name="SuffixID" formControlName="SuffixID" [options]="suffixList"
+                                filter="true" placeholder="Select speciality"></p-dropdown>
+                        </div>
+                <div class="col-lg-1" style="width:9%">
+                    <label for="SGRoleID" class="label">Key Function
+                        <span style="color: red">*</span>
+                    </label>
+                </div>
+                <div class="col-lg-4 ui-fluid">
+                    <p-dropdown styleClass="roleDropdown" [style]="{ width: '100%' }" name="SGRoleID" formControlName="SGRoleID" [options]="roleList" filter="true" placeholder="Select a Role"></p-dropdown>
+                    <span *ngIf="addRole.get('SGRoleID').hasError('required') && formSubmitted"
+                                  style="color: red">Select Key Function</span>
+                </div>
+            </div>
+            <!-- <div class="form-group row" [hidden]="editDisable">
+                <div class="col-lg-1" style="width:9%">
+                    <label for="KRA" class="label"> KRA </label>
+                </div>
+                <div class="col-lg-4 ui-fluid">
+                    <p-dropdown styleClass="roleDropdown" [style]="{ width: '100%' }" name="KRARole" formControlName="KRAGroupID" [options]="kraList"
+                        filter="true" placeholder="Select a KRA"></p-dropdown>
+                </div>
+            </div> -->
+            <div class="form-group row" [hidden]="!editDisable">
+                <div class="col-lg-1">
+                    <label for="DepartmentCode" class="label">Department</label>
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" name="DepartmentCode" formControlName="DepartmentCode" pInputText style="width:100%;background:#eee" disabled="true"
+                    />
+                </div>
+                <!-- <span *ngIf="roleMasterdata.KRATitle != null">
+                    <div class="col-lg-1" style="width:9%">
+                        <label for="KRAName" class="label">KRA Name</label>
+                    </div>
+                    <div class="col-lg-3 ui-fluid">
+                        <input type="text" name="KRAName" formControlName="KRAName" pInputText style="width:100%;background:#eee" disabled="true"
+                        />
+                    </div>
+                </span>
+                <span *ngIf="roleMasterdata.KRATitle != null">
+                    <div class="col-lg-1" style="width:9%">
+                        <label for="KraRole" class="label">KRA Role</label>
+                    </div>
+                    
+                    <div class="col-lg-3 ui-fluid" >
+                        <p-dropdown styleClass="roleDropdown" [style]="{ width: '100%' }" name="KraRole" formControlName="kraRole" [options]="kraList"
+                            filter="true" placeholder="Select a KRA"></p-dropdown>
+                    </div>
+                </span> -->
+                <div class="form-group row">
+                    <div class="col-lg-1" style="width:6%">
+                        <label for="RoleName" class="label">Role</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="text" name="RoleName" formControlName="RoleName" pInputText style="width:100%;background:#eee" disabled="true"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-2">
+                    <label class="label" for="RoleDescription">Role Description</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-11">
+                    <textarea rows="4" style="width:100%" name="RoleDescription" formControlName="RoleDescription" maxlength="4000"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label class="label" for="EducationQualification">Education Qualification & Certification</label>
+                </div>
+                <div class="col-lg-6">
+                    <label>Key Responsibilities</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <p-editor [style]="{ height: '120px' }" name="EducationQualification" formControlName="EducationQualification" contenteditable="true"
+                        maxlength="500">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered" aria-label="Ordered List"></button>
+                                <button class="ql-list" value="bullet" aria-label="Unordered List"></button>
+                            </span>
+                        </p-header>
+                    </p-editor>
+                </div>
+                <div class="col-lg-6">
+                    <p-editor [style]="{ height: '120px' }" name="KeyResponsibilities" formControlName="KeyResponsibilities" contenteditable="true"
+                        maxlength="500">
+                        <p-header>
+                            <span class="ql-formats">
+                                <button class="ql-bold" aria-label="Bold"></button>
+                                <button class="ql-italic" aria-label="Italic"></button>
+                                <button class="ql-underline" aria-label="Underline"></button>
+                                <button class="ql-list" value="ordered" aria-label="Ordered List"></button>
+                                <button class="ql-list" value="bullet" aria-label="Unordered List"></button>
+                            </span>
+                        </p-header>
+                    </p-editor>
+                </div>
+            </div>
+            <div class="action-btn-group">
+                <div>
+                    <div style="float: right">
+                        <button *ngIf="!editDisable" type="submit" (click) = "onAddRole()" class="btn btn-primary">
+                            <i class="fa fa-floppy-o"></i>&nbsp;Save
+                        </button>
+                        &nbsp;&nbsp;
+                        <button *ngIf="editDisable" type="submit" (click) = "onAddRole()" class="btn btn-primary">
+                            <i class="fa fa-floppy-o"></i>&nbsp;Update
+                        </button>
+                        <button type="button" class="btn btn-default" (click)="resetForm()">
+                            <i style="color: #337ab7;" class="fa fa-eraser"></i>&nbsp;Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

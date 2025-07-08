@@ -1,0 +1,302 @@
+
+
+<mat-toolbar>
+    <span>KRA Scale
+    </span>
+  </mat-toolbar>
+
+  <div class="container mb-100"> 
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <mat-card class="mt-10">
+          <div class="row">
+            <div class="text-right">
+              <div class="mt-10 pr-15">
+              <button type="button" (click)="openAddKRAScale('add')" mat-flat-button color="primary"><mat-icon>add
+              </mat-icon>Add KRA Scale</button>
+            </div>
+            </div>
+          </div>
+          <div>
+  
+              <mat-form-field  class="margin-s" >
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <table  mat-table [dataSource]="dataSource">
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="ScaleTitle">
+                      <th mat-header-cell *matHeaderCellDef>Scale Title</th>
+                      <td mat-cell *matCellDef="let element"> {{element.ScaleTitle}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="MinimumScale">
+                        <th mat-header-cell *matHeaderCellDef>Minimum Scale</th>
+                        <td mat-cell *matCellDef="let element"> {{element.MinimumScale}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="MaximumScale">
+                        <th mat-header-cell *matHeaderCellDef>MaximumScale</th>
+                        <td mat-cell *matCellDef="let element"> {{element.MaximumScale}} </td>
+                      </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="View">
+                      <th   class="mnw-70 w-70" mat-header-cell *matHeaderCellDef>View </th>
+                      <td class="mnw-70 w-70" mat-cell *matCellDef="let element"> 
+                          <button type="button" mat-button mat-icon-button color="primary" (click)="viewDialog(element.ScaleID)">
+                              <mat-icon class="mat-18">visibility</mat-icon>
+                      </button> </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Edit">
+                        <th   class="mnw-70 w-70" mat-header-cell *matHeaderCellDef>Edit </th>
+                        <td class="mnw-70 w-70" mat-cell *matCellDef="let element"> 
+                            <button type="button" mat-icon-button color="primary" (click)="onEditKRAScaleDescription(element)">
+                                <mat-icon class="mat-18">edit</mat-icon>
+                        </button> </td>
+                      </ng-container>
+                      <ng-container matColumnDef="Delete">
+                        <th   class="mnw-70 w-70" mat-header-cell *matHeaderCellDef>Delete </th>
+                        <td class="mnw-70 w-70" mat-cell *matCellDef="let element"> 
+                            <button type="button" mat-icon-button color="primary" (click)="onDeleteKRAScale(element.ScaleID)">
+                                <mat-icon class="mat-18">delete</mat-icon>
+                        </button> </td>
+                      </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-card>
+        </div>
+      </div>
+  </div>
+<ng-template #viewScale>
+    <h1 mat-dialog-title>View KRA Scale Descriptions</h1>
+    <hr>
+    <mat-dialog-content>
+        <h5>{{dialogText}}</h5>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<ng-template #addScale>
+    <h1 mat-dialog-title>KRAScale Title</h1>
+    <hr>
+    <form [formGroup]="myForm" (ngSubmit)="saveKRAScale(myForm.value)">
+    <mat-dialog-content>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Scale Title</mat-label>
+                    <input matInput class="form-group" formControlName="ScaleTitle">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Minimum Scale</mat-label>
+                    <input matInput type="number" formControlName="MinimumScale" readonly disabled>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Maximum Scale</mat-label>
+                    <input matInput type="number" maxlength="30" (blur)="onMaximumScaleChange(myForm.value)" formControlName="MaximumScale">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngIf="descriptionHide">
+                <label>Description</label>
+                <div formArrayName="ScaleDetails" *ngFor="let ScaleDescription of myForm.controls.ScaleDetails.controls; let i=index">
+                    <div [formGroupName]="i">
+                        <div  class="col-md-4">
+                        <mat-form-field>
+                            <mat-label>{{i+1}}</mat-label>
+                            <input matInput formControlName="ScaleDescription" placeholder="Scale Description" type="text" required>
+                        </mat-form-field>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button color="primary" type="submit">{{saveButton}}</button>
+        <button mat-button color="primary" type="button" (click)="resetForm()">Clear</button>
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</form>
+</ng-template>
+
+
+
+
+<!--
+<div class="panel-heading">
+    <div class="panel-title">KRA Scale</div>
+</div>
+<div class="panel-body">
+    <div class="center">
+        <div class="text-right">
+            <button type="button" id="kraScaleAddBtn" (click)="onAddKRAScale()" class="btn btn-primary" title="Add KRA Scale">
+                <i class="fa fa-plus"></i> Add KRA Scale</button>
+        </div>
+        <div class="col-lg-12">
+                
+                        <div style="text-align: right">
+                            <i class="fa fa-search" class="iconCls"></i>
+    
+                            <input type="text" pInputText size="50" style="width:30%; margin-bottom: 10px;" placeholder="Search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                                class="inputCls" />
+                        </div>
+                  
+            <p-table #dt1 [columns]="cols" [value]="kraMasterScaleList" [paginator]="true" dataKey="vin" [rows]="PageSize" [resizableColumns]="true"
+                [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}"> 
+               
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+
+                        <th *ngFor="let col of columns" [ngStyle]="getStyles(col.type)" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                            {{ col.header }}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                        <th class=" viewCls" width="100px">View</th>
+                        <th colspan="2" class="ActCls">Action</th>
+                    </tr>
+
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]" [ngStyle]="getStyles(col.type)">
+                            <div>{{ rowData[col.field] }}</div>
+                        </td>
+                        <td style="text-align: center; cursor: pointer;">
+                            <a>
+                                <i title="Description" class="fa fa-eye fa-lg editCls" (click)="onViewKRAScaleDescription(rowData)"></i>
+                            </a>
+                        </td>
+
+                        <td style="text-align: center; cursor: pointer;">
+                            <a>
+                                <i title="Edit" class="fa fa-pencil-square-o fa-lg editCls " (click)="onEditKRAScaleDescription(rowData)"></i>
+                            </a>
+                        </td>
+                        <td style="text-align: center; cursor: pointer;">
+                            <a>
+                                <i title="Delete" class="fa fa-trash fa-lg delCls" (click)="onDeleteKRAScale(rowData)"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="ScaleTitle" appendTo="body" width=900 height=400 [(visible)]="kraScaleDisplay" responsive="true" modal=true
+    showEffect="fade" showHeader=true closeOnEscape=true closable=true>
+    <div style="height:400px;">
+
+        <form [formGroup]="myForm">
+            <div class="row">
+                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="box">
+                        <label>Scale Title</label>
+                        <span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <input type="text" *ngIf="saveButton == 'Save'" style="width:70%;" formControlName="scaleTitle" class="form-control" placeholder="Enter Scale Title"
+                                pInputText [(ngModel)]="kraMasterScale.ScaleTitle" title="No special characters are allowed in Scale Title"
+                                (paste)="$event.preventDefault()" />
+                            <input type="text" *ngIf="saveButton == 'Update'" style="width:70%;" disabled="true" formControlName="scaleTitle" placeholder="Enter Scale Title"
+                                pInputText [(ngModel)]="kraMasterScale.ScaleTitle" />
+                        </div>
+                        <small *ngIf="formSubmitted && !spaceValidation && (kraMasterScale.ScaleTitle=='')" style="color: red">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i> Enter Scale Title</small>
+                        <small *ngIf="formSubmitted && (myForm.controls['scaleTitle'].hasError('pattern'))">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Scale Title is invalid</span>
+                        </small>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="box">
+                        <label>Minimum:
+                            <span style="color: red">*</span>
+                        </label>
+
+                        <div class="ui-fluid">
+                            <input type="number" *ngIf="saveButton == 'Save'" style="width:50%;" formControlName="MinimumScale" [(ngModel)]="kraMasterScale.MinimumScale"
+                                [value]=1 disabled='true'>
+                            <input type="number" *ngIf="saveButton == 'Update'" style="width:50%;" disabled="true" formControlName="MinimumScale" [(ngModel)]="kraMasterScale.MinimumScale"
+                                min="1" max="1" [value]=1 disabled='true'>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="box">
+                        <label>Maximum:
+                            <span style="color: red">*</span>
+                        </label>
+                        <div class="ui-fluid">
+                            <input type="number" *ngIf="saveButton == 'Save'" formControlName="MaximumScale" [(ngModel)]="kraMasterScale.MaximumScale"
+                                min="1" max="30" style="width:50%;" (onkeypress)="onMaximumScaleChange(kraMasterScale.MinimumScale, kraMasterScale.MaximumScale)"
+                                (change)="onMaximumScaleChange(kraMasterScale.MinimumScale, kraMasterScale.MaximumScale)">
+                            <input type="number" *ngIf="saveButton == 'Update'" style="width:50%;" disabled="true" formControlName="MaximumScale" [(ngModel)]="kraMasterScale.MaximumScale"
+                                min="1" max="30" (onkeypress)="onMaximumScaleChange(kraMasterScale.MinimumScale, kraMasterScale.MaximumScale)"
+                                (change)="onMaximumScaleChange(kraMasterScale.MinimumScale, kraMasterScale.MaximumScale)">
+                        </div>
+                        <small *ngIf="formSubmitted && kraMasterScale.MaximumScale==null" style="color: red">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i> Enter Maximum Scale</small>
+                    </div>
+                </div>
+
+                        <div class="ui-g-12 ui-md-12">
+                    <div class="box">
+                        <div formArrayName="scaleDescriptions" *ngIf="descriptionHide">
+                            <label style="margin-left: 12px;">Description</label>
+                            <span style="color: red">*</span>
+                            <div *ngFor="let scaleDescription of myForm.controls.scaleDescriptions.controls; let i=index">
+                                <div [formGroupName]="i">
+                                    <div class="form-group floating-main">
+                                        <div class="ui-fluid col-md-4">
+                                            <label>{{i+1}}</label>
+                                            <input type="text" formControlName="descriptionName" style="width:50%;" class="form-control" pInputText placeholder="Scale Description"
+                                                pattern="^[a-zA-Z0-9_\d\s]*$" title="No special characters are allowed in Description"
+                                                (paste)="$event.preventDefault()">
+                                            <small *ngIf="formSubmitted && myForm.controls.scaleDescriptions.controls[i].controls['descriptionName'].hasError('required')"
+                                                style="color: red">
+                                                <i style="color: red" class="fa fa-exclamation-circle"></i> Enter Description</small>
+                                            <small *ngIf="formSubmitted && (myForm.controls.scaleDescriptions.controls[i].controls['descriptionName'].hasError('pattern'))"
+                                                style="color: red">
+                                                <i style="color: red" class="fa fa-exclamation-circle"></i>Description is invalid</small>
+                                            <small *ngIf="!formSubmitted || myForm.controls.scaleDescriptions.controls[i].controls.descriptionName.valid" style="color: red">
+                                                &nbsp;</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+        <div class="pull-right sentBtn">
+            <button type="button" class="btn btn-primary" (click)="saveKRAScale(kraMasterScale)">
+                <i class="fa fa-floppy-o"></i>&nbsp;{{saveButton}}</button>&nbsp;
+            <button type="button" class="btn btn-default" (click)="resetForm()">
+                <i style="color: #337ab7;" class="fa fa-eraser"></i>&nbsp;Clear</button>
+
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [header]="ScaleTitle" appendTo="body" styleClass="appreciateDialog" heigth=500 width=700 [(visible)]="kraDescriptionView"
+    responsive="true" modal=true showHeader=true closeOnEscape=true closable=true>
+    <div class="viewScaleDescription">{{descriptionView}}</div>
+</p-dialog>
+-->
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog appendTo="body" key="deleteScaleConfirmation" width="500"></p-confirmDialog>

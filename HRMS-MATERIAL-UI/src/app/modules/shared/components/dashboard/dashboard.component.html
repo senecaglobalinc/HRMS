@@ -1,0 +1,234 @@
+<div class="container-fluid" >
+
+  <mat-card *ngIf ="detailsList.length!=0">
+    <mat-card-content>
+      <div class="table-responsive">
+        <table
+          class="mat-elevation-z8 col-12"
+          mat-table
+          [dataSource]="dataSource"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          matSort
+        >
+        <ng-container matColumnDef="NotificationType">
+            <th
+              mat-header-cell
+              cdkDrag
+              *matHeaderCellDef
+              mat-sort-header
+              class="font-weight-bold"
+            >
+              Notification Type
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.NotificationType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="EmpCode">
+            <th
+              mat-header-cell
+              cdkDrag
+              *matHeaderCellDef
+              mat-sort-header
+              class="font-weight-bold"
+            >
+              Employee Code
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.EmpCode }}
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="EmpName">
+            <th
+              mat-header-cell
+              cdkDrag
+              *matHeaderCellDef
+              mat-sort-header
+              class="font-weight-bold"
+            >
+              Name
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.EmpName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="HRAdvisor">
+            <th
+              mat-header-cell
+              cdkDrag
+              *matHeaderCellDef
+              mat-sort-header
+              class="font-weight-bold"
+            >
+              HR Advisor
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.HRAdvisor }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Download">
+            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                Download
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              <mat-icon style="cursor: pointer" (click)="generatePDF(element.EmpId)"
+                >save</mat-icon
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Approve">
+            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                Approve
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              <mat-icon style="cursor: pointer" style="cursor: pointer;color: green" (click)="profileApproval(element.EmpId,'Approved',i)"
+                >check</mat-icon
+              >
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Reject">
+            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                Reject
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              <mat-icon style="cursor: pointer" style="cursor: pointer;color: red" (click)="rejectConfirmation(element.EmpId,i)"
+                >clear</mat-icon
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Edit" >
+            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+              Edit
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              <mat-icon style="cursor: pointer" *ngIf="element.notificationType != 'EPU'" (click)="onProfile(element)"
+                >edit</mat-icon
+              >
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <!-- <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons></mat-paginator> -->
+      </div>
+      <div class="row justify-content-center">
+        <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+      </div>
+
+     </mat-card-content>
+  </mat-card>
+  
+  <mat-card *ngIf ="hraList.length!=0">
+    <mat-card-content>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="NotificationType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Notification Type
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.NotificationType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="EmpCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Code
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              <a (click)="openProfile(element)" style="cursor: pointer;color: blue;">{{ element.EmpCode }}</a>                  
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="EmpName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.EmpName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Remarks">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Remarks
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+              {{ element.Remarks }}
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumnshra"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnshra"></tr>
+        </table>
+        <!-- <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons></mat-paginator> -->
+      </div>
+      <div class="row justify-content-center">
+        <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+   
+
+</div>
+<br>
+
+<div class="container-fluid" >
+  <!-- <mat-card> -->
+    <div *ngIf="UserRole == 'Program Manager'">
+      <!-- Program manager dashboard component -->
+      <app-program-manager-dashboard></app-program-manager-dashboard>
+    </div>
+    <div *ngIf="UserRole == 'Finance Manager' || UserRole == 'IT Manager' ||
+    UserRole == 'Admin Manager' || UserRole == 'Training Department Head' || UserRole == 'Program Manager' || UserRole == 'Quality and Information Security Manager'"> 
+      <!-- Service Manager Dashboard -->
+      <app-service-manager-dashboard></app-service-manager-dashboard>
+    </div>
+  
+    <!--HRM-->
+    <div *ngIf="UserRole == 'HRM'">
+      <app-hrm-dashboard></app-hrm-dashboard>
+    </div>
+  
+    <!-- Delivery head -->
+    <div *ngIf="UserRole == 'Department Head'">
+      <app-department-head-dashboard></app-department-head-dashboard>
+    </div>
+  
+    <!-- Operations head -->
+    <div *ngIf="UserRole == 'Operation Head'">
+      <app-operations-head-dashboard></app-operations-head-dashboard>
+    </div>
+  
+    <div *ngIf="UserRole == 'Associate'">
+      <app-associate-dashboard></app-associate-dashboard>
+    </div>
+  
+    <div *ngIf="UserRole == 'Team Lead'">
+      <!--Team Lead Dashboard-->
+      <app-team-lead-dashboard></app-team-lead-dashboard>
+    </div>
+  
+    <div *ngIf="UserRole == 'HRA'">
+      <app-hra-dashboard></app-hra-dashboard>
+    </div>
+
+    <div *ngIf="UserRole == 'Corporate'">
+      <app-corporate-dashboard></app-corporate-dashboard>
+    </div>
+
+    <div *ngIf="UserRole == 'Reporting Manager'">
+      <app-reporting-manager-dashboard></app-reporting-manager-dashboard>
+    </div>
+  
+  <!-- </mat-card> -->
+  <ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+  
+</div>

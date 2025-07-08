@@ -1,0 +1,88 @@
+<mat-card class="mb-2" *ngIf="pageload">
+    <div class="row">
+        <div class="col-md-6 font-weight-bold">
+            Project Details
+        </div>
+        <div class="col-md-6 text-right">
+            <button mat-button *ngIf="showback" (click)="onBack()">
+                <mat-icon>arrow_back</mat-icon>Back
+            </button>
+        </div>
+    </div>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Project Code</div>
+                    <div class="col-md-7">: {{projectData.ProjectCode }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Project Name</div>
+                    <div class="col-md-7">: {{projectData.ProjectName }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Project Type</div>
+                    <div class="col-md-7">: {{projectData.ProjectTypeDescription }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Technology Area</div>
+                    <div class="col-md-7">: {{projectData.PracticeAreaCode }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Client</div>
+                    <div class="col-md-7">: {{projectData.ClientName }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Domain</div>
+                    <div class="col-md-7">: {{projectData.DomainName }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Program Manager</div>
+                    <div class="col-md-7">: {{projectData.ManagerName }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Department</div>
+                    <div class="col-md-7">: {{projectData.DepartmentCode }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Project State</div>
+                    <div class="col-md-7">: {{projectData.ProjectState }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">Start Date</div>
+                    <div class="col-md-7">: {{projectData.ActualStartDate | date: 'mediumDate'}}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="row">
+                    <div class="project-details-entries col-md-5 font-weight-bold">End Date</div>
+                    <div class="col-md-7">: {{projectData.ActualEndDate | date: 'mediumDate'}}</div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

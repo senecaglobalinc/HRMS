@@ -1,0 +1,311 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="allocationForm">
+            <div class="row">
+                <div class="col-md-1">
+
+                    <mat-checkbox [disabled]="disableBilling" formControlName="Billable"
+                        (change)="IsBillable($event)">Billable</mat-checkbox>
+
+                </div>
+                <div class="col-md-3">
+                    <mat-checkbox  [checked] = "IsZeroPercentAllocationClicked" (change)="IsZeroPercentAllocation($event)">0% allocation</mat-checkbox>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Associate Name
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input appDropDownSuggestion [SearchList]="employeesList" appRequirematch type="text" placeholder="Select Associate" matInput
+                        formControlName="EmployeeId" name="EmployeeId" [matAutocomplete]="auto1" #trigger="matAutocompleteTrigger">
+                        <button class="clearFieldIcon" *ngIf="allocationForm.value.EmployeeId" (click)="clearInput($event, 'EmployeeId')"
+                        mat-button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matSuffix *ngIf="!allocationForm.value.EmployeeId">keyboard_arrow_down</mat-icon>
+                        <mat-autocomplete [displayWith]="displayFn" (optionSelected)="getAllocationHistory($event.option.value.value)" #auto1="matAutocomplete">
+                        <mat-option disabled
+                            *ngIf="allocationForm.get('EmployeeId').hasError('invalidValue') && allocationForm.value.EmployeeId">
+                            No matching value found</mat-option>
+                        <mat-option disabled *ngIf="!allocationForm.get('EmployeeId').hasError('invalidValue')">Select Associate</mat-option>
+                        <mat-option *ngFor="let item of filteredEmployee | async;"
+                            [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="allocationForm.get('EmployeeId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Associate Name Required
+                        </mat-error>
+                        <mat-error *ngIf="allocationForm.get('EmployeeId').hasError('requireMatch')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Select Associate Name from given options
+                        </mat-error>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Project Name
+                            <span class="text-danger">*</span>
+                        </mat-label>
+
+                        <input appDropDownSuggestion [SearchList]="projectsList" appRequirematch type="text" placeholder="Select Project" matInput
+                        formControlName="ProjectId" name="ProjectId" [matAutocomplete]="auto2" #trigger="matAutocompleteTrigger">
+                        <button class="clearFieldIcon" *ngIf="allocationForm.value.ProjectId" (click)="clearInput($event, 'ProjectId')"
+                        mat-button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matSuffix *ngIf="!allocationForm.value.ProjectId">keyboard_arrow_down</mat-icon>
+                        <mat-autocomplete [displayWith]="displayFn"  #auto2="matAutocomplete" (optionSelected)="getProjectManagerDetails($event.option.value.value);getClientBillingRolesByProject($event.option.value.value);">
+                        <mat-option disabled
+                            *ngIf="allocationForm.get('ProjectId').hasError('invalidValue') && allocationForm.value.ProjectId">
+                            No matching value found</mat-option>
+                        <mat-option disabled *ngIf="!allocationForm.get('ProjectId').hasError('invalidValue')">Select Project</mat-option>
+                        <mat-option *ngFor="let item of filteredProject | async;"
+                            [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="allocationForm.get('ProjectId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Project Required
+                        </mat-error>
+                        <mat-error *ngIf="allocationForm.get('ProjectId').hasError('requireMatch')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Select Project from given options
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Role
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input appDropDownSuggestion [SearchList]="trRolesList" appRequirematch type="text" placeholder="Select Role" matInput
+                        formControlName="RoleMasterId" name="RoleMasterId" [matAutocomplete]="auto3" #trigger="matAutocompleteTrigger">
+                        <button class="clearFieldIcon" *ngIf="allocationForm.value.RoleMasterId" (click)="clearInput($event, 'RoleMasterId')"
+                        mat-button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matSuffix *ngIf="!allocationForm.value.RoleMasterId">keyboard_arrow_down</mat-icon>
+                        <mat-autocomplete [displayWith]="displayFn" #auto3="matAutocomplete">
+                        <mat-option disabled
+                            *ngIf="allocationForm.get('RoleMasterId').hasError('invalidValue') && allocationForm.value.RoleMasterId">
+                            No matching value found</mat-option>
+                        <mat-option disabled *ngIf="!allocationForm.get('RoleMasterId').hasError('invalidValue')">Select Role</mat-option>
+                        <mat-option *ngFor="let item of filteredRole | async;"
+                            [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="allocationForm.get('RoleMasterId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Role Required
+                        </mat-error>
+                        <mat-error *ngIf="allocationForm.get('RoleMasterId').hasError('requireMatch')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Select Role from given options
+                        </mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Allocation(%)
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <mat-select placeholder="Select Role" formControlName="AllocationPercentage" [disabled] = "IsZeroPercentAllocationClicked"
+                            (selectionChange)="validateAllocationPercentage(allocationForm.value.AllocationPercentage,allocationForm.value.EmployeeId.value)">
+                            <mat-option *ngFor="let allo of allocationOptions"
+                                [attr.max]="availableAllocationPercentage" [value]="allo.value">
+                                {{allo.label}}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error *ngIf="(!allocationForm.controls['AllocationPercentage'].valid && formsubmitted)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red"> Select Allocation Percentage</span>
+                        </mat-error>
+                       
+                    </mat-form-field>
+                    <mat-error
+                    *ngIf="(allocationForm.value.AllocationPercentage!=null && (allocatedPercentage>availableAllocationPercentage))">
+                    <i style="color: red; ">Available Allocation(%) is: {{availableAllocationPercentage}} </i>
+                </mat-error>
+                   
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Client
+                            
+                        </mat-label>
+                        <input matInput type="text" readonly value="{{clientName}}">
+                       
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Effective Date:
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input formControlName="EffectiveDate" matInput [matDatepicker]="picker" [min]="firstDate"
+                            [max]="lastDate" readonly (click)="picker.open()" style="cursor: pointer">
+                        <mat-datepicker-toggle matSuffix *ngIf="allocationForm.value.EffectiveDate"
+                            (click)="clearInput($event, 'EffectiveDate')">
+                            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="!allocationForm.controls['EffectiveDate'].valid && formsubmitted">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red"> Enter Effective Date</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                
+
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Reporting Manager
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <mat-select placeholder="Select Manager" formControlName="ReportingManagerId">
+                            <mat-option *ngFor="let manager of ManagersList" [value]="manager.value">
+                                {{manager.label}}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-error *ngIf="!allocationForm.controls['ReportingManagerId'].valid && formsubmitted">
+
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red"> Select Reporting Manager</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+
+                    <mat-form-field *ngIf="allocationForm.value.Billable==true && !isPrimaryDisabled" appearance={{themeConfigInput}}>
+
+                        <mat-label>Client Billing Role<span class="text-danger">*</span>
+                        </mat-label>
+                        <input (click)="openDialog()" matInput formControlName="ClientBillingRoleName" readonly/>
+                        <mat-error *ngIf="(!allocationForm.value.ClientBillingRoleName && allocationForm.value.Billable && formsubmitted)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red"> Enter Client Billing Role</span>        
+                                  </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field *ngIf="allocationForm.value.Billable==true && !isPrimaryDisabled" appearance={{themeConfigInput}}>
+                        <mat-label>Client Billing(%)
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input matInput type="text" class="disabled" (keypress)="onlyNumbers($event)"
+                            formControlName="ClientBillingPercentage"  readonly>
+                        <!-- <mat-error
+                            *ngIf="(!allocationForm.value.ClientBillingPercentage && ((allocationForm.value.Billable==true) && formsubmitted))">
+
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red"> Enter Client Billing(%)</span>
+                        </mat-error> -->
+                        <mat-error
+                            *ngIf="(allocationForm.get('ClientBillingPercentage').hasError('max') && ((allocationForm.value.Billable==true) && formsubmitted ))">
+
+                            <span style="color: red"> Maximum Client Billing(%) can be 100</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 disabled" >
+                    <mat-form-field  *ngIf="allocationForm.value.Billable==true && !isPrimaryDisabled" appearance={{themeConfigInput}}>
+                        <mat-label>Client Billing Start Date
+                        </mat-label>
+                        <input matInput type="text" class="disabled" formControlName="BillingStartDate" readonly >
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <!-- <mat-checkbox  formControlName="isCritical">Critical</mat-checkbox> -->
+                    <mat-checkbox [checked]="(allocationForm.value.Billable==true)" formControlName="isCritical" [disabled]="isCriticalDisabled">Critical</mat-checkbox>
+
+                    <mat-checkbox formControlName="IsPrimary" [disabled] = "isPrimaryDisabled">Primary</mat-checkbox>
+                    <mat-checkbox [checked]="(allocationForm.value.NotifyAll==true)" formControlName="NotifyAll">&nbsp;Notify All</mat-checkbox>
+                    <mat-error style="color: red;padding-left: 68px;" *ngIf="!allocationForm.value.IsPrimary" [hidden] = "isPrimaryDisabled">
+                        Is it primary?</mat-error>
+                </div>
+
+                <div class="col-md-12 text-right">
+                    <button  (click)="Cancel()" mat-stroked-button>
+                        <mat-icon>clear
+                        </mat-icon>Clear
+                    </button>
+                    <button type="submit" (click)="Allocate(allocationForm.value)" mat-flat-button color="primary">
+                        Allocate</button>
+                </div>
+
+            </div>
+        </form>
+
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="col-md-12  mb-2 floating-main" *ngIf="showAllocationHistoryGrid">
+
+    <h5>
+        <b>{{requisitionList.AssociateName}}'s</b> - Current Allocation</h5>
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <!-- <table class="table table-nowraptext"> -->
+            <tr class="d-center">
+                <th>
+                    <span class="text">Project Name</span>
+                </th>
+                <th>
+                    <span class="text">Effective From</span>
+                </th>
+                <th>
+                    <span class="text">Utilization (%)</span>
+                </th>
+                <th>
+                    <span class="text">Billable</span>
+                </th>
+                <th>
+                    <span class="text">Critical</span>
+                </th>
+                <th>
+                    <span class="text">Primary</span>
+                </th>
+            </tr>
+            <tbody *ngFor="let al of allocationHistory">
+                <tr class="text-center data-rows">
+                    <td class="text-left">{{al.Project}}</td>
+                    <td class="text-left">{{al.EffectiveDate | date:"MM/dd/yyyy"}}</td>
+                    <td class="text-left">{{al.AllocationPercentage}}</td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.Billable" disabled>
+                    </td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.isCritical" disabled>
+                    </td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.IsPrimary" disabled>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+<app-future-allocations-grid *ngIf="disableFutureMarkingGrid" [SelectedEmpId]="selectedEmpId"></app-future-allocations-grid>

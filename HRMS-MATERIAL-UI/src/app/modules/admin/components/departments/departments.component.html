@@ -1,0 +1,130 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form [formGroup]="addDepartment">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeappeareance }}">
+            <mat-label>Department Code<span class="text-danger"> *</span></mat-label>
+            <input [readonly]="isEdit" matInput placeholder="Department Code" style="width: 70%" type="text" size="50"
+              name="DepartmentCode" formControlName="DepartmentCode" appValidations appEmptySpacesValidations minlength="2" />
+              <mat-error *ngIf="addDepartment.get('Description').errors ">
+                Department Code Required
+              </mat-error>
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeappeareance }}">
+            <mat-label>Department Name<span class="text-danger"> *</span></mat-label>
+            <input matInput placeholder="Department Name" formControlName="Description" name="Description"
+            appValidationImpSpecialChars appEmptySpacesValidations minlength="2" />
+            <mat-error *ngIf="addDepartment.get('Description').errors ">
+              Department Name Required
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeappeareance }}" class="customMatSelect">
+            <mat-label>Department Head</mat-label>
+            <input appDropDownSuggestion [SearchList]="usersList"
+            appRequirematch 
+            placeholder="Select Department Head" type="text" matInput 
+            formControlName="DepartmentHead" #trigger="matAutocompleteTrigger"
+            [matAutocomplete]="auto" appValidations appEmptySpacesValidations minlength="2"/>
+            <button class="clearFieldIcon" *ngIf="addDepartment.value.DepartmentHead" mat-button matSuffix
+              mat-icon-button aria-label="Clear" (click)="clearField()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn"
+              (optionSelected)="onUserChange($event, empData.UserId)">
+              <mat-option *ngIf="addDepartment.get('DepartmentHead').hasError('invalidValue') && addDepartment.value.DepartmentHead"
+               disabled>No matching value found</mat-option>
+              <mat-option *ngFor="let option of filteredOptionsName | async" [value]="option" >
+                {{ option.label }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="addDepartment.get('DepartmentHead').hasError('requireMatch')">
+              Select Department from given options
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-label>Delivery</mat-label>
+          <mat-slide-toggle color="primary" formControlName="IsDelivery" [checked]="delivery"></mat-slide-toggle>
+        </div>
+        <div class="col-md-4 text-right">
+          <button (click)="cancel()" type="reset" mat-stroked-button>
+            <mat-icon>clear </mat-icon>Clear
+          </button>
+          <button type="submit" mat-flat-button color="primary" (click)="CreateDepartment()">
+            {{ btnLabel }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSource" cdkDropList
+        cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" matSort>
+        <ng-container matColumnDef="DepartmentCode">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Department Code
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.DepartmentCode }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Description">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Department Name
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.Description }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DepartmentTypeDescription">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Department Type
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.DepartmentTypeDescription }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DepartmentHeadName">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Department Head
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.DepartmentHeadName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+            Edit
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon style="cursor: pointer" (click)="editDepartments(element)">edit</mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

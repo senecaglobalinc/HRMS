@@ -1,0 +1,91 @@
+<!--Abscond Card-->
+<div class="container-fluid">
+    <mat-card class="mb-2">
+        <!-- <mat-card-header>
+            <mat-card-title>Associate Abscond Actions</mat-card-title>
+        </mat-card-header> -->
+        <mat-card-content>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSourceData" matSort>
+                    <ng-container matColumnDef="EmployeeCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Emp Id </th>
+                        <td mat-cell *matCellDef="let element">{{element.AssociateCode}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="EmployeeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Name
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{element.AssociateName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StatusCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="roleName != 'HRM'" >{{element.StatusDesc}}</span>
+                            <span *ngIf="roleName === 'HRM' && element.StatusDesc !='Abscond Confirmed by HRM'">{{element.StatusDesc}}</span>
+                            <a Style="color:blue; text-decoration: underline; cursor:pointer" *ngIf="roleName === 'HRM' && element.StatusDesc==='Abscond Confirmed by HRM'" (click)="ViewDetailedStatus(element.AssociateId)">{{element.StatusDesc}}</a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Acknowledge">
+                        <th [hidden]="!(roleName=='HRM' || roleName=='HRA' )" mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                            Acknowledge </th>
+                        <td [hidden]="!(roleName=='HRM' || roleName=='HRA' )" mat-cell *matCellDef="let element">
+                            <mat-icon style="cursor: pointer;color: green"
+                                *ngIf=" element.EditAction === true && roleName == 'HRA'" mat-flat-button
+                                color="primary" (click)="abscond(element)">
+                                check
+                            </mat-icon>
+                            <mat-icon style="cursor: pointer;color: green"
+                                *ngIf=" element.EditAction === true && roleName == 'HRM'" mat-flat-button
+                                color="primary" (click)="abscond(element)">
+                                check
+                            </mat-icon>
+                            <mat-icon *ngIf=" element.ViewAction === true && roleName == 'HRA'" style="cursor: pointer"
+                                (click)="abscond(element)">visibility</mat-icon>
+                            <mat-icon *ngIf=" element.ViewAction === true && roleName == 'HRM'" style="cursor: pointer"
+                                (click)="abscond(element)">visibility</mat-icon>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Activity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                            Activity </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button class="mr-0 ml-0"
+                                *ngIf="(element.EditActivity === true) && (roleName == 'HRM'|| roleName === 'Admin Manager' ||
+                            roleName === 'Finance Manager' || roleName === 'IT Manager' || roleName === 'Training Department Head')"
+                                mat-flat-button color="primary" (click)="getExitChecklist(element)">
+                                Approve Checklist
+                            </button>
+                            <mat-icon
+                                *ngIf="(element.ViewActivity === true) && (roleName == 'HRM'|| roleName === 'Admin Manager' ||
+                            roleName === 'Finance Manager' || roleName === 'IT Manager' || roleName === 'Training Department Head')"
+                                style="cursor: pointer" (click)="getExitChecklist(element)">visibility</mat-icon>
+                            <mat-icon *ngIf=" element.ViewActivity === true && roleName == 'HRA'"
+                                style="cursor: pointer" (click)="onList(element)">visibility</mat-icon>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Clearance">
+                        <th [hidden]="!(roleName=='HRM' )" mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="font-weight-bold">
+                            Clearance </th>
+                        <td [hidden]="!(roleName=='HRM' )" mat-cell *matCellDef="let element">
+                            <button class="mr-0 ml-0" *ngIf=" element.EditClearance === true && roleName == 'HRM'"
+                                mat-flat-button color="primary" (click)="abscond(element)">
+                                Abscond Clearance
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No Records</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <mat-paginator #Paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

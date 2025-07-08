@@ -1,0 +1,135 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-12">
+                <span style="float: left;">
+                    <h4 class="panel-title">Finance Report</h4>
+                </span>
+                <span style="float: right;">
+                    <button type="button" class="btn btn-primary btn-xs" (click)="onFilter()" title="Filter">
+                        <i class="fa fa-filter fa-lg"></i>
+                    </button>
+                    <a *ngIf="financeReport.length>0" (click)="table2.exportCSV()" title="Export to Excel">
+                        <div class="exportToExcel"></div>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-12">
+                <div class="p-grid p-justify-between">
+                        <div class="p-col-2">
+                          <div class="box">
+                                  <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header" selectedItemsLabel="{0} columns selected"
+                                  [style]="{minWidth: '230px'}" defaultLabel="Choose Columns"></p-multiSelect>
+                          </div>
+                        </div>
+                        <div class="p-col-2">
+                          <div class="box">
+                            <span>
+                              <b>Total Records:</b>
+                              <span>{{totalRecordsCount >0 ? totalRecordsCount: 0}}</span>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="p-col-4">
+                          <div class="box">
+                                  <input type="text" pInputText size="50" placeholder="Search" (input)="table.filterGlobal($event.target.value, 'contains')"
+                                  style="width:50%">
+                          </div>
+                        </div>
+                      </div>
+            <p-table #table [value]="financeReport" [columns]="selectedColumns" [rows]="PageSize" [responsive]="true" [rowsPerPageOptions]="PageDropDown"
+                [paginator]="true" [resizableColumns]="true" columnResizeMode="expand" [reorderableColumns]="true" >
+               
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>{{col.header}}
+
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+        
+            </p-table>
+            <div *ngIf="financeReport.length==0" style="text-align: left">
+                    No Records Found
+                </div>
+            <p-table #table2 [value]="financeReport" [columns]="cols" [responsive]="true" ></p-table>
+
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-dialog header="Filters" appendTo="body" width=700 height=350 [(visible)]="filterDisplay" responsive="true" modal=true
+    showEffect="fade" showHeader=true closeOnEscape=true closable=true>
+    <div style="height:350px;">
+        <div class= "dailog">
+        <div class="row">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <div class="box">
+                        <label>From Date</label>
+                        <span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <p-calendar [(ngModel)]="searchData.FromDate" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" [monthNavigator]="true"
+                                [showIcon]="true" [readonlyInput]="true" [style]="{'width':'70%'}" [maxDate]="maxDateValue">
+                            </p-calendar>
+                        </div>
+                        <div *ngIf="searchFormSubmitted && (searchData.FromDate==null || searchData.FromDate==undefined)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">From Date is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <div class="box">
+                        <label>To Date</label>
+                        <span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <p-calendar [(ngModel)]="searchData.ToDate" [style]="{'width':'70%'}" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" [monthNavigator]="true"
+                                [showIcon]="true" [readonlyInput]="true" [maxDate]="maxDateValue">
+                            </p-calendar>
+                        </div>
+                        <div *ngIf="searchFormSubmitted && (searchData.ToDate==null || searchData.ToDate==undefined)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">To Date is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <div class="box">
+                        <label>Select Project</label>
+                        <div class="ui-fluid">
+                            <p-dropdown [autoWidth]="false" [options]="projectsList" [style]="{'width':'70%'}" [(ngModel)]="searchData.ProjectId" filter="true">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <section class="pull-right buttons">
+                        <button type="submit" class="btn btn-primary" style="cursor:pointer;" (click)="fetchResourceReport();table.reset()">
+                                <i class="fa fa-filter"></i>&nbsp;Apply</button>&nbsp;
+                    <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="OpenConfirmationDialog()">
+                        <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+                </section>
+
+            </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-dialog appendTo="body" height="50" width="350" [(visible)]="reportStatus" modal=true [closable]="false" [closeOnEscape]="false">
+    <p-header> Generating Finance report... </p-header>
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px' , 'width' : '100%' }"></p-progressBar>
+  </p-dialog>

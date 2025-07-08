@@ -1,0 +1,92 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+
+    <div class="row">
+      <div class="col-12">
+        <span style="float: left;">
+          <h4 class="panel-title">RMG Archive Report</h4>
+        </span>
+        <span style="float: right;">
+          <button type="button" class="btn btn-primary btn-xs" (click)="GetRmgReportDataToFreez()" title="Archive">
+            <i class="fas fa-archive "></i>
+          </button> &nbsp;
+          <a *ngIf="rmgReportData.length>0" (click)="dt1.exportCSV()" title="Export to Excel">
+            <div class="exportToExcel">
+            </div>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <form [formGroup]="viewRmgData" class="form-horizontal">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label for="Month">Month</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <!-- <p-spinner formControlName="Month" placeholder="Month" name="Month" [maxlength]="2" [type]="number" [formatInput]='true' [size]="2"  [min]="1" [max]="12" required></p-spinner>              -->
+                <p-dropdown [options]="MonthOptions" [autoWidth]="false" formControlName="Month" placeholder="Select a Month"></p-dropdown>
+              </div>
+              <span *ngIf="viewRmgData.get('Month').hasError('required') && formSubmitted" style="color: red">Select a Month</span>
+
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label for="Year">Year</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <input placeholder="Year" formControlName="Year" name="Year" required type="number" required pInputText>
+              </div>
+              <span *ngIf="viewRmgData.get('Year').hasError('required') && formSubmitted" style="color: red">Year is Required </span>
+
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              
+                    <section class="pull-right buttons">
+                        <button type="submit" class="btn btn-custom" style="cursor:pointer;" (click)="viewRmgReportData();dt1.reset()">
+                            <i class="fa fa-floppy-o"></i>&nbsp;View</button>&nbsp;
+                          <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="cancel()">
+                            <i class="fa fa-eraser"></i>Clear</button>
+                    </section>
+               
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="col-lg-12">
+    <div style="text-align: right">
+      <input type="text" pInputText size="50" placeholder="Search" style="width: 20%" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+      />
+    </div>
+ 
+<p-table #dt1 [columns]="cols" [value]="rmgReportData" [paginator]="true" [rows]="PageSize" [rowsPerPageOptions]="PageDropDown"
+  [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single" stateStorage="session" stateKey="statedemo-session">
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns"  [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+        {{ col.header }}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+        <!-- {{ col.type ? col.type.transform(rowData[col.field], col.arg1, col.arg2, col.arg3) : rowData[col.field]}} -->
+        {{rowData[col.field]}}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

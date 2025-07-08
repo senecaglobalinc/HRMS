@@ -1,0 +1,28 @@
+<mat-card class="col-md-12" *ngIf="futuremarkedprojectObj && futuremarkedprojectObj.length > 0">
+
+    <h5>
+        <b>Future Marked Projects</b></h5>
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <tr class="d-center">
+                <th>
+                    <span class="text">Project Name</span>
+                </th>
+                <th>
+                    <span class="text">Tentative Start Date</span>
+                </th>
+                <th>
+                    <span class="text">Remarks</span>
+                </th>
+                
+            </tr>
+            <tbody *ngFor="let al of futuremarkedprojectObj">
+                <tr class="text-center data-rows">
+                    <td class="text-left">{{al.ProjectName}}</td>
+                    <td class="text-left">{{al.TentativeDate | date:"MM/dd/yyyy"}}</td>
+                    <td class="text-left">{{al.Remarks}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>

@@ -1,0 +1,25 @@
+paper-button {
+    min-width: 1em;
+    margin: 0;
+}
+
+iron-icon[icon='create'] {
+    color: #3C8DBC;
+}
+
+iron-icon[icon='create']:hover {
+    color: indianred;
+}
+
+iron-icon[icon='delete'] {
+    color: grey;
+}
+
+iron-icon[icon='redo'] {
+    color: green;
+}
+
+   #dashboardbtn{
+    margin-top: -7px;
+
+}

@@ -1,0 +1,33 @@
+
+<h2 mat-dialog-title style="margin-left:-14px;">Reject Reason</h2>
+
+
+<mat-dialog-content>
+
+    <form [formGroup]="RejectForm" >
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Reject Reason<span class="text-danger"> *</span></mat-label>
+                <textarea matInput formControlName = "rejectReason" name = "rejectReason"></textarea>
+
+                              <mat-error *ngIf="RejectForm.get('rejectReason').hasError('required')">
+                  Please enter reject reason.
+                </mat-error>
+              </mat-form-field>
+        
+        </div>
+        <div class="row">
+            <div class="col-12 text-right footer-css">
+              <button type="button" mat-stroked-button (click)="onNoClick()">
+                <mat-icon>close</mat-icon>Cancel
+              </button>
+              <button type="submit" mat-flat-button color="primary" (click)="save()">Submit</button>
+    
+            </div>
+          </div>
+      </form>
+
+</mat-dialog-content>
+
+
+

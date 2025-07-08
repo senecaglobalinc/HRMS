@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-8 col-xs-8">
+        <h1 mat-dialog-title>Allocated Resources</h1>
+      </div>
+      <div class="col-md-4 col-xs-4 text-right">
+            <mat-icon style="cursor:pointer;" (click)="onNoClick()">close</mat-icon>
+    </div>
+</div>
+    <mat-dialog-content> 
+        <div class ="table-responsive">
+            <table mat-table [dataSource]="allocatedResourcesDataSource" matSort>
+                <ng-container matColumnDef="AssociateCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Associate Code</th>
+                    <td mat-cell *matCellDef="let allocatedResources">{{allocatedResources.AssociateCode}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="AssociateName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Associate Name</th>
+                    <td mat-cell *matCellDef="let allocatedResources">{{allocatedResources.AssociateName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ClientBillingRoleName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Client Billing Role</th>
+                    <td mat-cell *matCellDef="let allocatedResources">{{allocatedResources.ClientBillingRoleName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="AllocationPercentage">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Allocation %</th>
+                    <td mat-cell *matCellDef="let allocatedResources">{{allocatedResources.AllocationPercentage}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="IsPrimaryProject">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Primary</th>
+                    <td mat-cell *matCellDef="let allocatedResources">{{allocatedResources.IsPrimaryProject}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="IsCriticalResource">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Critical</th>
+                    <td mat-cell *matCellDef="let allocatedResources">{{allocatedResources.IsCriticalResource}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                  </tr>
+
+            </table>
+        </div>
+
+        <!-- <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 20,30,40,50]"></mat-paginator>
+        </div> -->
+
+    </mat-dialog-content>

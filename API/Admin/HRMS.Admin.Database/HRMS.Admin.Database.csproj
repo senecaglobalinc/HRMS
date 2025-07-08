@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;DEV;QA;UAT</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200716100643_Update10.cs" />
+    <Compile Remove="Migrations\20200716100643_Update10.Designer.cs" />
+    <Compile Remove="Migrations\20200716103231_Update11.cs" />
+    <Compile Remove="Migrations\20200716103231_Update11.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.Admin.Entities\HRMS.Admin.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

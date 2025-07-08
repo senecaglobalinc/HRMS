@@ -1,0 +1,29 @@
+::ng-deep .ui-table-thead tr th.editCls {
+    width: 100px;
+  }
+  
+  .inputCls{
+    margin-bottom: 10px;
+  }
+    .tables{
+    
+      padding-right: 135px;
+      padding-left:124px;
+    }
+             /* tablets, iPads (landscape) ---------- */
+             @media screen and (max-width: 1024px){
+              .tables{
+          
+                padding-right: 0px !important;;
+                padding-left: 0px !important;
+               
+              }
+        }
+        /* Desktops and laptops ---------- */
+        @media screen and (max-width: 1440px){
+        
+        .tables{
+         padding-right: 8vw;
+         padding-left:8vw;
+        }
+        }

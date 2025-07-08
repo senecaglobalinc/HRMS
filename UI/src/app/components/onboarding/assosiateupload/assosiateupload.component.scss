@@ -1,0 +1,60 @@
+button[type="submit"]
+{
+    width: 105px;  
+}
+
+.center{
+    margin-left:295px;
+
+ }
+ .tables[_ngcontent-c29] {
+    padding-right: 388px;
+    padding-left: 285px;
+}
+.buttons{
+    margin-right: 404px;
+    margin-top: 28px;
+}
+.butt{
+    margin-right: 13px;
+}
+ 
+   /* tablets, iPads (landscape) ---------- */
+   @media screen and (max-width: 1024px){
+              .buttons{
+           margin-top:20px !important;
+       }
+       .center {
+           margin: auto !important;
+         }
+         .tables{ 
+            padding-right:0px !important;
+            padding-left:0px !important;
+           
+          }
+    
+     }
+      /* Desktops and laptops ---------- */
+      @media screen and (max-width: 1440px){
+       
+        .tables{
+            padding-right: 343px ;
+            padding-left: 218px ;
+            }
+            .center{
+                margin-left:224px;
+              }
+              .buttons{
+               margin-right:364px;
+               }
+      }
+   
+      input[type="text"],
+      input[type="email"],
+      .dropdowns
+      {
+          width: 70%;
+          border:none;
+          border-bottom: 1px solid rgb(184, 159, 174);
+       
+      }

@@ -1,0 +1,8 @@
+{
+  "KRAMailSubjects": {
+    "SendToHOD": "KRA Definitions for Review/Acceptance",
+    "SendToOpHead": "KRA Definitions has been Reviewed/Accepted",
+    "SendToCEO": "KRA Definitions for Approval",
+    "ApprovedByCEO": "KRA Definitions has been Approved"
+  }
+}

@@ -1,0 +1,1 @@
+Alter table "GradeRoleType" Add column "IsActive" BOOLEAN DEFAULT 'true'

@@ -1,0 +1,63 @@
+.center{
+  margin-left:106px;
+
+}
+::ng-deep .ui-table-thead  tr th.delCls {
+  width: 60px;
+ 
+}
+:host ::ng-deep .ui-fieldset {
+  //margin-left:25px;
+  margin-right:117px;
+
+}
+
+.heading{
+  margin-top: -20px;
+}
+
+li {
+  display: inline;
+  padding: 5px;
+  cursor: pointer;
+}
+
+li:hover {
+  background: skyblue;
+}
+
+li a {
+  color: white;
+}
+
+#back{
+
+  float: right; 
+}
+@media only screen and (max-width:1024px){
+  :host ::ng-deep .ui-fieldset {
+    margin-left:auto;
+    margin-right:81px!important;
+  
+  }
+  .center {
+    margin: auto !important;
+  
+   
+  }
+  .innertable1{
+    width:279px !important;
+  }
+  .innertable2{
+    width:108px !important;
+  }
+  :host ::ng-deep .ui-fieldset-toggleable .ui-fieldset-legend a {
+  
+    display: inline;
+}
+}
+
+.table-bordered{
+  margin-right:20px;
+}
+

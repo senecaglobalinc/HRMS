@@ -1,0 +1,1 @@
+Keep all pipes of admin module here

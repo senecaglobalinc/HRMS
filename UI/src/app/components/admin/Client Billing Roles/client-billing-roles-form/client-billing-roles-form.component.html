@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h4>Client Billing Role</h4>
+        </div>
+    </div>
+    <div class="panel-body">
+            <form [formGroup]="addClientBilling">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="client" class="pb-0">Client</label>
+                        <div class="ui-fluid">
+                            <p-dropdown formControlName="client" name="client" [options]="clientList" [style]="{'width':'100%'}" placeholder="Select Client"
+                                required></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="clientBillingRoleCode" class="pb-0">Role Code</label><span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <input formControlName="clientBillingRoleCode" name="clientBillingRoleCode" required type="text" size="30" pInputText />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="clientBillingRoleName" class="pb-0">Role Name</label><span style="color: red">*</span>
+                        <div class="ui-fluid">
+                            <input formControlName="clientBillingRoleName" name="clientBillingRoleName" required type="text" size="30" pInputText />
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-3">
+                        <div>&nbsp;</div>
+                        <div>
+                            <button type="submit" class="btn btn-custom" (click)="CreateClientBilling"><i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;
+                            <button type="button" class="btn btn-default" (click)="toReset()"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>

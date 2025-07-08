@@ -1,0 +1,13 @@
+<div class="portal-container hrms_home">
+  <div>
+    <form>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" size="30" class="form-control" pInputText name="email" placeholder="User@senecaglobal.com" [(ngModel)]="_login.email"
+          autofocus required />
+      </div>
+      <p-button label="Login" (click)="login()" styleClass="ui-button-info"></p-button>
+    </form>
+    <p-toast [style]="{ marginTop: '80px' }"></p-toast>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+<mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-8">
+
+                <mat-tab-group (selectedTabChange)="changeChart($event)" class="border">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+                            Bar
+                        </ng-template>
+
+                        <div class="my-3">
+                            <canvas class="charts" id="resourceReportByProjectChart" (click)="selectedbarData($event)"
+                                #resourceReportByProjectChart height="265"></canvas>
+                        </div>
+
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">pie_chart</mat-icon>
+                            Pie
+                        </ng-template>
+                        <div class="my-3">
+                            <canvas class="charts" id="resourceReportByPieProjectChart"
+                                (click)="selectedPieData($event)" #resourceReportByPieProjectChart
+                                height="265"></canvas>
+                        </div>
+
+                    </mat-tab>
+                </mat-tab-group>
+
+
+
+            </div>
+            <div class="col-md-4">
+                <div class="table-responsive border">
+                    <table mat-table  [dataSource]="lstTalentpoolDataSource" matSort #sortTalentpoolData = "matSort">
+                        <ng-container matColumnDef="ProjectName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Talent Pool
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.ProjectName}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="ResourceCount">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Resources
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.ResourceCount}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div  class="mt-4">
+                            <span *ngIf="this.talentPoolName.length>0">Talent Pool Name :
+                                <strong> {{this.talentPoolName}} </strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div  class="mt-4">
+                            <a (click)="exportAsXLSX()" title="Export to Excel">
+                                <div class="exportToExcel"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="employeedataSource" matSort #sortEmployeeData = "matSort">
+                        <ng-container matColumnDef="EmployeeCode">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Code
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.EmployeeCode}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="EmployeeName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Name
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.EmployeeName}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Designation">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Designation
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.Designation}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Grade">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Grade </th>
+                            <td mat-cell *matCellDef="let element">{{element.Grade}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Experience">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Experience
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.Experience}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="IsResigned">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Resigned
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.IsResigned}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="IsLongLeave">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Long Leave
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.IsLongLeave}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="DurationInDays">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Duration(Days)
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.DurationInDays}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="FutureProjectName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Future Project
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.FutureProjectName}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="FutureProjectTentativeDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Future Project Tentative Date
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.FutureProjectTentativeDate}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnss"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnss;"></tr>
+                    </table>
+                </div>
+                <div class="row justify-content-center">
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+                </div>
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

@@ -1,0 +1,79 @@
+.radio-inline
+{
+  margin-left: 3px;
+}
+
+.innerContainer {
+    margin: 10px auto;
+    position: relative;
+    padding: 5px 5px;
+    background: hsla(0,0%,10%,.15);
+    font-size: 13px;
+    border-radius: 10px;
+    width:100%;
+    box-shadow: 0px 0px 10px #000;
+    overflow: hidden;
+}
+
+
+.bayLayout{
+    text-align: center;
+    background:  rgb(244, 247, 245);
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.movieTitle {
+    color: black;
+    text-align: center;
+}
+.seatlayOut{
+    background: white;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.seat {
+    padding-right: 8px;
+    text-align: center;
+}
+
+.buttons{
+    margin-right:7px;
+    margin-top:10px;
+}
+
+.font14 {
+    font-size: 11px;   
+    color:black; 
+    
+}
+// .legend {
+//     font-size: 14px;
+//     color:black;
+// }
+// .legend > .padding-left {
+//     padding-left: 15px;
+// }
+
+.reservedSeat {
+    color: #ce4844;
+}
+.selectedSeat {
+    color: #5cb85c;
+}
+.orangeFreeSeat {
+    color: orange;
+}
+.greenFreeSeat {
+    color: rgb(19, 219, 12);
+}
+
+
+
+.overlayPanel{
+    width: auto;
+    height: auto;
+}
+
+
+

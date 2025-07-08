@@ -1,0 +1,53 @@
+
+
+.form-control {
+  
+  border: none;
+}
+
+.buttons {
+    margin-top: 22px;
+    margin-right: 82px;
+  }
+
+  
+.btn-default {
+          border: 1px solid #337ab7;
+          color: #337ab7;
+   }
+
+.em-custom {
+    color: red;
+}
+
+.ng-valid[required].ng-touched.ng-dirty {
+    border-left: 0px solid #42a948 !important;
+
+}
+.ng-invalid.ng-touched.ng-dirty {
+    border-left: 0px solid #a94442 !important;
+}
+
+
+.buttons {
+    margin-top: 22px;
+    margin-right: 120px;
+  }
+
+button[type="save"]
+{
+    width: 105px;  
+}
+:host ::ng-deep .ui-g {
+    display: block;
+  
+}
+input[type="text"],
+input[type="email"],
+.dropdowns
+{
+    width: 70%;
+    border:none;
+    border-bottom: 1px solid rgb(184, 159, 174);
+ 
+}

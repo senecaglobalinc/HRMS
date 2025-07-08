@@ -1,0 +1,78 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Tag Associate
+            <li id="back" (click)="BackToSkillSearch()">
+                <i class="fa fa-arrow-left" title="Back to Skill search" aria-hidden="true">&nbsp;Back</i>
+            </li>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+                
+            <p-table  [value]="tagListDetails" dataKey="TagListName">
+              
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Tag List Name</th>
+                        <th>Employee Name</th>
+                        <th>Designation</th>
+                        <th>Project Name</th>
+                        <th style="text-align: center">Allocation %</th>
+                        <th style="text-align: center">Available %</th>
+                        <th style="text-align: center">Allocate</th>
+                        <th class="actCls">Delete</th>
+                        <th class="actCls">Close</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr>
+                        <td class="tables" *ngIf="rowGroupMetadata[rowData.TagListName].index === rowIndex" [attr.rowspan]="rowGroupMetadata[rowData.TagListName].size">
+                            <span>{{rowData.TagListName}}</span>
+                        </td>
+                        <td class="tables">{{rowData.EmployeeName}}</td>
+                        <td class="tables">{{rowData.Designation}}</td>
+                        <td class="tables">{{rowData.ProjectName}}</td>
+                        <td style="text-align: center">
+                            <p-progressBar [value]="rowData['AllocatedPercentage']"></p-progressBar>
+                            </td>
+                        <td style="text-align: center">
+                            <p-progressBar [value]="rowData['Available']"></p-progressBar>
+                            </td>
+                        <td style="text-align: center" [pSelectableRow]="rowData">
+                            <button *ngIf="rowData['Available'] > 0" type="submit" class="btn btn-primary" (click)="gotoAllocation(rowData)">Allocate</button>
+                            <button *ngIf="rowData['Available'] <= 0" type="submit" disabled class="btn btn-primary">Allocate</button>
+                        </td>
+
+                        <td style="text-align: center" [pSelectableRow]="rowData">&nbsp;&nbsp;
+                            <i title="Delete from Tag list" class="fa fa-trash-o fa-lg delCls" (click)="onDeleteClick(rowData)"></i>&nbsp;&nbsp;
+
+                        </td>
+                        <td style="text-align: center; font-size: 24px;" *ngIf="rowGroupMetadata[rowData.TagListName].index === rowIndex" [attr.rowspan]="rowGroupMetadata[rowData.TagListName].size">
+                                <i title="Delete from Tag list" class="fa fa-times-circle delCls" (click)="deleteWholeTagList(rowData)"></i>
+                            </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<!-- <p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+            <ng-template let-message pTemplate="message">
+                <div style="text-align: center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+                    <h3>{{message.summary}}</h3>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-6">
+                        <button type="button" pButton (click)="onConfirm()" label="Yes" class="ui-button-success"></button>
+                    </div>
+                    <div class="ui-g-6">
+                        <button type="button" pButton (click)="onReject()" label="No" class="ui-button-secondary"></button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-toast> -->

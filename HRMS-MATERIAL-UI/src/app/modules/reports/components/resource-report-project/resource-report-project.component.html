@@ -1,0 +1,289 @@
+<mat-card>
+    <mat-card-content>
+       <form [formGroup]="projectsForm">
+          <div class="row">
+             <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                   <mat-label>Select Projects</mat-label>
+                   <input type="text" placeholder="Select Project" matInput
+                      formControlName="ProjectId" name="ProjectId" [matAutocomplete]="auto">
+                   <button class="clearFieldIcon" *ngIf="clearFieldIcon"  (click)="clearField()" mat-button matSuffix
+                   mat-icon-button aria-label="Clear">
+                   <mat-icon>close</mat-icon>
+                   </button>
+                   <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option  (click)="selectedChangeIds(item)"  (keyup.enter)="selectedChangeIds(item)" *ngFor="let item of filteredProject | async;" [value]="item.label">
+                      {{item.label}}
+                      </mat-option>
+                   </mat-autocomplete>
+                </mat-form-field>
+             </div>
+             <div class="col-md-12 text-right">
+                <button *ngIf="disableProject" id="back" mat-button (click)="backToProjects()">
+                <mat-icon>arrow_back</mat-icon>
+                Back
+                </button>
+             </div>
+          </div>
+       </form> 
+       <div class="row">
+          <div class="col-md-4">
+             <mat-tab-group [selectedIndex]="defaultIndex" (selectedTabChange)="changeChart($event)" [ngClass]="{'d-none': !dispChart}"  class="border">
+                <mat-tab>
+                   <ng-template mat-tab-label>
+                      <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+                      Bar
+                   </ng-template>
+                   <div>
+                      <canvas id="resourceReportByProjectChart"   height="290" #resourceChart></canvas>
+                   </div>
+                </mat-tab>
+                <mat-tab>
+                   <ng-template mat-tab-label>
+                      <mat-icon class="example-tab-icon">pie_chart</mat-icon>
+                      Pie
+                   </ng-template>
+                   <div class="my-3">
+                      <canvas id="resourceReportByProjectPieChart" height="290" #resourcePieChart></canvas>
+                   </div>
+                </mat-tab>
+             </mat-tab-group>
+          </div> 
+          <div class="col-md-8">
+             <div class="table-responsive" *ngIf="resourceAllocationList.length>0">
+                <table mat-table [dataSource]="resourceAllocationDataSource" matSort class="reportDataTable">
+                   <ng-container matColumnDef="ProjectName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Project Name
+                      </th>
+                      <td mat-cell *matCellDef="let resourceAllocation">{{resourceAllocation.ProjectName}}</td>
+                   </ng-container>
+                   <ng-container matColumnDef="ResourceCount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">No. of
+                         Resources
+                      </th>
+                      <td mat-cell *matCellDef="let resourceAllocation">{{resourceAllocation.ResourceCount}}</td>
+                   </ng-container>
+                   <ng-container matColumnDef="BillableCount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Billable
+                         Resource
+                      </th>
+                      <td mat-cell *matCellDef="let resourceAllocation">{{resourceAllocation.BillableCount}}</td>
+                   </ng-container>
+                   <ng-container matColumnDef="NonBillableCriticalCount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Non Billable Critical
+                         Resources
+                      </th>
+                      <td mat-cell *matCellDef="let resourceAllocation">{{resourceAllocation.NonBillableCriticalCount}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="NonBillableNonCriticalCount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Non Billable Non Critical
+                       Resources
+                    </th>
+                    <td mat-cell *matCellDef="let resourceAllocation">{{resourceAllocation.NonBillableNonCriticalCount}}
+                    </td>
+                 </ng-container>
+                   <tr mat-header-row *matHeaderRowDef="displayedColumnsResourceAllocation"></tr>
+                   <tr mat-row *matRowDef="let row; columns: displayedColumnsResourceAllocation;"></tr>
+                   <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data</td>
+                   </tr>
+                </table>
+             </div>
+             <div class="table-responsive" [hidden]="!(billableResourceAllocationList.length>0)">
+                <h3>Billable Resource Allocation List</h3>
+                <table mat-table [dataSource]="billableResourceAllocationDataSource" matSort
+                   class="billableResourcesTable">
+                   <ng-container matColumnDef="AssociateCode">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Associate
+                         Code
+                      </th>
+                      <td mat-cell *matCellDef="let billableResourceAllocation">
+                         {{billableResourceAllocation.AssociateCode}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="AssociateName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Associate
+                         Name
+                      </th>
+                      <td mat-cell *matCellDef="let billableResourceAllocation">
+                         {{billableResourceAllocation.AssociateName}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="AllocationPercentage">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Allocation %
+                      </th>
+                      <td mat-cell *matCellDef="let billableResourceAllocation">
+                         {{billableResourceAllocation.AllocationPercentage}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="ClientBillingRoleName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client
+                         Billing Role
+                      </th>
+                      <td mat-cell *matCellDef="let billableResourceAllocation">
+                         {{billableResourceAllocation.ClientBillingRoleName}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="IsPrimaryProject">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Primary</th>
+                      <td mat-cell *matCellDef="let billableResourceAllocation">
+                         {{billableResourceAllocation.IsPrimaryProject}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="IsCriticalResource">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Critical</th>
+                      <td mat-cell *matCellDef="let billableResourceAllocation">
+                         {{billableResourceAllocation.IsCriticalResource}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="EffectiveDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Allocation Date</th>
+                    <td mat-cell *matCellDef="let billableResourceAllocation">
+                       {{billableResourceAllocation.EffectiveDate}}
+                    </td>
+                 </ng-container>
+                   <tr mat-header-row *matHeaderRowDef="displayedColumnsbillableNonBillabale"></tr>
+                   <tr mat-row *matRowDef="let row; columns: displayedColumnsbillableNonBillabale;"></tr>
+                   <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data</td>
+                   </tr>
+                </table>
+                <div class="row justify-content-center">
+                   <mat-paginator #billableResourcePaginator [pageSizeOptions]="[10, 20,30]"></mat-paginator>
+                </div>
+             </div>
+             <div class="table-responsive" [hidden]="!(nonBillableCriticalResourceAllocationList.length>0)">
+                <h3>Non Billable Resource Allocation List</h3>
+                <table mat-table [dataSource]="nonBillableCriticalResourceAllocationDataSource" matSort
+                   class="nonBillableCriticalResourcesTable">
+                   <ng-container matColumnDef="AssociateCode">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Associate
+                         Code
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                         {{nonBillableResourceAllocation.AssociateCode}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="AssociateName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Associate
+                         Name
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                         {{nonBillableResourceAllocation.AssociateName}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="AllocationPercentage">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Allocation %
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                         {{nonBillableResourceAllocation.AllocationPercentage}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="ClientBillingRoleName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client
+                         Billing Role
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                         {{nonBillableResourceAllocation.ClientBillingRoleName}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="IsPrimaryProject">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Primary</th>
+                      <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                         {{nonBillableResourceAllocation.IsPrimaryProject}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="IsCriticalResource">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Critical</th>
+                      <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                         {{nonBillableResourceAllocation.IsCriticalResource}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="EffectiveDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Allocation Date</th>
+                    <td mat-cell *matCellDef="let nonBillableResourceAllocation">
+                       {{nonBillableResourceAllocation.EffectiveDate}}
+                    </td>
+                 </ng-container>
+                   <tr mat-header-row *matHeaderRowDef="displayedColumnsbillableNonBillabale"></tr>
+                   <tr mat-row *matRowDef="let row; columns: displayedColumnsbillableNonBillabale;"></tr>
+                   <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data</td>
+                   </tr>
+                </table>
+                <div class="row justify-content-center">
+                   <mat-paginator #nonBillableResourcePaginator [pageSizeOptions]="[10, 20,30]"></mat-paginator>
+                </div>
+             </div>
+             <div class="table-responsive" [hidden]="!(nonBillableNonCriticalResourceAllocationList.length>0)">
+                <h3>Non Billable Non Critical Resource Allocation List</h3>
+                <table mat-table [dataSource]="nonBillableNonCriticalResourceAllocationDataSource" matSort
+                   class="nonBillableNonCriticalResourcesTable">
+                   <ng-container matColumnDef="AssociateCode">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Associate
+                         Code
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                         {{nonBillableNonCriticalResourceAllocation.AssociateCode}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="AssociateName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Associate
+                         Name
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                         {{nonBillableNonCriticalResourceAllocation.AssociateName}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="AllocationPercentage">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Allocation %
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                         {{nonBillableNonCriticalResourceAllocation.AllocationPercentage}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="ClientBillingRoleName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client
+                         Billing Role
+                      </th>
+                      <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                         {{nonBillableNonCriticalResourceAllocation.ClientBillingRoleName}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="IsPrimaryProject">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Primary</th>
+                      <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                         {{nonBillableNonCriticalResourceAllocation.IsPrimaryProject}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="IsCriticalResource">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Critical</th>
+                      <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                         {{nonBillableNonCriticalResourceAllocation.IsCriticalResource}}
+                      </td>
+                   </ng-container>
+                   <ng-container matColumnDef="EffectiveDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Allocation Date</th>
+                    <td mat-cell *matCellDef="let nonBillableNonCriticalResourceAllocation">
+                       {{nonBillableNonCriticalResourceAllocation.EffectiveDate}}
+                    </td>
+                 </ng-container>
+                   <tr mat-header-row *matHeaderRowDef="displayedColumnsbillableNonBillabale"></tr>
+                   <tr mat-row *matRowDef="let row; columns: displayedColumnsbillableNonBillabale;"></tr>
+                   <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data</td>
+                   </tr>
+                </table>
+                <div class="row justify-content-center">
+                   <mat-paginator #nonBillableNonCriticalResourcePaginator [pageSizeOptions]="[10, 20,30]"></mat-paginator>
+                </div>
+             </div>
+          </div>
+       </div>
+    </mat-card-content>
+ </mat-card>
+ <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

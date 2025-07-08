@@ -1,0 +1,75 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Update Employee Status
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+            <form class="form-horizontal" [formGroup]="userform" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label class="chosenLabel">Associate Name:</label>
+                                <span style="color: red">*</span>&nbsp;
+                                <div class="ui-fluid">
+                                    <p-dropdown [autoWidth]="false" [filter]="true" formControlName="EmpId" [options]="_usersList" [style]="{'width':'70%'}"
+                                        [(ngModel)]="_empData.EmpId"></p-dropdown>
+                                </div>
+                                <!-- <p-dropdown formControlName="EmpID" [style]="{'width':'50%'}" [options]="_usersList" [(ngModel)]="_empData.EmpID" [autoWidth]="false" filter="filter">
+                            </p-dropdown> -->
+                                <div *ngIf="(!userform.controls['EmpId'].valid&&userform.controls['EmpId'].dirty)||(formSubmitted&&!userform.controls['EmpId'].valid)">
+                                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                    <span style="color: red">Associate Required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label class="chosenLabel">Status:</label>&nbsp;
+                                <div class="ui-fluid">
+                                    <p-dropdown formControlName="IsActive" [options]="_status" [style]="{'width':'70%'}" [(ngModel)]="_empData.IsActive" [autoWidth]="false"
+                                        (onChange)="onStatusChange(_empData.IsActive)">
+                                    </p-dropdown>
+                                </div>
+                                <div *ngIf="(!userform.controls['IsActive'].valid&&userform.controls['IsActive'].dirty)||(formSubmitted&&!userform.controls['IsActive'].valid)">
+                                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                    <span style="color: red">Status Required.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box" *ngIf="enableDate">
+                                <label>Last Working Date:</label>&nbsp;
+                                <div class="ui-fluid">
+                                    <p-calendar name="EffectiveDate" [style]="{'width':'70%'}" formControlName="LastWorkingDate" yearRange="2000:2030" showIcon="true"
+                                        [minDate]="firstDate" [maxDate]="lastDate" monthNavigator="true" yearNavigator="true"
+                                        [(ngModel)]="_empData.LastWorkingDate" dateFormat="yy-mm-dd"></p-calendar>
+                                </div>
+                                <!-- <p-</calendar formControlName="lastWorkingDate"  [(ngModel)]="_empData.LastWorkingDate" [showIcon]="true"></p-calendar> -->
+                                <div *ngIf="(!userform.controls['LastWorkingDate'].valid&&userform.controls['LastWorkingDate'].dirty)||(formSubmitted&&!userform.controls['LastWorkingDate'].valid)">
+                                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                    <span style="color: red">Last Working Date Required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <section class="pull-right buttons">
+                                <button type="submit" class="btn btn-custom">
+                                    <i class="fa fa-floppy-o"></i>&nbsp;Save</button> &nbsp;
+                                <button type="button" class="btn btn-default" (click)="clear()">
+                                    <i class="fa fa-eraser"></i>Clear</button>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

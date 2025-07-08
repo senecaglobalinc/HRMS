@@ -1,0 +1,69 @@
+::ng-deep .ui-table-thead tr th.editCls {
+  width: 100px;
+  text-align: center;
+}
+.inputCls {
+  margin-bottom: 10px;
+}
+.associateexit{
+  margin-top: 30px;
+  width: 50%;
+}
+::ng-deep .mat-tooltip {
+  position: relative;
+  &::after {
+    width: 0;
+    height: 0;
+    content: '';
+    position: absolute;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid #0000008c;
+  }
+  &.below {
+    overflow: initial;
+    margin-top: 1rem;
+    &:after {
+      top: -0.5rem;
+      right: calc(50% - 0.5rem);
+      transform: rotate(0);
+    }
+  }
+
+  &.above {
+    overflow: initial;
+    margin-bottom: 1rem;
+    width: 180px;
+    color: black;
+    text-align: center;
+    background-color: white !important;
+    border: 1px solid rgba(0, 0, 0, 0.54);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 4px !important;
+    &:after {
+      bottom: -0.5rem;
+      right: calc(50% - 0.5rem);
+      transform: rotate(180deg);
+    }
+  }
+
+  &.right {
+    overflow: initial;
+    margin-left: 1rem;
+    &:after {
+      left: -0.75rem;
+      top: calc(50% - 0.25rem);
+      transform: rotate(270deg);
+    }
+  }
+
+  &.left {
+    overflow: initial;
+    margin-right: 1rem;
+    &:after {
+      right: -0.75rem;
+      top: calc(50% - 0.25rem);
+      transform: rotate(90deg);
+    }
+  }
+}

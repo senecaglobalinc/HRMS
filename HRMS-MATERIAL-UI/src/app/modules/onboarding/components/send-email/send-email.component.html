@@ -1,0 +1,334 @@
+
+ <!-- <div class="orgDevImage1" style="text-align: center;" (click)="banner.click()">
+    <img class="orgDevImage" src="../../../../../assets/images/ODActivity_NoImage.png"
+        style="cursor: pointer;">
+    <input type="file" (change)="onUploadBanner($event)" #banner hidden accept="JPEG/PDF/Word/*"
+        #file>
+    <div class="labelHeading">Click to Upload</div>
+</div> -->
+<div [hidden]="true" mat-dialog-title #emailsubject>
+  <b>Welcome to New {{element.Designation}} : {{element.EmpName}}</b>
+</div>
+<!-- <div>
+   Dear Associates,
+</div> -->
+
+<!-- <div class="fileUploadClass">
+   <img *ngIf="!imageView" class="orgDevImage" src="../../../../../assets/images/ODActivity_NoImage.png"
+   style="cursor: pointer;"  height="200">
+   
+   <img *ngIf="imageView" [src]="imageView" height="200"> <br/>
+   <div>
+   <button mat-raised-button (click)="file.click()" type="button">
+       <span> * Upload Associate Image</span>
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+         <path d="M0 0h24v24H0z" fill="none" /> 
+         <path d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z" />  
+       </svg>   
+       <input #file id="fileUpload" type="file" (change)="onFileChange($event)" style="display: none;" />   
+     </button>
+   </div>
+</div> -->
+<!-- <div mat-dialog-content *ngIf="!isEditClicked"> 
+ <span class="email-content" >
+     {{element.EmpName}}<mat-icon title="Emp Name" (click)="isQualificationEdit($event)">edit</mat-icon> has joined the organization as {{element.Designation}}<mat-icon title='Designation' (click)="isQualificationEdit($event)">edit</mat-icon> on <span #joinDate>{{joiningDate|date}}</span><mat-icon title='JoiningDate' (click)="isQualificationEdit($event)">edit</mat-icon>.
+     {{isPronoun}} holds {{element.HighestQualification}}<mat-icon title="HighestQualification" (click)="isQualificationEdit($event)">edit</mat-icon> from {{element.Institution}}<mat-icon title='Institution' (click)="isQualificationEdit($event)">edit</mat-icon> .<br/><br/>
+     {{isPronoun}} brings along with {{isPossessivePronoun}} {{element.Experience}}<mat-icon title="Experience" (click)="isQualificationEdit($event)">edit</mat-icon> 
+     + years of experience in {{element.Department}}<mat-icon title='Department' (click)="isQualificationEdit($event)">edit</mat-icon>.
+     {{isPronoun}} has good exposure {{element.SkillName}}<mat-icon title='SkillName' (click)="isQualificationEdit($event)">edit</mat-icon>.
+     {{isPronoun}} worked as {{element.PrevEmploymentDesignation}}<mat-icon title='PrevEmploymentDesignation' (click)="isQualificationEdit($event)">edit</mat-icon>
+     with {{element.PrevEmployeeDetails}}<mat-icon title='PrevEmployeeDetails' (click)="isQualificationEdit($event)">edit</mat-icon>.<br/><br/>
+     <span>On behalf of all of us, I extend a hearty welcome to {{isPossessivePronoun}} and wish a long and successful career with Seneca Global.</span>
+   </span>
+     
+</div> -->
+<!-- <div mat-dialog-content *ngIf="isEditClicked">
+   <span class="email-content" >
+       <span *ngIf="!isEmpNameEdit">{{element.EmpName}}<mat-icon title="Emp Name" (click)="isQualificationEdit($event)">edit</mat-icon></span><input maxlength="50" value="text" *ngIf="isEmpNameEdit" (blur)="qualificationEdits($event)" name="EmpName" type="text" [(ngModel)]="element.EmpName"/>
+has joined the organization as <span *ngIf="!isDesignationEdit">{{element.Designation}}<mat-icon title="Designation" (click)="isQualificationEdit($event)">edit</mat-icon></span><input *ngIf="isDesignationEdit" maxlength="50" (blur)="qualificationEdits($event)" name="Designation" type="text" [(ngModel)]="element.Designation"/>
+on <span *ngIf="!isJoiningDateEdit"><span #joinDate>{{joiningDate|date}}</span><mat-icon title="JoiningDate" (click)="isQualificationEdit($event)">edit</mat-icon></span><input *ngIf="isJoiningDateEdit" maxlength="10"  (blur)="qualificationEdits($event)" name="JoiningDate" type="text" [(ngModel)]="element.JoiningDate"/>
+       .{{isPronoun}} holds <span *ngIf="!isHighQualificationEdit">{{element.HighestQualification}}<mat-icon title="HighestQualification" (click)="isQualificationEdit($event)">edit</mat-icon></span><input *ngIf="isHighQualificationEdit"  (blur)="qualificationEdits($event)" name="HighestQualification" type="text" [(ngModel)]="element.HighestQualification"/> from 
+       <span *ngIf="!isInstitutionEdit">{{element.Institution}}<mat-icon title="HighestQualification" (click)="isQualificationEdit($event)">edit</mat-icon></span><input *ngIf="isInstitutionEdit"  (blur)="qualificationEdits($event)" name="Institution" type="text" [(ngModel)]="element.Institution"/>.<br/><br/>
+       {{isPronoun}} brings along with {{isPossessivePronoun}}
+       <span *ngIf="!isExperienceEdit">{{element.Experience}} <mat-icon title="Experience" (click)="isQualificationEdit($event)">edit</mat-icon></span><input *ngIf="isExperienceEdit"  (blur)="qualificationEdits($event)" name="Experience" type="text" [(ngModel)]="element.Experience"/>+ years of experience in
+       <span *ngIf="!isDepartmentEdit">{{element.Department}}<mat-icon title="Department" (click)="isQualificationEdit($event)">edit</mat-icon>
+       </span><input *ngIf="isDepartmentEdit"  (blur)="qualificationEdits($event)" name="Department" type="text" [(ngModel)]="element.Department"/>.{{isPronoun}} has good exposure 
+       <span *ngIf="!isSkillNameEdit">{{element.SkillName}}<mat-icon title="SkillName" (click)="isQualificationEdit($event)">edit</mat-icon></span>
+       <input *ngIf="isSkillNameEdit"  (blur)="qualificationEdits($event)" name="PrevEmploymentDesignation" type="text" [(ngModel)]="element.SkillName"/>.Prior to us, {{isPronoun}} worked as 
+       <span *ngIf="!isPrevEmpDesignationEdit">{{element.PrevEmploymentDesignation}}<mat-icon title="PrevEmploymentDesignation" (click)="isQualificationEdit($event)">edit</mat-icon></span>
+       <input *ngIf="isPrevEmpDesignationEdit"  (blur)="qualificationEdits($event)" name="PrevEmploymentDesignation" type="text" [(ngModel)]="element.PrevEmploymentDesignation"/> with 
+       <span *ngIf="!isPrevEmpDetailsEdit">{{element.PrevEmployeeDetails}} <mat-icon title="PrevEmployeeDetails" (click)="isQualificationEdit($event)">edit</mat-icon></span>
+       <input *ngIf="isPrevEmpDetailsEdit"  (blur)="qualificationEdits($event)" name="PrevEmployeeDetails" type="text" [(ngModel)]="element.PrevEmployeeDetails"/>
+       <br/><br/>
+       <span>On behalf of all of us, I extend a hearty welcome to {{isPossessivePronoun}} and wish a long and successful career with Seneca Global.</span>
+   </span>
+ </div> -->
+ <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+  <tbody>
+    <tr>
+     <td align="center">
+       <img src="../../../../../assets/images/welcome-senecaglobal.png" width="300px" height="125px">
+       </td>
+    </tr>
+  </tbody>
+ </table>
+ 
+   <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="text-align: center;">
+     <tbody>
+       <tr>
+         <td style="text-align:right">
+           <div class="fileUploadClass">
+             <img *ngIf="!imageView" class="orgDevImage" src="../../../../../assets/images/ODActivity_NoImage.png"
+             style="cursor: pointer;margin-right: 8px;" width="230"  height="270">
+             
+             <img *ngIf="imageView" [src]="imageView" width="220" height="270"> <br/>
+             <div>
+             <button mat-raised-button (click)="file.click()" type="button">
+                 <span> * Upload Associate Image</span>
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+                   <path d="M0 0h24v24H0z" fill="none" /> 
+                   <path d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z" />  
+                 </svg>   
+                 <input #file id="fileUpload" type="file" (change)="onFileChange($event)" style="display: none;" />   
+               </button>
+             </div>
+         </div>
+         </td>
+         <td>
+           <div class="x_mj-column-per-50 x_mj-outlook-group-fix" style="font-size:0px; text-align:left; direction:ltr; display:inline-block; vertical-align:top; width:100%">
+             <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+             <tbody>
+             <tr>
+             <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+             <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:20px; text-align:left; color:#ff6366; font-family:Montserrat,Arial; line-height:22px">{{this.saluation}} {{this.empfirstName}}</span>
+             <span style="font-size:20px; text-align:left; color:#575757; font-family:Montserrat,Arial; line-height:22px">
+             <b>{{this.emplastName}}</b></span></p>
+             </div>
+             </td>
+             </tr>
+             <tr>
+             <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+             <p style="text-align:left; margin:10px 0; margin-top:10px"><span style="font-size:13px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:5px">Joined As</span></p>
+             <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:20px; text-align:left; color:#ff6366; font-family:Montserrat,Arial; line-height:22px">{{this.element.Designation}}</span></p>
+             </div>
+             </td>
+             </tr>
+             <tr>
+             <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+             <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+             <p style="text-align:left; margin:10px 0; margin-top:10px"><span style="font-size:13px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:5px">Reporting to<mat-icon *ngIf="!isReportingEditClicked"  (click)="isReportingEdit($event)">edit</mat-icon></span></p>
+             <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:18px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:22px">
+              <mat-form-field *ngIf="isReportingEditClicked" appearance={{themeConfigInput}}>
+               
+                <input autocomplete="disabled" (blur)="reportingManagerEdit($event)" matInput type="text" [(ngModel)]="reportingManagerName" >
+             </mat-form-field>
+               </span></p>
+               <span style="font-size:20px;" *ngIf="!isReportingEditClicked">{{reportingManagerName}}</span>
+             </div>
+             </td>
+             </tr>
+             </tbody>
+             </table>
+             </div>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+ <!-- <table border="0" cellpadding="0" cellspacing="0" role="presentation"  style="display: inline-block;">
+   <tbody>
+     <tr>
+      <td align="center">
+       <div class="fileUploadClass">
+         <img *ngIf="!imageView" class="orgDevImage" src="../../../../../assets/images/ODActivity_NoImage.png"
+         style="cursor: pointer;"  height="200">
+         
+         <img *ngIf="imageView" [src]="imageView" height="200"> <br/>
+         <div>
+         <button mat-raised-button (click)="file.click()" type="button">
+             <span> * Upload Associate Image</span>
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+               <path d="M0 0h24v24H0z" fill="none" /> 
+               <path d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z" />  
+             </svg>   
+             <input #file id="fileUpload" type="file" (change)="onFileChange($event)" style="display: none;" />   
+           </button>
+         </div>
+     </div>
+        </td>
+     </tr>
+   </tbody>
+  </table> -->
+ 
+ 
+ 
+ <!-- <table align="center"  border="0" cellpadding="0" cellspacing="0" role="presentation" style="float: left;">
+   <tbody>
+   <tr>
+   <td style="direction:ltr; font-size:0px; padding:20px 0; text-align:right">
+   <div class="x_mj-column-per-50 x_mj-outlook-group-fix" style="font-size:0px; text-align:left; direction:ltr; display:inline-block; vertical-align:top; width:100%">
+   <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+   <tbody>
+   <tr>
+   <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+   <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+   <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:20px; text-align:left; color:#ff6366; font-family:Montserrat,Arial; line-height:22px">{{this.saluation}} {{this.empfirstName}}</span>
+   <span style="font-size:20px; text-align:left; color:#575757; font-family:Montserrat,Arial; line-height:22px">
+   <b>{{this.emplastName}}</b></span></p>
+   </div>
+   </td>
+   </tr>
+   <tr>
+   <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+   <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+   <p style="text-align:left; margin:10px 0; margin-top:10px"><span style="font-size:13px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:5px">Joined As</span></p>
+   <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:20px; text-align:left; color:#ff6366; font-family:Montserrat,Arial; line-height:22px">{{this.element.Designation}}</span></p>
+   </div>
+   </td>
+   </tr>
+   <tr>
+   <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+   <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+   <p style="text-align:left; margin:10px 0; margin-top:10px"><span style="font-size:13px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:5px">Reporting to<mat-icon *ngIf="!isReportingEditClicked"  (click)="isReportingEdit($event)">edit</mat-icon></span></p>
+   <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:18px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:22px">
+     <input *ngIf="isReportingEditClicked"  (blur)="reportingManagerEdit($event)" name="PrevEmploymentDesignation" type="text" [(ngModel)]="reportingManagerName"/></span></p>
+     <span *ngIf="!isReportingEditClicked">{{reportingManagerName}}</span>
+   </div>
+   </td>
+   </tr>
+   </tbody>
+   </table>
+   </div>
+   </td>
+   </tr>
+   </tbody>
+   </table> -->
+
+ <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+   <tbody>
+   <tr>
+   <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+   <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+   <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:14px; text-align:left; color:#fa5c84; font-family:Montserrat,Arial; line-height:22px"><b>KEY SKILLS</b></span></p>
+   <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:14px; text-align:left; color:#1a1a1a; font-family:Montserrat,Arial; line-height:22px">{{skillLists}}
+   </span></p>
+   </div>
+   </td>
+   </tr>
+   </tbody>
+   </table>
+ 
+   <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+     <tbody>
+     <tr>
+     <td align="center" style="font-size:0px; padding:10px 15px 0 10px; word-break:break-word">
+     <p style="border-top:solid 1px #fb8c00; font-size:1px; margin:0px auto; width:100%">
+     </p>
+     </td>
+     </tr>
+     </tbody>
+     </table>
+     <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+       <tbody>
+         <tr>
+           <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+           <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+           <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:14px; text-align:left; color:#fa5c84; font-family:Montserrat,Arial; line-height:22px"><b>Education</b></span></p>
+           </div>
+           </td>
+           </tr>
+         
+         <tr *ngFor="let element of certificationList">
+           <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+           <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+             <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:18px; text-align:left; color:#1a1a1a; font-family:Montserrat,Arial; line-height:22px"><strong>{{element.CertificationName}}
+             </strong></span></p>
+             <p style="text-align:left; margin:10px 0; margin-top:10px"><span style="font-size:13px; text-align:left; color:#5c5c5c; font-family:Montserrat,Arial; line-height:5px">{{element.Specialization}}
+             </span></p>
+           </div>
+           </td>
+         </tr>
+       </tbody>
+       </table>
+      
+         <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+           <tbody>
+           <tr>
+           <td align="center" style="font-size:0px; padding:10px 15px 0 10px; word-break:break-word">
+           <p style="border-top:solid 1px #fb8c00; font-size:1px; margin:0px auto; width:100%">
+           </p>
+           </td>
+           </tr>
+           </tbody>
+           </table>
+
+           <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+             <tbody>
+             <tr>
+             <td align="center" style="font-size:0px; padding:10px 15px 0 10px; word-break:break-word">
+               <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+                 <p style="text-align:left; margin:0 0; margin-top:0; margin-bottom:10px"><span style="font-size:14px; text-align:left; color:#fa5c84; font-family:Montserrat,Arial;margin-left:15px"><b>Bio</b></span><mat-icon  (click)="isQualificationEdit($event)">edit</mat-icon></p>
+                 <p style="text-align:left; margin:10px 0; margin-top:10px; margin-bottom:10px"><span style="font-size:14px; text-align:left; color:#1a1a1a; font-family:Montserrat,Arial;margin-left:15px">
+                  <mat-form-field *ngIf="isEditClicked" appearance={{themeConfigInput}}>
+                     <textarea  (blur)="qualificationEdits($event)" [(ngModel)]="bioContent" name="" id="" cols="100%" rows="8"></textarea>
+                   </mat-form-field>
+                   <span style="font-size:20px;" *ngIf="!isEditClicked">{{bioContent}}</span>
+                 </span></p>
+                 </div>
+             </td>
+             </tr>
+             </tbody>
+             </table>
+
+             <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="vertical-align:top">
+               <tbody>
+               <tr>
+               <td align="center" style="font-size:0px; padding:10px 15px 0 10px; word-break:break-word">
+               <p style="border-top:solid 1px #fb8c00; font-size:1px; margin:0px auto; width:100%">
+               </p>
+               </td>
+               </tr>
+               </tbody>
+               </table>
+
+             <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+               <tbody>
+               <tr>
+               <td align="left" style="font-size:0px; padding:0 25px 0 25px; padding-top:0px; padding-right:25px; padding-bottom:0px; padding-left:25px; word-break:break-word">
+               <div style="font-family:Ubuntu,Helvetica,Arial,sans-serif; font-size:13px; line-height:1; text-align:left; color:#000000">
+               <p style="text-align:center; margin:10px 0; margin-top:10px; margin-bottom:10px">
+               <span style="font-size:14px; text-align:left; color:#1a1a1a; font-family:Montserrat,Arial; line-height:22px">On behalf of all of us, I extend a
+               <b><span style="color:#ff6366"> hearty welcome </span></b> to her and wish a long and
+               <b><span style="color:#ff6366"> successful career </span></b> with <b> <span style="color:#ff6366">
+                SenecaGlobal</span></b>.</span></p>
+               </div>
+               </td>
+               </tr>
+               </tbody>
+               </table>
+       
+  
+ <div [hidden]="true"  #emailcontent>{{emailStr}}
+   Mr. Vaibhav Thummala has joined the organization as IT Support Engineer in Tree House Foods - Helpdesk project and will report to Mr. Vinod Pedamallu. Vaibhav holds Bachelor of Technology (Electronics & Communications Engineering) from KL University, Hyderabad, Telangana.
+
+   Murthy brings along with him 5+ years of experience as full stack Python developer. He has good exposure JavaScript, PHP, Core Java, Flask, Vue JS, jQuery, Selenium, Apache, Mango DB, My SQL etc. Prior to joining us, Murthy had worked as Software Engineer with Infor, Hyderabad.
+
+   Vaibhav brings along with him 2+ years of experience in Customer Support. Prior to joining us, Vaibhav had worked as a Fraud Investigator & Dispute Resolution Specialist, with Uber, Hyderabad and as Transaction Risk Investigator with Amazon, Hyderabad.
+   
+    
+   
+   On behalf of all of us, I extend a hearty welcome to him and wish a long and successful career with Seneca Global.
+   
+    
+   
+   Thanks,
+ </div>
+
+
+<div mat-dialog-actions class="confirmation-dialog-actions">  
+   <button type="submit" mat-flat-button color="primary" (click)="send()">Send Mail
+   </button>
+   <button type="submit" mat-flat-button color="primary" (click)="cancel()">Cancel
+   </button>
+</div>

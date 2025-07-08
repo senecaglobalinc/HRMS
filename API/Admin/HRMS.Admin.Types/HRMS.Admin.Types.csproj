@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;DEV;QA;UAT</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.Admin.Entities\HRMS.Admin.Entities.csproj" />
+    <ProjectReference Include="..\HRMS.Admin.Infrastructure\HRMS.Admin.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

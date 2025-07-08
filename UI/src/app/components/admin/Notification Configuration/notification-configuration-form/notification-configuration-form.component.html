@@ -1,0 +1,134 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      <h4>Email Notification</h4>
+    </div>
+  </div>
+  <div class="panel-body">
+    <form novalidate>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="col-md-12">
+            <div class="col-md-3" style="width: 30%">
+              <label class="chosenLabel">Category</label><span style="color: red">*</span>
+            </div>
+            <div class="form-group col-md-7 ui-fluid">
+              <p-dropdown [options]="categoriesList" name="ddlcategory" [style]="{'width':'100%'}" (onChange)="getNotificationtypes(notificationConfigurationDetails.CategoryMasterId)"
+                [filter]="true" [(ngModel)]="notificationConfigurationDetails.CategoryMasterId" tabindex="1"></p-dropdown>
+              <span *ngIf="formSubmitted && (notificationConfigurationDetails.CategoryMasterId==0 || notificationConfigurationDetails.CategoryMasterId==null)"
+                style="color: red"> Select Category</span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-3" style="width: 30%">
+              <label>Notification Description</label>
+            </div>
+            <div class="form-group col-md-7 ui-fluid">
+              <input type="text" disabled="true" pInputText name="description" style="width:100%;background:#eee" placeholder="Notification Description"
+                [(ngModel)]="notificationConfigurationDetails.NotificationDescription" tabindex="3">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="col-md-12">
+            <div class="col-md-3" style="width: 30%">
+              <label>Notification Type</label><span style="color: red">*</span>
+            </div>
+            <div class="form-group col-md-7 ui-fluid">
+              <p-dropdown [style]="{'width':'100%'}" name="notificationType" [options]="notificationTypeList" filter="true"
+                (onChange)="GetNotificationCofigurationByNotificationType(notificationConfigurationDetails.NotificationTypeId,
+                                                    notificationConfigurationDetails.CategoryMasterId)"
+                [(ngModel)]="notificationConfigurationDetails.NotificationTypeId" tabindex="2"></p-dropdown>
+              <span
+                *ngIf="formSubmitted && 
+                        (notificationConfigurationDetails.NotificationTypeId==0 || notificationConfigurationDetails.NotificationTypeId==null)"
+                style="color: red"> Select NotificationType</span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-3" style="width: 30%">
+              <label>Email From</label>
+            </div>
+            <div class="form-group col-md-7 ui-fluid">
+              <input type="text" disabled="true" pInputText name="emailFrom" [(ngModel)]="notificationConfigurationDetails.EmailFrom" style="width:100%;background:#eee"
+                placeholder="Email From" tabindex="4">
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <div class="col-md-3" style="width: 14.4%">
+                <label>Subject</label><span style="color: red">*</span>
+              </div>
+              <div class="form-group col-md-7 ui-fluid" style="width: 80%">
+                <input type="text" name="subject" pInputText placeholder="Subject" maxlenght="150" [(ngModel)]="notificationConfigurationDetails.EmailSubject"
+                  tabindex="5">
+                <span *ngIf="formSubmitted && (notificationConfigurationDetails.EmailSubject==''|| notificationConfigurationDetails.EmailSubject==null)"
+                  style="color: red"> Enter Subject</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <div class="col-md-3" style="width: 14.4%">
+                <label>Email To</label><span style="color: red">*</span>
+              </div>
+              <div class="form-group col-md-7 ui-fluid" style="width: 80%">
+                <p-autoComplete name="emailTo" [suggestions]="filteredEmailIds" [style]="{'width':'100%',' border': '1px solid #ccc'}" (completeMethod)="filterEmailIDs($event)"
+                  field="EmailID" [multiple]="true" placeholder="Enter Email To" [(ngModel)]="notificationConfigurationDetails.ToEmail"
+                  tabindex="6">
+                </p-autoComplete>
+                <span *ngIf="formSubmitted && (notificationConfigurationDetails.ToEmail.length==0)" style="color: red"> Enter
+                  Email To</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <div class="col-md-3" style="width: 14.4%">
+                <label>Email CC</label>
+              </div>
+              <div class="form-group col-md-7 ui-fluid" style="width: 80%">
+                <p-autoComplete name="emailCC" [suggestions]="filteredEmailIds" [style]="{'width':'100%'}" (completeMethod)="filterEmailIDs($event)"
+                  field="EmailID" [multiple]="true" placeholder="Enter Email CC" [(ngModel)]="notificationConfigurationDetails.CCEmail"
+                  tabindex="7">
+                </p-autoComplete>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <div class="col-md-3" style="width: 14.4%">
+                <label>Content</label><span style="color: red">*</span>
+              </div>
+              <div class="form-group col-md-7 ui-fluid" style="width: 80%">
+                <p-editor name="emailContent" [style]="{'width':'100%', 'min-height':'120px'}" contenteditable="true" [(ngModel)]="notificationConfigurationDetails.EmailContent"
+                  tabindex="8">
+                  <p-header>
+                    <span class="ql-formats">
+                      <button class="ql-bold" aria-label="Bold"></button>
+                      <button class="ql-italic" aria-label="Italic"></button>
+                      <button class="ql-underline" aria-label="Underline"></button>
+                      <button class="ql-list" value="ordered" aria-label="Ordered List"></button>
+                      <button class="ql-list" value="bullet" aria-label="Unordered List"></button>
+                    </span>
+                  </p-header>
+                </p-editor>
+                <span *ngIf="formSubmitted && (notificationConfigurationDetails.EmailContent=='' || notificationConfigurationDetails.EmailContent==null)"
+                  style="color: red"> Enter Email Body</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="pull-right btns">
+        <button type="submit" class="btn btn-primary" (click)="onSave(notificationConfigurationDetails)">
+          <i class="fa fa-floppy-o"></i>&nbsp;{{buttonText}}</button>&nbsp;
+        <button type="button" class="btn btn-default" (click)="clear()">
+          <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+      </div>
+    </form>
+  </div>
+</div><p-toast [style]="{marginTop: '80px'}"></p-toast>

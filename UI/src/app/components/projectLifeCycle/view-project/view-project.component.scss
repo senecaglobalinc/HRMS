@@ -1,0 +1,37 @@
+.tableCls{
+    border :1px;
+}
+.headingCls{
+    padding : 10px;
+}
+.dataCls{
+    padding : 10px;
+    padding-right : 100px;
+}
+li {
+    display: inline;
+    padding: 5px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: skyblue;
+}
+
+li a {
+    color: white;
+}
+.active{
+    background: #367fa9;
+}
+#back{
+  
+    float: right; 
+}
+
+// th{
+//     text-align: center!important;
+// }
+.active{
+    background: #367fa9;
+}

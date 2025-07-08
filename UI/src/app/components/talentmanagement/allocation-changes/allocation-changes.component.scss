@@ -1,0 +1,64 @@
+input[type="text"],
+input[type="email"],
+.dropdowns
+{
+    width: 70%;
+    border:none;
+    border-bottom: 1px solid rgb(184, 159, 174);
+ 
+}
+
+.buttons {
+    margin-top: 22px;
+    margin-right: 74px;
+  }
+
+
+.checkboxs{
+  margin-top:32px;
+}
+  .table-bordered{
+    margin-right:20px;
+  }
+.center{
+  margin-left: 42px;
+}
+
+li {
+  display: inline;
+  padding: 5px;
+  cursor: pointer;
+}
+
+li:hover {
+  background: skyblue;
+}
+
+li a {
+  color: white;
+}
+.active{
+  background: #367fa9;
+}
+#back{
+
+  float: right; 
+}
+@media only screen and (max-width:1024px){
+  
+  .buttons{
+      margin-right:55px !important;
+  }
+}
+@media only screen and (max-width:1440px){
+  
+  .buttons{
+      margin-right:71px;
+  }
+}
+
+button[type="choose"]
+{
+    padding:1px;
+    font-size: 10px;
+}

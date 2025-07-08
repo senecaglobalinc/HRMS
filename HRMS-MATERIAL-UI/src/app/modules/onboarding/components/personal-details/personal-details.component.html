@@ -1,0 +1,485 @@
+<div class="container-fluid">
+        <form [formGroup]="personelDetailsForm" autocomplete="disabled">
+           <div class="row">
+              <div class="col-md-12">
+                 <h3 class="dividerHeading">Personal Details</h3> 
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>First Name<span class="text-danger">*</span></mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="FirstName" appValidations>
+                    <mat-error *ngIf="personelDetailsForm.get('FirstName').hasError('required')">First Name is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Middle Name</mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="MiddleName" appValidations>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Last Name
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="LastName" appValidations>
+                    <mat-error *ngIf="personelDetailsForm.get('LastName').hasError('required')">Last Name is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Gender
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="Gender">
+                       <mat-option *ngFor="let item of ddlGender" [value]="item.ValueId">{{item.ValueName}}
+                       </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personelDetailsForm.get('Gender').hasError('required')">Gender is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Birth Date
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input [min]="minDate" [max]="maxDate" autocomplete="disabled" matInput type="text" formControlName="Birthdate" [matDatepicker]="Birthdate" readonly (click)="Birthdate.open()" style="cursor: pointer;">
+                    <mat-datepicker-toggle matSuffix *ngIf="personelDetailsForm.value.Birthdate"
+                        (click)="clearInput($event, 'Birthdate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="Birthdate"></mat-datepicker-toggle>
+                    <mat-datepicker #Birthdate disabled="false"></mat-datepicker>
+                    <mat-error *ngIf="personelDetailsForm.get('Birthdate').hasError('required')">Birth Date is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Marital Status</mat-label>
+                    <mat-select formControlName="MaritalStatus">
+                       <mat-option *ngFor="let item of ddlMaritalStatus" [value]="item.ValueId">{{item.ValueName}}
+                       </mat-option>
+                    </mat-select>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Blood Group
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="BloodGroup">
+                       <mat-option *ngFor="let item of ddlBloodGrp" [value]="item.ValueId">{{item.ValueName}}
+                       </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personelDetailsForm.get('BloodGroup').hasError('required')">Blood Group is Required
+                        </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Nationality</mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="Nationality">
+                    <mat-error *ngIf="personelDetailsForm.get('Nationality').hasError">Invalid Nationality </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Telephone Number</mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="TelephoneNo" placeholder="040-22222222" maxlength="12">
+                    <mat-error *ngIf="personelDetailsForm.get('TelephoneNo').hasError">Invalid Telephone Number </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Mobile Number
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="MobileNo" (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" maxlength="10" minlength="10">
+                    <mat-error *ngIf="personelDetailsForm.get('MobileNo').hasError('required')">Mobile Number is Required
+                    </mat-error>
+                  <mat-error *ngIf="personelDetailsForm.get('MobileNo').hasError('pattern')">Mobile Number is Invalid
+                  </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Personal Email ID
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="PersonalEmailAddress">
+                    <mat-error *ngIf="personelDetailsForm.get('PersonalEmailAddress').hasError">Personal Email ID Required/Invalid
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Aadhar Number</mat-label>
+                    <input autocomplete="disabled" matInput formControlName="AadharNumber" appValidations maxlength="12">
+                    <mat-error *ngIf="personelDetailsForm.get('AadharNumber').hasError('minlength')">Minimum length should be 12</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>PAN Number
+                     <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" matInput formControlName="Pannumber" maxlength="10" (input)="changeTextToUppercase('Pannumber')">
+                    <mat-error *ngIf="personelDetailsForm.get('Pannumber').hasError">Required/Should be 10 characters. Starting with capital letter</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Passport Number</mat-label>
+                    <input autocomplete="disabled" matInput formControlName="PassportNumber" maxlength="8">
+                    <mat-error *ngIf="personelDetailsForm.get('PassportNumber').hasError">Should be 8 characters. Starting with a capital letter</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Passport Issuing Office</mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="PassportIssuingOffice" (keypress)="onlychar($event)">
+                    <mat-error *ngIf="personelDetailsForm.get('PassportIssuingOffice').hasError">Invalid Passport Issuing Office</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Passport Valid Upto</mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="PassportDateValidUpto" [matDatepicker]="PassportDateValidUpto" readonly (click)="PassportDateValidUpto.open()" style="cursor: pointer;">
+                    <mat-datepicker-toggle matSuffix *ngIf="personelDetailsForm.value.PassportDateValidUpto"
+                        (click)="clearInput($event, 'PassportDateValidUpto')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="PassportDateValidUpto"></mat-datepicker-toggle>
+                    <mat-datepicker #PassportDateValidUpto></mat-datepicker>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>UAN Number</mat-label>
+                    <input autocomplete="disabled" matInput formControlName="Uannumber" maxlength="12" appValidations>
+                    <mat-error *ngIf="personelDetailsForm.get('Uannumber').hasError('minlength')">Should be 12 characters length</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>PF Number</mat-label>
+                    <input autocomplete="disabled" matInput (keypress)="forPfNumber($event)" formControlName="Pfnumber" maxlength="26" appValidations>
+                    <mat-error *ngIf="personelDetailsForm.get('Pfnumber').hasError('minlength')">Minimum length should be 22</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Employment Start Date
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input [max]="today"  autocomplete="disabled" matInput type="text" formControlName="StartDateofEmployment" [matDatepicker]="StartDateofEmployment" 
+                    (dateChange)="this._Associate.StartDateofEmployment = $event.value" readonly (click)="StartDateofEmployment.open()" style="cursor: pointer;">
+                    <mat-datepicker-toggle matSuffix *ngIf="personelDetailsForm.value.StartDateofEmployment"
+                        (click)="clearInput($event, 'StartDateofEmployment')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="StartDateofEmployment"></mat-datepicker-toggle>
+                    <mat-datepicker #StartDateofEmployment></mat-datepicker>
+                    <mat-error *ngIf="personelDetailsForm.get('StartDateofEmployment').hasError('required')">Employment Start Date is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Career Break(In Months Only)</mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="CareerBreak" maxlength="2" placeholder="Example. 22">
+                    <mat-error *ngIf="personelDetailsForm.get('CareerBreak').hasError">Invalid Career Break </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Employee Code
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="EmployeeCode" placeholder="N0666" maxlength="5" >
+                        <mat-error *ngIf="personelDetailsForm.get('EmployeeCode').hasError('required') && !personelDetailsForm.get('EmployeeCode').hasError('minlength') && !personelDetailsForm.get('EmployeeCode').hasError('pattern')">Emp Code is Required</mat-error>
+                        <mat-error *ngIf="(personelDetailsForm.get('EmployeeCode').hasError('minlength') || personelDetailsForm.get('EmployeeCode').hasError('pattern')) && !personelDetailsForm.get('EmployeeCode').hasError('required')">Emp Code should be in N/A/C#### Format & minlength is 5 chars</mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Joining Date
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" matInput type="text" formControlName="DateofJoining" [matDatepicker]="DateofJoining" readonly (click)="DateofJoining.open()" style="cursor: pointer;">
+                    <mat-datepicker-toggle matSuffix *ngIf="personelDetailsForm.value.DateofJoining"
+                        (click)="clearInput($event, 'DateofJoining')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="DateofJoining"></mat-datepicker-toggle>
+                    <mat-datepicker #DateofJoining></mat-datepicker>
+                    <mat-error *ngIf="personelDetailsForm.get('DateofJoining').hasError('required')">Joining Date is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>HR Advisor
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="Hradvisor">
+                       <mat-option *ngFor="let item of ddlHRAdvisors" [value]="item.Name">{{item.Name}}
+                       </mat-option>
+                       <mat-error *ngIf="personelDetailsForm.get('Hradvisor').hasError('required')">HR Advisor is Required
+                       </mat-error>
+                    </mat-select>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                    <mat-label>Designation
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <input autocomplete="disabled" (click)="getFilteredDesignationsIds()" (keypress)="getFilteredDesignationsIds()" type="text" placeholder="Select Designation" aria-label="Designation" matInput
+                    formControlName="Designation" [matAutocomplete]="auto" autocomplete="disabled">
+                    <button class="clearFieldIcon" *ngIf="personelDetailsForm.value.Designation" mat-button matSuffix mat-icon-button aria-label="Clear"
+                    (click)="clearFields('Designation', $event)">
+                    <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-autocomplete #auto="matAutocomplete">
+                       <mat-option (click)="getGradeByDesignation(item)" (keyup.enter)="getGradeByDesignation(item)" *ngFor="let item of filteredDesignationIds | async;"
+                       [value]="item.DesignationName">
+                       {{item.DesignationName}}
+                       </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="personelDetailsForm.get('Designation').hasError('required')">
+                       Designation is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Grade
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="GradeName" disabled>
+                       <mat-option  (click)="getGradeNameAndID(item)"    (keyup.enter)="getGradeNameAndID(item)"  *ngFor="let item of allGradessList" [value]="item.GradeName">{{item.GradeName}}
+                       </mat-option>
+                       <mat-error *ngIf="personelDetailsForm.get('GradeName').hasError('required')">Grade is Required
+                       </mat-error>
+                    </mat-select>
+                 </mat-form-field>
+              </div>
+
+              <div class="col-md-3 pr-md-0">
+                  <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                     <mat-label>RoleType</mat-label>
+                     <input autocomplete="disabled" type="text" placeholder="Select RoleType" aria-label="RoleType" matInput
+                     formControlName="RoleTypeId" [matAutocomplete]="auto1" autocomplete="disabled">
+                     <button class="clearFieldIcon" *ngIf="personelDetailsForm.value.RoleTypeId" mat-button matSuffix mat-icon-button aria-label="Clear"
+                     (click)="clearFields('RoleTypeId', $event)">
+                     <mat-icon>close</mat-icon>
+                     </button>
+                     <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let item of RoleTypesByGradeList;"
+                        [value]="item">
+                        {{item.label}}
+                        </mat-option>
+                     </mat-autocomplete>
+                  </mat-form-field>
+               </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Employment Type
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="EmployeeTypeId">
+                       <mat-option (click)="getEmployementTypeeNameNID(item)"  (keyup.enter)="getEmployementTypeeNameNID(item)" *ngFor="let item of ddlEmpTypes" [value]="item.EmployeeTypeId">{{item.EmpType}}
+                       </mat-option>
+                       <mat-error *ngIf="personelDetailsForm.get('EmployeeTypeId').hasError('required')">Employment Type * is Required
+                       </mat-error>
+                    </mat-select>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Department
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="DepartmentId">
+                       <mat-option *ngFor="let item of ddlDepartmentDetails" [value]="item.value" (click)="showTechnologyField(item)" >{{item.label}}
+                       </mat-option>
+                       <mat-error *ngIf="personelDetailsForm.get('DepartmentId').hasError('required')">Department is Required
+                       </mat-error>
+                    </mat-select>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Reporting Manager
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="ReportingManager">
+                       <mat-option *ngFor="let item of managers" [value]="item.EmpId">{{item.EmpName}}
+                       </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personelDetailsForm.get('ReportingManager').hasError('required')">Reporting Manager is Required
+                        </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>BGV Status</mat-label>
+                    <mat-select (selectionChange)="disableBGVDates($event)" formControlName="Bgvstatus">
+                       <mat-option *ngFor="let bvg of ddlBGVStatus" [value]="bvg.ValueId">{{bvg.ValueName}}
+                       </mat-option>
+                    </mat-select>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>BGV Start Date</mat-label>
+                    <input [max]="today"  autocomplete="disabled" matInput [disabled]="isDisabled" type="text" formControlName="BgvStartDate" [matDatepicker]="BgvStartDate" readonly (click)="BgvStartDate.open()" style="cursor: pointer;">
+                    <mat-datepicker-toggle matSuffix *ngIf="personelDetailsForm.value.BgvStartDate"
+                        (click)="clearInput($event, 'BgvStartDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="BgvStartDate"></mat-datepicker-toggle>
+                    <mat-datepicker #BgvStartDate></mat-datepicker>
+                    <mat-error *ngIf="personelDetailsForm.get('BgvStartDate').hasError('required')">BGV Start Date is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>BGV Completed Date</mat-label>
+                    <input   [max]="today"  autocomplete="disabled" matInput [disabled]="isDisabled" type="text" formControlName="BgvCompletionDate" [matDatepicker]="BgvCompletionDate" readonly (click)="BgvCompletionDate.open()" style="cursor: pointer;">
+                    <mat-datepicker-toggle matSuffix *ngIf="personelDetailsForm.value.BgvCompletionDate"
+                        (click)="clearInput($event, 'BgvCompletionDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="BgvCompletionDate"></mat-datepicker-toggle>
+                    <mat-datepicker #BgvCompletionDate></mat-datepicker>
+                    <mat-error *ngIf="personelDetailsForm.get('BgvCompletionDate').hasError('required')">BGV Completed Date is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+              <div *ngIf="isRequired" class="col-md-3 pr-md-0">
+                 <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Technology
+                       <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="TechnologyId" [value]="_Associate.TechnologyId">
+                       <mat-option *ngFor="let item of ddltechnologies" [value]="item.PracticeAreaId">{{item.PracticeAreaDescription}}
+                       </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="personelDetailsForm.get('TechnologyId').hasError('required')">Technology is Required
+                    </mat-error>
+                 </mat-form-field>
+              </div>
+           </div>
+           <div class="row" formArrayName="contactDetails">
+              <div class="col-md-12">
+                 <h3 class="dividerHeading">Current Address</h3>
+              </div>
+              <div class="col-md-12">
+                 <div class="row" [formGroupName]="0">
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Address Line1</mat-label>
+                          <input autocomplete="disabled"   matInput type="text" formControlName="currentAddress1">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Address Line2</mat-label>
+                          <input autocomplete="disabled"   matInput type="text" formControlName="currentAddress2">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>City</mat-label>
+                          <input autocomplete="disabled" matInput type="text" formControlName="currentAddCity">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>State</mat-label>
+                          <input autocomplete="disabled" matInput type="text" formControlName="currentAddState">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Country</mat-label>
+                          <mat-select (selectionChange)="setZipLengthone($event)" formControlName="currentAddCountry">
+                                <mat-option value="India">India</mat-option>
+                                <mat-option value="USA">USA</mat-option>
+                              </mat-select>
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Zip</mat-label>
+                          <input autocomplete="disabled" (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" [maxlength]="zipLengthone" [minlength]="zipLengthone" matInput type="text" formControlName="currentAddZip">
+                          <mat-error>Enter valid Zip</mat-error>
+                        </mat-form-field>
+                    </div>
+                 </div>
+                 <div class="row" [formGroupName]="1">
+                    <div class="col-md-12">
+                       <h3 class="dividerHeading">Permanent Address</h3>
+                       <mat-checkbox color="primary" [checked]="isCheckedSameAddress" (change)="sameAddress($event)">Same As Current Address</mat-checkbox>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Address Line1</mat-label>
+                          <input autocomplete="disabled" matInput type="text" formControlName="permanentAddress1">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Address Line2</mat-label>
+                          <input autocomplete="disabled" matInput type="text" formControlName="permanentAddress2">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>City</mat-label>
+                          <input autocomplete="disabled" matInput type="text" formControlName="permanentAddCity">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>State</mat-label>
+                          <input autocomplete="disabled" matInput type="text" formControlName="permanentAddState">
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Country</mat-label>
+                          <mat-select (selectionChange)="setZipLengthtwo($event)" formControlName="permanentAddCountry">
+                                <mat-option value="India">India</mat-option>
+                                <mat-option value="USA">USA</mat-option>
+                              </mat-select>
+                       </mat-form-field>
+                    </div>
+                    <div class="col-md-3 pr-md-0">
+                       <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Zip</mat-label>
+                          <input autocomplete="disabled" (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" [maxlength]="zipLengthtwo" [minlength]="zipLengthtwo" matInput type="text" formControlName="permanentAddZip">
+                          <mat-error>Enter valid Zip</mat-error>
+                        </mat-form-field>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-md-12 text-right">
+              <button mat-flat-button color="primary" class="mr-0" *ngIf="type == 'new'" (click)="onSavePersonalDetails()">Save</button>
+              <button mat-flat-button color="primary" class="mr-0" *ngIf="type != 'new'" (click)="onUpdatePersonalDetails()">Update</button>
+           </div>
+        </form>
+     </div>
+     <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="true" type="ball-clip-rotate-multiple"
+     size="medium">
+     <p class="loading">Loading ...</p>
+   </ngx-spinner>

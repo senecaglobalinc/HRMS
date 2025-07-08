@@ -1,0 +1,651 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Personal Details
+        </div>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" ngNativeValidate  (ngSubmit)="onSubmit()"
+            ondragstart="return false;" ondrop="return false;" #personalForm="ngForm">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>First Name
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="firstName" [disabled]="type == 'edit'"
+                                    (keypress)="onlychar($event)" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.FirstName" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Middle Name</label>
+                            <div class="ui-fluid">
+                                <input type="text" name="middleName" [disabled]="type == 'edit'"
+                                    (keypress)="onlychar($event)" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.MiddleName" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Last Name
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="lastName" [disabled]="type == 'edit'"
+                                    (keypress)="onlychar($event)" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.LastName" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Gender
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" [ngModelOptions]="{standalone: true}" name="gender" [ngModel]="_Associate.Gender || ''"
+                                    (ngModelChange)="_Associate.Gender = $event" required>
+                                    <option value=""></option>
+                                    <option *ngFor="let g of ddlGender" value={{g.ValueId}}>{{g.ValueName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Birth Date
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <p-calendar  name="birthdate" [ngModelOptions]="{standalone: true}" dataType="string" showIcon="true" [style]="{'width':'70%'}"
+                                    monthNavigator="true" [ngModelOptions]="{standalone: true}" [maxDate]="birthDate" yearNavigator="true"
+                                    yearRange="1900:+2050" (onSelect)="selectedDate(_Associate.Birthdate)"
+                                    [(ngModel)]="_Associate.Birthdate"
+                                    placeholder="yyyy-mm-dd" dateFormat="yy-mm-dd" readonlyInput="true" required>
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Marital Status</label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlmaritalStatus"
+                                    [ngModel]="_Associate.MaritalStatus || ''"
+                                    (ngModelChange)="_Associate.MaritalStatus = $event">
+                                    <option value=""></option>
+                                    <option *ngFor="let ms of ddlMaritalStatus" value={{ms.ValueId}}>{{ms.ValueName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Blood Group
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" [ngModelOptions]="{standalone: true}" name="bloodGroup" [ngModel]="_Associate.BloodGroup || ''"
+                                    (ngModelChange)="_Associate.BloodGroup = $event" required>
+                                    <option value="" selected></option>
+                                    <option *ngFor="let bg of ddlBloodGrp" value={{bg.ValueId}}>{{bg.ValueName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Nationality</label>
+                            <input type="text" name="nationality" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="_Associate.Nationality" maxlength="50" (keypress)="onlychar($event)"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Telephone Number</label>
+                            <div class="ui-fluid">
+                                <input type="text" name="phoneNumber" placeholder="040-00000000"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.TelephoneNo"
+                                    maxlength="12" minlength="11" (paste)="$event.preventDefault()"
+                                    (keypress)="phoneNumbers($event)" class="form-control"
+                                    pattern="[0-9]{3}[-][0-9].{6,}"
+                                    oninvalid="setCustomValidity('Please enter valid telephone number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Mobile Number
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="mobileNumber" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.MobileNo" maxlength="10" minlength="10"
+                                    (paste)="$event.preventDefault()" pattern="(?!0+)\d+"
+                                    (keypress)="onlyForNumbers($event)" class="form-control" required
+                                    oninvalid="setCustomValidity('Please enter valid mobile number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Personal Email ID
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="email" name="personalEmailId" maxlength="50"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.PersonalEmailAddress"
+                                    class="form-control" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
+                                    required oninvalid="setCustomValidity('Please enter valid email Id')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Aadhar Number</label>
+                            <div class="ui-fluid">
+                                <input type="text" name="aadharNumber" maxlength="12" minlength="12"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.AadharNumber"
+                                    (paste)="$event.preventDefault()" (keypress)="onlyForNumbers($event)"
+                                    class="form-control"
+                                    oninvalid="setCustomValidity('Please enter valid aadhar number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>PAN Number</label>
+                            <div class="ui-fluid">
+                                <input type="text" #pANNumberInput name="pANNumber" maxlength="10" minlength="10"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.Pannumber"
+                                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" (keypress)="omit_special_char($event)"
+                                    (keyup)="upperCase()" class="form-control"
+                                    oninvalid="setCustomValidity('Please enter valid PAN number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Passport Number</label>
+                            <div class="ui-fluid">
+                                <input type="text" #passportNumberInput name="passportNumber" maxlength="8"
+                                    minlength="8" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.PassportNumber" pattern="^[A-PR-WY][1-9]\d\d{4}[1-9]$"
+                                    class="form-control" (keypress)="omit_special_char($event)" (keyup)="upperCase()"
+                                    oninvalid="setCustomValidity('Please enter valid passport number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <div class="ui-fluid">
+                                <label>Passport Issuing Office</label>
+                                <input type="text" name="passportIssuingOffice" maxlength="30"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.PassportIssuingOffice"
+                                    (keypress)="onlychar($event)" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Passport Valid Upto</label>
+                            <div class="ui-fluid">
+                                <p-calendar name="passportValidDate" [style]="{'width':'70%'}" dataType="string"
+                                    showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="1900:+2050"
+                                    placeholder="yyyy-mm-dd" readonlyInput="true" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.PassportDateValidUpto" dateFormat="yy-mm-dd">
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>UAN Number</label>
+                            <div class="ui-fluid">
+                                <input type="text" name="uanNumber" maxlength="12" minlength="12"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.Uannumber"
+                                    (paste)="$event.preventDefault()" (keypress)="onlyForNumbers($event)"
+                                    class="form-control" oninvalid="setCustomValidity('Please enter valid UAN number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>PF Number</label>
+                            <div class="ui-fluid">
+                                <input type="text" #pfNumberInput name="pfNumber" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.Pfnumber" (keyup)="upperCase()"
+                                    (paste)="$event.preventDefault()" maxlength="26" (keypress)="forPfNumber($event)"
+                                    class="form-control" oninvalid="setCustomValidity('Please enter valid PF number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Employment Start Date
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <p-calendar name="employmentStartDate" [style]="{'width':'70%'}" dataType="string"
+                                    showIcon="true" monthNavigator="true" yearNavigator="true" [maxDate]="lastDate"
+                                    yearRange="1900:+2050" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.StartDateofEmployment" dateFormat="yy-mm-dd"
+                                    readonlyInput="true" required>
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Career Break(In Months Only)</label>
+                            <div class="ui-fluid">
+                                <input type="text" name="careerBreak" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.CareerBreak" (paste)="$event.preventDefault()" min="1"
+                                    max="99" maxlength="2" (keypress)="onlyForNumbers($event)" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Employee Code
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="employeeCode" [disabled]="type == 'edit'"
+                                    pattern="[a-zA-Z0-9]+" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.EmployeeCode" class="form-control" required
+                                    oninvalid="setCustomValidity('Please enter valid employee code')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Joining Date
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <p-calendar name="joiningDate" [style]="{'width':'70%'}" dataType="string"
+                                    showIcon="true" monthNavigator="true" yearNavigator="true" [maxDate]="lastDate"
+                                    yearRange="2007:+2050" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.DateofJoining" readonlyInput="true" dateFormat="yy-mm-dd"
+                                    required>
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>HR Advisor
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlhrAdvisor" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.Hradvisor" required>
+                                    <option value=""></option>
+                                    <option *ngFor="let hra of ddlHRAdvisors" value={{hra.Name}}>{{hra.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Designation
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <p-autoComplete name="ddldesignationID" [style]="{'width':'70%'}"
+                                    [suggestions]="filteredDesignationIds"
+                                    (onSelect)="getGradeByDesignation(designation)" [style]="{'width':'100%'}"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="designation"
+                                    (completeMethod)="filteredDesignation($event)"
+                                    (onBlur)="getGradeByDesignation(designation)" field="DesignationName"
+                                    placeholder="Enter Designation" required>
+                                </p-autoComplete>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Grade
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ddlgradeName" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.GradeName" (paste)="$event.preventDefault()" disabled="true"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Employment Type
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlemploymentType"
+                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="_Associate.EmployeeTypeId"
+                                    required>
+                                    <option value=""></option>
+                                    <option *ngFor="let e of ddlEmpTypes" value={{e.EmployeeTypeId}}>{{e.EmpType}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Department
+                                <span style="color: red">*</span>
+                            </label>
+                            <div  >
+                                <p-dropdown styleClass="roleDropdown" [style]="{'width':'70%'}" name="DepartmentId"
+                                    [(ngModel)]="_Associate.DepartmentId" [options]="ddlDepartmentDetails" filter="true"
+                                    (onChange)="requiredTechnolgy(_Associate.DepartmentId)" required>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Reporting Manager
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlmanagerId"
+                                [ngModelOptions]="{standalone: true}"
+                                    [ngModel]="_Associate.ReportingManager"
+                                    (ngModelChange)="_Associate.ReportingManager = $event" required>
+                                    <option value="">Select Reporting Manager</option>
+                                    <option *ngFor="let m of managers" value={{m.EmpId}}>{{m.EmpName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>BGV Status</label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="bgvStatus" [ngModel]="_Associate.Bgvstatus || ''"
+                                    (ngModelChange)="disableBGVDates($event)">
+                                    <option value=""></option>
+                                    <option *ngFor="let bvg of ddlBGVStatus" value={{bvg.ValueId}}>{{bvg.ValueName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>BGV Start Date</label>
+                            <div class="ui-fluid">
+                                <p-calendar name="bgvStartDate" [style]="{'width':'70%'}" [(disabled)]="isDisabled"
+                                    dataType="string" showIcon="true" monthNavigator="true" yearNavigator="true"
+                                    [maxDate]="lastDate" yearRange="2007:+2050" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.BgvStartDate" dateFormat="yy-mm-dd" readonlyInput="true"
+                                    required>
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>BGV Completed Date</label>
+                            <div class="ui-fluid">
+                                <p-calendar name="bgvCompletedDate" [style]="{'width':'70%'}" [(disabled)]="isDisabled"
+                                    dataType="string" showIcon="true" monthNavigator="true" yearNavigator="true"
+                                    [maxDate]="lastDate" yearRange="2007:+2050" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.BgvCompletionDate" readonlyInput="true"
+                                    dateFormat="yy-mm-dd">
+                                </p-calendar>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>KRA Role
+                                <span style="color: red">*</span> -->
+                            <!-- </label>
+                            <div>
+                                <p-dropdown [disabled] = "todisableKRA"  [options]="kraRoleList" [style]="{ 'width': '70%'}" name="ddlKraRole" [autoWidth]="false" [filter]="true" [(ngModel)]="_Associate.KRARoleId"></p-dropdown>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box" *ngIf="isRequired">
+                            <label>Technology
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddltechnology" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Associate.TechnologyId" [required]="isRequired">
+                                    <option value=""></option>
+                                    <option *ngFor="let t of ddltechnologies" value={{t.PracticeAreaId}}>
+                                        {{t.PracticeAreaDescription}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <hr style="border: 1px solid black;" />
+            </div>
+            <div class="form-group col-md-12">
+                <div class="panel-title" style="padding: 4px 0; ">
+                    <h3 style="margin-top:-7px !important;">Current Address</h3>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Address Line1</label>
+                                <div class="ui-fluid">
+                                    <input type="text" name="addressLine1" maxlength="200"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="_Contacts.currentAddress1"
+                                        (keypress)="forAddress($event)" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Address Line2</label>
+                                <div class="ui-fluid">
+                                    <input type="text" name="addressLine2" maxlength="200"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="_Contacts.currentAddress2"
+                                        (keypress)="forAddress($event)" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>City</label>
+                                <div class="ui-fluid">
+                                    <input type="text" name="city" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.currentAddCity" class="form-control"
+                                        (keypress)="onlychar($event)" maxlength="99">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>State</label>
+                                <div class="ui-fluid">
+                                    <input [ngModelOptions]="{standalone: true}" type="text" name="state" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.currentAddState" (keypress)="onlychar($event)"
+                                        class="form-control" maxlength="99">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Country</label>
+                                <div class="dropdowns">
+                                    <select [ngModelOptions]="{standalone: true}" class="form-control" name="currentAddCountry"
+                                        [ngModel]="_Contacts.currentAddCountry || ''" (change)="setZipLength($event)"
+                                        (ngModelChange)="_Contacts.currentAddCountry = $event">
+                                        <option value=""></option>
+                                        <option *ngFor="let c of ddlCountries" value={{c.ValueId}}>{{c.ValueName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Zip</label>
+                                <input type="text" name="zip" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="_Contacts.currentAddZip" [minlength]="zipLength"
+                                    [maxlength]="zipLength" (keypress)="onlyForNumbers($event)"
+                                    (paste)="$event.preventDefault()" class="form-control">
+                                <em class="em-custom"
+                                    *ngIf="_Contacts.currentAddZip != undefined && _Contacts.currentAddZip.length != zipLength">Please
+                                    enter valid zip code.</em>
+                                <!-- onchange="try{setCustomValidity('')}catch(e){} "> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+
+            <div class="form-group col-md-12">
+                <div>
+                    <p-checkbox binary="true" (click)="sameAddress(_Contacts.address)" name="address"
+                        [ngModelOptions]="{standalone: true}" [(ngModel)]="_Contacts.address"></p-checkbox>
+                    <b>
+                        <span class="form-label">Same As Current Address</span>
+                    </b>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-11">
+                <hr style="border: 1px solid black;" />
+            </div>
+            <div class="form-group col-md-12">
+                <div class="panel-title" style="padding: 4px 0;">
+                    <h3 style="margin-top:-7px !important;">Permanent Address</h3>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Address Line1</label>
+                                <div calss="ui-fluid">
+                                    <input type="text" name="permanentAddress1" maxlength="200"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.address ? _Contacts.currentAddress1 : _Contacts.permanentAddress1"
+                                        (keypress)="forAddress($event)" [disabled]="_Contacts.address"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Address Line2</label>
+                                <div calss="ui-fluid">
+                                    <input type="text" name="permanentAddress2" maxlength="200"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.address ? _Contacts.currentAddress2 :_Contacts.permanentAddress2"
+                                        (keypress)="forAddress($event)" [disabled]="_Contacts.address"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>City</label>
+                                <div calss="ui-fluid">
+                                    <input type="text" name="permanentAddCity" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.address ? _Contacts.currentAddCity :_Contacts.permanentAddCity"
+                                        (keypress)="onlychar($event)" [disabled]="_Contacts.address"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>State</label>
+                                <div calss="ui-fluid">
+                                    <input type="text" [ngModelOptions]="{standalone: true}" name="permanentAddState" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.address ? _Contacts.currentAddState :_Contacts.permanentAddState"
+                                        (keypress)="onlychar($event)" [disabled]="_Contacts.address"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Country</label>
+                                <div class="dropdowns">
+                                    <select class="form-control" name="permanentAddCountry"
+                                        [ngModel]="_Contacts.address ? (_Contacts.currentAddCountry ? _Contacts.currentAddCountry : '') : (_Contacts.permanentAddCountry ? _Contacts.permanentAddCountry : '')"
+                                        (change)="setZipLength($event) "
+                                        (ngModelChange)="_Contacts.permanentAddCountry = $event"
+                                        [disabled]="_Contacts.address">
+                                        <option value=""></option>
+                                        <option *ngFor="let c of ddlCountries" value={{c.ValueId}}>{{c.ValueName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-3">
+                            <div class="box">
+                                <label>Zip</label>
+                                <div calss="ui-fluid">
+                                    <input type="text" name="permanentAddZip" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="_Contacts.address ? _Contacts.currentAddZip :_Contacts.permanentAddZip"
+                                        [minlength]="zipLength" [maxlength]="zipLength"
+                                        (paste)="$event.preventDefault()" (keypress)="onlyForNumbers($event)"
+                                        class="form-control" [disabled]="_Contacts.address"
+                                        oninvalid="setCustomValidity('Please enter valid zip')"
+                                        onchange="try{setCustomValidity('')}catch(e){}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <section class="pull-right buttons">
+                    <button type="submit" class="btn btn-custom" *ngIf="type == 'new'" (click)="onSave()">
+                        <i class="fa fa-floppy-o"></i>&nbsp; Save
+                    </button>
+                    <button type="submit" class="btn btn-custom" *ngIf="type != 'new'" (click)="onUpdate()">
+                        Update
+                    </button>
+                </section>
+            </div>
+        </form>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

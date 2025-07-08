@@ -1,0 +1,211 @@
+<mat-accordion class="mb-2">
+   <mat-expansion-panel    [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+     <mat-expansion-panel-header>
+       <mat-panel-title>
+           <mat-icon>filter_list</mat-icon> Filter Associate Skill Data
+       </mat-panel-title>
+      </mat-expansion-panel-header>
+ 
+      <form [formGroup]="skillsearchForm">
+       <div class="row">
+          <div class="col-md-12">
+       
+             <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                <mat-label>Skill Search <span class="text-danger">*</span></mat-label>
+                <input type="text" (keyup)="GetActiveSkillsForDropdown($event)" placeholder="Select Skill"
+                aria-label="skill" matInput formControlName="selectedSkillIds" [matAutocomplete]="auto" >
+                <button class="clearFieldIcon" *ngIf="skillsearchForm.value.selectedSkillIds" mat-button matSuffix
+                mat-icon-button aria-label="Clear" (click)="cliearField('selectedSkillIds')">
+                <mat-icon>close</mat-icon>
+                </button>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let item of filteredSkills;" [value]="item"
+                (onSelectionChange)="onSkillSelected(item)">
+                {{item.Name}}
+                </mat-option>
+                </mat-autocomplete>
+
+                <mat-error *ngIf="skillsearchForm.get('selectedSkillIds').hasError('required')">
+                  Skill Name Required
+              </mat-error>
+             </mat-form-field>
+          </div>
+ 
+          <div class="col-md-12">
+             <mat-checkbox formControlName="IsPrimary" [disabled]="canDisableCheckBox()">Primary</mat-checkbox>
+             <mat-checkbox formControlName="IsSecondary" [disabled]="canDisableCheckBox()">Secondary</mat-checkbox>
+             <mat-checkbox formControlName="IsBillable" >Billable</mat-checkbox>
+             <mat-checkbox formControlName="IsnonBillable" >Non-Billable</mat-checkbox>
+             <mat-checkbox formControlName="IsCritical" >Critical</mat-checkbox>
+             <mat-checkbox formControlName="IsnonCritical" >Non-Critical</mat-checkbox>
+          </div>
+ 
+          <div class="col-md-12">
+           <div class="text-right mt-2">
+            <button type="button" mat-stroked-button (click)="clear()">Clear</button>
+            <button type="button" mat-flat-button  [disabled]="!isSearch" (click)="searchData()" class="mr-0"  color="primary">Search</button>
+           </div>
+         </div>
+       </div>
+    </form>
+   </mat-expansion-panel>
+ </mat-accordion>
+ 
+  <mat-card class="my-2">
+      <mat-card-content>
+         <div class="row">
+           <div class="col-6">
+             <b>Total Records:</b>
+            <span>{{totalRecords}}</span>
+          </div>
+            <div class="col-6">
+               <span style="float: right;">
+                  <a
+                     (click)="exporter()" title="Export to Excel">
+                     <div class="exportToExcel"></div>
+                 </a>
+               </span>
+            </div>
+         </div>
+  
+         <div class="table-responsive">
+
+            <table mat-table #table  [dataSource]="dataSource"  matSort >
+               <ng-container matColumnDef="EmployeeName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Employee Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.EmployeeName}} </td>
+               </ng-container>
+               <ng-container matColumnDef="Designation">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Designation</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Designation}} </td>
+               </ng-container>
+               <ng-container matColumnDef="Grade">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Grade</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+               </ng-container>
+               <ng-container matColumnDef="Experience">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Experience</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+               </ng-container>
+               
+               <ng-container matColumnDef="PrimarySkill">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Primary Skill</th>
+                  <td mat-cell *matCellDef="let element">
+                     {{element.PrimarySkill}}
+                    
+                     <button *ngIf="element.PrimarySkill != ''" mat-icon-button color="accent" (click)="openSkillDialog(element.EmployeeId, 'PrimarySkill')">
+                        <sub>more..</sub> 
+                     </button>
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="SecondarySkill">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Secondary Skill</th>
+                  <td mat-cell *matCellDef="let element">
+                     {{element.SecondarySkill}}
+                     <button *ngIf="element.SecondarySkill != ''" mat-icon-button color="accent" (click)="openSkillDialog(element.EmployeeId, 'SecondarySkill')">
+                        <sub>more..</sub> 
+                     </button>
+                  </td>
+               </ng-container>
+               <!-- <ng-container matColumnDef="ProjectName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Project Name</th>
+                  <td mat-cell *matCellDef="let element" > {{element.ProjectName}} </td>
+               </ng-container> -->
+               <ng-container matColumnDef="Allocationpercentage">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Allocation %</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Allocationpercentage}} </td>
+               </ng-container>
+               <ng-container matColumnDef="IsBillable">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Billable</th>
+                  <td mat-cell *matCellDef="let element">
+                     <mat-icon *ngIf="element.IsBillable" style="color: green;">check</mat-icon>
+                     <mat-icon *ngIf="!element.IsBillable" style="color: red">close</mat-icon>
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="IsCritical">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Critical</th>
+                  <td mat-cell *matCellDef="let element">
+                     <mat-icon *ngIf="element.IsCritical" style="color: green;">check</mat-icon>
+                     <mat-icon *ngIf="!element.IsCritical" style="color: red">close</mat-icon>
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="ManagerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Manager Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.ManagerName}} </td>
+               </ng-container>
+               <ng-container matColumnDef="LeadName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Lead Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.LeadName}} </td>
+               </ng-container>
+               <ng-container matColumnDef="ProjectDetails">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Projects</th>
+                  <td mat-cell *matCellDef="let element" class="projects-details-link" (click)="openProjectHistory(element.EmployeeId, element.EmployeeName)">View </td>
+               </ng-container>
+               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <table [hidden]="true" mat-table #table  [dataSource]="associateSkillSearchData"  id="ExampleMaterialTable">
+               <ng-container matColumnDef="EmployeeName">
+                  <th mat-header-cell *matHeaderCellDef  class="font-weight-bold">Employee Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.EmployeeName}} </td>
+               </ng-container>
+               <ng-container matColumnDef="Designation">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Designation</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Designation}} </td>
+               </ng-container>
+               <ng-container matColumnDef="Grade">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Grade</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+               </ng-container>
+               <ng-container matColumnDef="Experience">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Experience</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Experience}} </td>
+               </ng-container>
+               
+               <ng-container matColumnDef="PrimarySkill">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Primary Skill</th>
+                  <td mat-cell *matCellDef="let element">
+                     {{element.PrimarySkill}}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="SecondarySkill">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Secondary Skill</th>
+                  <td mat-cell *matCellDef="let element">
+                     {{element.SecondarySkill}}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="Allocationpercentage">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Allocation %</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Allocationpercentage}} </td>
+               </ng-container>
+               <ng-container matColumnDef="IsBillable">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Billable</th>
+                  <td mat-cell *matCellDef="let element">{{element.IsBillable ? 'Yes' :  'No'}}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="IsCritical">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Critical</th>
+                  <td mat-cell *matCellDef="let element">{{element.IsCritical ? 'Yes' :  'No'}}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="ManagerName">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Manager Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.ManagerName}} </td>
+               </ng-container>
+               <ng-container matColumnDef="LeadName">
+                  <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Lead Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.LeadName}} </td>
+               </ng-container>
+               <tr mat-header-row *matHeaderRowDef="displayedColumnsForExcel"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumnsForExcel;"></tr>
+            </table>
+         </div>
+         <div class="row justify-content-center">
+            <mat-paginator #paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+         </div>
+         <div *ngIf="isLoad" style="display: flex; justify-content: center; align-items: center;">
+            <mat-progress-spinner color="primary" mode="indeterminate">Loading.....
+            </mat-progress-spinner>
+        </div>
+      </mat-card-content>
+   </mat-card>

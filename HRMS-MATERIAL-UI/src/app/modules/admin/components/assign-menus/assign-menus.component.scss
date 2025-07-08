@@ -1,0 +1,21 @@
+.movebuttons {
+  display: flex;
+  align-items: center;
+}
+
+.pickup-table {
+  height: 400px;
+  overflow: auto;
+}
+.mat-table {
+  max-height: 400px;
+  overflow: auto;
+}
+.table-container {
+  max-height: 400px;
+  overflow: auto;
+}
+.col-md-5{
+  flex: 1 0 41.666667%;
+  max-width: 60% !important;
+}

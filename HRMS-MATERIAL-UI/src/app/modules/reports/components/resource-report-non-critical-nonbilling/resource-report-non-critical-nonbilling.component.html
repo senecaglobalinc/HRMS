@@ -1,0 +1,57 @@
+<mat-card>
+    <form [formGroup]="nonCriticalResourceReportForm">
+        <div class="row col-lg-12 col-md-12 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <mat-form-field appearance="{{ themeConfigInput }}">
+                    <mat-label>{{selectedColumns.length}} columns selected</mat-label>
+                    <mat-select [formControl]="nonCriticalResourceReportForm.controls.columnselect" placeholder="Select Options"
+                        multiple name="optionsSelector" (selectionChange)="alterTable($event)">
+                        <mat-option>
+                            <ngx-mat-select-search formControlName="columnfilter" placeholderLabel="Search"
+                                noEntriesFoundLabel="No Record Found"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option #allSelected (click)="toggleAllSelection()" [value]="0">All</mat-option>
+                        <mat-option *ngFor="let q of filteredBanksMulti | async" [value]="q"
+                            (click)="tosslePerOne(allSelected.viewValue)">
+                            {{q.header}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 mt-2">
+                <b>Total Records:</b>
+                <span>{{totalRecordsCount >0 ? totalRecordsCount: 0}}</span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
+                <a *ngIf="lstNonCriticalResourceReportData.length>0" (click)="exportAsXLSX()" title="Export to Excel">
+                    <div class="exportToExcel"></div>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table mat-table #table matTableExporter [dataSource]="lstNonCriticalResourceReportDataSource"
+                #exporter="matTableExporter" matSort>
+                <ng-container *ngFor="let col of selectedColumns" matColumnDef="{{col.header}}">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">{{ col.header }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{element[col.field]}}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displaycols"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: displaycols;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+        </div>
+    </form>
+</mat-card>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

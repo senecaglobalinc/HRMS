@@ -1,0 +1,152 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">Workstation Information</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                    <div class="box">
+                        <div class="radio-inline" *ngFor="let bay of bayList; let i=index">
+                            <input type="radio" id="radio{{i}}" name="bayDetail" value="{{bay.BayId}}" (change)="onSelectionChange(bay)" [checked]="i === 0"> {{bay.Name}}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="p-grid p-justify-around">
+                <div class="p-col-7">
+                    <div class="innerContainer">
+                        <div class="bayLayout">
+                            <div class="movieTitle">{{bayName}}({{totalseats}})</div>
+
+                            <div class="legend">
+                                <span [class.orangeFreeSeat]="isOrangeByClicked" [class.greenFreeSeat]="!isOrangeByClicked" class="fa fa-stop-circle"></span> Vacant({{vacantSeats}})
+                                <span class="fa fa-user reservedSeat padding-left"></span>
+                                Occupied({{occupiedSeats}})
+                                <i class="fal fa-couch"></i>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" fxLayout.sm="column wrap" fxLayout.xs="column wrap" fxLayoutGap="2%" fxLayoutGap.xs="10px"
+                        class="seatlayOut" fxLayoutGap.sm="2%">
+                            <span class="seat" *ngFor="let col of seats" (click)="seatClicked($event,col,opReserve)" [ngSwitch]="getStatus(col)" data-toggle="tooltip"
+                                triggers="mouseenter:click">
+                                <tr>
+                                    <span class="font14">{{col}}
+                                    </span>
+                                </tr>
+                                <tr>
+                                    <span *ngSwitchCase="'reserved'" class="fa fa-user reservedSeat"></span>
+                                    <span *ngSwitchCase="'selected'" [class.orangeFreeSeat]="isOrangeByClicked" [class.greenFreeSeat]="!isOrangeByClicked" class="fa fa-check-square-o freeSeat"></span>
+                                    <span *ngSwitchCase="'empty'" [class.orangeFreeSeat]="isOrangeByClicked" [class.greenFreeSeat]="!isOrangeByClicked" class="fa fa-stop-circle freeSeat"></span>
+                                    <span *ngSwitchDefault></span>
+                                </tr>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-4">
+                    <div class="box">
+                        <i class="fa fa-bar-chart fa-lg" style="color: #4b8eb9;cursor: pointer;" (click)="onBarChartClick()"></i>
+                        <i class="fa fa-pie-chart fa-lg" style="color: #4b8eb9;cursor: pointer;" (click)="onPieChartClick()"></i>
+                        <p-chart [type]="chartType" [options]="options" width="800" height="300" #workStationChart [data]="workStationChartData"></p-chart>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-overlayPanel #opReserve [dismissable]="true" appendTo="body" [showCloseIcon]="true">
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="box">
+                <label> WorkStation:</label>
+                <span *ngIf="wSDetil!=null">
+                    {{wSDetil.WorkStationId}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="ui-g" *ngFor="let associate of workStationDetil; let idx=index">
+        <div *ngIf="idx>=1">
+            <div class="col-md-12" style="height: 10px;">
+                <hr size="5" noshade>
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="box">
+                <label> Associate Name:</label>
+                <span *ngIf="associate!=null">
+                    {{associate.AssociateName}}
+                </span>
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="box">
+                <label> Project Name:</label>
+                <span *ngIf="associate!=null">
+                    {{associate.ProjectName}}
+                </span>
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="box">
+                <label>Lead Name :</label>
+                <span *ngIf="associate!=null">
+                    {{associate.LeadName}}
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <section class="pull-right buttons">
+                <button type="button" class="btn btn-custom" style="cursor:pointer;" (click)="ReleaseDesk()">
+                    <i class="fa fa-floppy-o"></i>&nbsp;Release</button>&nbsp;&nbsp;
+            </section>
+            </div>
+    </div>
+</p-overlayPanel>
+<p-dialog styleClass="Desk Allocation" appendTo="body" header="Desk Allocation" width=300 height=250 [(visible)]="isVacant"
+    responsive="true" modal=true showHeader=true closeOnEscape=true closable=true [blockScroll]=false>
+    <div style="height: 250px;">
+        <form [formGroup]="myForm">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <div class="box">
+                            <label>Associate Name:</label>
+                            <span style="color: red">*</span>
+                            <p-autoComplete name="associateName" formControlName="associateName" [suggestions]="filteredManagersIds" (completeMethod)="filteredManagers($event)"
+                                field="Name" [style]="{'width':'70%'}" placeholder="Enter Associate" required>
+                            </p-autoComplete>
+
+                            <div *ngIf="formSubmitted && !myForm.controls['associateName'].valid">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Select Associate Name</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <section class="pull-right buttons">
+                            <button type="button" class="btn btn-custom" style="cursor:pointer;" (click)="DeskAllocation()">
+                                <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;&nbsp;
+                            <button type="button" class="btn btn-default" style="cursor:pointer; " (click)="ClearDeskAllocation()">
+                                <i class="fa fa-eraser"></i>&nbsp;Cancel</button>
+                        </section>
+                        <label *ngIf="isError" style="font-weight: bold;color: red">This Employee already have desk allocation in workstation - {{deskId}} of {{name}}. please release
+                            first </label>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,49 @@
+.exportToExcel {
+    background: url('../../../../assets/images/excel.png') no-repeat;
+    padding-right: 47px;
+    width: 50px;
+    float: right;
+    padding-top: 27px;
+    cursor: pointer;
+    }
+
+
+
+// .mat-column-Email {
+//    width: 25% !important;
+//   }
+
+ ::ng-deep .btn-css {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+::ng-deep .mat-card-title {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+::ng-deep td{
+  text-overflow: ellipsis;
+  cursor: pointer;
+  word-break: break-all;
+  overflow:hidden;
+  white-space: nowrap;
+}
+::ng-deep td:hover{
+  overflow: visible; 
+  white-space: normal;
+  height:auto;
+}
+
+mat-cell, .mat-cell {
+  // display:block; // flex prevents padding from working
+  // min-height:auto; // overrides the 'inherit' that set the min height of the row
+  padding: 0px 16px 12px 0px;
+}
+
+::ng-deep .mat-paginator-container {
+  display: flex;
+  justify-content: center !important;
+ 
+}

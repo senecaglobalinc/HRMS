@@ -1,0 +1,54 @@
+<app-resignation 
+    (lastWorkingDateEvent)=LastWorkingDateChange($event)></app-resignation>
+<mat-card class="mb-2">
+    <form [formGroup]="PMApprovalform">
+        <ng-container *ngIf="showClientImpact">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-label>Client Impact<span class="text-danger">*</span></mat-label>
+                </div>
+                <div class="col-md-3">
+                    <mat-radio-group formControlName="impactOnClientDelivery" color="primary">
+                        <mat-radio-button [value]=true>Yes</mat-radio-button>
+                        <mat-radio-button [value]=false>No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-md-3">
+                    <mat-label id="example-radio-group-label">Eligible for Rehire<span class="text-danger">*</span>
+                    </mat-label>
+                </div>
+                <div class="col-md-3">
+                    <mat-radio-group formControlName="rehireEligibility" color="primary">
+                        <mat-radio-button [value]=true>Yes</mat-radio-button>
+                        <mat-radio-button [value]=false>No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Client Impact Details</mat-label>
+                        <textarea placeholder="Client Impact Details" matInput
+                        formControlName="impactOnClientDeliveryDetail" name="impactOnClientDeliveryDetail"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Reason for Rehire</mat-label>
+                        <textarea placeholder="Rehire Reason" matInput
+                        formControlName="rehireEligibilityDetail" name="rehireEligibilityDetail"></textarea>
+                    </mat-form-field>
+                </div>
+    
+            </div>
+            
+        </ng-container>
+        <div class="row">
+            <div *ngIf="UserRole==='Program Manager' || UserRole==='Team Lead'" class="col-12 text-right">
+                <button [disabled]="!(AssociateExit && (AssociateExit.Status === 'ResignationSubmitted'))" mat-flat-button
+                    color="primary" (click)="Submit()">{{btnLabel}}</button>
+
+            </div>
+        </div>
+    </form>
+</mat-card>

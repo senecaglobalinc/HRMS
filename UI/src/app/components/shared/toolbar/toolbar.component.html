@@ -1,0 +1,61 @@
+<mat-toolbar class="main-header">
+  <mat-toolbar-row>
+    <div>
+      <a class="logo">
+        <img src="../../../../assets/images/logo_45x45.png">
+        <span class="logo-lg" [routerLink]="['/shared/dashboard', 'vwaction']">
+          &nbsp;&nbsp; Associate Portal
+        </span>
+      </a>
+      <button mat-icon-button (click)="isExpanded = !isExpanded">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <div class="user-name">
+      <span class="hidden-xs">{{fullName | uppercase}}</span>    
+    </div>   
+    <button class="toolbar-icon" mat-icon-button [matMenuTriggerFor]="menu">
+      <i *ngIf = "!isImagePresent" class="fa fa-user" aria-hidden="true"></i>
+      <img *ngIf = "isImagePresent"[src]="image">
+    </button>
+    <mat-menu #menu="matMenu">
+      <p class = "text-center"><b> {{ roleName }} </b></p>
+      <button mat-menu-item>
+        <a class="block"  href="http://sg-srv-kas:2028/" target="_blank">Go To V2 <i class="fa fa-external-link"  aria-hidden="true"></i> </a>
+      </button>
+      <button mat-menu-item *ngIf="hideSwitchRole == true">
+        <i class="fa fa-group"  aria-hidden="true"></i>
+        &nbsp;
+        <a class="block"  (click)="switchRole()">Switch Role</a>
+      </button>
+      <div>
+      </div>
+      <div class="logout-button">
+        <a  (click)='logout()' class="btn btn-danger">Sign out</a>
+      </div>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidebar-menu" autosize>
+    
+      <!-- <mat-sidenav #sidenav class="sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()" > -->
+        <mat-sidenav #sidenav class="sidenav sn-bg-4 mdb-sidenav fixed" style="transform: translateX(0%);" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()" >
+
+ <!-- style="background-color:lightgray;" -->
+    <mat-nav-list *ngIf="isExpanded">
+      <app-menu-list *ngFor="let item of menuDetails"  [item]="item"></app-menu-list>
+    </mat-nav-list>
+  
+  </mat-sidenav>
+   
+  <mat-sidenav-content>
+    <div c class = "layoutCls">
+    <router-outlet></router-outlet>
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<app-footer></app-footer>

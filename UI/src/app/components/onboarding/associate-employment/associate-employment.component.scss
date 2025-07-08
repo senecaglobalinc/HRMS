@@ -1,0 +1,35 @@
+ul.node li {
+    display: inline-block;
+    width: 10%;
+}
+
+#messageToaster {
+    background-color: #00A65A;
+    color: black;
+}
+
+paper-toast {
+    left: auto !important;
+    right: 10px;
+}
+
+.employment-details {
+    .header-container {
+        border-right: 0;
+        border-left: 0;
+        border-top: 0;
+    }
+}
+button[type="buttons"]
+{
+    width: 105px;  
+}
+input[type="text"],
+input[type="email"],
+.dropdowns
+{
+    width: 70%;
+    border:none;
+    border-bottom: 1px solid rgb(184, 159, 174);
+ 
+}

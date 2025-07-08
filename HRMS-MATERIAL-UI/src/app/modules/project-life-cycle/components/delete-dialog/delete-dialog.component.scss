@@ -1,0 +1,19 @@
+.close-button{
+    float: right;
+    background-color: white;
+    border-color: white;
+    border: 0ch;
+  }
+
+::ng-deep .icon-outside .close-button{
+    float: right;
+  }
+  
+  ::ng-deep .icon-outside .mat-dialog-container {
+   overflow: unset;
+  }
+
+.scrollbar{
+  overflow-y: hidden;
+  overflow-x: hidden; 
+}  

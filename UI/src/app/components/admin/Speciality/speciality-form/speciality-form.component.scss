@@ -1,0 +1,38 @@
+
+             input[type="text"]
+        
+             {
+                 width: 70%;
+                 border:none;
+                 border-bottom: 1px solid blue;
+              
+             }
+             @media screen and (min-width: 64.063em){
+     .ui-lg-3 {
+         width: 37%;
+     }
+             }
+             .center{
+                 margin-left:327px;
+               
+               }
+       
+             
+               /* Desktops and laptops ---------- */
+             @media screen and (max-width: 1440px){
+             
+               
+                 .center{
+                  margin-left:18vw;
+                 
+                 }
+                 }
+                          /* tablets, iPads (landscape) ---------- */
+                          @media screen and (max-width: 1024px){
+                        
+                             .center{
+                                 margin-left:auto;
+                                
+                                }
+                              
+                       }

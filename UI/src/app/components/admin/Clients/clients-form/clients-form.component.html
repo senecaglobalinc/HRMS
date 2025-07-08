@@ -1,0 +1,82 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      <div>Clients</div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="center">
+      <form [formGroup]="addClient" class="form-horizontal">
+        <div class="row">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-4 ui-lg-3">
+              <div class="box">
+                <label for="ClientCode">Client Code:</label>
+                <span style="color: red">*</span>&nbsp;
+                <input *ngIf="!isEdit"  style="width: 50%" maxlength="6" (keypress)="validate_clientCode($event)"
+                  formControlName="ClientCode" name="ClientCode" required type="text" size="30" pInputText />
+                <input *ngIf="isEdit" disabled="true" style="width: 50%"  formControlName="ClientCode" name="ClientCode"
+                  required type="text" size="30" pInputText readonly />
+                <div class="ClientCode" *ngIf="addClient.get('ClientCode').hasError('required') &&formSubmitted">
+                  <span style="color: red">Client Code Required</span>
+                </div>
+                <div class="ClientCode" *ngIf="addClient.get('ClientCode').hasError('unAllowed') ">
+                  <span style="color: red">Should not have continuous spaces.</span>
+                </div>
+                <div class="ClientCode" *ngIf="addClient.get('ClientCode').hasError('maxlength')">
+                  <span style="color: red">Only 6 characters are allowed.</span>
+                </div>
+                <div class="ClientCode" *ngIf="addClient.get('ClientCode').hasError('pattern')">
+                  <span style="color: red">Client Code should be in pattern 'c#####'</span>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-lg-3">
+              <div class="box">
+                <label for="ClientName">Client Name:</label>
+                <span style="color: red">*</span>&nbsp;
+                <input maxlength="50" style="width: 50%" (keypress)="validate_clientName($event)" formControlName="ClientName"
+                  name="ClientName" required type="text" size="30" pInputText />
+                <div *ngIf="addClient.get('ClientName').hasError('unAllowed') ">
+                  <span style="color: red">Should not have continuous spaces.</span>
+                </div>
+                <div *ngIf="addClient.get('ClientName').hasError('required') &&  formSubmitted">
+                  <span style="color: red">Client Name Required </span>
+                </div>
+                <div *ngIf="addClient.get('ClientName').hasError('maxlength')">
+                  <span style="color: red">Only 50 characters.</span>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4 ui-lg-3">
+              <div class="box">
+                <label for="ClientRegisterName">Client Register Name:</label>&nbsp;
+                <input formControlName="ClientRegisterName" style="width: 50%" (keypress)="validate_clientRegisterName($event)" maxlength="150"
+                 name="ClientRegisterName" type="text" size="30" pInputText />
+                <div *ngIf="addClient.get('ClientRegisterName').hasError('unAllowed') ">
+                  <span style="color: red">Should not have continuous spaces.</span>
+                </div>
+                <!-- <div *ngIf=" addClient.get('ClientRegisterName').hasError('required') && formSubmitted">
+                  <span style="color: red">Required field</span>
+                </div> -->
+                <div *ngIf="addClient.get('ClientRegisterName').hasError('maxlength')">
+                  <span style="color: red">Only 150 characters.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <section class="pull-right buttons">
+            <button type="submit" class="btn btn-custom submit" style="cursor:pointer;" (click)="addClients()">
+              <i class="fa fa-floppy-o"></i>&nbsp;{{ btnLabel }}</button>&nbsp;
+            <button type="button" class="btn btn-default cancel" style="cursor:pointer;" (click)="cancel()">
+              <i class="fa fa-eraser"></i>Clear
+            </button>
+          </section>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-toast [style]="{ marginTop: '80px' }"></p-toast>

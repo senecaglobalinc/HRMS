@@ -1,0 +1,65 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Skills
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+        <form [formGroup]="addSkills" class="form-horizontal">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <div class="box">
+                            <label>Competency Area:</label>
+                            <span style="color: red">*</span>&nbsp;
+                            <p-dropdown [disabled]="isEdit" [style]="{'width':'50%'}" name="CompetencyAreaId" [options]="competencyAreaList" filter="true"
+                                formControlName="CompetencyAreaId" tabindex="2" (onChange)="getSkillGroupByCompetencyArea(addSkills.value.CompetencyAreaId)"></p-dropdown>
+                            <div *ngIf="addSkills.get('CompetencyAreaId').hasError('required') && formSubmitted" >
+                                <span style="color: red">Competency Area Required</span>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <div class="box">
+                            <label>Skill Group:</label>
+                            <span style="color: red">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p-dropdown [disabled]="isEdit" [style]="{'width':'50%'}" name="SkillGroupId" [options]="skillGroupList" filter="true" formControlName="SkillGroupId"
+                                tabindex="2"></p-dropdown>
+                            <div *ngIf="addSkills.get('SkillGroupId').hasError('required') && formSubmitted"> 
+                            <span style="color: red">Skill Group Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <div class="box">
+                            <label for="SkillCode">Skill:</label>
+                            <span style="color: red">*</span>
+                                <input class="field" formControlName="SkillCode" name="SkillCode" style="width: 50%" required type="text" size="30" pInputText>
+                                <div *ngIf="addSkills.get('SkillCode').hasError('required') && formSubmitted">
+                                    <span style="color: red">Skill Required</span>
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <div class="box">
+                            <label for="SkillDescription">Skill Description:</label>&nbsp;&nbsp;
+                            <textarea rows="1" formControlName="SkillDescription" style="width: 49%" name="SkillDescription" type="textarea" size="30" pInputTextarea></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <section class="pull-right buttons">
+                            <button type="submit" class="btn btn-custom" style="cursor:pointer;" (click)="addSkill()">
+                                <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="cancel()">
+                                <i class="fa fa-eraser"></i>Clear</button>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

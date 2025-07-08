@@ -1,0 +1,154 @@
+<!-- // Start - This is just for Demo Purpose can be removed later if material data table is not required -->
+<mat-toolbar>
+  <span>KRA Measurement Type
+  </span>
+</mat-toolbar>
+<div class="container mb-100">
+  
+
+  <form [formGroup]="measurementForm" (ngSubmit)="submitForm()">
+    
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <mat-card class="mt-10">
+        <div class="row">
+          <div class="col-md-8">
+            <mat-form-field  appearance="outline">
+              <mat-label>KRA Measurement Type</mat-label>
+              <input matInput placeholder="Measurement Type Name" formControlName="MeasurementType">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 text-right">
+            <div class="mt-10 pr-15">
+            <button  type="reset" (click)="clear()" mat-flat-button><mat-icon>clear
+            </mat-icon> Clear</button>
+            <button type="submit" mat-flat-button color="primary"><mat-icon>add
+            </mat-icon> {{saveButton}}</button>
+          </div>
+          </div>
+        </div>
+        <div>
+
+            <mat-form-field  class="margin-s" >
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                </mat-form-field>
+                <table  mat-table [dataSource]="sliceDataSource">
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="MeasurementType">
+                    <th mat-header-cell *matHeaderCellDef>KRA Measurement Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element.MeasurementType}} </td>
+                  </ng-container>
+              
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="Edit">
+                    <th   class="mnw-70 w-70" mat-header-cell *matHeaderCellDef>Edit </th>
+                    <td class="mnw-70 w-70" mat-cell *matCellDef="let element"> 
+                        <button type="button" mat-icon-button color="primary" (click)="editMeasurementType(element)">
+                            <mat-icon class="mat-18">edit</mat-icon>
+                    </button> </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons (page)="onPageChanged($event)"></mat-paginator>
+            
+ 
+        </div>
+      </mat-card>
+      </div>
+    </div>
+  </form>
+
+</div>
+ <!-- // End - This is just for Demo Purpose can be removed later if material data table is not required -->
+
+
+
+
+<!--
+  <div class="panel-heading">
+    <div class="panel-title">KRA Measurement Types</div>
+  </div>
+  <div class="panel-body">
+    <div class="center">
+    <form [formGroup]="measurementForm">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-4">
+            <div class="box">
+              <label id="label">KRA Measurement Type:
+                <span style="color: red">*</span>
+              </label>&nbsp;
+              <input type="text" (keypress)="omitSpecialChar($event)" formControlName="measurementType" maxlength="70" [(ngModel)]="measurementType"
+                (change)="validateMeasurementType(measurementType)" pInputText>
+              <div *ngIf="measurementFormSubmitted && (!measurementForm.controls['measurementType'].valid && measurementForm.controls['measurementType'].dirty)||(measurementFormSubmitted && !measurementForm.controls['measurementType'].valid)">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">KRA Measurement Type is required.</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-4">
+          <div class="buttons">
+          <button type="submit" class="btn btn-primary" style="cursor:pointer;" *ngIf="buttonTitle == 'Add'" (click)="createKraMeasurementType()">
+            <i class="fa fa-plus"></i>&nbsp;Add</button>&nbsp;
+          <button type="submit" class="btn btn-primary" style="cursor:pointer;" *ngIf="buttonTitle == 'Update'" (click)="updateKraMeasurementType()">
+            <i class="fa fa-floppy"></i>&nbsp;Update</button>&nbsp;
+          <button type="button" class="btn btn-default" style="border: 1px solid #337ab7;color:#337ab7;cursor:pointer;" (click)="cancel()">
+            <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+        </div>
+        </div>
+      </div>
+  </div>
+  </form>
+  <br>
+  <div class="content-fluid">
+    <div class="tables">
+      <p-table #dt1 [columns]="cols" [value]="measureTypeList" [paginator]="true" dataKey="vin" [rows]="PageSize" [resizableColumns]="true"
+        [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}" selectionMode="multiple" stateStorage="session"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" class="iconCls"></i>
+            <input type="text" style="width:30%;" pInputText size="50" placeholder="Search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+              class="inputCls" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <ng-container *ngFor="let col of columns; let i = index" [ngSwitch]="col.field" [pSortableColumn]="col.field" pResizableColumn
+              pReorderableColumn>
+              <th *ngIf="i == 0">
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            </ng-container>
+            <th class="editCls ">Edit</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <ng-container *ngFor="let col of columns; let i = index" [pSelectableRow]="rowData[col]">
+              <td *ngIf="i == 0">
+              <div>{{ rowData[col.field] }}</div>
+            </td>
+            <td class="edit" style="text-align: center;">
+              <a  (click)="editMeasurement(rowData.value, rowData.label)" >
+                <i title="Edit " class="fa fa-pencil-square-o fa-lg editCls"></i>
+              </a>
+            </td>
+            </ng-container>
+          </tr>
+        </ng-template>
+        <ng-template *ngIf="!measureTypeList" pTemplate="summary">
+          <div style="text-align: left">
+            No records found
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+</div>
+-->
+<p-confirmDialog appendTo="body" key="kraMeasurementType" width="500"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

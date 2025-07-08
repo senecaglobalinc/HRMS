@@ -1,0 +1,172 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="abscondForm" *ngIf="aExitType === 'Abscond'">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Employee Name
+
+                        </mat-label>
+                        <mat-select [disabled]="PMScreen" name="ddlEmployee" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="seletedemp" required>
+                            <mat-option *ngFor="let user of _usersList" [value]="user.value">
+                                {{user.label}}</mat-option>
+                        </mat-select>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Period of absence from</mat-label>
+                        <input formControlName="abscondedFromDate" [disabled]="PMScreen" matInput
+                            [matDatepicker]="from">
+                        <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                        <mat-datepicker #from></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Period of absence to</mat-label>
+                        <input formControlName="abscondedToDate" [disabled]="PMScreen" matInput [matDatepicker]="to">
+                        <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                        <mat-datepicker #to></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Personal E-mail
+
+                        </mat-label>
+                        <input formControlName="email" type="email" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="roleName==='HRA'">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Cause Details</mat-label>
+                        <textarea matInput></textarea>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="roleName==='HRA'">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Evidence</mat-label>
+                        <textarea matInput></textarea>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button (click)="Clear()" type="reset" mat-stroked-button>
+                        <mat-icon>clear
+                        </mat-icon>Clear
+                    </button>
+                    <button type="submit" (click)="submit()" mat-flat-button color="primary">
+                        Submit</button>
+                </div>
+
+            </div>
+        </form>
+
+        <form [formGroup]="separationForm" *ngIf="aExitType === 'SBH'">
+            <div class="row">
+                    <div class="col-md-4">
+                            <mat-form-field appearance={{themeConfigInput}}>
+                                <mat-label>Employee Name
+        
+                                </mat-label>
+                                <mat-select [disabled]="PMScreen" name="ddlEmployee" [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="seletedemp" required>
+                                    <mat-option *ngFor="let user of _usersList" [value]="user.value">
+                                        {{user.label}}</mat-option>
+                                </mat-select>
+        
+                            </mat-form-field>
+                        </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Exit date</mat-label>
+                        <input formControlName="exitDate"  matInput
+                            [matDatepicker]="exit">
+                        <mat-datepicker-toggle matSuffix [for]="exit"></mat-datepicker-toggle>
+                        <mat-datepicker #exit></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Reason Details</mat-label>
+                        <textarea matInput formControlName="reasonDetail" name="reasonDetail"></textarea>
+                    </mat-form-field>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button (click)="Clear()" type="reset" mat-stroked-button>
+                            <mat-icon>clear
+                            </mat-icon>Clear
+                        </button>
+                        <button type="submit" (click)="submitSBH()" mat-flat-button color="primary">
+                            Submit</button>
+                    </div>
+                </div>
+        </form>
+
+        <form [formGroup]="terminationForm"  *ngIf="aExitType === 'Termination'">
+                <div class="col-md-6">
+                  <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Associate Name</mat-label>
+                            <mat-select placeholder="Select Associate" formControlName="EmpName" name="EmpName"
+                             required
+                             [(ngModel)]="selectedEmp">
+                            <mat-option *ngFor="let user of _usersList" [value]="user.value">
+                                {{user.label}}</mat-option>
+                        </mat-select>
+            
+                            <mat-error *ngIf="terminationForm.get('EmpName').hasError('required') ">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                              <span style="color: red">Assosiate Name Required</span>
+                            </mat-error>
+                    </mat-form-field>
+                </div>
+
+      
+                    <div class="col-md-6">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Cause Category</mat-label>
+                            <mat-select formControlName="causeCategory"
+                                required
+                                [(ngModel)]="causeCategory">
+                                <mat-option *ngFor="let aspect of exitreasonlist" [value]="aspect.value">{{aspect.label}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="terminationForm.get('causeCategory').hasError('required')">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                              <span style="color: red">Cause Category Required</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <mat-form-field appearance="{{themeConfigInput}}">
+                            <mat-label>Last Working Date</mat-label>
+                            <input formControlName="lastWorkingDate" [min]="today" matInput [matDatepicker]="termination">
+                            <mat-datepicker-toggle matSuffix [for]="termination"></mat-datepicker-toggle>
+                            
+                            <mat-datepicker #termination></mat-datepicker>
+                            <mat-error *ngIf="terminationForm.get('lastWorkingDate').hasError('required')">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Last Working Date Required.</span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Cause Details</mat-label>
+                            <textarea matInput formControlName="CauseDetails" name="CauseDetails"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button (click)="clearValues()" mat-stroked-button><mat-icon>clear
+                        </mat-icon>Clear</button>
+                        <button  type="submit" (click)="onSubmit()" mat-flat-button color="primary">Submit</button>
+                    </div>
+        </form>
+    </mat-card-content>
+</mat-card>

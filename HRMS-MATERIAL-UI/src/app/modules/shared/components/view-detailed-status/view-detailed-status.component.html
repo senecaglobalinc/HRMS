@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Status</h2>
+<mat-dialog-content class="mat-typography">
+    <div *ngIf="statusDetails && statusDetails['AssociateExitStatusCode'] === 'ResignationInProgress'">
+        <b *ngIf="statusDetails && statusDetails['ActivitiesSubStatus'] != null" class="text">Activities</b>
+        <table *ngIf="statusDetails && statusDetails['ActivitiesSubStatus'] != null" class="table table-bordered">
+            <tr class="d-center">
+                <th>
+                    <span class="text">Department</span>
+                </th>
+                <th>
+                    <span class="text">Status</span>
+                </th>
+            </tr>
+            <tbody *ngFor="let item of statusDetails['ActivitiesSubStatus']">
+                <tr class="text-center data-rows">
+                    <td class="text-left">{{item.DepartmentName}}</td>
+                    <td [ngStyle]="{backgroundColor: getColor(item.ActivityStatusCode)}" class="text-left">
+                        {{item.ActivityStatusDesc}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="statusDetails && statusDetails['ActivitiesSubStatus'] === null" class="row mb-2">
+            <b class="text col-md-4">Activities: </b>
+            <span class="col-md-6 text-left">Not Yet Started</span>
+        </div>
+        <div class="row mb-2">
+            <b class="text col-md-4">KT Plan: </b>
+            <span class="col-md-6 text-left" *ngIf="statusDetails && statusDetails['KTPlanSubStatus'] === null">Not Yet
+                Started</span>
+            <span class="col-md-6 text-left"
+                *ngIf="statusDetails && statusDetails['KTPlanSubStatus'] && statusDetails['KTPlanSubStatus'] != null">{{statusDetails['KTPlanSubStatus']['SubStatusDesc']}}</span>
+        </div>
+        <div class="row">
+            <b class="text col-md-4">Exit Interview: </b>
+            <span class="col-md-6 text-left"
+                *ngIf="statusDetails && statusDetails['ExitInterviewSubStatus'] === null">Not Yet Started</span>
+            <span class="col-md-6 text-left"
+                *ngIf="statusDetails && statusDetails['ExitInterviewSubStatus'] && statusDetails['ExitInterviewSubStatus'] != null">{{statusDetails['ExitInterviewSubStatus']['SubStatusDesc']}}</span>
+        </div>
+
+    </div>
+    <div *ngIf="statusDetails && statusDetails['AssociateExitStatusCode'] != 'ResignationInProgress'">
+        <span>{{this.statusDetails['AssociateExitStatusDesc']}} at HRM</span>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" [mat-dialog-close]="true">Close</button>
+</mat-dialog-actions>

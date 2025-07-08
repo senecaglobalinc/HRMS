@@ -1,0 +1,21 @@
+.mat-form-field {
+  display: block;
+}
+
+textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.footer-css {
+  padding: 0px;
+}
+
+
+.mat-form-field-flex {
+  display: inline-flex;
+  align-items: baseline;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100px !important;
+}

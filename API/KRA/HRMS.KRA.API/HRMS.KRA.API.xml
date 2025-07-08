@@ -1,0 +1,482 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HRMS.KRA.API</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.KRA.API.Controllers.AspectController.GetAllAsync" -->
+        <member name="M:HRMS.KRA.API.Controllers.AspectController.CreateAsync(HRMS.KRA.Infrastructure.Models.AspectModel)">
+            <summary>
+            This method creates new aspect record.
+            </summary>
+            <param name="aspectIn"></param>
+            <returns>Aspect</returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.AspectController.UpdateAsync(HRMS.KRA.Infrastructure.Models.AspectModel)">
+            <summary>
+            Update Aspect
+            </summary>
+            <param name="clientIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.AspectController.DeleteAsync(System.Int32)">
+            <summary>
+            This methode deletes aspect record.
+            </summary>
+            <param name="aspectId"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.CommentController.Create(HRMS.KRA.Infrastructure.Models.CommentModel)">
+            <summary>
+            Create
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.CommentController.GetAll(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets all Comments 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.#ctor(HRMS.KRA.Types.IDefinitionService,Microsoft.Extensions.Logging.ILogger{HRMS.KRA.API.Controllers.DefinitionController})">
+            <summary>
+            DefinitionController
+            </summary>
+            <param name="definitionService"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.Create(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            Create
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.GetDefinitions(System.Int32,System.Int32)">
+            <summary>
+            Get Definitions
+            </summary>
+            <param name="financialYearId"></param>
+            <param name="gradeRoleTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.UpdateKRAStatus(System.Int32,System.Int32,System.String)">
+            <summary>
+            Update KRA Status
+            </summary>
+            <param name="id"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.UpdateKRA(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            EDIT KRA
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.ImportKRA(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            ImportKRA
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.GetKRAs(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets KRAs.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.GetDefinitionDetails(System.Guid)">
+            <summary>
+            GetDefinitionDetails.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.Delete(System.Guid)">
+            <summary>
+            Delete a KRA Definition
+            </summary>
+            <param name="definitionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.DeleteByHOD(System.Int32)">
+            <summary>
+            Delete (soft delete) a KRA Definition by HOD
+            </summary>
+            <param name="defintionDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.SetPreviousMetricValues(System.Int32)">
+            <summary>
+            SetPreviousMetricValues
+            </summary>
+            <param name="defintionDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.SetPreviousTargetValues(System.Int32)">
+            <summary>
+            SetPreviousTargetValues
+            </summary>
+            <param name="defintionDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.AcceptTargetValue(System.Int32,System.String)">
+            <summary>
+            AcceptTargetValue
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.AcceptMetricValue(System.Int32,System.String)">
+            <summary>
+            AcceptMetricValue
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.RejectTargetValue(System.Int32,System.String)">
+            <summary>
+            RejectTargetValue
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.RejectMetricValue(System.Int32,System.String)">
+            <summary>
+            RejectMetricValue
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.AcceptDeletedKRAByHOD(System.Int32,System.String)">
+            <summary>
+            AcceptDeletedKRAByHOD
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.RejectDeletedKRAByHOD(System.Int32,System.String)">
+            <summary>
+            RejectDeletedKRAByHOD
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.AcceptAddedKRAByHOD(System.Int32,System.String)">
+            <summary>
+            AcceptAddedKRAByHOD
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.RejectAddedKRAByHOD(System.Int32,System.String)">
+            <summary>
+            RejectAddedKRAByHOD
+            </summary>
+            <param name="defintionTransactionId"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.DeleteKRA(System.Int32)">
+            <summary>
+            Delete a KRA Definition
+            </summary>
+            <param name="defnitionDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.DefinitionController.AddKRAAgain(System.Int32)">
+            <summary>
+            AddKRAAgain
+            </summary>
+            <param name="defintionDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAController.GetOperatorsAsync">
+            <summary>
+            Gets KRA Operator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAController.GetTargetPeriodsAsync">
+            <summary>
+            Gets KRA TargetPeriods
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAController.GenerateKRAPdf(System.String,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            GenerateKRAPdf
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAController.GetKRAPdfsAsync(System.Boolean)">
+            <summary>
+            Gets KRA Operator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAController.DeleteKRAPdf(System.String)">
+            <summary>
+            Delete a KRA Pdf
+            </summary>
+            <param name="kraPdfId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.UpdateDefinitionDetails(System.Int32,System.Int32)">
+            <summary>
+            Update DefinitionDetails -- SEND TO HOD
+            </summary>
+             <param name="financialYearId"></param>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.SentToHODAsync(HRMS.KRA.Infrastructure.Models.KRAWorkFlowModel)">
+            <summary>
+            
+            </summary>
+            <param name="kRAWorkFlowModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.ApprovedbyHODAsync(HRMS.KRA.Infrastructure.Models.KRAWorkFlowModel)">
+            <summary>
+            
+            </summary>
+            <param name="kRAWorkFlowModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.EditedByHODAsync(HRMS.KRA.Infrastructure.Models.KRAWorkFlowModel)">
+            <summary>
+            
+            </summary>
+            <param name="kRAWorkFlowModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.SentToOpHeadAsync(HRMS.KRA.Infrastructure.Models.KRAWorkFlowModel)">
+            <summary>
+            
+            </summary>
+            <param name="kRAWorkFlowModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.SendToCEOAsync(HRMS.KRA.Infrastructure.Models.KRAWorkFlowModel)">
+            <summary>
+            
+            </summary>
+            <param name="kRAWorkFlowModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.ApprovedByCEOAsync(HRMS.KRA.Infrastructure.Models.KRAWorkFlowModel)">
+            <summary>
+            
+            </summary>
+            <param name="kRAWorkFlowModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.HODAddAsync(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            
+            </summary>
+            <param name="definitionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.HODUpdateAsync(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            
+            </summary>
+            <param name="definitionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.HODDeleteAsync(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            
+            </summary>
+            <param name="definitionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.GetHODDefinitionsAsync(System.Int32,System.Int32)">
+            <summary>
+            GetHODDefinitions
+            </summary>
+            <param name="financialYearId"></param>
+            <param name="gradeRoleTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.GetOperationHeadStatusAsync(System.Int32)">
+            <summary>
+            GetOperationHeadStatus
+            </summary>
+            <param name="financialYearId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.AcceptedByOperationHeadAsync(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            AcceptedByOperationHead
+            </summary>
+            <param name="definitionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.RejectedByOperationHeadAsync(HRMS.KRA.Infrastructure.Models.DefinitionModel)">
+            <summary>
+            RejectedByOperationHead
+            </summary>
+            <param name="definitionModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.GetOperationHeadDefinitionsAsync(System.Int32,System.Int32)">
+            <summary>
+            GetHODDefinitions
+            </summary>
+            <param name="financialYearId"></param>
+            <param name="gradeRoleTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.SendToCEO(System.Int32)">
+            <summary>
+            SendToCEO
+            </summary>
+             <param name="financialYearId"></param>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.UpdateRoleTypeStatus(System.Int32,System.Int32)">
+            <summary>
+            UpdateRoleTypeStatus -- SEND TO HR
+            </summary>
+             <param name="financialYearId"></param>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.EditByHR(System.Int32,System.Int32)">
+            <summary>
+            EditByHR
+            </summary>
+             <param name="financialYearId"></param>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.GetKRAStatusByFinancialYearId(System.Int32)">
+            <summary>
+            Gets KRAStatus by FinancialYearId.
+            </summary>
+             <param name="financialYearId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.GetKRAStatus(System.Int32,System.Int32)">
+            <summary>
+            Gets KRAStatus by FinancialYearId.
+            </summary>
+             <param name="financialYearId"></param>
+             /// <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.GetKRAStatusByFinancialYearIdForCEO(System.Int32)">
+            <summary>
+            Gets KRAStatus by FinancialYearId for CEO.
+            </summary>
+             <param name="financialYearId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.KRAWorkFlowController.UpdateRoleTypeStatusForCEO(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            UpdateRoleTypeStatusForCEO -- CEO Accepts/Rejects
+            </summary>
+             <param name="financialYearId"></param>
+            <param name="departmentId"></param>
+            <param name="isAccepted"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.MeasurementTypeController.GetAll">
+            <summary>
+            Gets KRA Measurement Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.MeasurementTypeController.Create(HRMS.KRA.Infrastructure.Models.MeasurementTypeModel)">
+            <summary>
+            Create a new Measurement Type
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.MeasurementTypeController.Update(HRMS.KRA.Infrastructure.Models.MeasurementTypeModel)">
+            <summary>
+            Update a Measurement Type
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.MeasurementTypeController.Delete(System.Int32)">
+            <summary>
+            Delete Measurement Type
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.RoleTypeController.GetRoleTypesByGradeId(System.Int32)">
+            <summary>
+            Gets RoleTypes By GradeId
+            </summary>
+            <param name="gradeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.ScaleController.GetAll">
+            <summary>
+            Gets list of KRA scale.
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.ScaleController.GetScaleDetailsById(System.Int32)">
+            <summary>
+            Get Scale Details By ScaleID
+            </summary>
+            <param name="ScaleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.ScaleController.Create(HRMS.KRA.Infrastructure.Models.ScaleModel)">
+            <summary>
+            Create scale and details
+            </summary>
+            <param name="ScaleModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.ScaleController.Update(HRMS.KRA.Infrastructure.Models.ScaleModel)">
+            <summary>
+            Update Client
+            </summary>
+            <param name="scaleIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.ScaleController.Delete(System.Int32)">
+            <summary>
+            Delete a Scale
+            </summary>
+            <param name="ScaleData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.StatusController.GetAll">
+            <summary>
+            Gets list of Status.
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.KRA.API.Controllers.StatusController.Create(HRMS.KRA.Infrastructure.Models.StatusModel)">
+            <summary>
+            Create status
+            </summary>
+            <param name="StatusModel"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

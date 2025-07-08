@@ -1,0 +1,90 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <h4 class="panel-title" style="padding: 10px;">Talentpool Report</h4>
+  </div>
+
+  <div class="panel-body">
+    <div class="row">
+      <div class="p-grid p-justify-around">
+        <div class="p-col-9">
+          <div class="box">
+            <i class="fa fa-bar-chart fa-lg" style="color: #4b8eb9;cursor: pointer;"
+              (click)="onBarChartClick()"></i>&nbsp;
+            <i class="fa fa-pie-chart fa-lg" style="color: #4b8eb9;cursor: pointer;" (click)="onPieChartClick()"></i>
+            <p-chart [type]="chartType" [options]="options" width="800" height="300" #talentpoolChart
+              [data]="talentpoolChartData" (onDataSelect)="selectedbarData($event);dt2.reset()"></p-chart>
+          </div>
+        </div>
+        <div class="p-col-3">
+          <div class="box reportDataTable">
+            <p-table #dt1 [value]="lstTalentpoolData" [columns]="cols" [style]="{'white-space': 'normal'}">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns"  class="text-center"  [pSortableColumn]="col.field"
+                     pResizableColumn pReorderableColumn>
+                    {{col.header}}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                    <div>{{ rowData[col.field] }}</div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                <div *ngIf="lstTalentpoolData.length==0" style="text-align: left">
+                  No Records Found
+                </div>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <span *ngIf="this.talentPoolName.length>0">Talent Pool Name :
+        <strong> {{this.talentPoolName}} </strong>
+      </span>
+    
+        <div style="text-align: right">
+          <input type="text" pInputText size="50" style="width: 20%" placeholder="Search"
+            (input)="dt2.filterGlobal($event.target.value, 'contains')" class="inputCls" />
+        </div>
+      
+      <p-table #dt2 [value]="lstEmployees" [columns]="cols1" [paginator]="true" [rows]="PageSize"
+        [rowsPerPageOptions]="PageDropDown"  [style]="{ 'white-space': 'nowrap'}">
+       
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns"  [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <ng-container *ngFor="let col of columns; let i = index" [pSelectableRow]="rowData[col]">
+              <td *ngIf="i != 1">
+                  {{ rowData[col.field] }}
+              </td>
+              <td *ngIf="i == 1" style = "cursor:pointer" class="text-left ">
+                <a (click)="getProjectHistoryByEmployee(rowData)"> {{ rowData[col.field] }} </a>
+            </td>
+          </ng-container>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="showProjectHistory" appendTo="body" header="{{ heading }}" height="350" width="800" 
+  responsive="true" modal=true showHeader=true closeOnEscape=true closable=true>
+ <app-associate-project-history></app-associate-project-history>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

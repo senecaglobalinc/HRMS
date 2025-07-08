@@ -1,0 +1,133 @@
+<mat-accordion>
+    <mat-expansion-panel    [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            <mat-icon>filter_list</mat-icon> Filter Attendance Report
+        </mat-panel-title>
+       </mat-expansion-panel-header>
+  
+       <form [formGroup]="myForm">
+        <div class="row">
+            <div class="col-md-6"> 
+              <br>             
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>From Date<span style="color: red"> *</span></mat-label>
+  
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="from" (click)="from.open()" formControlName="fromDate" style="cursor: pointer"
+                        format='dd/mm/yy' (dateChange)="searchData.FromDate = $event.value; clearData();"
+                        [value]="searchData.FromDate" (paste)="$event.preventDefault()"  readonly>
+                    <mat-datepicker-toggle matSuffix *ngIf="myForm.value.fromDate"
+                        (click)="clearInput($event, 'fromDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                    <mat-datepicker #from></mat-datepicker>
+                    <mat-error *ngIf="myForm.controls.fromDate.hasError('required')">From Date is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <br>                
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>To Date<span style="color: red"> *</span></mat-label>
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="to" (click)="to.open()" formControlName="toDate" style="cursor: pointer"
+                        format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value; clearData();"
+                        [value]="searchData.ToDate"  readonly (paste)="$event.preventDefault()">
+                    <mat-datepicker-toggle matSuffix *ngIf="myForm.value.toDate"
+                        (click)="clearInput($event, 'toDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                    <mat-datepicker #to></mat-datepicker>
+                    <mat-error *ngIf="myForm.controls.toDate.hasError('required')">To Date is required</mat-error>
+                </mat-form-field>
+            </div>     
+                
+        </div>
+        <div class="text-right buttons">
+            <button type="button" mat-stroked-button (click)="clearFilter()">
+                Clear</button>
+            <button type="submit" class="mr-0" mat-flat-button color="primary" (click)="fetchAttendanceReport()">
+                Apply</button>
+        </div>
+    </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-card>
+    <mat-card-content>
+        <div class="row">
+          <div class="col-3">
+            <mat-icon style="vertical-align: middle;">people</mat-icon><b> List of associates </b>
+           <span>{{lstEmployees.length}}</span>
+         </div>
+         <div class="col-3">
+          <b> Total Working Days </b>
+         <span>{{totalWorkingDays}}</span>
+       </div>
+       <div class="col-3">
+        <b> Holidays </b>
+       <span>{{totalHolidays}}</span>
+     </div>
+           <div class="col-3">
+              <span style="float: right;">
+                 <a *ngIf="lstEmployees.length>0"
+                    (click)="exportAsXLSX()" title="Export to Excel">
+                    <div class="exportToExcel"></div>
+                </a>
+              </span>
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">               
+                <div class="table-responsive">
+                    <table #table mat-table matTableExporter [dataSource]="employeedataSource" #sort="matSort" matSort class="mat-elevation-z8" #exporter="matTableExporter">
+                     
+                      <ng-container matColumnDef="EmployeeCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">ID</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.EmployeeCode}} </td>
+                      </ng-container>
+                
+                    <ng-container matColumnDef="EmployeeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Name</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.EmployeeName}} </td>
+                      </ng-container>        
+                        <ng-container matColumnDef="ProjectName">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left" >Project</th>
+                          <td mat-cell *matCellDef="let element" class="td-left" > {{element.ProjectName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ReportingManagerName">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Reporting Manager</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> {{element.ReportingManagerName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="TotalDaysWorked">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Total Days</th>
+                            <td mat-cell *matCellDef="let element" class="td-left"> {{element.TotalDaysWorked}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="View">
+                          <th mat-header-cell *matHeaderCellDef  class="font-weight-bold th-left">Detail View</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> <mat-icon  style="vertical-align: middle;cursor: pointer;" (click)="viewAttendanceDetails(element)"> visibility</mat-icon> </td>
+                      </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data</td>
+                         </tr>
+                    </table>
+                  </div>
+                <div class="row justify-content-center">
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20,25,30,40,50,60,70,80,90,100]"></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+  
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+

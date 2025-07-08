@@ -1,0 +1,297 @@
+<div class="panel-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <div class="radio-inline">
+              <p-radioButton name="group2" value="1" [(ngModel)]="isSow" label="Sow ">
+              </p-radioButton>
+            </div>
+            <div class="radio-inline">&nbsp;&nbsp;&nbsp;
+              <p-radioButton [disabled]="disableAddendum" name="group2" value="0" [(ngModel)]="isSow" label="Addendum" inputId=""></p-radioButton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <form class="form-horizontal" [formGroup]="addSOW">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Projects</label>
+              <div class="ui-fluid">
+                <p-dropdown formControlName="ProjectId" [disabled]="true" [options]="projectsList" [style]="{'width':'70%'}" [autoWidth]="false"
+                  [filter]="true" (onChange)="GetSows($event)">
+                </p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box" [hidden]="isSow != 1">
+              <label class="labels">SOW ID</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid" *ngIf="editMode == true">
+                <input formControlName="SOWId" style="width:70%;" *ngIf="canEnableSowId() == true" disabled="true" class="textfield" name="SOWId"
+                  required type="text" pInputText>
+                <input formControlName="SOWId" style="width:70%;" *ngIf="canEnableSowId() == false" class="textfield" name="SOWId" required
+                  type="text" pInputText>
+              </div>
+              <div class="ui-fluid" *ngIf="editMode == false ">
+                <input formControlName="SOWId" style="width:70%;" class="textfield" name="SOWId" required type="text" pInputText>
+              </div>
+              <div *ngIf="formSubmitted && addSOW.get('SOWId').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+              <div *ngIf="addSOW.get('SOWId').hasError('unAllowed')">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Should not have continuous spaces.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box" [hidden]="isSow != 1">
+              <label class="labels">SOW File Name</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <input formControlName="SOWFileName" style="width:70%;" class="textfield" name="SOWFileName" required type="text" pInputText>
+              </div>
+              <div *ngIf="formSubmitted && addSOW.get('SOWFileName').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+              <div *ngIf="formSubmitted && addSOW.get('SOWFileName').hasError('maxlength') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">50 characters allowed.</span>
+              </div>
+              <div *ngIf="addSOW.get('SOWFileName').hasError('unAllowed')">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Should not have continuous spaces.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box" [hidden]="isSow != 1">
+              <label class="labels">Signed Date</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <p-calendar name="SOWSignedDate" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true" formControlName="SOWSignedDate"
+                  [showIcon]="true" readonlyInput="true" [style]="{'width':'70%'}"></p-calendar>
+              </div>
+              <div *ngIf="formSubmitted && addSOW.get('SOWSignedDate').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="ui-g-12 ui-md-4 ui-lg-3">
+              <div class="box" [hidden]="isSow != 1">
+                  <div class="ui-fluid">
+                  <section class="pull-right buttons">
+                      <button type="submit" class="btn btn-custom" (click)="AddSOW()">
+                          <i class="fa fa-plus"></i>&nbsp;{{ addButton }}</button>&nbsp;
+                    <button type="button" class="btn btn-default" (click)="OpenConfirmation()">
+                      <i class="fa fa-eraser"></i>{{ CancelBtnLabelSOW }}</button> 
+                  </section>
+                  </div>
+                </div>
+                </div> -->
+ 
+        </div>
+        <div class="col-lg-12" [hidden]="isSow != 1">
+          <section class="pull-right buttons">
+              <button  type ="submit" class="btn btn-custom" (click)="AddSOW()">
+                  <i class="fa fa-plus"></i>&nbsp;{{ addButton }}</button>&nbsp;
+            <button type="button" class="btn btn-default" (click)="OpenConfirmation()">
+              <i class="fa fa-eraser"></i>{{ CancelBtnLabelSOW }}</button> 
+            
+          </section>
+        </div>
+      </div>
+
+    
+    </form>
+    <!-- ////////-Addendum Form-/////////// -->
+    <form class="form-horizontal" [formGroup]="addAddendum" [hidden]="isSow != 0">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">SOW ID</label>
+              <div class="ui-fluid">
+                <p-dropdown formControlName="Id" [options]="sowlist" [style]="{'width':'70%'}" [autoWidth]="false" [filter]="true" (onChange)="GetAddendumsBySOWId($event);">
+                </p-dropdown>
+              </div>
+              <div *ngIf="AddendumformSubmitted && isSow == 0 && addAddendum.get('Id').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Addendum Number</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <input formControlName="AddendumNo" style="width:70%;" class="textfield" name="AddendumNo" required type="text" size="30"
+                  pInputText>
+              </div>
+              <div *ngIf="isSow == 0 && addAddendum.get('AddendumNo').hasError('unAllowed') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Should not have continuous spaces.</span>
+              </div>
+              <div *ngIf="AddendumformSubmitted && isSow == 0 && addAddendum.get('AddendumNo').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Addendum Signed Date</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <p-calendar name="AddendumDate" formControlName="AddendumDate" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true"
+                  [showIcon]="true" [style]="{'width':'70%'}"></p-calendar>
+              </div>
+              <div *ngIf="AddendumformSubmitted && isSow == 0 && addAddendum.get('AddendumDate').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+
+              <label class="labels">Recipient Name</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <input formControlName="RecipientName" name="RecipientName" style="width:70%;" class="textfield" type="text" size="30" pInputText>
+              </div>
+              <div *ngIf="AddendumformSubmitted && isSow == 0 && addAddendum.get('RecipientName').hasError('required') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+              <div *ngIf=" isSow == 0 && addAddendum.get('RecipientName').hasError('pattern') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Only characters allowed.</span>
+              </div>
+              <div *ngIf="isSow == 0 && addAddendum.get('RecipientName').hasError('unAllowed') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Should not have continuous spaces.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label class="labels">Comments</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+                <input formControlName="Note" name="Note" required type="text" style="width:70%;" class="textfield" size="30" pInputText>
+              </div>
+              <div *ngIf="AddendumformSubmitted && isSow == 0 && addAddendum.get('Note').hasError('required')  ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Required Field.</span>
+              </div>
+              <div *ngIf="isSow == 0 && addAddendum.get('Note').hasError('unAllowed') ">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Should not have continuous spaces.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+            <section class="pull-right buttons">
+              <button type ="submit" class="btn btn-custom" (click)="AddAddendum()">
+                <i class="fa fa-plus"></i>&nbsp;{{ btnLabel }}</button>&nbsp;
+                <button type="button" class="btn btn-default" (click)="OpenConfirmation()">
+                    <i class="fa fa-eraser"></i>{{ CancelBtnLabelAddendum }}</button> 
+            </section>
+          </div>
+      </div>
+    </form>
+  </div>
+  <br>
+<!--//////////SOW TABLE////////// -->
+
+  <div class="tables">
+    <div class="col-lg-12" *ngIf="isSow == 1">
+      <div style="text-align: right">
+        <input type="text" pInputText size="50" placeholder="search" (input)="table.filterGlobal($event.target.value, 'contains')"
+                  style="width:20%"  class = "inputCls">
+      </div>
+      <p-table #table [columns]="cols" [style]="{'margin-left':'0%', 'margin-right':'7%'}" [value]="SOWData"
+        [paginator]="true" [rows]="10" [resizableColumns]="true" [reorderableColumns]="true" [(selection)]="selectedSOW">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th colspan="2" class="actCls">Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="cols">
+          <tr>
+            <td *ngFor="let col of cols" [pSelectableRow]="rowData[col]">
+              {{ rowData[col.field] }}
+            </td>
+            <td class="editBtn ">
+              <a (click)="EditSOW(rowData)">
+                <i title="Edit" class="fa fa-pencil-square-o fa-lg editCls"></i>
+              </a>
+            </td>
+            <td>
+              <a (click)="deleteDialog(rowData)">
+                <i class="fa fa-trash delCls"></i>
+              </a>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!--//////////Addumdum TABLE////////// -->
+    <div class="col-lg-12" *ngIf="isSow == 0">
+      <div style="text-align: right">
+        <input type="text" pInputText size="50" style="width: 20%" placeholder="Search"
+          (input)="dt1.filterGlobal($event.target.value, 'contains')" class="inputCls" />
+      </div>
+      <p-table #dt2 [columns]="cols2" [style]="{'margin-left':'0%', 'margin-right':'6%', 'white-space': 'nowrap'}"
+        [value]="AddendumData" [paginator]="true" [rows]="10" [resizableColumns]="true" [reorderableColumns]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field" pResizableColumn
+              pReorderableColumn>
+              {{ col.header }}
+    
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th style="text-align: center" class="editCls">Edit</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="cols2">
+          <tr>
+            <td *ngFor="let col of cols2" [pSelectableRow]="rowData[col]">
+              {{ rowData[col.field] }}
+            </td>
+            <td class="editBtn">
+              <a (click)="EditSOW(rowData)">
+                <i title="Edit" class="fa fa-pencil-square-o fa-lg editCls"></i>
+              </a>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <br>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation"  appendTo="body"  icon="pi pi-exclamation-triangle"></p-confirmDialog>

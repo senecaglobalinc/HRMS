@@ -1,0 +1,81 @@
+ <mat-card>
+    <mat-card-content>
+        <div class="col-md-12 text-right">
+            <button mat-flat-button color="primary" (click)="Approve()">Approve</button>
+        </div>
+      <table mat-table [dataSource]="dataSource" matSort>
+  
+        <ng-container matColumnDef="SkillName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Skill Name
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.SkillName }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Version">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Version
+          </th>
+          <td mat-cell *matCellDef="let element;let i = index">
+          {{ element.Version }}
+          </td>
+      </ng-container>
+
+        <ng-container matColumnDef="Proficiency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Proficiency
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.ProficiencyByRM }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="IsPrimary">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>IsPrimary
+          </th>
+          <td mat-cell *matCellDef="let element;let i = index">
+          {{ element.IsPrimary ? 'Yes' : 'No'}}
+          </td>
+      </ng-container>
+        
+        <ng-container matColumnDef="Experience">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Experience(In Years)
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.Experience }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="LastUsed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Used
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.LastUsed }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Remarks">
+          <th mat-header-cell *matHeaderCellDef> Remarks </th>
+          <td class="hidden-text" mat-cell matTooltip="{{element.Remarks}}" *matCellDef="let element">
+            {{ element.Remarks}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon (click)="editSkill(element)" style="cursor: pointer;">edit</mat-icon>
+          </td>
+        </ng-container>
+        
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                    showFirstLastButtons >
+      </mat-paginator>
+    </div>
+    </mat-card-content>
+  </mat-card> 
+  
+    

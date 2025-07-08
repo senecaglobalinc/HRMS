@@ -1,0 +1,204 @@
+<div class="panel-heading">
+  <div class="panel-title">Key Result Area - Contributions</div>
+</div>
+<div class="panel-body">
+  <p-tabView (onChange)="setSelectedTab($event)">
+    <p-tabPanel *ngFor="let tab of tabs" header="{{ tab.header }}"> </p-tabPanel>
+    <div class="pull-right"> Status: {{kraStatus}}</div><br><br>
+    <div class="table">
+      <table class="table table-bordered table-striped">
+        <thead class="d-center">
+          <tr style="background:#F1F2F4">
+            <th style="width: 10%">KRA Aspect</th>
+            <th style="width: 30%">Metric</th>
+            <th style="width: 30%">Associate Contributions</th>
+            <th style="width: 30%" *ngIf="kraStatus == 'Approved'">Manager Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let col of associateKraData; let i = index">
+            <td *ngIf="rowspansList.indexOf(i) > -1" [attr.rowspan]="col.AspectCount" style="vertical-align:middle;">
+              {{ col.AspectName }}</td>
+            <td>{{ col.Metric }}<br><br>
+              <span style="color:#DD4343; font-weight:bold">Target: {{ col.KRAAspectTarget }} </span>
+              <span style="color:rgb(163, 161, 161);"> - measured in {{ col.KRAMeasurementType }} </span>
+            </td>
+
+            <!-- Associate Contributions -->
+            <td *ngIf="col.Contribution || col.SelfRating; else BlankContribution">
+              <span [innerHTML]="transformSanitizer(col.Contribution|slice:0:300)"> </span> <br>
+              <span *ngIf="col.KRAMeasurementType == 'Number'" style="color:#B6A437; font-weight:bold">Achieved:
+                {{col.SelfRating}} </span>
+              <span *ngIf="col.KRAMeasurementType == 'Percentage'" style="color:#B6A437; font-weight:bold">Achieved %:
+                {{col.SelfRating}} </span>
+              <span *ngIf="col.KRAMeasurementType == 'Scale'" style="color:#B6A437; font-weight:bold">Rating:
+                {{col.SelfRating}} </span>
+              <a *ngIf="kraStatus == 'Drafted'" style="cursor: pointer; color: #367FA8;" class="pull-right"
+                title="Associate Contributions" (click)="displayAssociateContributions(col)" title="Edit Contribution"> 
+                <i class="fa fa-edit fa-lg" aria-hidden="true"></i>
+              </a>
+              <a *ngIf="kraStatus != 'Drafted'" style="cursor: pointer; color: #367FA8;" class="pull-right"
+                title="Associate Contributions" (click)="displayAssociateContributions(col)" title="View Contribution"> 
+                <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+              </a>
+            </td>
+            <ng-template #BlankContribution>
+              <td>
+                <a *ngIf="kraStatus == 'Drafted'" style="cursor:pointer; color: #367FA8;"
+                  (click)="displayAssociateContributions(col)" title="Add Contribution"> Add Contribution
+                </a>
+              </td>
+            </ng-template>
+            
+            <!-- Manager Feedback -->
+            <td *ngIf="(kraStatus == 'Approved') && (col.ManagerComments || col.Rating)">
+            <!-- <td> -->
+              <span [innerHTML]="transformSanitizer(col.ManagerComments|slice:0:300)"></span><br>
+              <span *ngIf="col.KRAMeasurementType == 'Number'" style="color:#37B63F; font-weight:bold">Achieved:
+                {{col.Rating}} </span>
+              <span *ngIf="col.KRAMeasurementType == 'Percentage'" style="color:#37B63F; font-weight:bold">Achieved %:
+                {{col.Rating}} </span>
+              <span *ngIf="col.KRAMeasurementType == 'Scale'" style="color:#37B63F; font-weight:bold">Rating:
+                {{col.Rating}} </span>
+              <a style="cursor: pointer; color: #367FA8;" class="pull-right" title="Manager Feedback"
+                (click)="displayManagerFeedback(col)">
+                <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+              </a>
+            </td>
+            <td *ngIf="(kraStatus == 'Approved') && (!col.ManagerComments && !col.Rating)"></td>
+            <!-- </ng-template> -->
+            <!-- <ng-template #BlankManagerComments>
+              <td>
+              </td>
+            </ng-template> -->
+            
+          </tr>
+          <tr *ngIf="!associateKraData || associateKraData.length == 0">
+            <td colspan="4" style="text-align: left"> No records found </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </p-tabView>
+</div>
+
+<!-- ASSOCIATE CONTRIBUTIONS -->
+<p-dialog appendTo="body" header="{{associateKraForm.value.AspectName}}" [(visible)]="associatesContributionsDisplay" [responsive]="true"
+  showEffect="fade" [modal]="true" width="800">
+  <div style="height:100px;">
+    <form [formGroup]="associateKraForm" (ngSubmit)="updateAssociateContributions(associateKraForm.value)">
+
+      <!-- BEFORE SUBMITTING ADR -->
+      <div *ngIf="kraStatus == 'Drafted'; else Submitted" >
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <label>Associate Contributions:</label>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+          <p-editor name="Contribution" id="metric" [style]="{'height':'150px'}" formControlName="Contribution" contenteditable="true">
+            <p-header>
+              <span class="ql-formats">
+                <button class="ql-bold" aria-label="Bold"></button>
+                <button class="ql-italic" aria-label="Italic"></button>
+                <button class="ql-underline" aria-label="Underline"></button>
+                <button class="ql-list" value="ordered" aria-label="Ordered List"></button>
+                <button class="ql-list" value="bullet" aria-label="Unordered List"></button>
+              </span>
+            </p-header>
+          </p-editor>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <span *ngIf="associateKraForm.value.KRAMeasurementType == 'Number'">
+            <label>Achieved: &nbsp; </label>
+            <p-spinner formControlName="SelfRating" [min]="0" [max]="10" size="3" [title]="KRAMeasurementType">
+            </p-spinner>
+          </span>
+          <span *ngIf="associateKraForm.value.KRAMeasurementType == 'Percentage'">
+            <label>Achieved %: &nbsp; </label>
+            <p-spinner formControlName="SelfRating" [min]="0" [max]="100" [step]="5" size="3"
+              [title]="KRAMeasurementType">
+            </p-spinner> &nbsp; %
+          </span>
+          <span *ngIf="associateKraForm.value.KRAMeasurementType == 'Scale'">
+            <label>Rating: &nbsp; </label>
+            <p-spinner formControlName="SelfRating" [min]="1" [max]="5" [step]="1" size="3"
+              [title]="KRAMeasurementType">
+            </p-spinner>
+          </span>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-8">
+          <label style="color:#DD4343; font-weight:bold; padding-top: 5px;">Target: &nbsp; {{ KRAAspectTarget }}
+          </label>
+          <span style="color:rgb(163, 161, 161); padding-top: 5px;"> - measured in {{ associateKraForm.value.KRAMeasurementType }} </span>
+        </div>
+        <div class="col-lg-12">
+          <section class="pull-right buttons">
+            <button *ngIf="kraStatus == 'Drafted'" id="submitButton" type="submit" class="btn btn-primary" title="Save">
+              <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-default" (click)="CancelComments()" title="Cancel">
+              <i class="fa fa-eraser"></i>&nbsp;Cancel</button>
+          </section>
+        </div>
+      </div>
+
+      <!-- AFTER SUBMITTING ADR -->
+      <ng-template #Submitted>
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+          <label>Associate Contributions:</label>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-12" [innerHTML]="transformSanitizer(associateKraForm.value.Contribution)"></div>
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+          <label *ngIf="associateKraForm.value.KRAMeasurementType == 'Scale'"> Rating: &nbsp; 
+            {{ associateKraForm.value.SelfRating}}</label>
+          <label *ngIf="associateKraForm.value.KRAMeasurementType == 'Percentage'"> Achieved %: &nbsp;
+            {{associateKraForm.value.SelfRating}}</label>
+          <label *ngIf="associateKraForm.value.KRAMeasurementType == 'Number'"> Achieved : &nbsp; 
+            {{associateKraForm.value.SelfRating}}</label>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-8">
+          <label style="color:#DD4343; font-weight:bold;">Target: &nbsp; {{ KRAAspectTarget }} </label>
+          <span style="color:rgb(163, 161, 161);"> - measured in {{ associateKraForm.value.KRAMeasurementType }} </span>
+        </div>
+        <div class="col-lg-12">
+          <section class="pull-right buttons">
+            <button type="button" class="btn btn-default" (click)="CancelComments()" title="Cancel">
+              <i class="fa fa-eraser"></i>&nbsp;Cancel</button>
+          </section>
+        </div>
+      </ng-template>
+
+    </form>
+  </div>
+</p-dialog>
+
+<!-- MANAGER FEEDBACK - AFTER APPROVAL -->
+<p-dialog appendTo="body" header="{{associateKraForm.value.AspectName}}" [(visible)]="managerFeedbackDisplay" [responsive]="true"
+  showEffect="fade" [modal]="true" width="800">
+  <div style="height:100px;">
+    <div *ngIf="kraStatus == 'Approved'">
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <label>Manager Feedback:</label>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-12" [innerHTML]="transformSanitizer(associateKraForm.value.ManagerComments)"></div>
+      <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <label *ngIf="associateKraForm.value.KRAMeasurementType == 'Scale'"> Rating: &nbsp; 
+          {{ associateKraForm.value.Rating}}</label>
+        <label *ngIf="associateKraForm.value.KRAMeasurementType == 'Percentage'"> Achieved %: &nbsp; 
+          {{associateKraForm.value.Rating}}</label>
+        <label *ngIf="associateKraForm.value.KRAMeasurementType == 'Number'"> Achieved : &nbsp; 
+          {{associateKraForm.value.Rating}}</label>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-8">
+        <label style="color:#DD4343; font-weight:bold;">Target: &nbsp; {{ KRAAspectTarget }} </label>
+        <span style="color:rgb(163, 161, 161);"> - measured in {{ associateKraForm.value.KRAMeasurementType }} </span>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <section class="pull-right buttons">
+        <button type="button" class="btn btn-default" (click)="CancelComments()" title="Cancel">
+          <i class="fa fa-eraser"></i>&nbsp;Cancel</button>
+      </section>
+    </div>
+  </div>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

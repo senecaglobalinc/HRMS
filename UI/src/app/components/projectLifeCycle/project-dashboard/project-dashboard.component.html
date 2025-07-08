@@ -1,0 +1,101 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>Projects Dashboard
+            <button type="button" id="dashboardbtn" class="btn btn-primary pull-right" (click)="CreateProject()">
+                <i class="fa fa-plus"></i>&nbsp; Add Project</button>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-12">
+                <div style="text-align: right">
+                        <i class="fa fa-search" class="iconCls"></i>
+                        <input type="text" pInputText size="50" style="width: 20%" placeholder="Search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                            class="inputCls">
+                    </div>
+            <p-table #dt1 [columns]="cols" [value]="ProjectsList" [paginator]="true" [rows]="10" [resizableColumns]="true" [reorderableColumns]="true"
+            [style]="{ 'white-space': 'nowrap'}" [rowsPerPageOptions]="PageDropDown" >
+             
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" class="headers" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                        <th class="viewCls">Project Details</th>
+                        <th class="viewCls">Allocation Details</th>
+                        <th colspan="2"class="actCls">Action</th>
+                        <!-- <th  class="text-center">Close</th> -->
+                       
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                            {{rowData[col.field]}}
+                        </td>
+                        <td  style="text-align: center; cursor: pointer;">
+                            <a (click)="ViewProject(rowData)"> <i class="fa fa-eye fa-lg"></i>&nbsp; </a>
+                        </td>
+                        <td  style="text-align: center" >
+                        <a [ngStyle] =" canViewAllocation(rowData)" (click)="ViewAllocationDetails(rowData)"><i class="fa fa-eye fa-lg" ></i>&nbsp;</a>
+                        </td>
+                        <td  style="text-align: center; cursor: pointer;">
+                            <span (click)="EditProject(rowData)" *ngIf="canEdit(rowData) ">
+                                <i title="Edit" class="fa fa-pencil-square-o fa-lg editCls"></i>
+                            </span>
+                        </td>        
+                        <td  style="text-align: center">
+                            <a [ngStyle] = "canClose(rowData)" style="color: red" (click)="canCloseProject(rowData)">
+                                <i class = "fa fa-times-circle closeCls fa-lg" title = 'Close'></i> </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-dialog header="Allocation Release" appendTo="body" [(visible)]="display" [modal]="true" [responsive]="true" width=600 height=450
+        [maximizable]="true" >
+    <p>Project has active Client billing roles, close them to continue</p>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Yes"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="No" class="ui-button-secondary"></button>
+        </p-footer>
+</p-dialog>
+
+
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-dialog [(visible)]="displayCloseProject" width=600 height=450 [closable]="false" appendTo="body" [modal]="true" header="Close Project">
+    <div style="height:450px;">
+      <form [formGroup]="closeProjectData">
+        <div class="row">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <div class="box">
+                <label class="labels">End Date</label>
+                <span style="color: red">* </span>
+                
+                <p-calendar  name = "EndDate" formControlName="ActualEndDate" [showIcon]="true" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true"
+                  [style]="{'width':'70%'}" [minDate] = "startDate"  [maxDate] = "PrevDate" ></p-calendar>
+                  <br>
+                <div *ngIf="closeProjectData.get('ActualEndDate').hasError('required') && submitted" style="color: red">End Date is Required</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <section class="pull-right buttons">
+              <button type="button" class="btn btn-custom" (click)="closeProject()">
+                <i class="fa fa-floppy-o"></i>&nbsp;Save</button> &nbsp;
+              <button type="button" class="btn btn-default" (click)="clearData()">
+                <i class="fa fa-eraser"></i>&nbsp; Cancel</button>
+            </section>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-dialog>

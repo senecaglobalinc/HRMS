@@ -1,0 +1,212 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="futureallocationForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Associate Name
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input appDropDownSuggestion [SearchList]="employeesList" appRequirematch type="text" placeholder="Select Associate" matInput
+                        formControlName="EmployeeId" name="EmployeeId" [matAutocomplete]="auto1" #trigger="matAutocompleteTrigger">
+                        <button class="clearFieldIcon" *ngIf="futureallocationForm.value.EmployeeId" (click)="clearInput($event, 'EmployeeId')"
+                        mat-button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matSuffix *ngIf="!futureallocationForm.value.EmployeeId">keyboard_arrow_down</mat-icon>
+                        <mat-autocomplete [displayWith]="displayFn" (optionSelected)="getAllocationHistory($event.option.value.value); GetAssociateFutureProjectByEmpId()" #auto1="matAutocomplete">
+                        <mat-option disabled
+                            *ngIf="futureallocationForm.get('EmployeeId').hasError('invalidValue') && futureallocationForm.value.EmployeeId">
+                            No matching value found</mat-option>
+                        <mat-option disabled *ngIf="!futureallocationForm.get('EmployeeId').hasError('invalidValue')">Select Associate</mat-option>
+                        <mat-option *ngFor="let item of filteredEmployee | async;"
+                            [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="futureallocationForm.get('EmployeeId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Associate Name Required
+                        </mat-error>
+                        <mat-error *ngIf="futureallocationForm.get('EmployeeId').hasError('requireMatch')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Select Associate Name from given options
+                        </mat-error>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Project Name
+                            <span class="text-danger">*</span>
+                        </mat-label>
+
+                        <input appDropDownSuggestion [SearchList]="projectsList" appRequirematch type="text" placeholder="Select Project" matInput
+                        formControlName="ProjectId" name="ProjectId" [matAutocomplete]="auto2" #trigger="matAutocompleteTrigger">
+                        <button class="clearFieldIcon" *ngIf="futureallocationForm.value.ProjectId" (click)="clearInput($event, 'ProjectId')"
+                        mat-button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matSuffix *ngIf="!futureallocationForm.value.ProjectId">keyboard_arrow_down</mat-icon>
+                        <mat-autocomplete [displayWith]="displayFn"  #auto2="matAutocomplete" (optionSelected)="ProjectSelection($event.option.value)">
+                        <mat-option disabled
+                            *ngIf="futureallocationForm.get('ProjectId').hasError('invalidValue') && futureallocationForm.value.ProjectId">
+                            No matching value found</mat-option>
+                        <mat-option disabled *ngIf="!futureallocationForm.get('ProjectId').hasError('invalidValue')">Select Project</mat-option>
+                        <mat-option *ngFor="let item of filteredProject | async;"
+                            [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="futureallocationForm.get('ProjectId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Project Required
+                        </mat-error>
+                        <mat-error *ngIf="futureallocationForm.get('ProjectId').hasError('requireMatch')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Select Project from given options
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="projectselected == 0" class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Project Name<span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Enter Project Name" formControlName="ProjectName">
+                        <mat-error *ngIf="futureallocationForm.get('ProjectName').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Project Name Required
+                        </mat-error>
+                      </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Tentative Date:
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input [min]="minDate" formControlName="tentativeDate" matInput [matDatepicker]="picker" (click)="picker.open()" style="cursor: pointer">
+                        <mat-datepicker-toggle matSuffix *ngIf="futureallocationForm.value.tentativeDate"
+                            (click)="clearInput($event, 'tentativeDate')">
+                            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="futureallocationForm.get('tentativeDate').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Tentative Date Required
+                        </mat-error>
+                        <mat-error *ngIf="!futureallocationForm.controls['tentativeDate'].valid && formsubmitted">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red"> Enter Tentative Date</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Any Additional Remarks</mat-label>
+                        <textarea matInput formControlName="remarks" name="associateRemarks"></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12 text-right">
+                    <button  (click)="Cancel()" mat-stroked-button>
+                        <mat-icon>clear
+                        </mat-icon>Clear
+                    </button>
+                    <button type="submit" (click)="MarkFuture()" mat-flat-button color="primary">
+                        Submit</button>
+                </div>
+
+            </div>
+        </form>
+
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="col-md-12 mb-2 floating-main" *ngIf="showAllocationHistoryGrid">
+
+    <h5>
+        <b>{{requisitionList.AssociateName}}'s</b> - Current Allocation</h5>
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <tr class="d-center">
+                <th>
+                    <span class="text">Project Name</span>
+                </th>
+                <th>
+                    <span class="text">Effective From</span>
+                </th>
+                <th>
+                    <span class="text">Utilization (%)</span>
+                </th>
+                <th>
+                    <span class="text">Billable</span>
+                </th>
+                <th>
+                    <span class="text">Critical</span>
+                </th>
+                <th>
+                    <span class="text">Primary</span>
+                </th>
+            </tr>
+            <tbody *ngFor="let al of allocationHistory">
+                <tr class="text-center data-rows">
+                    <td class="text-left">{{al.Project}}</td>
+                    <td class="text-left">{{al.EffectiveDate | date:"MM/dd/yyyy"}}</td>
+                    <td class="text-left">{{al.AllocationPercentage}}</td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.Billable" disabled>
+                    </td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.isCritical" disabled>
+                    </td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.IsPrimary" disabled>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>
+<mat-card class="col-md-12" *ngIf="futuremarkedprojectObj && futuremarkedprojectObj.length > 0">
+
+    <h5>
+        <b>Future Marked Projects</b></h5>
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <tr class="d-center">
+                <th>
+                    <span class="text">Project Name</span>
+                </th>
+                <th>
+                    <span class="text">Tentative Start Date</span>
+                </th>
+                <th>
+                    <span class="text">Remarks</span>
+                </th>
+                <th>
+                    <span class="text">Action</span>
+                </th>
+                
+            </tr>
+            <tbody *ngFor="let al of futuremarkedprojectObj">
+                <tr class="text-center data-rows">
+                    <td class="text-left">{{al.ProjectName}}</td>
+                    <td class="text-left">{{al.TentativeDate | date:"MM/dd/yyyy"}}</td>
+                    <td class="text-left">{{al.Remarks}}</td>
+                    <td class="text-left">
+                        <button mat-flat-button color="primary" (click)="Deactivate()">Deactivate </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

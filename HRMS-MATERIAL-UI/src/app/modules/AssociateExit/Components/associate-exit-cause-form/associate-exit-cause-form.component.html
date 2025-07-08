@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Analysis Form </h2>
+<form  [formGroup]="rootcauseform" >
+    <div class="row">
+        <div class="col-md-6">
+            <br>
+            <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>Root Cause</mat-label>
+                    <textarea matInput type="text" formControlName="rootCause" ></textarea>
+                </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <br>
+            <mat-form-field appearance={{themeAppearence}}>
+                <mat-label>Action Item</mat-label>
+                <textarea matInput type="text" formControlName="actionItem" ></textarea>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field appearance={{themeAppearence}} >
+                <mat-label>Target Date</mat-label>
+                <input matInput formControlName="tagretDate" [matDatepicker]="target">
+                <mat-datepicker-toggle matSuffix [for]="target"></mat-datepicker-toggle>
+                <mat-datepicker #target></mat-datepicker>
+            </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeAppearence}} >
+                    <mat-label>Actual Date</mat-label>
+                    <input matInput formControlName="actualDate" [matDatepicker]="actual">
+                    <mat-datepicker-toggle matSuffix [for]="actual"></mat-datepicker-toggle>
+                    <mat-datepicker #actual></mat-datepicker>
+                </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>Responsibility</mat-label>
+                        <textarea matInput type="text" formControlName="responsibility" ></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput type="text" formControlName="remarks" ></textarea>
+                    </mat-form-field>
+                </div>
+    </div>
+    <div class="col-md-12">
+        <section class="pull-right buttons">
+           
+            <button type="save" mat-flat-button color="primary" [mat-dialog-close]="data.element" (click)="saveCauseForm()">
+                Save</button>
+
+                <button type="submit" mat-flat-button color="primary"  [mat-dialog-close]="data.element" (click)="submit()">
+                    Complete</button>
+        </section>
+    
+    </div>
+    </form>

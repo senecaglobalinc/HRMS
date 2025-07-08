@@ -1,0 +1,33 @@
+.orgDevImage1{position:relative; display: inline-block;}
+.orgDevImage1:hover:after{
+   content:'';
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    //background:url('http://i.stack.imgur.com/P1ELC.png') center no-repeat
+    background-size: 50px;
+}
+.fileUploadClass{
+    margin-top: 20px;
+}
+.email-content{
+    font-size: 1.2rem;
+
+    
+
+}
+.confirmation-dialog-actions {
+    float: right;
+    // color: #153067;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+// .confirmation-dialog-actions button {
+//     margin-left: 10px;
+//     width: 100px;
+// }
+
+.orgDevImage1:hover img{opacity: 0.4;}

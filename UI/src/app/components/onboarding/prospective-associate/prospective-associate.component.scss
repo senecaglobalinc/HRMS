@@ -1,0 +1,17 @@
+.prospective-associate {
+    .header-container {
+        border-right: 0;
+        border-left: 0;
+        border-top: 0;
+    }
+ 
+    ::ng-deep .ui-table-thead tr th.editCls {
+        width: 100px;
+        text-align: center;
+    }
+}
+
+
+#dashboardbtn{
+    margin-top: -7px;
+}

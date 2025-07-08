@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>View Analysis Form </h2>
+<form  [formGroup]="rootcauseform" >
+    <div class="row" >
+        <div class="col-md-6">
+            <br>
+            <mat-form-field style="cursor:none" appearance={{themeAppearence}}>
+                    <mat-label>Root Cause</mat-label>
+                    <textarea style="cursor:none" matInput  type="text" formControlName="rootCause" readonly></textarea>
+                </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <br>
+            <mat-form-field style="cursor:none" appearance={{themeAppearence}}>
+                <mat-label>Action Item</mat-label>
+                <textarea style="cursor:none" matInput type="text" formControlName="actionItem" readonly ></textarea>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field style="cursor:none" appearance={{themeAppearence}} >
+                <mat-label>Target Date</mat-label>
+                <input style="cursor:none" matInput formControlName="tagretDate" [matDatepicker]="target" readonly>
+                <!-- <mat-datepicker-toggle matSuffix [for]="target"></mat-datepicker-toggle> -->
+                <mat-datepicker #target></mat-datepicker>
+            </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field style="cursor:none" appearance={{themeAppearence}} >
+                    <mat-label>Actual Date</mat-label>
+                    <input style="cursor:none" matInput formControlName="actualDate" [matDatepicker]="actual" readonly>
+                    <!-- <mat-datepicker-toggle matSuffix [for]="actual"></mat-datepicker-toggle> -->
+                    <mat-datepicker #actual></mat-datepicker>
+                </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="cursor:none"  appearance={{themeAppearence}}>
+                        <mat-label>Responsibility</mat-label>
+                        <textarea style="cursor:none" matInput type="text" formControlName="responsibility" readonly></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="cursor:none" appearance={{themeAppearence}}>
+                        <mat-label>Remarks</mat-label>
+                        <textarea style="cursor:none" matInput type="text" formControlName="remarks" readonly></textarea>
+                    </mat-form-field>
+                </div>
+    </div>
+    <div class="col-md-12">
+        <section class="pull-right buttons">
+           
+          <button mat-flat-button color="primary" mat-dialog-close>Close</button>
+        </section>
+     
+    </div>
+    </form>

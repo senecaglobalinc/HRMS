@@ -1,0 +1,165 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="NotificationConfig">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>Category
+                            <span class="text-danger"> *</span>
+                        </mat-label>
+                        <input type="text" formControlName="notificationCategoryControl" matInput
+                            [matAutocomplete]="category" name="Category" appValidations appEmptySpacesValidations minlength="2">
+                        <button class="clearFieldIcon" *ngIf="NotificationConfig.value.notificationCategoryControl"
+                            mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearFieldCategory($event)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete #category="matAutocomplete" [displayWith]="displayFn"
+                            (optionSelected)="getNotificationtypes($event)">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option.label}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="NotificationConfig.get('notificationCategoryControl').errors">
+                            Select Category</mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>Notification Type
+                            <span class="text-danger"> *</span>
+                        </mat-label>
+                        <input type="text" formControlName="notificationTypeControl" matInput [matAutocomplete]="auto"
+                            name="notificationType" appValidations appEmptySpacesValidations minlength="2">
+                        <button class="clearFieldIcon" *ngIf="NotificationConfig.value.notificationTypeControl"
+                            mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearFieldNotification($event)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                            (optionSelected)="GetNotificationCofigurationByNotificationType($event, notificationConfigurationDetails.CategoryMasterId)">
+                            <mat-option *ngIf="loading">
+                                <mat-progress-spinner mode="indeterminate" diameter="25"></mat-progress-spinner>
+                            </mat-option>
+                            <mat-option *ngIf="!loading" disabled>Enter Notification Type</mat-option>
+                            <mat-option *ngFor="let option of filteredOptionsnotification | async" [value]="option">
+                                {{option.label}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="NotificationConfig.get('notificationTypeControl').errors && !isCategory">
+                            Select Notification Type
+                        </mat-error>
+                        <mat-error *ngIf="isCategory">
+                            Choose Category First
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>Notification Description</mat-label>
+                        <input type="text" formControlName="notificationDescriptionControl" matInput name="description"
+                            placeholder="Notification Description">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>Email From</mat-label>
+                        <input type="text" formControlName="emailFromControl" matInput name="emaiFrom"
+                            placeholder="Email From" minlength="2">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>Subject
+                        <span class="text-danger"> *</span>
+                    </mat-label>
+                    <input type="text" formControlName="subjectControl" matInput name="subject" maxlenght="150"
+                        appValidations appEmptySpacesValidations minlength="2">
+                    <mat-error *ngIf="NotificationConfig.get('subjectControl').errors">
+                        Select Subject
+
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>Email To
+                        <span class="text-danger"> *</span>
+                    </mat-label>
+                    <mat-chip-list #chipListEmailTo formControlName="emailToControl">
+                        <mat-chip *ngFor="let option of notificationConfigurationDetails.ToEmail"
+                            [selectable]="selectable" [removable]="removable" (removed)="removeEmailTo(option)">
+                            {{option.EmailID}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input #EmailInput [matChipInputFor]="chipListEmailTo" formControlName="emailToControl"
+                            [matAutocomplete]="emailtoauto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmailTo($event)"
+                            (keyup)="filterEmailIDs($event)" appEmptySpacesValidations minlength="2">
+                    </mat-chip-list>
+                    <mat-autocomplete #emailtoauto="matAutocomplete" (optionSelected)="EmailToSelected($event)">
+                        <mat-option disabled *ngIf="isEmail">No matching Email IDs found</mat-option>
+                        <mat-option *ngFor="let option of filteredEmailIds" [value]="option">
+                            {{option}}
+                        </mat-option>
+
+                    </mat-autocomplete>
+
+                    <mat-error *ngIf="NotificationConfig.get('emailToControl').errors">Select Email To</mat-error>
+                </mat-form-field>
+
+
+            </div>
+            <div>
+
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>Email CC</mat-label>
+                    <mat-chip-list #chipList formControlName="emailCCControl">
+                        <mat-chip *ngFor="let option of notificationConfigurationDetails.CCEmail"
+                            [selectable]="selectable" [removable]="removable" (removed)="remove(option)">
+                            {{option.EmailID}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input #EmailCCInput [matChipInputFor]="chipList" [matAutocomplete]="emailccauto"
+                            formControlName="emailCCControl" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)"
+                            (keyup)="filterCCEmailIDs($event)" appEmptySpacesValidations minlength="2">
+                    </mat-chip-list>
+                    <mat-autocomplete #emailccauto="matAutocomplete" (optionSelected)="EmailCCSelected($event)">
+                        <mat-option disabled *ngIf="isEmail">No matching Email IDs found</mat-option>
+                        <mat-option *ngFor="let option of filteredCCEmailIds" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="NotificationConfig.get('emailCCControl').errors">
+                        Enter atleast a character.
+                    </mat-error>
+                </mat-form-field>
+
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <angular-editor [placeholder]="'Enter Email Body here...'" formControlName="emailContentControl"
+                        [config]='editorConfig' minlength="2" appEmptySpacesValidations></angular-editor>
+                    <mat-error *ngIf="NotificationConfig.get('emailContentControl').errors">
+                        Enter Email Body
+                    </mat-error>
+                </div>
+            </div>
+            <div class="col-md-12 text-right">
+                <br>
+                <button mat-stroked-button type="button" (click)="clear()">
+                    <mat-icon>clear</mat-icon>Clear
+                </button>
+                <button mat-flat-button type="submit" (click)="onSave(notificationConfigurationDetails)"
+                    color="primary">{{buttonText}}</button>
+            </div>
+
+        </form>
+    </mat-card-content>
+</mat-card>

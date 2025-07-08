@@ -1,0 +1,59 @@
+<div class="feedback-modal">
+  <div class="feedback-heading">
+      <b>Associate [{{associateName}}] Feedback</b>
+  </div>
+  <div>
+</div>
+<div class="cancel-heading">
+    <mat-icon style="cursor:pointer" (click)="close()">close</mat-icon>
+</div>
+</div>
+<!-- <mat-card class="feedback-initialremarks"style="margin-top:30px">    
+    {{feedbackdetailsdata.InitialRemarks}}
+</mat-card> -->
+<form [formGroup]="myForm">
+<div class="row mb-3">
+    <div class="col-md-12" style="color:rgba(0, 0, 0, 0.38)"  >
+        <angular-editor id="editor1" 
+            formControlName="AssociateFeedback" [config]="editorConfig1"></angular-editor>
+    </div>            
+</div>
+<div style="margin-top:20px">
+   <span>
+    <mat-icon (click)="isEditClicked()" style="font-size:30px;color:#2D9CDB;cursor:pointer">edit_note</mat-icon>
+   </span>
+   <span class="d-none d-sm-inline" style="color:#2D9CDB;margin-bottom:10px;display: none;cursor:pointer;">Edit Feedback</span> 
+   <a (click)="copyAssociateFeedback()" *ngIf="isEditClickedValue" class="pull-right buttons">
+    <mat-icon  style="font-size:25px;color:#2D9CDB;cursor:pointer">file_copy</mat-icon>    
+   <span class="d-none d-sm-inline" style="color:#2D9CDB;margin-bottom:10px;display: none;cursor:pointer;">Copy Associate Feedback</span> </a>
+</div>
+
+
+<!-- <div style ="margin-top:20px;" *ngIf="isEditClickedValue">
+    <mat-form-field appearance={{themeConfigInput}}>
+        <mat-label>Curated Feedback</mat-label>
+        <textarea rows="5" maxlength="5000" formControlName="Feedback" cols="40"  maxlength="1000" matInput></textarea>
+    </mat-form-field>
+</div> -->
+<div class="row mb-3" *ngIf="isEditClickedValue">
+    <div class="col-md-12"  >
+        <angular-editor id="editor2" [placeholder]="'Enter Curated Feedback'"
+            formControlName="Feedback" [config]="editorConfig2" ></angular-editor>
+    </div>            
+</div>
+<div class="col-md-12">
+    <section class="pull-right buttons">
+       
+            <mat-checkbox (change)="updateSelection($event)" color="primary" formControlName="Hidefeedback">Show Associate Feedback</mat-checkbox>
+        <button type="button" mat-flat-button (click)="close()">
+            Cancel</button>
+        <button type="submit" mat-flat-button color="primary" (click)="submitReport()">
+            Save</button>
+    </section>
+
+</div>
+</form>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

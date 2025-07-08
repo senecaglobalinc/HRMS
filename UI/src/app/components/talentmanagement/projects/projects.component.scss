@@ -1,0 +1,33 @@
+paper-button {
+    min-width: 1em;
+    margin: 0;
+}
+
+iron-icon[icon='create'] {
+    color: #3C8DBC;
+}
+
+iron-icon[icon='create']:hover {
+    color: indianred;
+}
+
+iron-icon[icon='delete'] {
+    color: grey;
+}
+
+iron-icon[icon='redo'] {
+    color: green;
+}
+
+.ng-invalid.ng-touched.ng-dirty {
+    border-left: none !important;
+}
+
+.ng-valid[required].ng-touched.ng-dirty {
+    border-left: none !important;
+}
+.btn-default {
+          border: 1px solid #337ab7;
+          color: #337ab7;
+   }
+

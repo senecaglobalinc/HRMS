@@ -1,0 +1,34 @@
+
+  .center{
+    margin-left:287px;
+  
+  }
+  .buttons{
+    margin-right:285px;
+}
+/* @media screen and (min-width: 64.063em){
+.ui-lg-6 {
+    width: 42%;
+}
+} */
+
+  /* Desktops and laptops ---------- */
+@media screen and (max-width: 1440px){
+
+    .buttons {
+      margin-right: 246px;
+    }
+    .center{
+     margin-left:251px;
+    
+    }
+    }
+
+      /* tablets, iPads (landscape) ---------- */
+      @media screen and (max-width: 1024px){
+        .center{
+            margin-left:auto;
+            }
+          
+          
+  }               

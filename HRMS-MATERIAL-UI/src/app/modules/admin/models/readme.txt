@@ -1,0 +1,1 @@
+Please keep all models of Admin module in this folder

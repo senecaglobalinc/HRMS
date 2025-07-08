@@ -1,0 +1,110 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row" style="padding: 10px;">
+      <div class="col-12">
+        <span style="float: left;">
+          <h4 class="panel-title">Resource Report By Technology</h4>
+        </span>
+        <span style="float: right;">
+          <button type="button" class="btn btn-primary btn-xs" (click)="onFilter()" title="Filter">
+            <i class="fa fa-filter fa-lg"></i>
+          </button>
+          <a *ngIf="associateUtilizationReportList!=null && associateUtilizationReportList.length>0" (click)="table.exportCSV()" title="Export to Excel">
+            <div class="exportToExcel">
+            </div>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-lg-12">
+       
+            <div class="p-grid p-justify-between">
+              <div class="p-col-2">
+                <div class="box">
+                  <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header" selectedItemsLabel="{0} columns selected"
+                    [style]="{minWidth: '200px'}" defaultLabel="Choose Columns">
+                  </p-multiSelect>
+                </div>
+              </div>
+              <div class="p-col-2">
+                <div class="box">
+                  <span>
+                    <b>Total Records:</b>
+                    <span>{{totalRecordsCount >0 ? totalRecordsCount: 0}}</span>
+                  </span>
+                </div>
+              </div>
+              <div class="p-col-4">
+                <div class="box">
+                    <input type="text" pInputText size="50" placeholder="search" (input)="table.filterGlobal($event.target.value, 'contains')"
+                    style="width:50%">
+                </div>
+              </div>
+            </div>
+         
+      <p-table #table #dt1 [value]="associateUtilizationReportList" [columns]="selectedColumns" [rows]="PageSize" [responsive]="true"
+        [rowsPerPageOptions]="PageDropDown" [paginator]="true" [resizableColumns]="true" columnResizeMode="expand" [reorderableColumns]="true"
+        >
+        
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns"  [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>{{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]" class="ui-resizable-column">
+              {{ rowData[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="summary">
+          <div style="text-align: left">
+            {{gridMessage}}
+          </div>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          
+        </ng-template> -->
+      </p-table>
+      <div *ngIf="associateUtilizationReportList.length==0" style="text-align: left">
+          No Records Found
+        </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog appendTo="body" header="Filters" width=550 height=300 [(visible)]="filterDisplay" responsive="true" modal=true
+  showHeader=true closeOnEscape=true closable=true [blockScroll]=false>
+  <div style="height: 300px;">
+      <form class="form-horizontal" >
+    <div class="row">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <div class="box">
+            <label>Technology:</label>&nbsp;
+            <p-dropdown [options]="technologyList" [style]="{'width':'70%'}" [autoWidth]="false" [(ngModel)]="reportsFilterData.utilizationReportFilterData.PracticeAreaId"
+              [filter]="true"></p-dropdown>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <section class="pull-right buttons">
+            <button type="submit" class="btn btn-primary" style="cursor:pointer;" (click)="onsearchByFilter();dt1.reset()">
+              <i class="fa fa-filter"></i>&nbsp;Apply</button>&nbsp;
+            <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="OpenConfirmationDialog()">
+              <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+          </section>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

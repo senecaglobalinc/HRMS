@@ -1,0 +1,414 @@
+<div class="panel panel-default family-details">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Family Details
+        </div>
+    </div>
+    <div class="panel-body">
+        <form  ngNativeValidate #relationsForm="ngForm" ondragstart="return false;" ondrop="return false;"
+            (ngSubmit)="onNewRelation(rship)">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <td class="text-bold">S.No</td>
+                            <td class=" text-bold">Relationship
+                                <span class="mandatory">*</span>
+                            </td>
+                            <td class="text-bold">Name
+                                <span class="mandatory">*</span>
+                            </td>
+                            <td class="text-bold">Date of Birth
+                                <span class="mandatory">*</span>
+                            </td>
+                            <td class=" text-bold">Occupation
+                                <span class="mandatory">*</span>
+                            </td>
+                            <td colspan="2" class="text-middle text-center text-bold">Action</td>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let rship of _Associate.RelationsInfo ; let i = index; let lst = last; let fst=first">
+                        <tr>
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                <select class="form-control" name="ddlRelation{{i}}" [(ngModel)]="rship.RelationShip"   (change)="onRelationChange($event,i )"
+                                    class="form-control" required>
+                                    <option value=""></option>
+                                    <option *ngFor="let r of ddlRelations" value={{r.ValueKey}}>{{r.ValueName}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="name" [value]="rship.Name" (change)="rship.Name = $event.target.value" class="form-control" pattern="[a-zA-Z0-9\s]+"
+                                    (keypress)="onlychar($event)" required>
+                            </td>
+                            <td>
+                                <div class="ui-fluid">
+                                    <p-calendar name="birthdate{{i}}" [(ngModel)]="rship.BirthDate"   dataType="string" showIcon="true" [maxDate]="birthDate" monthNavigator="true"
+                                        yearNavigator="true" yearRange="1900:+2050" readonlyInput="true" dateFormat="yy-mm-dd"
+                                        required>
+                                    </p-calendar>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" name="occupation" [value]="rship.Occupation" (change)="rship.Occupation = $event.target.value" pattern="[a-zA-Z\s]+"
+                                    (keypress)="onlychar($event)" class="form-control" required>
+                            </td>
+                            <td class="text-center">
+                                <button type="submit" [hidden]="!lst">
+                                    <i class="fa fa-plus"  ></i>
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                    <button (click)="onDelete(rship)" [hidden]="fst&&lst" style="color: red" type="button">
+                                        <i class="fa fa-trash" title="delete"></i>
+                                    </button> &nbsp;
+                                </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default " ondragstart="return false;" ondrop="return false;">
+    <!-- Header -->
+    <div class="panel-heading">
+        <div class="panel-title">
+            Emergency Contact Details
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="form-group col-md-12">
+            <input type="checkbox" id="toogle" [(checked)]="_Associate.contactDetailsOne.IsPrimary" (change)="updateSelection('firstPrimary')"
+                tabindex="1">
+            <i></i>
+            <span class="form-label">Is Primary Contact</span>
+        </div>
+        <form class="form-horizontal" >                   
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>First Contact Name
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" style="width:70%;" name="firstContactName" [(ngModel)]="_Associate.contactDetailsOne.ContactName"    (keypress)="onlychar($event)"
+                                    class="form-control" required>
+                            </div>
+                            <div *ngIf="formSubmitted && !_Associate.contactDetailsOne.ContactName && _Associate.contactDetailsOne.IsPrimary">
+                                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                    <span style="color: red">First contact name is required.</span>
+                                </div>
+                            <!-- <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.contactName && _Associate.contactDetailsOne.isPrimary">First contact name is required.</em> -->
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Relation
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlRelation" [ngModel]="_Associate.contactDetailsOne.Relationship || ''"   
+                                    (ngModelChange)="_Associate.contactDetailsOne.Relationship = $event" required>
+                                    <option value=""></option>
+                                    <option *ngFor="let r of ddlRelations" value={{r.ValueKey}}>{{r.ValueName}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="formSubmitted && !_Associate.contactDetailsOne.Relationship && _Associate.contactDetailsOne.IsPrimary">
+                                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                    <span style="color: red">Relationship is required.</span>
+                                </div>
+                            <!-- <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.relationship && _Associate.contactDetailsOne.isPrimary">Relationship is required.</em> -->
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+
+                            <label>Address Line1
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ContactOneAddressLine1" maxlength="200" [(ngModel)]="_Associate.contactDetailsOne.AddressLine1"    class="form-control"
+                                    (keypress)="forAddress($event)" required>
+                                    <div  *ngIf="formSubmitted && !_Associate.contactDetailsOne.AddressLine1 && _Associate.contactDetailsOne.IsPrimary">
+                                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                            <span style="color: red">Address line1 is required.</span>
+                                        </div>
+                                    <!-- <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.addressLine1 && _Associate.contactDetailsOne.isPrimary">Address line1 is required.</em> -->
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Address Line2</label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ContactTwoAddressLine2" maxlength="200" [(ngModel)]="_Associate.contactDetailsOne.AddressLine2"    class="form-control"
+                                    (keypress)="forAddress($event)" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>City
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactOneCity" [(ngModel)]="_Associate.contactDetailsOne.City"    class="form-control" (keypress)="onlychar($event)"
+                                    required>
+                                    <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.City && _Associate.contactDetailsOne.IsPrimary">City is required.</em>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>State
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ContactOneState" [(ngModel)]="_Associate.contactDetailsOne.State" (keypress)="onlychar($event)"
+                                    class="form-control" required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.State && _Associate.contactDetailsOne.IsPrimary">State is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Country
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control"  name="ddlCountry" [ngModel]="_Associate.contactDetailsOne.Country || ''"   
+                                    (change)="setfirstcontactzipLength($event)" (ngModelChange)="_Associate.contactDetailsOne.Country = $event"
+                                    required>
+                                    <!-- (ngModelChange)="_Associate.contactDetailsOne.country = $event" -->
+                                    <option value="" selected=true></option>
+                                    <option *ngFor="let c of ddlCountries" value={{c.ValueName}}>{{c.ValueName}}</option>
+                                </select>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.Country && _Associate.contactDetailsOne.IsPrimary">Country is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Zip
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ContactOneZip" [(ngModel)]="_Associate.contactDetailsOne.PostalCode"    [maxlength]="firstcontactzipLength"
+                                    [minlength]="firstcontactzipLength" (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()"
+                                    class="form-control" required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.PostalCode && _Associate.contactDetailsOne.IsPrimary">Zip is required.</em>
+                            <em class="em-custom" *ngIf="formSubmitted &&_Associate.contactDetailsOne.PostalCode != undefined && _Associate.contactDetailsOne.PostalCode.length != firstcontactzipLength">Please enter valid zip code.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Telephone Number</label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactOneTelephoneNumber" maxlength="12" minlength="11" [(ngModel)]="_Associate.contactDetailsOne.TelePhoneNo"
+                                  (keypress)="phoneNumbers($event)" (paste)="$event.preventDefault()" class="form-control"
+                                    pattern="[0-9]{3}[-][0-9].{6,}" required oninvalid="setCustomValidity('Please enter valid telephone number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && (_Associate.contactDetailsOne.TelePhoneNo != undefined && _Associate.contactDetailsOne.TelePhoneNo.length < 10 && _Associate.contactDetailsOne.TelePhoneNo.length > 0 &&  submitAttempt)">Please enter valid telephone number.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Mobile Number
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactOneMobileNumber" maxlength="10" minlength="10" [(ngModel)]="_Associate.contactDetailsOne.MobileNo"
+                                  (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" class="form-control"
+                                    required oninvalid="setCustomValidity('Please enter valid mobile number')" onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsOne.MobileNo && _Associate.contactDetailsOne.IsPrimary">Mobile number is required.</em>
+                            <em class="em-custom" *ngIf="formSubmitted && (_Associate.contactDetailsOne.MobileNo != undefined && _Associate.contactDetailsOne.MobileNo.length < 10 && _Associate.contactDetailsOne.MobileNo.length > 0 &&  submitAttempt)">Please enter valid 10 digit mobile number.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Email ID</label>
+                            <div class="ui-fluid">
+                                <input type="email" maxlength="50"  name="ContactOneEmailID" [(ngModel)]="_Associate.contactDetailsOne.EmailAddress"   
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 floating-main">
+                <input type="checkbox" id="toogle" [(checked)]="_Associate.contactDetailsTwo.IsPrimary" (change)="updateSelection('secondPrimary')"
+                    tabindex="1">
+                <i></i>
+                <span class="form-label">Is Primary Contact</span>
+            </div>
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Second Contact Name
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" style="width:70%;" name="secondContactName" (keypress)="onlychar($event)" [(ngModel)]="_Associate.contactDetailsTwo.ContactName"
+                                  class="form-control" required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.ContactName && _Associate.contactDetailsTwo.IsPrimary">First contact name is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Relation
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlRelation2" [ngModel]="_Associate.contactDetailsTwo.Relationship || ''"
+                                  (ngModelChange)="_Associate.contactDetailsTwo.Relationship = $event" required>
+                                    <option value="" selected></option>
+                                    <option *ngFor="let r of ddlRelations" value={{r.ValueKey}}>{{r.ValueName}}</option>
+                                </select>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.Relationship && _Associate.contactDetailsTwo.IsPrimary">Relationship is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Address Line1
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactTwoAddressLine1" class="form-control" [(ngModel)]="_Associate.contactDetailsTwo.AddressLine1"   
+                                    (keypress)="forAddress($event)" required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.AddressLine1 && _Associate.contactDetailsTwo.IsPrimary">Address line1 is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Address Line2</label>
+                            <div class="ui-fluid">
+                                <input type="text"name="ContactTwoAddressLine2" class="form-control" [(ngModel)]="_Associate.contactDetailsTwo.AddressLine2"   
+                                    (keypress)="forAddress($event)" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>City
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ContactTwoCity" [(ngModel)]="_Associate.contactDetailsTwo.City"    class="form-control" (keypress)="onlychar($event)"
+                                    required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.City && _Associate.contactDetailsTwo.IsPrimary">City is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>State
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text" name="ContactTwoState" [(ngModel)]="_Associate.contactDetailsTwo.State"    class="form-control"
+                                    (keypress)="onlychar($event)" required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.State && _Associate.contactDetailsTwo.IsPrimary">State is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Country
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="dropdowns">
+                                <select class="form-control" name="ddlCountry2" [ngModel]="_Associate.contactDetailsTwo.Country || ''"   
+                                    (change)="setsecondcontactzipLength($event)" (ngModelChange)="_Associate.contactDetailsTwo.Country = $event"
+                                    required>
+                                    <option value=""></option>
+                                    <option *ngFor="let c of ddlCountries" value={{c.ValueName}}>{{c.ValueName}}</option>
+                                </select>
+                            </div>
+
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.Country && _Associate.contactDetailsTwo.IsPrimary">Country is required.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Zip
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactTwoZip" (keypress)="onlyForNumbers($event)" [(ngModel)]="_Associate.contactDetailsTwo.PostalCode"
+                                   [maxlength]="secondcontactzipLength" [minlength]="secondcontactzipLength" (paste)="$event.preventDefault()"
+                                    class="form-control" required>
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.PostalCode && _Associate.contactDetailsTwo.IsPrimary">Zip is required.</em>
+                            <em class="em-custom" *ngIf="formSubmitted && _Associate.contactDetailsTwo.PostalCode != undefined && _Associate.contactDetailsTwo.PostalCode.length != secondcontactzipLength">Please enter valid PostalCode code.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Telephone Number</label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactTwoTelephoneNumber" maxlength="12" minlength="11" [(ngModel)]="_Associate.contactDetailsTwo.TelePhoneNo"   
+                                    (keypress)="phoneNumbers($event)" (paste)="$event.preventDefault()" class="form-control"
+                                    pattern="[0-9]{3}[-][0-9].{6,}" required oninvalid="setCustomValidity('Please enter valid telephone number')"
+                                    onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                            <!--<em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.telephoneNo && _Associate.contactDetailsTwo.isPrimary">Telephone number is required.</em>-->
+                            <em class="em-custom" *ngIf="formSubmitted && (_Associate.contactDetailsTwo.TelePhoneNo != undefined && _Associate.contactDetailsTwo.TelePhoneNo.length < 10 && _Associate.contactDetailsTwo.TelePhoneNo.length > 0 &&  submitAttempt)">Please enter valid telephone number.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Mobile Number
+                                <span style="color: red">*</span>
+                            </label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactTwoMobileNumber" maxlength="10" minlength="10" [(ngModel)]="_Associate.contactDetailsTwo.MobileNo"   
+                                    (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" class="form-control"
+                                    required oninvalid="setCustomValidity('Please enter valid mobile number')" onchange="try{setCustomValidity('')}catch(e){}">
+                            </div>
+                            <em class="em-custom" *ngIf="formSubmitted && !_Associate.contactDetailsTwo.MobileNo && _Associate.contactDetailsTwo.IsPrimary">Mobile number is required.</em>
+                            <em class="em-custom" *ngIf="formSubmitted && (_Associate.contactDetailsTwo.MobileNo != undefined && _Associate.contactDetailsTwo.MobileNo.length < 10 && _Associate.contactDetailsTwo.MobileNo.length > 0 &&  submitAttempt)">Please enter valid 10 digit mobile number.</em>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>Email ID</label>
+                            <div class="ui-fluid">
+                                <input type="text"  name="ContactTwoEmailID" maxlength="50" [(ngModel)]="_Associate.contactDetailsTwo.EmailAddress"   
+                                    (paste)="$event.preventDefault()" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-lg-12">
+            <section class="pull-right buttons">
+                <button type="button" href="#" name="btnclear" class="btn btn-default" style="cursor:pointer;" *ngIf="type == 'new'" class="btn btn-default"
+                    (click)="onClear()">
+                    <i class="fa fa-eraser"></i>&nbsp;Clear</button>&nbsp;
+                <button type="save" class="btn btn-custom" style="cursor:pointer;" *ngIf="type == 'new'" (click)="onSaveorUpdate(_Associate)">
+                    <i class="fa fa-floppy-o"></i>&nbsp; Save
+                </button>
+                <button type="save" class="btn btn-primary" class="btn btn-custom" style="cursor:pointer;" *ngIf="type != 'new'" (click)="onSaveorUpdate(_Associate)">
+                    &nbsp; Update
+                </button>
+            </section>
+        </div>
+    </div>
+</div>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

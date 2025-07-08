@@ -1,0 +1,38 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Assign Menus To Roles</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+             <div class="col-lg-8" style="margin: 10px;">
+                 <div class="col-lg-2" style="width: 13.6%">
+                    <label class="chosenRole" style="font-weight: bold">Role</label>
+                    </div>
+                  <div class="col-lg-5 ui-fluid">
+                        <p-dropdown name="role" [options]="rolesList" [style]="{'width':'100%'}" [disabled]="isEdit" [(ngModel)]="RoleId" [filter]="true"
+                            (onChange)="getRoleId(RoleId)"></p-dropdown>
+                    </div>
+                          </div>
+            <div *ngIf="hidePanel" style="margin-top:10px;">
+                <p-pickList [source]="sourceMenus" [target]="targeMenus" sourceHeader="Available" targetHeader="Selected" [responsive]="true"
+                    filterBy="MenuName" dragdrop="true" dragdropScope="menus" sourceFilterPlaceholder="Search by MenuName" targetFilterPlaceholder="Search by MenuName"
+                    [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+                    <ng-template let-menus pTemplate="item">
+                        <div class="ui-helper-clearfix">
+                            <div style="font-size:14px; margin:15px 5px 0 0">{{menus.MenuName}}</div>
+                        </div>
+                    </ng-template>
+
+                </p-pickList>
+
+                
+                <div class="pull-right buttons">
+                    <button type="button" class="btn btn-primary" (click)="saveTargetMenus(targeMenus)"><i class="fa fa-floppy-o"></i>&nbsp;Save</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-default" (click)="cancel()"><i class="fa fa-times"></i>&nbsp;Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <p-toast [style]="{marginTop: '80px'}"></p-toast>

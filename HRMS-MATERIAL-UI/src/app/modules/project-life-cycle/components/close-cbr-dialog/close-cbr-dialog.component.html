@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Close Client Billing Record</h1>
+    <mat-dialog-content>
+    <form [formGroup]="closeRoleData">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Billing End Date<span class="text-danger">*</span></mat-label>
+                    <input matInput [matDatepicker]="BillingEndDate" [min]="minCBRCloseDate" [max]="maxCBRCloseDate" formControlName="BillingEndDate" name="BillingEndDate" readonly (click)="BillingEndDate.open()" style="cursor: pointer">
+                    <mat-datepicker-toggle matSuffix *ngIf="closeRoleData.value.BillingEndDate"
+                            (click)="clearInput($event, 'BillingEndDate')">
+                            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="BillingEndDate"></mat-datepicker-toggle>
+                    <mat-datepicker #BillingEndDate></mat-datepicker>
+                    <mat-error *ngIf="submitted && closeRoleData.get('BillingEndDate').hasError('required') && submitted">
+                        Billing End Date Required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-12">
+                <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Reason<span class="text-danger">*</span></mat-label>
+                    <textarea matInput formControlName="Reason"></textarea>
+                    <mat-error *ngIf="submitted && closeRoleData.get('Reason').hasError('required')">Reason required</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <span> Note : Only one month back date is allowed</span>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-right">
+              <button mat-stroked-button type="button" (click)="onNoClick()">
+                <mat-icon>close</mat-icon>Cancel
+              </button>
+              <button type="submit" mat-flat-button color="primary" (click)="save()">Save</button>
+    
+            </div>
+          </div>
+    </form>
+    </mat-dialog-content>

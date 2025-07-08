@@ -1,0 +1,104 @@
+<mat-card class="mb-2">
+
+  <form [formGroup]="addSkills">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Competency Area<span class="text-danger">*</span></mat-label>
+          <mat-select [disabled]="isEdit" (selectionChange)=getSkillGroupByCompetencyArea($event.value)
+            formControlName="CompetencyAreaId" name="CompetencyAreaId">
+            <mat-option disabled>Select Competency Area</mat-option>
+            <mat-option *ngFor="let compArea of competencyAreaList" [value]="compArea.value">
+              {{compArea.label}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="addSkills.get('CompetencyAreaId').hasError('required')">
+            <span>Competency Area is required</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Skill Group<span class="text-danger">*</span></mat-label>
+          <mat-select [disabled]="isEdit" formControlName="SkillGroupId" name="SkillGroupId">
+            <mat-option disabled>Select Skill Group</mat-option>
+            <mat-option *ngFor="let skillGroup of skillGroupList" [value]="skillGroup.value">
+              {{skillGroup.label}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="addSkills.get('SkillGroupId').hasError('required')">
+            <span>Skill Group is required</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Skill<span class="text-danger">*</span></mat-label>
+          <input matInput placeholder="Skill" name="SkillCode" formControlName="SkillCode"
+            (keyup)="validateSkillCode($event)">
+          <mat-error *ngIf="addSkills.get('SkillCode').errors">
+            <span>Skill is required</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Skill Description</mat-label>
+          <input matInput placeholder="Skill Description" name="SkillDescription" formControlName="SkillDescription"
+            minlength="2">
+          <mat-error *ngIf="addSkills.get('SkillDescription').errors">
+            <span>Atleast enter 2 characters</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-auto col-sm-auto mt-2 text-right">
+      <div class="mt-10 pr-15">
+        <button mat-stroked-button (click)="cancel()">
+          <mat-icon>clear</mat-icon>
+          Clear
+        </button>
+        <button type="submit" mat-flat-button color="primary" (click)="addSkill()">{{btnLabel}}</button>
+      </div>
+    </div>
+  </form>
+</mat-card>
+<mat-card>
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="CompetencyAreaCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Competency Area </th>
+        <td mat-cell *matCellDef="let skill">{{skill.CompetencyArea.CompetencyAreaCode}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="SkillGroupName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill Group </th>
+        <td mat-cell *matCellDef="let skill"> {{skill.SkillGroup.SkillGroupName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="SkillCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill</th>
+        <td mat-cell *matCellDef="let skill"> {{skill.SkillCode}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="SkillDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Skill Description</th>
+        <td mat-cell *matCellDef="let skill"> {{skill.SkillDescription}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let skill">
+          <mat-icon style="cursor: pointer" (click)="editSkill(skill)">edit</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div class="row justify-content-center">
+    <mat-paginator [pageSizeOptions]="[50,100,150,200,250]"></mat-paginator>
+  </div>
+
+</mat-card>

@@ -1,0 +1,324 @@
+
+<mat-card [hidden]="!pageload">   
+ <mat-card-content >
+  <div [hidden]="!ifremarks">
+    <div class="col-md-12">
+        <form [formGroup]="Remarkspm" >
+      <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Reason For Rejection</mat-label>
+          <textarea matInput type="textarea" formControlName="Remarksfrompm" style="resize:none" readonly></textarea>
+      </mat-form-field>
+      </form>
+  </div>
+  </div> 
+<mat-vertical-stepper #stepper (selectionChange)="stepChanged($event)">
+    
+        <mat-step  >
+            <ng-template matStepLabel>CLIENT FEEDBACK</ng-template>
+            <form [formGroup]="firstFormGroup" >
+          
+          <div class="row">
+            <div class="col-md-6">
+          <input #fileInputclient type="file" (click)="toastMessageClient()" id="fileToUploadclient" #fileUploadclient ngf-select formControlName="uploadselectclient" [value]="documentDescclient.file"
+           (change)="documentUploadChangeClient(fileUploadclient.value)" name="fileclient" accept="allfiles/*" style="margin-top: 10px;">
+          </div>
+           <!-- <input matInput #fileNameclient readonly="readonly" id="nameclient" name="nameclient" type="text" formControlName="SelectedFileShowclient" [value]="selectedFileclient"
+             class="form-control input-md"/>    -->
+            <div class="col-md-6 col-sm-6">
+             <button mat-flat-button  (click)="saveClientFeedback()" color="primary" >
+              <mat-icon>upgrade</mat-icon> Upload
+              </button>   
+            </div>
+            <div class="pt-2 pl-3">
+              <mat-error *ngIf="( formSaveone &&firstFormGroup.get('uploadselectclient').hasError('required')  )" > Client Feedback required
+              </mat-error>
+            </div>
+            </div>
+              <mat-card>
+                <mat-card-content>
+                        <div class="table-responsive">
+                                <table mat-table #clienttable [dataSource]="clientdataSource" matSort>
+                                        <ng-container matColumnDef="Sno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> S.No </th>
+                                                <td mat-cell *matCellDef="let element ; let i = index"> {{i+1}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="DocumentName">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Document Name </th>
+                                                <td mat-cell *matCellDef="let element"> {{element}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Download">
+                                          <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Download </th>
+                                          <td mat-cell *matCellDef="let element">
+                                                  <mat-icon (click)="downloadclient()" style="cursor: pointer" >vertical_align_bottom</mat-icon>
+                                          </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Delete">
+                                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Delete </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                        <mat-icon (click)="onDeleteclient()" style="cursor: pointer" >delete</mat-icon>
+                                                </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No data</td>
+                                              </tr>
+                                </table>
+        
+                        </div>
+                </mat-card-content>
+        
+        </mat-card>
+           <!-- <div class="col-md-12 text-right">
+              <button  type="submit" mat-flat-button color="primary" mat-button >Save</button>
+            </div> -->
+          </form>
+          </mat-step>
+          <mat-step  >
+              <ng-template matStepLabel>PROJECT EXECUTION AND DELIVERY PERFORMANCE</ng-template>
+              <form [formGroup]="secondFormGroup">
+          <div class="row">
+        <div class="col-md-6">
+          <input #fileInputdelivery type="file" id="fileToUploaddelivery" (click)="toastMessageDelivery()" #fileUploaddelivery ngf-select formControlName="uploadselectdelivery" [value]="documentDescdelivery.file"
+          (change)="documentUploadChangeDelivery(fileUploaddelivery.value)" name="filedelivery" accept="allfiles/*" style="margin-top: 10px;">
+        </div>
+             <!-- <input matInput #fileNamedelivery readonly="readonly" id="namedelivery" name="namedelivery" type="text" formControlName="SelectedFileShowdelivery" [value]="selectedFiledelivery"
+               class="form-control input-md">    -->
+          <div class="col-md-6 col-sm-6">
+             <button mat-flat-button color="primary" (click)="saveDeliveryPerformance()" >
+                 <mat-icon>upgrade</mat-icon> Upload
+              </button> 
+            </div> 
+            <div class="pt-2 pl-3">
+              <mat-error *ngIf="(  formSavetwo && secondFormGroup.get('uploadselectdelivery').hasError('required')  )">
+                Project execution and delivery performance required </mat-error>
+              </div>
+            </div>
+              <mat-card>
+                <mat-card-content>
+                        <div class="table-responsive">
+                                <table mat-table #deliverytable [dataSource]="deliverydataSource" matSort>
+                                        <ng-container matColumnDef="Sno">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> S.No </th>
+                                                <td mat-cell *matCellDef="let element ; let i = index"> {{i+1}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="DocumentName">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Document Name </th>
+                                                <td mat-cell *matCellDef="let element"> {{element}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Download">
+                                          <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Download </th>
+                                          <td mat-cell *matCellDef="let element">
+                                                  <mat-icon (click)="downloaddelivery()" style="cursor: pointer">vertical_align_bottom</mat-icon>
+                                          </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Delete">
+                                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Delete </th>
+                                                <td mat-cell *matCellDef="let element">
+                                                        <mat-icon (click)="onDeletedelivery()" style="cursor: pointer" >delete</mat-icon>
+                                                </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No data</td>
+                                                </tr>
+                                </table>
+        
+                        </div>
+                </mat-card-content>
+        
+        </mat-card>
+
+          <!-- <div class="col-md-12 text-right">
+              <button  type="submit"  mat-flat-button color="primary" mat-button >Save</button>
+            </div> -->
+          </form>
+          </mat-step>
+          <mat-step  >
+              <ng-template matStepLabel>VALUE DELIVERED TO THE CLIENT</ng-template>
+              <form [formGroup]="thirdFormGroup" >
+          <div class="pr-0">
+            <h3>Value Delivered to the Client:<span class="text-danger">*</span></h3>
+            <angular-editor [placeholder]="'Value delivered to the client'" 
+            formControlName="ValueDelivered" [config] = 'editorConfig'></angular-editor>
+            <mat-error>
+              <span *ngIf="( formSave &&thirdFormGroup.get('ValueDelivered').hasError('required')  )"
+                >Value Delivered to the client required</span>
+              
+            </mat-error>
+          </div>
+          <!-- <div class="col-md-12 text-right">
+            <button type="submit" (click)="onSavesecond()" mat-flat-button color="primary" mat-button >Save</button>
+          </div> -->
+        </form>
+      </mat-step>
+      <mat-step  >
+          <ng-template matStepLabel>PROJECT EXECUTION CHALLENGES</ng-template>
+        <form [formGroup]="fourthFormGroup" >
+                <div class="pr-0">
+                  <h3>Project Management Challenges Faced During Execution of the Project:<span class="text-danger">*</span></h3>
+                        <angular-editor [placeholder]="'Project Management Challenges Faced During Execution of the Project'" 
+                        formControlName="ManagementChallenges" [config] = 'editorConfig'></angular-editor>
+                        <mat-error>
+                          <span *ngIf="(formSave &&fourthFormGroup.get('ManagementChallenges').hasError('required') )"
+                            >Project management challenges faced during execution of project required</span>
+                          
+                        </mat-error>
+                      </div>
+
+                 <div class="pr-0">
+                   <h3>Technology Challenges Faced During Execution of the Project:<span class="text-danger">*</span></h3>
+                        <angular-editor [placeholder]="'Technology Challenges Faced During Execution of the Project'" 
+                        formControlName="TechnologyChallenges" [config] = 'editorConfig'></angular-editor>
+                        <mat-error>
+                          <span *ngIf="(formSave &&fourthFormGroup.get('TechnologyChallenges').hasError('required') )"
+                            >Technology challenges faced during execution of the project required</span>
+                          
+                        </mat-error>
+                      </div>
+                 <div class="pr-0">
+                   <h3>Software Engineering Challenges Faced During Execution of the Project:<span class="text-danger">*</span></h3>
+                        <angular-editor [placeholder]="'Software Engineering Challenges Faced During Execution of the Project'" 
+                        formControlName="EngineeringChallenges" [config] = 'editorConfig'></angular-editor>
+                        <mat-error>
+                          <span *ngIf="(formSave &&fourthFormGroup.get('EngineeringChallenges').hasError('required')  )"
+                            >Software engineering challenges faced during execution of project required</span>
+                          
+                        </mat-error>
+                      </div>
+                 <!-- <div class="col-md-12 text-right">
+                        <button type="submit"  mat-flat-button color="primary" mat-button >Save</button>
+                      </div> -->
+         </form>
+        
+     </mat-step>
+     <mat-step  >
+        <ng-template matStepLabel>BEST PRACTICES, LESSONS LEARNT, REUSABLE ARTEFACTS, AND PROCESS IMPROVEMENTS</ng-template>
+            <form [formGroup]="fifthFormGroup" >
+                    <div class="pr-0">
+                      <h3>Best Practices Implemented:<span class="text-danger">*</span></h3>
+                            <angular-editor [placeholder]="'Best Practices Implemented'" 
+                             formControlName="BestPractices" [config] = 'editorConfig'></angular-editor>
+                             <mat-error>
+                              <span *ngIf="(formSave &&fifthFormGroup.get('BestPractices').hasError('required')   )"
+                                >Best practices implemented required</span>
+                              
+                            </mat-error>
+                          </div>
+                     <div class="pr-0">
+                       <h3>Lessons Learnt:<span class="text-danger">*</span></h3>
+                            <angular-editor [placeholder]="'Lessons Learnt'" 
+                            formControlName="LessonsLearned" [config] = 'editorConfig'></angular-editor>
+                            <mat-error>
+                              <span *ngIf="(formSave &&fifthFormGroup.get('LessonsLearned').hasError('required') )"
+                                >Lessons learnt</span>
+                              
+                            </mat-error>
+                          </div>
+                     <div class="pr-0">
+                       <h3>Reusable Artefacts:<span class="text-danger">*</span></h3>
+                            <angular-editor [placeholder]="'Reusable Artefacts'" 
+                            formControlName="ReusableArtifacts" [config] = 'editorConfig'></angular-editor>
+                            <mat-error>
+                              <span *ngIf="(formSave &&fifthFormGroup.get('ReusableArtifacts').hasError('required')  )"
+                                >Re-usable artifacts required</span>
+                              
+                            </mat-error>
+                          </div>
+                     <div class="pr-0">
+                       <h3>Process Improvements:<span class="text-danger">*</span></h3>
+                            <angular-editor [placeholder]="'Process Improvements'" 
+                            formControlName="ProcessImprovements" [config] = 'editorConfig'></angular-editor>
+                            <mat-error>
+                              <span *ngIf="(formSave &&fifthFormGroup.get('ProcessImprovements').hasError('required')  )"
+                                >Process improvements required</span>
+                              
+                            </mat-error>
+                          </div>
+
+                     <!-- <div class="col-md-12 text-right">
+                            <button  type="submit"  mat-flat-button color="primary" mat-button >Save</button>
+                          </div> -->
+                </form>
+                </mat-step>
+                <mat-step >
+                    <ng-template matStepLabel>PROJECT TEAM ACHIEVEMENTS</ng-template>
+                        <form [formGroup]="sixthFormGroup" >
+                                <div class="pr-0">
+                                  <h3>Awards and Rewards:<span class="text-danger">*</span></h3>
+                                        <angular-editor [placeholder]="'Awards and Rewards'" 
+                                        formControlName="Awards" [config] = 'editorConfig'></angular-editor>
+                                        <mat-error>
+                                          <span *ngIf="(formSave &&sixthFormGroup.get('Awards').hasError('required')  )"
+                                            >Awards and rewards required</span>
+                                          
+                                        </mat-error>
+                                      </div>
+                                 <div class="pr-0">
+                                   <h3>New Technology Skills Acquired:<span class="text-danger">*</span></h3>
+                                        <angular-editor [placeholder]="'New Technology Skills Acquired'" 
+                                         formControlName="NewTechnicalSkills" [config] = 'editorConfig'></angular-editor>
+                                         <mat-error>
+                                          <span *ngIf="(formSave &&sixthFormGroup.get('NewTechnicalSkills').hasError('required')  )"
+                                            >New technology skills acquired required</span>
+                                          
+                                        </mat-error>
+                                      </div>
+                                 <div>
+                                   <h3>New Tools Used:<span class="text-danger">*</span></h3>
+                                        <angular-editor [placeholder]="'New Tools Used'" 
+                                        formControlName="NewTools" [config] = 'editorConfig'></angular-editor>
+                                        <mat-error>
+                                          <span *ngIf="(formSave &&sixthFormGroup.get('NewTools').hasError('required')  )"
+                                            >New tools used required</span>
+                                          
+                                        </mat-error>
+                                      </div>
+
+                                <!-- <div class="col-md-12 text-right">
+                                        <button  type="submit" mat-flat-button color="primary" mat-button >Save</button>
+                                      </div> -->
+
+                            </form>
+                            </mat-step>
+<mat-step  >
+     <form [formGroup]="seventhFormGroup" >
+        <ng-template matStepLabel>REMARKS FROM TEAM LEAD</ng-template>
+            <div class="pr-0">
+              <h3>Remarks from Team Lead:<span class="text-danger">*</span></h3>
+                    <angular-editor [placeholder]="'Remarks From Team Lead'" 
+                    formControlName="Remarks" [config] = 'editorConfig'></angular-editor>
+                    <mat-error>
+                      <span *ngIf="(formSave &&seventhFormGroup.get('Remarks').hasError('required') )"
+                        >Remarks from Team Lead required</span>
+                      
+                    </mat-error>
+             </div>
+          
+
+         </form>
+         </mat-step>
+        
+</mat-vertical-stepper>
+<!-- <div *ngIf="ifremarks">
+  <div class="col-md-12">
+      <form [formGroup]="Remarkspm" >
+    <mat-form-field appearance={{themeConfigInput}}>
+        <mat-label>Reason For Rejection</mat-label>
+        <textarea matInput type="textarea" formControlName="Remarksfrompm" style="resize:none" readonly></textarea>
+    </mat-form-field>
+    </form>
+</div>
+</div>   -->
+
+<div class="col-md-12 text-right pt-2">
+  
+ <button type="submit" (click)="onSave()"   mat-flat-button color="primary" mat-button >Save</button>
+  
+<button type="submit" mat-flat-button color="primary" mat-button (click)="onSubmit()">Submit</button>
+</div>
+  
+</mat-card-content>
+</mat-card>
+

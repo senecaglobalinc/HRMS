@@ -1,0 +1,143 @@
+<mat-card>
+    <form [formGroup]="assignManagerToProject">
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}} class="mt30 customMatSelect">
+                    <mat-label>Project Name <span class="text-danger">*</span></mat-label>
+                    <input appDropDownSuggestion [SearchList]="projectList" (keyup)="onChangeEvent($event)"
+                    appRequirematch type="text" placeholder="Project Name" aria-label="department" matInput
+                        formControlName="ddlProject" [matAutocomplete]="auto">
+                    <button class="clearFieldIcon" *ngIf="assignManagerToProject.value.ddlProject" mat-button matSuffix
+                        mat-icon-button aria-label="Clear" (click)="cliearField($event,'ddlProject')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngIf="assignManagerToProject.get('ddlProject').hasError('invalidValue')" disabled>No Matching value found</mat-option>
+                        <mat-option  (click)="getManagersByProject(item)" (keyup.enter)="getManagersByProject(item)" *ngFor="let item of filteredOptions | async;" [value]="item.label">
+                            {{item.label}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="assignManagerToProject.get('ddlProject').hasError('required')">
+                        Project Name Required
+                    </mat-error>
+                    <mat-error *ngIf="assignManagerToProject.get('ddlProject').hasError('requireMatch')">
+                        Select project from given options
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <label>Current Program Manager:</label>
+                <span *ngIf="employee.ProgramManagerName">{{employee.ProgramManagerName}}</span>
+                <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                    <mat-label *ngIf="employee.ProgramManagerName">Change Program Manager <span class="text-danger">*</span></mat-label>
+                    <mat-label *ngIf="!employee.ProgramManagerName">Select Program Manager <span class="text-danger">*</span></mat-label>
+                    <input appDropDownSuggestion [SearchList]="employeeList" 
+                    appRequirematch type="text"  (focus)="pushFilteredManagersIds()" (keyup)="filteredManagers($event)"
+                        placeholder="Select Program Manager" aria-label="department" matInput
+                        formControlName="ddlProgramManager" [matAutocomplete]="auto1">
+                    <button class="clearFieldIcon" *ngIf="assignManagerToProject.value.ddlProgramManager" mat-button
+                        matSuffix mat-icon-button aria-label="Clear" (click)="cliearField($event,'ddlProgramManager')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-autocomplete #auto1="matAutocomplete">
+                        <mat-option *ngIf="assignManagerToProject.get('ddlProgramManager').hasError('invalidValue')" disabled>No Matching value found</mat-option>
+                        <mat-option (click)="selectedChangeIds('ddlProgramManager',item)"  (keyup.enter)="selectedChangeIds('ddlProgramManager',item)"   *ngFor="let item of filteredManagersIds;" [value]="item.Name">
+                            {{item.Name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="assignManagerToProject.get('ddlProgramManager').hasError('required')">
+                        Program Manager Name Required
+                    </mat-error>
+                    <mat-error *ngIf="assignManagerToProject.get('ddlProgramManager').hasError('requireMatch')">
+                        Select Program Manager from given options
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <label>Current Reporting Manager:</label>
+                <span *ngIf="employee.ReportingManagerName">{{employee.ReportingManagerName}}</span>
+                <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                    <mat-label *ngIf="employee.ReportingManagerName">Change Reporting Manager</mat-label>
+                    <mat-label *ngIf="!employee.ReportingManagerName">Select Reporting Manager</mat-label>
+                    <input appDropDownSuggestion [SearchList]="employeeList" 
+                    appRequirematch type="text"  (focus)="pushFilteredManagersIds()" (keyup)="filteredManagers($event)"
+                        placeholder="Select Reporting Manager" aria-label="department" matInput
+                        formControlName="ddlReportingManager" [matAutocomplete]="auto2">
+                    <button class="clearFieldIcon" *ngIf="assignManagerToProject.value.ddlReportingManager" mat-button
+                        matSuffix mat-icon-button aria-label="Clear" (click)="cliearField($event, 'ddlReportingManager')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-autocomplete #auto2="matAutocomplete">
+                        <mat-option *ngIf="assignManagerToProject.get('ddlReportingManager').hasError('invalidValue')" disabled>No Matching value found</mat-option>
+                        <mat-option (click)="selectedChangeIds('ddlReportingManager',item)"  (keyup.enter)="selectedChangeIds('ddlReportingManager',item)"  *ngFor="let item of filteredManagersIds;" [value]="item.Name">
+                            {{item.Name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="assignManagerToProject.get('ddlReportingManager').hasError('requireMatch')">
+                        Select Reporting Manager from given options
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <label>Current Lead:</label>
+                <span *ngIf="employee.LeadName">{{employee.LeadName}}</span>
+                <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                    <mat-label *ngIf="employee.LeadName">Change Lead</mat-label>
+                    <mat-label *ngIf="!employee.LeadName">Select Lead</mat-label>
+                    <input appDropDownSuggestion [SearchList]="employeeList" 
+                    appRequirematch (focus)="pushFilteredManagersIds()" type="text" (keyup)="filteredManagers($event)"
+                        placeholder="Select Lead" aria-label="department" matInput formControlName="ddlLead"
+                        [matAutocomplete]="auto3">
+                    <button class="clearFieldIcon" *ngIf="assignManagerToProject.value.ddlLead" mat-button matSuffix
+                        mat-icon-button aria-label="Clear" (click)="cliearField($event, 'ddlLead')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-autocomplete #auto3="matAutocomplete">
+                        <mat-option *ngIf="assignManagerToProject.get('ddlLead').hasError('invalidValue')" disabled>No Matching value found</mat-option>
+                        <mat-option (click)="selectedChangeIds('ddlLead',item)"  (keyup.enter)="selectedChangeIds('ddlLead',item)"   *ngFor="let item of filteredManagersIds;" [value]="item.Name">
+                            {{item.Name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="assignManagerToProject.get('ddlLead').hasError('requireMatch')">
+                        Select Lead from given options
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="{{themeConfigInput}}">
+                    <mat-label>Effective Date<span class="text-danger">*</span></mat-label>
+                    <input formControlName="EffectiveDate" matInput type="text" [min]="firstDate" [max]="today" [matDatepicker]="picker" readonly style="cursor: pointer;" (dateChange)="removeDateErrorMessage()" (click)="picker.open()">
+                    <mat-datepicker-toggle matSuffix *ngIf="assignManagerToProject.value.EffectiveDate"
+                        (click)="clearInput($event, 'EffectiveDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="assignManagerToProject.get('EffectiveDate').hasError('required')">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                        <span style="color: red">Effective Date Required.</span>
+                    </mat-error>
+                    <mat-error
+                        *ngIf="assignManagerToProject.get('EffectiveDate').hasError('whitespace') && !assignManagerToProject.get('EffectiveDate').hasError('required')">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                        <span style="color: red">No empty spaces allowed</span>
+                    </mat-error>
+                </mat-form-field>
+                <div *ngIf="isDateError">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">{{dateErrorMessage}}</span>
+                </div>
+            </div>
+            <div class="col-md-3 offset-9">
+                <div class="d-flex justify-content-end align-items-center mnh60">
+                    <button mat-stroked-button (click)="clearValues()">
+                        <mat-icon>clear</mat-icon> Clear
+                    </button>
+                    <button mat-flat-button color="primary" (click)='assignManagers()' class="mr-0">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-card> 

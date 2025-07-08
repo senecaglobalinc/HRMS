@@ -1,0 +1,26 @@
+.active-project {
+    background-color: skyblue;
+}
+
+.inactive-project {
+    background-color: white;
+}
+.pointer{
+    cursor: pointer;
+}
+
+.color-box-css{
+    display: inline-block;
+    background-color: skyblue;
+    width: 20px;
+    height: 20px;
+    margin-top: -6px;
+    margin: -3px;
+}
+
+.color-box-label-css{
+    display: inline-block;
+    padding-top: 3px;
+    font-size: 16px;
+    font-weight: 500;
+}

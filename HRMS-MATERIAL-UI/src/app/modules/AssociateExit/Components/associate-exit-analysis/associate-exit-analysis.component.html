@@ -1,0 +1,160 @@
+<mat-accordion>
+    <mat-expansion-panel [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+      <mat-expansion-panel-header>
+      <mat-panel-title>
+          <mat-icon>filter_list</mat-icon> Filter all Resigned Associates based on their Last Working Day
+      </mat-panel-title>
+     </mat-expansion-panel-header>
+  
+     <form  [formGroup]="myForm">
+      <div class="row">
+          <div class="col-md-4">
+              <br>
+              <mat-form-field appearance={{themeAppearence}}>
+                  <mat-label>From Date<span style="color: red"> *</span></mat-label>
+                  <input matInput [matDatepicker]="from" (click)="from.open()" formControlName="FromDate" format='dd/mm/yy' (dateChange)="searchData.FromDate = $event.value"
+                      [value]="searchData.FromDate" (paste)="$event.preventDefault()">
+                  <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                  <mat-datepicker #from></mat-datepicker>
+                  <mat-error *ngIf="myForm.controls.FromDate.hasError('required')">From Date is required</mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-4">
+              <br>
+                  <mat-form-field appearance={{themeAppearence}}>
+                          <mat-label>To Date<span style="color: red"> *</span></mat-label>
+                          <!-- <input matInput [matDatepicker]="to" (click)="to.open()" formControlName="ToDate" format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value"
+                              [value]="searchData.ToDate" (paste)="$event.preventDefault()"> -->
+                              <input matInput [matDatepicker]="to" (click)="to.open()" formControlName="ToDate" format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value"
+                              [value]="searchData.ToDate" (paste)="$event.preventDefault()">
+                          <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                          <mat-datepicker #to></mat-datepicker>
+                          <mat-error *ngIf="myForm.controls.ToDate.hasError('required')">To Date is required</mat-error>
+                      </mat-form-field>
+          </div>
+  
+       
+      </div>
+      <div class="col-md-12">
+          <section class="pull-right buttons">
+              <button type="button" mat-flat-button (click)="clear()">
+                  Clear</button>
+              <button type="submit" mat-flat-button color="primary" (click)="submitReport()">
+                  Apply</button>
+          </section>
+      
+      </div>
+      </form>
+  </mat-expansion-panel>
+  </mat-accordion>
+  <br><br>
+  
+  <mat-card *ngIf="showGrid">
+    <div class="col-12">
+      <span style="float: right;">
+         <a
+            (click)="exporter()" title="Export to Excel">
+            <div class="exportToExcel"></div>
+        </a>
+      </span>
+   </div>
+          
+                <div class="table-responsive" >
+  
+                  <table mat-table [dataSource]="dataSource" matSort id="ExampleMaterialTable">
+                    <ng-container matColumnDef="EmployeeCode">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Code </th>
+                      <td mat-cell *matCellDef="let element"> {{element.EmployeeCode}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="EmployeeName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Name </th>
+                      <td mat-cell *matCellDef="let element"> {{element.EmployeeName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ExitType">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Exit Type</th>
+                      <td mat-cell *matCellDef="let element"> {{element.ExitType}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ExitDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Last Working Day </th>
+                      <td mat-cell *matCellDef="let element"> {{element.ExitDate | date: 'mediumDate'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ExitReasonDetail">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Exit Cause </th>
+                      <td mat-cell *matCellDef="let element"> {{element.ExitReasonDetail}} </td>
+            
+                    </ng-container>
+                    <ng-container matColumnDef="SummaryOfExitFeedback">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> FeedBack</th>
+                      <td mat-cell *matCellDef="let element" [ngStyle]="{ 'maxlength':'10'}"  [innerHTML]="element.SummaryOfExitFeedback" ></td>
+                     
+                    </ng-container>
+                    <ng-container matColumnDef="RootCause"  >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold"
+                        [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> Root Cause </th>
+                        <td mat-cell *matCellDef="let element"  
+                        [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> {{element.RootCause}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="ActionItem">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold"
+                      [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}">Action Item</th>
+                      <td mat-cell *matCellDef="let element" [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> {{element.ActionItem}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="TagretDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold"
+                      [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}">Tagret Date</th>
+                      <td mat-cell *matCellDef="let element" [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> {{element.TagretDate | date: 'mediumDate'}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="ActualDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold"
+                      [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}">Actual Date</th>
+                      <td mat-cell *matCellDef="let element" [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> {{element.ActualDate | date: 'mediumDate'}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="Responsibility">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold"
+                      [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}">Responsibility</th>
+                      <td mat-cell *matCellDef="let element" [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> {{element.Responsibility }} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="Remarks">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold"
+                      [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}">Remarks</th>
+                      <td mat-cell *matCellDef="let element" [ngStyle]="{display: showHideDetails === true? 'table-cell' : 'none'}"> {{element.Remarks}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="Status">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status </th>
+                      <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+            
+                    </ng-container>
+            
+                    <ng-container matColumnDef="Action" >
+                      <th mat-header-cell *matHeaderCellDef  mat-sort-header class="font-weight-bold"> Action </th>
+                      <td mat-cell *matCellDef="let element" >
+                        
+                        <mat-icon  *ngIf="element.Status !== 'Completed'" style="cursor:pointer" (click)="onEdit(element)">edit</mat-icon>
+                        <mat-icon  *ngIf="element.Status === 'Completed'"  style="cursor:pointer" (click)="onView(element)">visibility</mat-icon>
+  
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">No data</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="row justify-content-center">
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+                </div>
+                <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center;">
+                    <mat-progress-spinner color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
+       
+    
+  </mat-card>

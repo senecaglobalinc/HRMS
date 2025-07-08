@@ -1,0 +1,63 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form [formGroup]="addDomainName">
+      <div class="row">
+        <div class="col-md-9">
+          <mat-form-field appearance={{themeConfigInput}} [hideRequiredMarker]=true>
+            <mat-label>Domain Name<span class="text-danger"> *</span></mat-label>
+            <input matInput type="text" formControlName="DomainName" size="30" appValidationImpSpecialChars appEmptySpacesValidations minlength="2">
+
+            <mat-error *ngIf="addDomainName.get('DomainName').hasError('required')">
+              Domain Name Required
+            </mat-error>
+            <mat-error *ngIf="addDomainName.get('DomainName').hasError('minlength')">
+              Atleast enter 2 characters
+            </mat-error>
+            <mat-error *ngIf="addDomainName.get('DomainName').hasError('maxlength')">
+              Only 100 characters
+            </mat-error>
+
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-3">
+          <div class="d-flex justify-content-end align-items-center mnh60">
+            <button mat-stroked-button (click)="cancel()">
+              <mat-icon>clear</mat-icon> Clear
+            </button>
+            <button mat-flat-button color="primary" class="mr-0" (click)="addDomain()">
+              {{btnLabel}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="DomainName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Domain Name </th>
+          <td mat-cell *matCellDef="let domain"> {{domain.DomainName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let domain">
+            <mat-icon style="cursor: pointer" (click)="editDomains(domain)">edit</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

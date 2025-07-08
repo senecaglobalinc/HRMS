@@ -1,0 +1,16 @@
+::ng-deep snack-bar-container.success-alert {
+    background-color: green !important;
+    color: white !important;
+  }
+  
+  ::ng-deep snack-bar-container.error-alert {
+    background-color: red !important;
+    color: white !important;
+  }
+  
+  ::ng-deep mat-simple-snackbar-action {
+    color: white !important;
+  }
+  .disabled {
+    cursor: not-allowed;
+  }

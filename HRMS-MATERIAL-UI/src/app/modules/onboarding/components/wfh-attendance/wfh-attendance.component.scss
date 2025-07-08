@@ -1,0 +1,65 @@
+
+.btn-css {
+  float: right;
+}
+
+.status-container {
+  height:auto;
+  // width: auto;
+  border-style: 1px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row; /* Arrange items in a row by default */
+  margin: 0px;
+  gap: 60px;
+}
+
+.form-css {
+  width:700px;
+}
+
+.status-css {
+  width:300px;
+}
+
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column; /* Change to column layout on mobile */
+  }
+}
+
+@media (max-width: 767px) {
+  .form-css {
+    width:350px;
+  }
+}
+
+@media (max-width: 767px) {
+ 
+.status-css{
+  width: 200px;
+  display: contents;
+  }
+  
+}
+.table-css {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+  td, th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+    font-size: 12px;
+    background-color:none;
+  }
+  
+  mat-icon.info-css {
+    margin-top: 7px !important;
+    font-size: 17px !important;
+  }
+}
+

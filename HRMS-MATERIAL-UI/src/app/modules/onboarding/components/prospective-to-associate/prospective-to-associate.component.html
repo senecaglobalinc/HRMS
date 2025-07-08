@@ -1,0 +1,67 @@
+<mat-card class="pl-0">
+  <div class="stepperBackBtn">
+    <button mat-stroked-button (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+      <span class="d-none d-sm-inline">Back</span>
+    </button>
+
+    <button mat-stroked-button color="primary" (click)="goBack(stepper)">
+      <mat-icon>navigate_before</mat-icon> <span class="d-none d-sm-inline">Previous</span>
+    </button>
+
+    <button mat-stroked-button color="primary" (click)="goForward(stepper)">
+      <span class="d-none d-sm-inline">Next</span>
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+  <mat-vertical-stepper #stepper [linear]="isLinear" (selectionChange)="stepChanged($event)">
+    <mat-step [stepControl]="step1.personelDetailsForm">
+      <ng-template matStepLabel>Personal</ng-template>
+      <ng-container>
+        <app-personal-details (onAssociateSave)="onAssociateSave($event)" [type]="Type" #step1></app-personal-details>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Family</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 1">
+        <app-family-associate #step2></app-family-associate>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Education</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 2">
+        <app-education-associate #step3></app-education-associate>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Employment</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 3">
+        <app-associate-employment #step4></app-associate-employment>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Professional</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 4">
+        <app-associate-professional #step5></app-associate-professional>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Projects</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 5">
+        <app-projectassociate #step6></app-projectassociate>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Skills</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 6">
+        <app-skills #step7></app-skills>
+      </ng-container>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Upload Documents</ng-template>
+      <ng-container *ngIf=" this.activeIndex == 7">
+        <app-associateupload #step8></app-associateupload>
+      </ng-container>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-card>

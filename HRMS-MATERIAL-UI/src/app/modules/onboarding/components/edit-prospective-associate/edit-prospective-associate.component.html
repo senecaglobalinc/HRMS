@@ -1,0 +1,176 @@
+<mat-card>
+        <mat-card-content>
+           <form class="form-horizontal" [formGroup]="newAssocaiteForm">
+              <div class="row justify-content-center">
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>First Name
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <input matInput type="text" formControlName="FirstName" maxlength="30" (keypress)="onlychar($event)" appValidations>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.FirstName.hasError('required')">First Name is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Middle Name</mat-label>
+                       <input matInput type="text" formControlName="MiddleName" maxlength="30" (keypress)="onlychar($event)" appValidations>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Last Name
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <input matInput type="text" formControlName="LastName" maxlength="30" (keypress)="onlychar($event)" appValidations>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.LastName.hasError('required')">Last Name is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Personal Email ID
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <input matInput type="email" formControlName="PersonalEmailAddress" maxlength="50">
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.PersonalEmailAddress.hasError('required')">Personal Email Address is Required</mat-error>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.PersonalEmailAddress.hasError('pattern')">Enter Valid Email Address</mat-error>
+                    </mat-form-field>
+                 </div>
+              </div>
+              <div class="row justify-content-center">
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Mobile Number
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <input matInput type="text" formControlName="MobileNo" pattern="^[1-9]{1}[0-9]{9}$" title="Please enter valid formate" maxlength="10"
+                       minlength="10" (paste)="$event.preventDefault()" (keypress)="onlyForNumbers($event)">
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.MobileNo.hasError('required')">Mobile Number is Required</mat-error>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.MobileNo.hasError('pattern')">Enter Valid Mobile Number</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Designation
+                          <span class="text-danger">*</span>
+                       </mat-label>
+                       <input (focus)="pushFilteredDesignationIds()" type="text" (keyup)="filteredDesignations($event)" placeholder="Select Designation"
+                       aria-label="Designation" matInput formControlName="Designation" [matAutocomplete]="auto">
+                       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="getGradeByDesignation($event.option.value)">
+                       <mat-option *ngFor="let item of filteredDesignationIds;" [value]="item">
+                       {{item.Name}}
+                       </mat-option>
+                       </mat-autocomplete>
+                       
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.Designation.hasError('required')">Designation is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Grade
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <input matInput type="text" formControlName="GradeName" (paste)="$event.preventDefault()" disabled="true">
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Employment Type
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <mat-select formControlName="EmploymentType">
+                          <mat-option *ngFor="let e of empTypes" [value]="e.EmpType">
+                          {{e.EmpType}}
+                          </mat-option>
+                       </mat-select>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.EmploymentType.hasError('required')">Employment Type is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+              </div>
+              <div class="row">
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Department
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <mat-select formControlName="Department" (selectionChange)="requiredTechnolgy($event)">
+                          <mat-option (click)="setDepartmentName(d)" (keyup.enter)="setDepartmentName(d)" *ngFor="let d of departments" [value]="d.DepartmentId">
+                          {{d.Description}}
+                          </mat-option>
+                       </mat-select>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.Department.hasError('required')">Department is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto" *ngIf="isRequired">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Technology
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <mat-select formControlName="TechnologyID" >
+                          <mat-option *ngFor="let t of technologies" [value]="t.PracticeAreaId">
+                          {{t.PracticeAreaDescription}}
+                          </mat-option>
+                       </mat-select>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.TechnologyID.hasError('required')">Technology is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Manager
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <mat-select formControlName="ManagerId">
+                          <mat-option *ngFor="let rm of reportingmanagers" [value]="rm.EmpId">
+                          {{rm.EmpName}}
+                          </mat-option>
+                       </mat-select>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.ManagerId.hasError('required')">Manager is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>HR Advisor
+                          <span class="text-danger"> *</span>
+                       </mat-label>
+                       <mat-select formControlName="HRAdvisorName">
+                          <mat-option *ngFor="let hra of hradvisors" [value]="hra.Name">
+                          {{hra.Name}}
+                          </mat-option>
+                       </mat-select>
+                       <mat-error *ngIf="this.newAssocaiteForm.controls.HRAdvisorName.hasError('required')">HR Advisor is Required</mat-error>
+                    </mat-form-field>
+                 </div>
+              </div>
+              <div class="row">
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Recruited By</mat-label>
+                       <input matInput type="text" formControlName="RecruitedBy" (keypress)="onlychar($event)" maxlength="50">
+                    </mat-form-field>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto">
+                    <mat-checkbox formControlName="dropped" (click)="onChange($event)">Is Dropped</mat-checkbox>
+                 </div>
+                 <div class="col-lg-3 col-md-3 col-sm-auto" [hidden] = "!newAssocaiteForm.controls.dropped.value">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                       <mat-label>Reason for Dropout <span class="text-danger">*</span></mat-label>
+                       <textarea matInput formControlName="DropOutReason" maxlength="150"></textarea>
+                       <mat-error *ngIf="newAssocaiteForm.controls.DropOutReason.hasError('required')">Reason for Dropout Required/Invalid
+                       </mat-error>
+                    </mat-form-field>
+                 </div>
+              </div>
+              <div class="row justify-content-center">
+                 <div class="col text-right">
+                    <button type="submit" name="btnSubmit" mat-flat-button color="primary" (click)="onUpdate()">
+                    Update</button>
+                    <button type="button" name="btncancel" mat-stroked-button (click)="openDialog()">Cancel</button>
+                 </div>
+              </div>
+           </form>
+        </mat-card-content>
+     </mat-card>
+     <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+     size="medium">
+     <p class="loading">Loading ...</p>
+   </ngx-spinner>

@@ -1,0 +1,170 @@
+<mat-card>
+    <mat-card-content>
+        <form class="form-horizontal" [formGroup]="newAssocaiteForm">
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>First Name <span class="text-danger"> *</span></mat-label>
+                    <input matInput type="text" formControlName="firstName"  maxlength="30" (keypress)="onlychar($event)" appValidations>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.firstName.hasError('required')">First Name is Required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput type="text" formControlName="middleName"  maxlength="30" appValidations>
+                </mat-form-field> 
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Last Name<span class="text-danger"> *</span></mat-label>
+                    <input matInput type="text" formControlName="lastName"  maxlength="30" (keypress)="onlychar($event)" appValidations>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.lastName.hasError('required')">Last Name is Required</mat-error>
+                </mat-form-field> 
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Personal Email ID<span class="text-danger"> *</span></mat-label>
+                    <input matInput type="email" formControlName="PersonalEmailAddress"  maxlength="50">
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.PersonalEmailAddress.hasError('required')">Personal Email Address is Required</mat-error>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.PersonalEmailAddress.hasError('pattern')">Enter Valid Email Address</mat-error>
+                </mat-form-field> 
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Mobile Number <span class="text-danger"> *</span></mat-label>
+                    <input matInput type="text" formControlName="MobileNo" pattern="^[1-9]{1}[0-9]{9}$" 
+                        title="Please enter valid formate" maxlength="10" minlength="10" 
+                        (paste)="$event.preventDefault()" (keypress)="onlyForNumbers($event)">
+                        <mat-error *ngIf="this.newAssocaiteForm.controls.MobileNo.hasError('required')">Mobile Number is Required</mat-error>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.MobileNo.hasError('pattern')">Enter Valid Mobile Number</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Joining Date<span class="text-danger"> *</span></mat-label>
+                    <input matInput [matDatepicker]="dateOfJoining" [min]="minDate" [max]="maxDate" formControlName="dateOfJoining" readonly
+                    (click)="dateOfJoining.open()" style="cursor: pointer" >
+                    <mat-datepicker-toggle matSuffix *ngIf="newAssocaiteForm.value.dateOfJoining"
+                        (click)="clearInput($event, 'dateOfJoining')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="dateOfJoining"></mat-datepicker-toggle>
+                    <mat-datepicker #dateOfJoining disabled="false"></mat-datepicker>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.dateOfJoining.hasError('required')">Joining Date is Required</mat-error>
+                </mat-form-field> 
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                  <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Designation<span class="text-danger">*</span></mat-label>
+                    <input (focus)="pushFilteredDesignationIds()"
+                            type="text"
+                            (keyup)="filteredDesignations($event)"
+                            placeholder="Select Designation"
+                            aria-label="Designation"
+                            matInput formControlName="ddldesignationID"
+                            [matAutocomplete]="auto"
+                    >
+                    <mat-autocomplete #auto="matAutocomplete"  
+                    [displayWith]="displayFn"
+                    (optionSelected)="getGradeByDesignation($event.option.value)">
+                        <mat-option *ngFor="let item of filteredDesignationIds;" [value]="item">
+                        {{item.Name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="this.newAssocaiteForm.controls.ddldesignationID.hasError('required')">Designation is Required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Grade<span class="text-danger"> *</span></mat-label>
+                    <input matInput type="text" formControlName="ddlgradeName"  (paste)="$event.preventDefault()" disabled="true">
+                </mat-form-field> 
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Employment Type<span class="text-danger"> *</span></mat-label>
+                    <mat-select formControlName="ddlemploymentType">
+                        <mat-option *ngFor="let e of empTypes" [value]="e.EmpType">
+                          {{e.EmpType}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.newAssocaiteForm.controls.ddlemploymentType.hasError('required')">Employment Type is Required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Department<span class="text-danger"> *</span></mat-label>
+                    <mat-select formControlName="ddlDepartmentId" (selectionChange)="requiredTechnolgy($event)">
+                        <mat-option *ngFor="let d of departments" [value]="d.DepartmentId">
+                          {{d.Description}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.newAssocaiteForm.controls.ddlDepartmentId.hasError('required')">Department is Required</mat-error>
+                </mat-form-field> 
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Technology<span class="text-danger"> *</span></mat-label>
+                    <mat-select   formControlName="ddltechnology" [disabled]="isNonDelivery">
+                        <mat-option *ngFor="let t of technologies" [value]="t.PracticeAreaId">
+                          {{t.PracticeAreaDescription}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.newAssocaiteForm.controls.ddltechnology.hasError('required')">Technology is Required</mat-error>
+                </mat-form-field> 
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Manager<span class="text-danger"> *</span></mat-label>
+                    <mat-select formControlName="ddlmanagerId">
+                        <mat-option *ngFor="let rm of reportingmanagers" [value]="rm.EmpId">
+                          {{rm.EmpName}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.newAssocaiteForm.controls.ddlmanagerId.hasError('required')">Manager is Required</mat-error>
+                </mat-form-field> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>HR Advisor<span class="text-danger"> *</span></mat-label>
+                    <mat-select formControlName="ddlHRAdvisorName">
+                        <mat-option *ngFor="let hra of hradvisors" [value]="hra.Name">
+                          {{hra.Name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="this.newAssocaiteForm.controls.ddlHRAdvisorName.hasError('required')">HR Advisor is Required</mat-error>
+
+                </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-auto">
+                <mat-form-field  appearance={{themeConfigInput}}>
+                    <mat-label>Recruited By</mat-label>
+                    <input matInput type="text"  (keypress)="onlychar($event)" maxlength="50" formControlName="recruitedBy">
+                </mat-form-field> 
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col text-right">
+                <button type="submit" name="btnSubmit"  mat-flat-button color="primary" (click)="onCreate()">
+                    Save</button>
+                <button type="button"  name="btnclear" mat-stroked-button (click)="onClear()">
+                    Clear</button>
+                <button type="button"  name="btncancel" mat-stroked-button style="cursor:pointer;" (click)="openDialog()">Cancel</button>
+            </div>
+        </div>
+    </form>
+    </mat-card-content>
+</mat-card>
+

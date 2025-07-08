@@ -1,0 +1,138 @@
+<!--Associate Exit Card-->
+<div class="container-fluid">
+    <mat-card class="mb-2">
+        <mat-card-header>
+            <mat-card-title>Associate Exit Actions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSourceAssociateExit" matSort>
+                    <ng-container matColumnDef="EmployeeCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Emp Id </th>
+                        <td mat-cell *matCellDef="let element">{{element.EmployeeCode}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="EmployeeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Name
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{element.EmployeeName}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Designation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Designation
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{element.Designation}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ExitDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Exit Date </th>
+                        <td mat-cell *matCellDef="let element">{{element.ExitDate}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StatusCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="roleName != 'HRM' || (roleName === 'HRM' && element.StatusCode!='ResignationInProgress')">{{element.StatusDesc}}</span>
+                            <a Style="color:blue; text-decoration: underline; cursor:pointer" *ngIf="roleName === 'HRM' && element.StatusCode==='ResignationInProgress'" (click)="ViewDetailedStatus(element.EmployeeId)">{{element.StatusDesc}}</a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="RevokeStatus">
+                        <th [hidden]="!(roleName=='HRM' )" mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Revoke Status </th>
+                        <td [hidden]="!(roleName=='HRM' )" mat-cell *matCellDef="let element">
+                            <div class="container">
+                                <span>{{element.RevokeStatusDesc}}</span>
+                                <mat-icon *ngIf="element.RevokeStatusCode=='RevokeRejected'" matTooltip={{element.RevokeComment}}>notes</mat-icon>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="View">
+                        <th mat-header-cell *matHeaderCellDef
+                            mat-sort-header class="font-weight-bold">
+                            View </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-icon *ngIf="roleName == 'HRM' && element.StatusCode !== 'ResignationSubmitted' && element.StatusCode != 'ResignationReviewed'"
+                            style="cursor: pointer" (click)="PMSubmissionScreen(element)">visibility</mat-icon>
+                            <mat-icon *ngIf="roleName==='HRA' && (element.SubStatusCode === 'DepartmentActivityInProgress' || element.SubStatusCode === 'DepartmentActivityCompleted')" style="cursor: pointer" (click)="viewResignationDets(element)"
+                                (click)="onList(element)">visibility</mat-icon>
+                            <mat-icon *ngIf="roleName==='Program Manager' && element.StatusCode !== 'ResignationSubmitted'" style="cursor: pointer" (click)="PMSubmissionScreen(element)"
+                            >visibility</mat-icon>
+                            <mat-icon *ngIf="roleName==='Corporate' && element.SubStatusCode === 'ExitInterviewCompleted'" style="cursor: pointer" (click)="Associateexitform(element)"
+                            >visibility</mat-icon>
+                            <mat-icon *ngIf="(element.StatusCode=='ResignationInProgress' ||  element.StatusCode === 'ReadyForClearance') && (dashboard=='SHDashboard') &&  element.SubStatusCode ==='DepartmentActivityCompleted'" style="cursor: pointer" (click)="getExitChecklist(element)"
+                            >visibility</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Action">
+                        <th  mat-header-cell
+                            *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                            Action </th>
+                        <td  mat-cell
+                            *matCellDef="let element">
+                            <button *ngIf="roleName === 'Program Manager' && (element.StatusCode === 'ResignationSubmitted')"
+                                mat-flat-button color="primary" (click)="PMSubmissionScreen(element)">
+                                Review
+                            </button>
+                            <button [disabled]="true" *ngIf="roleName === 'Program Manager' && (element.StatusCode != 'ResignationSubmitted')"
+                                mat-flat-button color="primary" (click)="PMSubmissionScreen(element)">
+                                Review
+                            </button>
+                            <button *ngIf="element.StatusCode=='ResignationInProgress' && (dashboard=='SHDashboard') && element.SubStatusCode === 'DepartmentActivityInProgress'"
+                                mat-flat-button color="primary" (click)="getExitChecklist(element)">
+                                Approve Checklist
+                            </button>
+                            <button *ngIf="(element.SubStatusCode == null || element.SubStatusCode === '') && (roleName == 'HRA')" mat-flat-button
+                                color="primary" (click)="initiateactivities(element)">
+                                InitiateActivities
+                            </button>
+
+                            <button
+                                *ngIf="(element.SubStatusCode == null || element.SubStatusCode == '') && (roleName == 'Corporate')"
+                                 mat-flat-button
+                                color="primary" (click)="Associateexitform(element)">
+                                Exit Interview
+                            </button>
+                            <mat-icon  matTooltip="Accept Revoke" *ngIf="element.RevokeStatusCode=='RevokeInitiated' && roleName == 'HRM'"
+                                style="cursor: pointer;color: green" (click)="revokeResignation(element,'Approve', 'Revoke Accepted')">
+                                check</mat-icon>
+                            <mat-icon matTooltip="Reject Revoke" *ngIf="element.RevokeStatusCode=='RevokeInitiated' && roleName == 'HRM'"
+                                style="cursor: pointer;color: red" (click)="revokeResignation(element,'Reject', 'Revoke Rejected')">clear
+                            </mat-icon>
+                            <mat-icon *ngIf="element.RevokeStatusCode=='RevokeInitiated' && roleName == 'HRM'"
+                                [matTooltip]="element.WithdrawReason" matTooltipPosition="above" matTooltipClass="above"
+                                style="cursor: pointer">notes</mat-icon>
+                            <button *ngIf="element.StatusCode=='ReadyForClearance' && roleName == 'HRM' && element.RevokeStatusCode!='RevokeInitiated'"
+                                mat-flat-button color="primary" (click)="getCleranceForm(element)">
+                                Exit Clearance
+                            </button>
+                            <button *ngIf="element.StatusCode=='ResignationSubmitted' && roleName == 'HRM'"
+                                mat-flat-button color="primary" (click)="SendReminder(element)">
+                                Send Reminder
+                            </button>
+                            <mat-icon matTooltip="Accept Resignation" style="cursor: pointer;color: green" *ngIf="element.StatusCode ==='ResignationReviewed' && roleName === 'HRM'"
+                             (click)="viewResignationDets(element)">
+                                check
+                            </mat-icon>
+                            <mat-icon matTooltip="Edit LWD" style="cursor: pointer" *ngIf="element.StatusCode != 'ResignationSubmitted' && element.StatusCode !='ResignationReviewed' && roleName == 'HRM' && (moment(this.currentDate).diff(moment(element.ExitDate), 'days') < 0)"
+                                (click)="viewResignationDets(element)">
+                                edit
+                            </mat-icon>
+                        </td>
+
+
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayColumnsAssociateExit"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayColumnsAssociateExit"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No Records</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <mat-paginator #exitPaginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

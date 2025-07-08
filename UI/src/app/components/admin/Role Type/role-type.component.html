@@ -1,0 +1,99 @@
+<mat-toolbar>
+  <span>Role Types</span>
+</mat-toolbar> 
+
+<div class="container mb-100">
+  <form [formGroup]="roleTypeForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <mat-card class="mt-10">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Grade</mat-label>
+                <mat-select placeholder="Select Grade" [disabled]="editMode" formControlName="GradeId">
+                  <mat-option [value]="">
+                    Select Grade
+                  </mat-option>
+                  <mat-option *ngFor="let g of gradeList" [value]="g.GradeId">
+                    {{g.GradeCode}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Role Type</mat-label>
+                <input matInput placeholder="Role Type" formControlName="RoleTypeName">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Role Type Description</mat-label>
+                <textarea matInput placeholder="Role Type Description" formControlName="RoleTypeDescription"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-slide-toggle formControlName="IsActive">Is Active</mat-slide-toggle>
+            </div>
+            <div class="col-md-4 text-right">
+              <div class="mt-20 pr-15">
+                <button (click)="clear()" type="button" mat-flat-button>
+                  <mat-icon>clear
+                  </mat-icon>Clear
+                </button>
+                <button type="submit" mat-flat-button color="primary">
+                  <mat-icon>add
+                  </mat-icon>{{buttonTitle}}
+                </button>
+              </div>
+            </div>    
+          </div>
+          <div>
+    
+            <mat-form-field class="margin-s">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+            </mat-form-field>
+    
+            <table mat-table [dataSource]="dataSource">
+              <!-- Name Column -->
+              <ng-container matColumnDef="Grade">
+                <th mat-header-cell *matHeaderCellDef>Grade </th>
+                <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+              </ng-container>
+              <ng-container matColumnDef="RoleType">
+                <th mat-header-cell *matHeaderCellDef>Role Type</th>
+                <td mat-cell *matCellDef="let element"> {{element.RoleTypeName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Description">
+                <th mat-header-cell *matHeaderCellDef>Role Type Description</th>
+                <td mat-cell *matCellDef="let element"> {{element.RoleTypeDescription}} </td>
+              </ng-container>
+    
+              <!-- Weight Column -->
+              <ng-container matColumnDef="Edit">
+                <th class="mnw-70 w-70" mat-header-cell *matHeaderCellDef> Edit </th>
+                <td class="mnw-70 w-70" mat-cell *matCellDef="let element">
+                  <button (click)="onEdit(element)" type="button" mat-icon-button color="primary">
+                    <mat-icon class="mat-18">edit</mat-icon>
+                  </button> </td>
+              </ng-container>
+    
+    
+    
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+    
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,64 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form [formGroup]="viewKRAForm">
+      <div class="row">
+        <div class="col-md-2">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Financial Year</mat-label>
+            <mat-select placeholder="Select Financial Year" formControlName="financialYearId"
+              (selectionChange)=onchange($event) required>
+              <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                {{fin.label}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="viewKRAForm.get('financialYearId').hasError('required')">Financial Year is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Select Department </mat-label>
+            <mat-select placeholder="Select Department" formControlName="departmentId"
+              (selectionChange)=ondepartmentchange($event)>
+              <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                {{dept.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Select Grade </mat-label>
+            <mat-select placeholder="Select Grade" formControlName="gradeId"
+              (selectionChange)="getApplicableGradeRoleTypesByGrade()">
+              <mat-option *ngFor="let grade of gradeList" [value]="grade.value">
+                {{grade.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Select Role Type</mat-label>
+            <mat-select placeholder="Select Role Type" formControlName="roleTypeId">
+              <mat-option *ngFor="let role of roleTypeList" [value]="role.value">
+                {{role.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field  appearance="{{themeappeareance}}">
+            <mat-label 
+            >Employee Code </mat-label>
+            <input autocomplete="disabled" matInput type="text" formControlName="EmployeeCode" placeholder="N0666" >
+            <mat-error *ngIf="(viewKRAForm.get('EmployeeCode').hasError('minlength') || viewKRAForm.get('EmployeeCode').hasError('pattern')) && !viewKRAForm.get('EmployeeCode').hasError('required')">Emp Code should be in N#### Format & minlength is 5 chars</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button mat-button color="primary" (click)="GeneratePDF()" [disabled]="viewKRAForm.invalid">Generate PDF</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,49 @@
+<!-- <div class="panel panel-default"> -->
+    <div class="panel-heading">
+        <h4>Add Project
+        <li id="back" (click)="onBack()">
+				<i class="fa fa-arrow-left" title="Back to Projects dashboard" aria-hidden="true">&nbsp;Back</i>
+			</li></h4>
+  
+    </div>
+    
+    <p-tabView (onChange)="setSelectedTab($event)">
+        <div class = "tab">
+        <p-tabPanel header="Project details" [selected]="SelectedTab == 0">  
+                <div  *ngIf ="SelectedTab == 0" >       
+                    <app-project-creation></app-project-creation>
+                </div>
+        </p-tabPanel> 
+    </div>
+    <div class = "tab">
+        <p-tabPanel header="SOW" [selected]="SelectedTab == 1" [disabled] = "isNewProject">
+                <ng-template pTemplate="content" >
+                    <div *ngIf ="SelectedTab == 1" >
+                    <app-sow></app-sow>
+                    </div>
+                </ng-template>
+        </p-tabPanel>
+        </div>
+        <div class = "tab">
+        <p-tabPanel header="Client Billing Roles" [selected]="SelectedTab == 2" [disabled] = "isNewProject">
+                <ng-template pTemplate="content" >
+                    <div  *ngIf ="SelectedTab == 2" >
+                        <app-client-billing-roles ></app-client-billing-roles>
+                    </div>
+                </ng-template>
+        </p-tabPanel>
+        <p-tabPanel header="Review" [selected]="SelectedTab == 3" [disabled] = "isNewProject">
+            
+            <button type="submit" *ngIf =  "canShow" class="btn btn-custom pull-right" (click)="SubmitProject()">
+               {{ btnLabel }}</button>
+            <ng-template pTemplate="content">
+                <app-view-project></app-view-project>
+            </ng-template>
+                <br>
+                <br>
+        </p-tabPanel>
+        </div>
+    </p-tabView>
+<!-- </div> -->
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,60 @@
+<form class="form-horizontal" [formGroup]="loginForm">
+    <div class="container">
+        <div class="vh-100 d-flex justify-content-between align-items-center">
+            <div class="col-md-8  mx-auto">
+
+                <div class="row bg-primary">
+                    <div class="col-md-6">
+                        <div class="text-white mnh-300 d-flex justify-content-between align-items-center">
+                            <div class="p-2">
+                                <h1 class="mt-2">HRMS</h1>
+                                <p style="text-align: justify">
+                                    A Human Resources Management System (HRMS) is a web site that combines many human
+                                    resources functions,
+                                    including on-boarding associates, creating projects and the overall
+                                    maintenance of associate information within an organization. <br />
+                                    The below modules are included:</p>
+                                <ol>
+                                    <b>
+                                        <li>Site Admin Module</li>
+                                        <li>Associate Life Cycle</li>
+                                        <li>Project Life Cycle</li>
+                                        <li>Key Results Area (KRA)</li>
+                                    </b>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 m-0 p-0">
+                        <mat-card class="border-0 rounded-0 shadow-none">
+                            <div *ngIf="production"
+                                class="mnh-300 p-0 m-0 d-flex justify-content-between align-items-center">
+                                <div class="w-100">
+                                    <button mat-flat-button color="primary" (click)="login()">Log in</button>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!production"
+                                class="mnh-300 p-0 m-0 d-flex justify-content-between align-items-center">
+                                <div class="col-md-12">
+                                    <mat-form-field appearance={{themeConfigInput}}>
+                                        <mat-label>Email</mat-label>
+                                        <input matInput formControlName="email">
+                                    </mat-form-field>
+                                    <button class="btn1" mat-flat-button color="primary" (click)="loginUser()">Log
+                                        in</button>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">{{authenticationStatus}} ...</p>
+</ngx-spinner>

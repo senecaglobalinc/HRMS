@@ -1,0 +1,106 @@
+
+.hrms_home {
+    background: url(../../../../assets/images/hrm.jpg)no-repeat center center fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .errMsg{
+      color : red;
+      text-align : center;
+  }
+  .hrmslogo{
+     background: url(../../../../assets/images/logo.png); 
+     background-size: 150px 100px;
+    text-align: center;
+    margin: 15px 8px 10px 118px;
+    position: relative;
+    width:150px;
+          height:90px;
+  }
+  .login-form
+  {
+      width: 450px;
+      margin: 0 auto;
+  }
+  .flogin {
+    background: rgba(183, 177, 177, 0.25);
+  box-shadow: 1px 1px 50px #a79f9f;
+     padding-top: 10px;
+     padding-bottom: 20px;
+     padding-left: 20px;
+     padding-right: 20px;
+     border-radius: 2px;   
+  }
+  form.flogin input[type="email"], 
+  form.flogin input[type="password"]
+  
+  {
+      width: 100%;
+      margin: 0;
+      background: 0;
+      border: 0;
+      border-bottom: 1px solid #000000;
+      outline: 0;
+
+      font-family: Arial;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      color: #050505;
+      outline: 0;
+  }
+  form.flogin input[type="submit"]
+  {
+      width: 100%;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-top: 16px;
+      outline: 0;
+      cursor: pointer;
+      letter-spacing: 1px;
+  }
+  
+  form.flogin input[type="submit"]:hover
+  {
+      transition: background-color 0.5s ease;
+  }
+  
+  form.flogin .remember-forgot
+  {
+      width:100%;
+      align-items: center;
+      justify-content: space-around;
+      /* display: inline; */
+      float:right;
+  }
+  form.flogin label, form.flogin a
+  {
+      font-size: 12px;
+      font-weight: 400;
+      color: #1d1c1c;
+  }
+  
+  form.flogin a
+  {
+      transition: color 0.5s ease;
+  }
+  
+  form.flogin a:hover
+  {
+      color: #2ecc71;
+  }
+  .remember-forgot {
+    padding: 0;
+  }
+  .forgot-password {
+    float: right;
+  }
+  
+
+
+
+
+  
+  

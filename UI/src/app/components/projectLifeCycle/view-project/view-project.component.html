@@ -1,0 +1,146 @@
+﻿<div class="panel-heading">
+  <div class="panel-title">
+    Project Details
+    <li *ngIf="!hideBack" id="back" (click)="onBack()">
+      <i class="fa fa-arrow-left" title="Back to Projects dashboard" aria-hidden="true">&nbsp;Back</i>
+    </li>
+  </div>
+</div>
+<div class="panel-body">
+  <section class="pull-right ">
+    <button type="button" *ngIf="isDrafted" class="btn btn-custom" (click)="RollbackDialog()">
+      Delete project</button> &nbsp;
+    <button type="submit" *ngIf="canApprove" class="btn btn-custom pull-right" (click)="ApproveOrRejectByDH()">
+      &nbsp;Approve</button>
+    &nbsp;
+  </section>
+  <div class="container-fluid">
+    <table class="tableCls">
+      <tr>
+        <th class="headingCls"> Project Code</th>
+        <td> : </td>
+        <td class="dataCls">{{projectData.ProjectCode }}</td>
+
+        <th class="headingCls"> Project Name</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ProjectName }}</td>
+
+        <th class="headingCls"> Project Type</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ProjectTypeCode }}</td>
+
+
+      </tr>
+
+      <tr>
+
+        <th class="headingCls">Technology Area </th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.PracticeAreaCode }}</td>
+
+        <th class="headingCls">Client </th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ClientName }}</td>
+
+        <th class="headingCls">Domain </th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.DomainName }}</td>
+
+
+      </tr>
+      <tr>
+        <th class="headingCls"> Program Manager</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ManagerName }}</td>
+
+        <th class="headingCls"> Department</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.DepartmentCode }}</td>
+
+        <th class="headingCls"> Project State</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ProjectState }}</td>
+
+      </tr>
+
+      <tr>
+        <th class="headingCls"> Start Date</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ActualStartDate | date }}</td>
+
+        <th class="headingCls"> End Date</th>
+        <td> : </td>
+        <td class="dataCls">{{ projectData.ActualEndDate | date }}</td>
+
+      </tr>
+    </table>
+  </div>
+</div>
+<div *ngIf="ShowSOW()">
+  <div class="panel-heading">
+    <div class="panel-title">
+      SOW
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="container-fluid">
+      <p-table [value]="SOWData" [paginator]="true" [rows]="PageSize" [style]="{'margin-left':'1%', 'margin-right':'7%'}">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th>SOW ID</th>
+            <th>SOW Filename</th>
+            <th> SOW Signed Date</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record>
+          <tr>
+            <td class="data"> {{ record.SOWId }}
+            </td>
+            <td class="data"> {{ record.SOWFileName }}
+            </td>
+            <td class="data">{{ record.SOWSignedDate }}
+              </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<div *ngIf="ShowCBR()">
+  <div class="panel-heading">
+    <div class="panel-title">
+      Client Billing Roles
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="container-fluid">
+      <p-table [value]="clientBillingRoleData" [paginator]="true" [rows]="PageSize"  [style]="{'margin-left':'1%', 'margin-right':'7%'}">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Role</th>
+            <th>Total Position(s)</th>
+            <th>Billing %</th>
+            <th>Billing Start Date</th>
+            <th>Billing End Date</th>
+            <th *ngIf="canCloseRole()" class="text-center"> Position </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record>
+          <tr>
+            <td class="data"> {{ record.ClientBillingRoleName }}</td>
+            <td class="data">{{ record.NoOfPositions }}</td>
+            <td class="data">{{ record.ClientBillingPercentage}}</td>
+            <td class="data"> {{record.StartDate}}</td>
+            <td class="data"> {{record.EndDate}}</td>
+            <td *ngIf="canCloseRole()" class="text-center">
+                <b class="delCls" *ngIf="canShowActions(record) == false">Closed </b>
+                <b class="delCls" *ngIf="canShowActions(record)">Opened </b>
+            </td>            
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation"  appendTo="body"  icon="pi pi-exclamation-triangle"></p-confirmDialog>

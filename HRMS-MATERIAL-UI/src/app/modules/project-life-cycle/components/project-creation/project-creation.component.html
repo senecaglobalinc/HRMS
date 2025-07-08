@@ -1,0 +1,263 @@
+<!-- <div class="panel-body"> -->
+<mat-card class="mb-2">
+  <mat-card-content class="container">
+    <form class="form-horizontal" [formGroup]="addProject">
+      <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field *ngIf="projectId != 0" appearance={{themeConfigInput}}>
+            <mat-label>Project Code<span class="text-danger"> *</span></mat-label>
+            <input matInput disabled="true" readonly formControlName="ProjectCode" maxlength="30" name="ProjectCode"
+              type="text" size="30">
+          </mat-form-field>
+          <mat-form-field *ngIf="projectId == 0" appearance={{themeConfigInput}}>
+            <mat-label>Project Code<span class="text-danger"> *</span></mat-label>
+            <input matInput formControlName="ProjectCode" maxlength="30" name="ProjectCode" type="text" size="30" (keyup)="onEmpty($event, 'ProjectCode')" appEmptySpacesValidations>
+            <mat-error *ngIf="addProject.get('ProjectCode').hasError('required')">
+              Project Code Required
+            </mat-error>
+            <mat-error *ngIf="addProject.get('ProjectCode').hasError('unAllowed') ">
+              Invalid Project code.
+            </mat-error>
+            <mat-error *ngIf="addProject.get('ProjectCode').hasError('pattern')">
+              No special characters are allowed expect one hyphen
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Project Name<span class="text-danger"> *</span></mat-label>
+
+            <input matInput formControlName="ProjectName" maxlength="50" name="ProjectName" type="text" size="30" (keyup)="onEmpty($event, 'ProjectName')" appEmptySpacesValidations>
+            <mat-error *ngIf="addProject.get('ProjectName').hasError('required')">
+              Project Name Required
+            </mat-error>
+            <mat-error *ngIf="addProject.get('ProjectName').hasError('pattern')">
+              No special characters are allowed expect one hyphen
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}} (click)="getFormControl('ProjectTypeId')"
+            (keypress)="getFormControl('ProjectTypeId')">
+            <mat-label>Project Type<span class="text-danger"> *</span></mat-label>
+            <!-- <mat-select formControlName="ProjectTypeId">
+                <mat-option *ngFor="let option of projectTypes" [value]="option.value">{{option.label}}</mat-option>
+                </mat-select> -->
+
+            <input appDropDownSuggestion [SearchList]="projectTypes" type="text" placeholder="Select Project Type"
+              matInput formControlName="ProjectTypeId" (keypress)="getFormControl('ProjectTypeId')" name="ProjectTypeId"
+              [matAutocomplete]="auto1" #trigger="matAutocompleteTrigger" (click)="getFormControl('ProjectTypeId')">
+            <button class="clearFieldIcon" *ngIf="addProject.value.ProjectTypeId"
+              (click)="clearInput($event, 'ProjectTypeId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-icon matSuffix *ngIf="!addProject.value.ProjectTypeId">keyboard_arrow_down</mat-icon>
+            <mat-autocomplete #auto1="matAutocomplete">
+              <mat-option disabled
+                *ngIf="addProject.get('ProjectTypeId').hasError('invalidValue') && addProject.value.ProjectTypeId">
+                No matching value found</mat-option>
+              <mat-option (click)="selectedChangeIds('ProjectTypeId',item)"
+                (keyup.enter)="selectedChangeIds('ProjectTypeId',item)"
+                *ngFor="let item of filteredProjectType | async;" [value]="item.label">
+                {{item.label}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="addProject.get('ProjectTypeId').hasError('required')">
+              Project Type Required
+            </mat-error>
+            <mat-error *ngIf="addProject.get('ProjectTypeId').hasError('requireMatch')">
+              Select Project Type from given options
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}} (click)="getFormControl('PracticeAreaId')"
+            (keypress)="getFormControl('PracticeAreaId')">
+            <mat-label>Technology Area<span class="text-danger"> *</span></mat-label>
+            <!-- <mat-select formControlName="PracticeAreaId">
+                <mat-option *ngFor="let option of practiceAreaList" [value]="option.value">{{option.label}}</mat-option>
+                </mat-select> -->
+
+            <input appDropDownSuggestion [SearchList]="practiceAreaList" type="text" placeholder="Select Technology"
+              matInput formControlName="PracticeAreaId" name="PracticeAreaId" [matAutocomplete]="auto2"
+              #trigger="matAutocompleteTrigger" (click)="getFormControl('PracticeAreaId')"
+              (keypress)="getFormControl('PracticeAreaId')">
+            <button class="clearFieldIcon" *ngIf="addProject.value.PracticeAreaId"
+              (click)="clearInput($event, 'PracticeAreaId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-icon matSuffix *ngIf="!addProject.value.PracticeAreaId">keyboard_arrow_down</mat-icon>
+            <mat-autocomplete #auto2="matAutocomplete">
+              <mat-option disabled
+                *ngIf="addProject.get('PracticeAreaId').hasError('invalidValue') && addProject.value.PracticeAreaId">
+                No matching value found</mat-option>
+              <mat-option (click)="selectedChangeIds('PracticeAreaId',item)"
+                (keyup.enter)="selectedChangeIds('PracticeAreaId',item)"
+                *ngFor="let item of filteredPracticeArea | async;" [value]="item.label">
+                {{item.label}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngIf="addProject.get('PracticeAreaId').hasError('required')">
+              Technology Area Required
+            </mat-error>
+            <mat-error *ngIf="addProject.get('PracticeAreaId').hasError('requireMatch')">
+              Select Technology Area from given options
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}} (click)="getFormControl('ClientId')"
+            (keyup)="getFormControl('ClientId')">
+            <mat-label>Client<span class="text-danger"> *</span></mat-label>
+            <!-- <mat-select formControlName="ClientId">
+                <mat-option *ngFor="let option of clientsList" [value]="option.value">{{option.label}}</mat-option>
+                </mat-select> -->
+
+            <input appDropDownSuggestion [SearchList]="clientsList" type="text" placeholder="Select Client" matInput
+              formControlName="ClientId" name="ClientId" [matAutocomplete]="auto3" #trigger="matAutocompleteTrigger"
+              (click)="getFormControl('ClientId')" (keyup)="getFormControl('ClientId')">
+            <button class="clearFieldIcon" *ngIf="addProject.value.ClientId" (click)="clearInput($event, 'ClientId')"
+              mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-icon matSuffix *ngIf="!addProject.value.ClientId">keyboard_arrow_down</mat-icon>
+            <mat-autocomplete #auto3="matAutocomplete">
+              <mat-option disabled
+                *ngIf="addProject.get('ClientId').hasError('invalidValue') && addProject.value.ClientId">
+                No matching value found</mat-option>
+              <mat-option (click)="selectedChangeIds('ClientId',item)"
+                (keyup.enter)="selectedChangeIds('ClientId',item)" *ngFor="let item of filteredClient | async;"
+                [value]="item.label">
+                {{item.label}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="addProject.get('ClientId').hasError('required')">
+              Client Required
+            </mat-error>
+            <mat-error *ngIf="addProject.get('ClientId').hasError('requireMatch')">
+              Select Client from given options
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}} (click)="getFormControl('DomainId')"
+            (keypress)="getFormControl('DomainId')">
+            <mat-label>Domain</mat-label>
+            <!-- <mat-select formControlName="DomainId">
+                <mat-option *ngFor="let option of domainList" [value]="option.value">{{option.label}}</mat-option>
+                </mat-select> -->
+
+            <input appDropDownSuggestion [SearchList]="domainList" type="text" placeholder="Select Domain" matInput
+              formControlName="DomainId" name="DomainId" [matAutocomplete]="auto4" #trigger="matAutocompleteTrigger"
+              (click)="getFormControl('DomainId')" (keypress)="getFormControl('DomainId')">
+            <button class="clearFieldIcon" *ngIf="addProject.value.DomainId" (click)="clearInput($event, 'DomainId')"
+              mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-icon matSuffix *ngIf="!addProject.value.DomainId">keyboard_arrow_down</mat-icon>
+            <mat-autocomplete #auto4="matAutocomplete">
+              <mat-option disabled
+                *ngIf="addProject.get('DomainId').hasError('invalidValue') && addProject.value.DomainId">
+                No matching value found</mat-option>
+              <mat-option (click)="selectedChangeIds('DomainId',item)"
+                (keyup.enter)="selectedChangeIds('DomainId',item)" *ngFor="let item of filteredDomain | async;"
+                [value]="item.label">
+                {{item.label}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="addProject.get('DomainId').hasError('requireMatch')">
+              Select Domain from given options
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Program Manager<span class="text-danger"> *</span></mat-label>
+            <mat-select formControlName="ManagerId" [disabled]="!showDropdown">
+              <mat-option *ngFor="let option of managersList" [value]="option.value">{{option.label}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="addProject.get('ManagerId').hasError('required')">
+              Program Manager Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Departments</mat-label>
+            <mat-select formControlName="DepartmentId" disabled="true">
+              <mat-option *ngFor="let option of departmentsList" [value]="option.value">{{option.label}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="addProject.get('DepartmentId').hasError('required')">
+              Department Id Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Start Date<span class="text-danger"> *</span></mat-label>
+            <input matInput formControlName="ActualStartDate" readonly [matDatepicker]="ActualStartDate"
+              (click)="ActualStartDate.open()" style="cursor: pointer" [min]="minStartDate" [max]="maxStartDate">
+            <mat-datepicker-toggle matSuffix *ngIf="addProject.value.ActualStartDate"
+              (click)="clearInput($event, 'ActualStartDate')">
+              <mat-icon matDatepickerToggleIcon>close</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="ActualStartDate"></mat-datepicker-toggle>
+            <mat-datepicker #ActualStartDate color="primary"></mat-datepicker>
+            <mat-error *ngIf="addProject.get('ActualStartDate').hasError('required')">
+              Start Date Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>End Date<span class="text-danger" *ngIf="isEndDateRequired"> *</span></mat-label>
+
+            <input matInput [matDatepicker]="ActualEndDate" formControlName="ActualEndDate" readonly
+              (click)="ActualEndDate.open()" style="cursor: pointer">
+
+            <mat-datepicker-toggle matSuffix *ngIf="addProject.value.ActualEndDate"
+              (click)="clearInput($event, 'ActualEndDate')">
+              <mat-icon matDatepickerToggleIcon>close</mat-icon>
+            </mat-datepicker-toggle>
+
+            <mat-datepicker-toggle matSuffix [for]="ActualEndDate"></mat-datepicker-toggle>
+            <mat-datepicker #ActualEndDate color="primary"></mat-datepicker>
+
+            <mat-error *ngIf="addProject.get('ActualEndDate').hasError('required')">
+              End Date Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-auto"></div>
+        <div class="col-lg-4 col-md-4 col-sm-auto"></div>
+
+
+
+
+      </div>
+      <div class="row">
+        <div class="col-12 text-right">
+          <button name="btnclear" mat-stroked-button *ngIf="projectId == 0" (click)="OpenConfirmation()">
+            <mat-icon>close</mat-icon>Clear
+          </button>
+          <button mat-flat-button color="primary" (click)="SaveProject()">{{btnLabel}}</button>
+
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<!-- <p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle" width="425" #cd></p-confirmDialog>
+<p-dialog header="Client Billing Roles" [(visible)]="displayCBR" appendTo="body" [modal]="true" [style]="{width: '350px', minWidth: '200px'}"
+  [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  {{ dialogMsg}}
+  <p-footer>
+    <button type="button" class="btn btn-custom" (click)="NavigateCBR(1)">Yes</button>
+    &nbsp;
+    <button type="button" class="btn btn-custom" (click)="CancelCBR()">No</button>
+  </p-footer>
+</p-dialog> -->

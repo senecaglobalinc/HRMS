@@ -1,0 +1,123 @@
+<mat-card>
+      <mat-card-content>
+         <div class="row">
+            <div class="col-md-8">
+               <mat-tab-group (selectedTabChange)="changeChart($event)"  class="border">
+                  <mat-tab>
+                     <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+                        Bar
+                     </ng-template>
+
+                     <div class="my-3">
+                        <canvas id="domainChart" responsive="true" #domainChart
+                        (click)="selectedbarData($event)" height="312"></canvas>
+                     </div>
+                     
+                  </mat-tab>
+                  <mat-tab>
+                     <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">pie_chart</mat-icon>
+                        Pie
+                     </ng-template>
+                     <div class="my-3">
+                        <canvas id="domainPieChart" responsive="true"  class="charts" #domainPieChart
+                        (click)="selectedPieData($event)" height="312" ></canvas>
+                     </div>
+                     
+                  </mat-tab>
+               </mat-tab-group>
+            </div>
+            <div class="table-responsive" class="col-md-4">
+               <table class="border" mat-table [dataSource]="domaindataSource" matSort>
+                  <ng-container matColumnDef="DomainName">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Domain Name
+                     </th>
+                     <td mat-cell *matCellDef="let element">
+                        {{ element.DomainName }}
+                     </td>
+                  </ng-container>
+                  <ng-container matColumnDef="ResourceCount">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Resource Count
+                     </th>
+                     <td mat-cell *matCellDef="let element">
+                        {{element.ResourceCount }}
+                     </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="domaindisplayedcolumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: domaindisplayedcolumns"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                     <td class="mat-cell" colspan="6">No data</td>
+                  </tr>
+               </table>
+            </div>
+            <!-- </div>
+               </div> -->
+         </div>
+      </mat-card-content>
+   </mat-card>
+   <mat-card>
+      <mat-card-content>
+         <div class="row">
+            <div class="col-md-12">
+               <span ng-if="this.domainName.length>0">Domain Name :
+               <strong> {{this.domainName}} </strong>
+               </span>
+               <div class="table-responsive">
+                  <table mat-table [dataSource]="employeedataSource" matSort>
+                     <ng-container matColumnDef="EmployeeCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                           class="font-weight-bold">
+                           Employee Code
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                           {{ element.EmployeeCode }}
+                        </td>
+                     </ng-container>
+                     <ng-container matColumnDef="EmployeeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                           class="font-weight-bold">
+                           Employee Name
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                           {{ element.EmployeeName }}
+                        </td>
+                     </ng-container>
+                     <ng-container matColumnDef="Designation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                           class="font-weight-bold">
+                           Designation
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                           {{ element.Designation }}
+                        </td>
+                     </ng-container>
+                     <ng-container matColumnDef="Grade">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                           class="font-weight-bold">
+                           Grade
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                           {{ element.Grade }}
+                        </td>
+                     </ng-container>
+                     <tr mat-header-row *matHeaderRowDef="employeedisplayedColumns"></tr>
+                     <tr mat-row *matRowDef="let row; columns: employeedisplayedColumns"></tr>
+                     <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data</td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+         </div>
+      </mat-card-content>
+   </mat-card>
+   <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+      size="medium">
+      <p class="loading">Loading ...</p>
+   </ngx-spinner>

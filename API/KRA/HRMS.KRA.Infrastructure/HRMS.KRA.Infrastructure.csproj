@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;DEV;QA;UAT</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\ApplicableRoleTypeModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HRMS.Common" Version="1.0.0.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.KRA.Entities\HRMS.KRA.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

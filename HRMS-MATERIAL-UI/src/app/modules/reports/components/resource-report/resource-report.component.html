@@ -1,0 +1,277 @@
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>filter_list</mat-icon> Filter Resource Report Data
+                </mat-panel-title>
+               </mat-expansion-panel-header>
+          
+               <form [formGroup]="resourceReportForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label> Associate Name</mat-label>
+                            <input type="text" placeholder="Select Associate" matInput formControlName="EmployeeId"
+                                name="EmployeeId" [matAutocomplete]="auto1">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.EmployeeId"
+                                (click)="clearField('EmployeeId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto1="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('EmployeeId',item)"
+                                    (keyup.enter)="selectedChangeIds('EmployeeId',item)"
+                                    *ngFor="let item of filteredAssociates | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Technology</mat-label>
+                            <input type="text" placeholder="Select Technology" matInput formControlName="PracticeAreaId"
+                                name="PracticeAreaId" [matAutocomplete]="auto2">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.PracticeAreaId"
+                                (click)="clearField('PracticeAreaId')" mat-button matSuffix mat-icon-button
+                                aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto2="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('PracticeAreaId',item)"
+                                    (keyup.enter)="selectedChangeIds('PracticeAreaId',item)"
+                                    *ngFor="let item of filteredTechnology | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Project</mat-label>
+                            <input type="text" placeholder="Select Project" matInput formControlName="ProjectId"
+                                name="ProjectId" [matAutocomplete]="auto3">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.ProjectId"
+                                (click)="clearField('ProjectId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto3="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('ProjectId',item)"
+                                    (keyup.enter)="selectedChangeIds('ProjectId',item)"
+                                    *ngFor="let item of filteredProject | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--second row-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Program Manager</mat-label>
+                            <input type="text" placeholder="Select Program Manager" matInput
+                                formControlName="ProgramManagerId" name="ProgramManagerId" [matAutocomplete]="auto4">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.ProgramManagerId"
+                                (click)="clearField('ProgramManagerId')" mat-button matSuffix mat-icon-button
+                                aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto4="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('ProgramManagerId',item)"
+                                    (keyup.enter)="selectedChangeIds('ProgramManagerId',item)"
+                                    *ngFor="let item of filteredProgramManager | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Client</mat-label>
+                            <input type="text" placeholder="Select Client" matInput formControlName="ClientId"
+                                name="ClientId" [matAutocomplete]="auto5">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.ClientId"
+                                (click)="clearField('ClientId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto5="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('ClientId',item)"
+                                    (keyup.enter)="selectedChangeIds('ClientId',item)"
+                                    *ngFor="let item of filteredClient | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Experience</mat-label>
+                            <input type="text" placeholder="Select Experience" matInput formControlName="ExperienceId"
+                                name="ExperienceId" [matAutocomplete]="auto6">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.ExperienceId"
+                                (click)="clearField('ExperienceId')" mat-button matSuffix mat-icon-button
+                                aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto6="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('ExperienceId',item)"
+                                    (keyup.enter)="selectedChangeIds('ExperienceId',item)"
+                                    *ngFor="let item of filteredExperience | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--third row-->
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Grade</mat-label>
+                            <input type="text" placeholder="Select Grade" matInput formControlName="GradeId" name="GradeId"
+                                [matAutocomplete]="auto7">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.GradeId"
+                                (click)="clearField('GradeId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto7="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('GradeId',item)"
+                                    (keyup.enter)="selectedChangeIds('GradeId',item)"
+                                    *ngFor="let item of filteredGrade | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Designation</mat-label>
+                            <input type="text" placeholder="Select Designation" matInput formControlName="DesignationId"
+                                name="DesignationId" [matAutocomplete]="auto8">
+                            <button class="clearFieldIcon" *ngIf="resourceReportForm.value.DesignationId"
+                                (click)="clearField('DesignationId')" mat-button matSuffix mat-icon-button
+                                aria-label="Clear">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-autocomplete #auto8="matAutocomplete">
+                                <mat-option (click)="selectedChangeIds('DesignationId',item)"
+                                    (keyup.enter)="selectedChangeIds('DesignationId',item)"
+                                    *ngFor="let item of filteredDesignation | async;" [value]="item.label">
+                                    {{item.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <mat-form-field appearance={{themeConfigInput}}> -->
+                        <mat-label>Utilization Percentage</mat-label>
+                        <mat-slider formControlName="UtilizationPercentage" min="0" max="100" step="25" [thumbLabel]="true"
+                            [(ngModel)]="utilizationPercentageFromUI"></mat-slider>{{utilizationPercentageFromUI}}
+                        <!-- </mat-form-field> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Billable</mat-label>
+                            <mat-select formControlName="IsBillable" name="IsBillable"
+                                (selectionChange)=checkBillable($event)>
+                                <mat-option *ngFor="let item of isBillable" [value]="item.value">
+                                    {{item.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Critical</mat-label>
+                            <mat-select formControlName="IsCritical" name="IsCritical"
+                                (selectionChange)=checkCritical($event)>
+                                <mat-option *ngFor="let item of isCritical" [value]="item.value">
+                                    {{item.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 offset-9">
+                        <div class="d-flex justify-content-end align-items-center mnh60">
+                            <button mat-stroked-button (click)="clear()">
+                                <mat-icon>clear</mat-icon> Clear
+                            </button>
+                            <button mat-flat-button color="primary" (click)="onsearchByFilter()" class="mr-0">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+          
+            </mat-expansion-panel>
+          </mat-accordion>
+
+ 
+
+<mat-card class="mt-2">
+    <div>
+        <form [formGroup]="resourceReportForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance="{{ themeConfigInput }}">
+                        <mat-label>{{selectedColumns.length}} columns selected</mat-label>
+                        <mat-select [formControl]="resourceReportForm.controls.columnselect"
+                            placeholder="Select Options" multiple name="optionsSelector"
+                            (selectionChange)="alterTable($event)">
+                            <mat-option>
+                                <ngx-mat-select-search formControlName="columnfilter" placeholderLabel="Search"
+                                    noEntriesFoundLabel="No Record Found"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option #allSelected (click)="toggleAllSelection()" [value]="0">All</mat-option>
+                            <mat-option *ngFor="let q of filteredBanksMulti | async" [value]="q" (click)="tosslePerOne(allSelected.viewValue)">
+                                {{q.header}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <div class="mt-4">
+                        <b>Total Records:</b>
+                        <span>{{totalRecordsCount >0 ? totalRecordsCount: 0}}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div  class="mt-4">
+ 
+                    <!-- <a *ngIf="associateUtilizationReportList.length>0"
+                        (click)="exporter.exportTable('xlsx',{fileName: 'ResourceReport'})" title="Export to Excel">
+                        <div class="exportToExcel"></div>
+                    </a> -->
+                    <a *ngIf="associateUtilizationReportList.length>0"
+                        (click)="exportAsXLSX()" title="Export to Excel">
+                        <div class="exportToExcel"></div>
+                    </a>
+                </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table mat-table #table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+                    <ng-container *ngFor="let col of selectedColumns" matColumnDef="{{col.header}}">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header= "{{col.field}}" class="font-weight-bold">{{ col.header }}
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{element[col.field]}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displaycols"></tr>
+
+                    <tr mat-row *matRowDef="let row; columns: displaycols;"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data</td>
+
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+            </div>
+        </form>
+    </div>
+</mat-card>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;QA;UAT;DEV</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.Project.Entities\HRMS.Project.Entities.csproj" />
+    <ProjectReference Include="..\HRMS.Project.Infrastructure\HRMS.Project.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

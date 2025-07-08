@@ -1,0 +1,45 @@
+  
+export class DefineKRAData {
+    DefinitionId: string;
+    DefinitionTransactionId: number;
+    AspectName: string;
+    Metric: string;
+    PreviousMetric: string;
+    Status: string;
+    IsDeleted: boolean;
+    Date: string;
+    Target: string;
+    previousration: string;
+    ScaleId: string;
+    ModifiedTargetCount: number;
+    ModifiedMetricCount: number;
+    DeleteCount: number;
+    CreateCount: number;
+    IsUpdatedByHOD:boolean;
+    DefinitionDate: string;
+    ModifiedDate: string;
+    CreatedDate: string;
+    Username: string;
+    CreatedByUserRole: string;
+    ModifiedByUserRole: string;
+    CreatedBy: string;
+    ModifiedBy: string;
+    IsAdded: boolean;
+    IsActive: boolean;
+    IsAccepted: boolean;
+    AspectId:number;
+    OperatorId: number;
+    MeasurementTypeId: number;
+    TargetPeriodId: number;
+    TargetValue: string;
+    StatusId: number;
+    IsShowItem?:boolean=true;
+    OldMetric?:string;
+    OldMesurementType?:string;
+    OldTargetValue?:string;
+    OldOperatorValue?:string;
+    OldTargetPeriod?:string;
+    OldTarget?:string;
+    OldCount?:number;
+    IsShowCountDetails?:boolean=false;
+    }

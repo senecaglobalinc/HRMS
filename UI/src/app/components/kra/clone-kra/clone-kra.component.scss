@@ -1,0 +1,18 @@
+
+  .buttons{
+      margin-right:93px;
+  }
+  .center{
+    margin-left:200px;
+    margin-right:200px;
+  
+  }
+  @media only screen and (max-width:1024px){
+   
+    .center {
+        margin: auto !important;         
+    }
+    .buttons{
+        margin-right:80px !important;
+    }
+  }

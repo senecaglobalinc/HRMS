@@ -1,0 +1,1 @@
+UPDATE public."Status" SET "StatusCode"='ResignationReviewed', "StatusDescription"='Resignation Reviewed' WHERE "StatusId" =42 and "CategoryMasterId"=2 and "IsActive"=true;

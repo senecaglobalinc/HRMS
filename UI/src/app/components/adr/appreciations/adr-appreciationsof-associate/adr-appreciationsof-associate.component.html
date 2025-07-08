@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="text-middle text-bold">Appreciations</h4>
+  </div>
+
+  <div class="panel-body">
+    <div style="text-align: right">
+      <i class="fa fa-search" class="iconCls"></i>
+      <input type="text" pInputText size="50" placeholder="Search" style="width: 40%"
+        (input)="dt1.filterGlobal($event.target.value, 'contains')" class="inputCls" />
+    </div>
+    <p-table #dt1 [columns]="cols" [value]="appreciationsList" [paginator]="true" [rows]="PageSize" [responsive]="true"
+      columnResizeMode="expand" [resizableColumns]="true" [reorderableColumns]="true"
+      [style]="{ 'white-space': 'nowrap'}" selectionMode="single" stateStorage="session"
+      stateKey="statedemo-session">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+            {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>         
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td>{{ rowData.FromEmployeeName }}</td>
+          <td>{{ rowData.SourceOfOriginName }}</td>
+          <td>{{ rowData.ADRCycle }}</td>
+          <td>{{ rowData.FinancialYear }}</td>
+          <td>{{ rowData.AppreciationType }}</td>
+          <td>{{ rowData.AppreciationDate | date }}</td>        
+          <td>
+            <a style="cursor:pointer;color: #72afd2;" (click)="getMoreAppreciationInfo(rowData.AppreciationMessage)"
+              title="Description Appreciation">
+              View Appreciation
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog appendTo="body" header="Appreciation" [(visible)]="displayMoreInfoDialog" modal="modal" width="500"
+  responsive="true" modal=true showHeader=true closeOnEscape=true closable=true>
+  <div class="panel-body appreciateData" [innerHTML]="transformSanitizer(moreAppreciationInfo)"></div>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

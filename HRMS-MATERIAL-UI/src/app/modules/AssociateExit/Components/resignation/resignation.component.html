@@ -1,0 +1,152 @@
+<mat-card class="mb-2">
+    <div class="row">
+      <div class="col-md-6 font-weight-bold">
+        Associate Details
+      </div>
+      <br>
+      <div class="col-md-6 text-right">
+        <button mat-stroked-button *ngIf="showback" (click)="onBack()"><mat-icon>arrow_back</mat-icon>Back</button>
+      </div>
+    </div> 
+    <div class="row"></div> 
+    <mat-card-content>
+        <div class="row">
+        <div class="col-md-4 col-xs-12">
+        <div class="row">
+        <div class=" col-md-5 font-weight-bold">Associate Id</div>
+        <div class="col-md-7">: {{AssociateExit.EmployeeCode}}</div>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Associate Name</div>
+          <div class="col-md-7">: {{AssociateExit.EmployeeName}}</div>
+        </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="row">
+            <ng-container *ngIf="deliverydept">
+                <div class=" col-md-3 font-weight-bold">Project</div>
+                <div class="col-md-7">: {{AssociateExit.ProjectName}}</div>
+            </ng-container>
+            <ng-container *ngIf="!deliverydept">
+              <div class=" col-md-5 font-weight-bold">Department</div>
+              <div class="col-md-7">: {{AssociateExit.Department}}</div>
+            </ng-container>
+          </div>
+          <!-- <div class="row">
+            <div class=" col-md-3 font-weight-bold">Tenure</div>
+            <div class="col-md-7">: {{AssociateExit?.Tenure| date: 'mediumDate'}}</div>
+          </div> -->
+          </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+      <div class="row">
+        <div class=" col-md-5 font-weight-bold">Designation</div>
+        <div class="col-md-7">: {{AssociateExit.Designation}}</div>
+      </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <ng-container *ngIf="deliverydept">
+            <div class=" col-md-5 font-weight-bold">Program Manager</div>
+            <div class="col-md-7">: {{AssociateExit.ProgramManager}}</div>
+          </ng-container>
+          <ng-container *ngIf="!deliverydept">
+            <div class=" col-md-5 font-weight-bold">Program/Reporting Manager</div>
+          <div class="col-md-7">: {{AssociateExit.ProgramManager}}</div>
+          </ng-container>
+        </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="row">
+            <div class=" col-md-5 font-weight-bold">Tenure</div>
+            <div class="col-md-7">: {{AssociateExit?.Tenure}}</div>
+          </div> 
+          </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+      <div class="row">
+        <div class=" col-md-5 font-weight-bold">Date of Joining</div>
+        <div class="col-md-7">: {{AssociateExit?.DateOfJoin| date: 'mediumDate'}}</div>
+      </div>
+      </div>
+      
+       <div class="col-md-4 col-xs-12">
+        <div class="row">
+        <div class=" col-md-5 font-weight-bold">Resignation Date</div>
+        <div class="col-md-7">: {{AssociateExit?.ResignationDate| date: 'mediumDate'}}</div>
+      </div>
+      </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
+
+
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup] ="resignationForm">
+            <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Resignation Date<span class="text-danger">*</span></mat-label>
+                <input matInput [matDatepicker]="resignation" [min]="minDate" [max]="minDate" formControlName="resignationDate" name="resignationDate">
+                <mat-datepicker-toggle matSuffix [for]="resignation"></mat-datepicker-toggle>
+                <mat-datepicker #resignation></mat-datepicker>
+                <mat-error *ngIf="formSubmitted && resignationForm.get('resignationDate').hasError('required')">
+                  Resignation Date Required.
+              </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Last Working Date<span class="text-danger">*</span></mat-label>
+                <input matInput [matDatepickerFilter]="myFilter"  [matDatepicker]="last" [min]="minLWD" formControlName="exitDate" name="exitDate" [disabled]="UserRole=='Associate' || UserRole== 'Program Manager'" (dateChange)="setLWD($event.value)" >
+                <mat-datepicker-toggle matSuffix [for]="last"></mat-datepicker-toggle>
+                <mat-datepicker #last></mat-datepicker>
+                </mat-form-field>
+                <mat-error *ngIf="formSubmitted && resignationForm.get('exitDate').hasError('required')">
+                  Exit Date Required.
+              </mat-error>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Reason <span class="text-danger">*</span></mat-label>
+                    <mat-select formControlName="reasonId" name="reasonId">
+                        <mat-option *ngFor="let reason of reasonList" [value]="reason.value">{{reason.label}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formSubmitted && resignationForm.get('reasonId').hasError('required')">
+                      Reason Required.
+                  </mat-error>
+                </mat-form-field> 
+            </div>
+            <div *ngIf="UserRole === 'Associate' || UserRole === 'HRA'" class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Resignation Reason Details<span class="text-danger">*</span></mat-label>
+                    <textarea matInput formControlName="reasonDetail" name="reasonDetail"></textarea>
+                    <mat-error *ngIf="formSubmitted && resignationForm.get('reasonDetail').hasError('required')">
+                      Reason Details Required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+          <div *ngIf="UserRole === 'Associate' || UserRole === 'HRA'" class="col-md-6">
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Any Additional Remarks</mat-label>
+                <textarea matInput formControlName="associateRemarks" name="associateRemarks"></textarea>
+            </mat-form-field>
+          </div>
+        </div>   
+        <div *ngIf="UserRole === 'Associate'" class="col-md-12 text-right">
+            <button [disabled]="disableInput" *ngIf="!showback" mat-stroked-button (click)="clear()">
+              <mat-icon>clear</mat-icon> Clear</button>
+            <button type="submit" *ngIf="!showback" class="mr-0" mat-flat-button color="primary" (click)="submitResignation()" [disabled]="disableInput">{{btnLabel}}</button>
+          </div>
+        </form>
+    </mat-card-content>
+</mat-card>

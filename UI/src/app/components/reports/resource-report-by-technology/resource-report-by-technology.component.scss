@@ -1,0 +1,22 @@
+.buttons {
+ margin-right: 35px;
+}
+
+.exportToExcel {
+background: url('../../../../assets/images/excel.png') no-repeat;
+margin-top: -3px;
+padding-right: 47px;
+width: 30px;
+float: right;
+padding-top: 27px;
+cursor: pointer;
+}
+button[type="submit"]
+{
+    width: 105px;  
+}
+@media screen and (min-width: 64.063em){
+.ui-lg-6 {
+    width: 74%;
+}
+}

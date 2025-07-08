@@ -1,0 +1,20 @@
+<div class="row">
+  <h1 mat-dialog-title class="mt-2 text-center">
+    {{data.heading}}
+  </h1>
+</div>
+
+<mat-dialog-content class="scrollbar">
+    <div class="row mb-2">
+      <p>{{data.message}}</p>
+      </div>
+        <div class="row">
+            <div class="col-12 text-right">
+              <button mat-stroked-button (click)="onDismiss()">
+                No
+              </button>
+              <button type="submit" mat-flat-button color="primary" (click)="onConfirm()">Yes</button>
+    
+            </div>
+          </div>
+</mat-dialog-content>

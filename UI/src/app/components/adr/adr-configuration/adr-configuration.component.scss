@@ -1,0 +1,47 @@
+.buttons{
+  margin-top:19px;
+}
+button[type="submit"]
+{
+  width: 105px;  
+}
+.center{
+margin-left:230px;
+
+}
+.tables{
+padding-right: 261px;
+}
+
+  /* tablets, iPads (landscape) ---------- */
+  @media screen and (max-width: 1024px){
+  .center {
+      margin: auto !important;         
+    }
+ 
+    .tables{
+
+      padding-right: 45px !important;;
+      padding-left: 0px !important;
+     
+    }
+}
+/* Desktops and laptops ---------- */
+@media screen and (max-width: 1440px){
+ 
+  .tables{
+    padding-right: 212px;
+   }
+   .center{
+    margin-left:167px;
+  
+  }
+}
+
+  ::ng-deep .ui-table-thead tr th:nth-child(2) {
+      width: 200px;
+  }
+
+.delCls{
+color : red;
+}

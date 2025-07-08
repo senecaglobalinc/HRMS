@@ -1,0 +1,309 @@
+<button type="button" id="dashboardbtn" (click)="addCertificationOrMembership()" class="btn btn-primary pull-right">
+
+    <i class="fa fa-plus"></i>&nbsp;Add</button>
+  <br>
+  <br>
+  <div class="panel panel-default  professional-details">
+    <!-- Header -->
+  
+    <div class="panel-heading">
+      <div class="panel-title">
+        Certification
+  
+      </div>
+    </div>
+    <div class="panel-body certification-details">
+      <div class="col-lg-12">
+          <div style="text-align: right">
+              <input type="text" pInputText size="50" style="width: 20%" placeholder="Search" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                class="inputCls" />
+            </div>
+        <p-table #dt [columns]="certificationCols" [value]="certificationList" [paginator]="true" dataKey="vin" [rows]="PageSize"
+          [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}" selectionMode="single" stateStorage="session"
+          stateKey="statedemo-session">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                {{ col.header }}
+  
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </th>
+              <th colspan="2" class="editCls">Action</th>
+  
+            </tr>
+  
+          </ng-template>
+  
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                <div>{{ rowData[col.field] }}</div>
+              </td>
+  
+              <td class="text-center">
+                <a>
+                  <i class="editCls" title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="getCertificationEdit(rowData)"></i>
+                </a>
+              </td>
+              <td class="text-center">
+                <a>
+                  <i title="Delete" class="fa fa-trash" style="color:red" (click)="deleteCertificateOrMembership(rowData)"></i>
+                </a>
+              </td>
+  
+            </tr>
+  
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default  professional-details">
+    <!-- Header -->
+    <div class="panel-heading">
+      <div class="panel-title">
+        Membership
+      </div>
+    </div>
+    <div class="panel-body membership-details">
+  
+      <div class="col-md-12">
+          <div style="text-align: right">
+              <i class="fa fa-search" class="iconCls"></i>
+  
+              <input type="text" pInputText size="50" style="width: 20%" placeholder="Search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                class="inputCls" />
+            </div>
+        <p-table #dt1 [columns]="membershipCols" [value]="memberShipList" [paginator]="true" dataKey="vin" [rows]="PageSize" [resizableColumns]="true"
+          [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}" selectionMode="single" stateStorage="session" stateKey="statedemo-session">
+          
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                {{ col.header }}
+  
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </th>
+              <th colspan="2" class="editCls">Action</th>
+  
+            </tr>
+  
+          </ng-template>
+  
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                <div>{{ rowData[col.field] }}</div>
+              </td>
+  
+              <td class="text-center">
+                <a>
+                  <i class="editCls" title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="getMembershipEdit(rowData)"></i>
+                </a>
+              </td>
+              <td class="text-center">
+                <a>
+                  <i title="Delete" class="fa fa-trash mandatory" style="color: red" (click)="deleteCertificateOrMembership(rowData)"></i>
+                </a>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+  
+    </div>
+  </div>
+  
+  <p-dialog header="Add Certification/Membership" appendTo="body" width=900 height=400 [(visible)]="addDisplay" responsive="true"
+    modal=true showEffect="fade" showHeader=true closeOnEscape=true closable=true>
+    <div style="height:400px;">
+        <form id="formContent" [formGroup]="myForm" (ngSubmit)="saveCertificationOrMembership()">
+          <div class="row">
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-6 ui-lg-4">
+                <div class="box">
+                  <label>Program Type
+                    <span style="color: red">*</span>
+                  </label>
+                  <div class="ui-fluid">
+                    <p-dropdown [options]="programType" [autoWidth]="false" formControlName="programType" [disabled]="inputDisable" (onChange)="programTypeChange($event)"
+                      name="programType" [(ngModel)]="professionalDetail.ProgramType" placeholder="Program Type" (paste)="$event.preventDefault()">
+                    </p-dropdown>
+                    <div *ngIf="formSubmitted && myForm.controls['programType'].hasError('required')">
+                      <i style="color: red" class="fa fa-exclamation-circle"></i>
+                      <span style="color: red">Program Type is required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-4">
+                  <div class="box" *ngIf="certification">
+                    <label>Skill Group
+                      <span style="color: red">*</span>
+                    </label>
+                    <div class="ui-fluid">
+                      <p-dropdown [options]="skillGroups" [autoWidth]="false" [filter]="true" formControlName="skillGroupId" [disabled]="inputDisable"
+                        (onChange)="skilGroupChange($event)" name="skillGroupID" [(ngModel)]="professionalDetail.SkillGroupId"
+                        placeholder="Skill Group" (paste)="$event.preventDefault()">
+                      </p-dropdown>
+                    </div>
+                    <div *ngIf="formSubmitted && myForm.controls['skillGroupId'].value==null">
+                      <i style="color: red" class="fa fa-exclamation-circle"></i>
+                      <span style="color: red">Skill Group is required</span>
+                    </div>
+    
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="box" *ngIf="certification">
+                      <label>Skill Name
+                        <span style="color: red">*</span>
+                      </label>
+                      <div class="ui-fluid">
+                        <p-dropdown [options]="skills" [autoWidth]="false" [filter]="true" formControlName="skillId" [disabled]="inputDisable" name="skillID"
+                          [(ngModel)]="professionalDetail.CertificationId" placeholder="Skill Name" (paste)="$event.preventDefault()"></p-dropdown>
+                      </div>
+                      <div *ngIf="formSubmitted && myForm.controls['skillId'].value==null">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                        <span style="color: red">Skill Name is required</span>
+                      </div>
+                    </div>
+                  </div>
+                    
+             
+              <div class="ui-g-12 ui-md-6 ui-lg-4">
+                  <div class="box" *ngIf="membership">
+                    <label>MemberShip Title
+                      <span style="color: red">*</span>
+                    </label>
+                    <div class="ui-fluid">
+                      <input type="text" pInputText formControlName="programTitle" name="programTitle" maxlength="64" [(ngModel)]="professionalDetail.ProgramTitle"
+                        placeholder="Program Title" (paste)="$event.preventDefault()" />
+                    </div>
+                    <div *ngIf="formSubmitted && myForm.controls['programTitle'].value==null">
+                      <i style="color: red" class="fa fa-exclamation-circle"></i>
+                      <span style="color: red">MemberShip Title is required</span>
+                    </div>
+                    <div *ngIf="formSubmitted && myForm.controls['programTitle'].hasError('pattern')">
+                      <i style="color: red" class="fa fa-exclamation-circle"></i>
+                      <span style="color: red">MemberShip Title is invalid</span>
+                    </div>
+    
+                  </div>
+                </div>
+            </div>
+            <div class="ui-g">
+          
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <div class="box" *ngIf="certification || membership">
+                  <label>Specialization
+                    <span style="color: red">*</span>
+                  </label>
+                  <div class="ui-fluid">
+                    <input type="text" pInputText formControlName="specialization" name="specialization" maxlength="64" [(ngModel)]="professionalDetail.Specialization"
+                      placeholder="Specialization" (paste)="$event.preventDefault()" />
+                  </div>
+                  <div *ngIf="formSubmitted && myForm.controls['specialization'].hasError('required')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Specialization is required</span>
+                  </div>
+                  <div *ngIf="formSubmitted && myForm.controls['specialization'].hasError('pattern')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Specialization is invalid</span>
+                  </div>
+  
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <div class="box" *ngIf="certification || membership">
+                  <label>Institution</label>
+                  <div class="ui-fluid">
+                    <input type="text" pInputText formControlName="institution" name="institution" maxlength="64" [(ngModel)]="professionalDetail.Institution"
+                      placeholder="Institution" (paste)="$event.preventDefault()" />
+                  </div>
+                  <div *ngIf="formSubmitted && myForm.controls['institution'].hasError('required')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Institution is required</span>
+                  </div>
+                  <div *ngIf="formSubmitted && myForm.controls['institution'].hasError('pattern')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Institution is invalid</span>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <div class="box" *ngIf="certification || membership">
+                  <label>Valid From
+                    <span style="color: red">*</span>
+                  </label>
+                  <div class="ui-fluid">
+                    <input type="text" pInputText formControlName="validFrom" name="validFrom" [(ngModel)]="professionalDetail.ValidFrom" placeholder="Valid From"
+                      (paste)="$event.preventDefault()" maxlength="4" minlength="4" (change)="validFromYear($event)" (keypress)="onlyNumbers($event)"
+                    />
+                  </div>
+                  <div *ngIf="formSubmitted && myForm.controls['validFrom'].hasError('required')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Valid From is required</span>
+                  </div>
+                  <div *ngIf="formSubmitted && myForm.controls['validFrom'].hasError('pattern')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Valid From is invalid</span>
+                  </div>
+                  <div *ngIf="validFromErrorMessage">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">{{validFromErrorMessage}}</span>
+                  </div>
+  
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <div class="box" *ngIf="certification || membership">
+                    <label>Valid UpTo
+                        <span style="color: red">*</span>
+                      </label>
+                      <div class="ui-fluid">
+                        <input type="text" pInputText formControlName="validUpTo" name="validUpTo" [(ngModel)]="professionalDetail.ValidUpto" placeholder="Valid UpTo"
+                          (paste)="$event.preventDefault()" maxlength="4" minlength="4" (change)="validUpToYear($event)" (keypress)="onlyNumbers($event)"
+                        />
+                        </div>
+                        <div *ngIf="formSubmitted && myForm.controls['validUpTo'].hasError('required')">
+                          <i style="color: red" class="fa fa-exclamation-circle"></i>
+                          <span style="color: red">Valid Up To is required</span>
+                        </div>
+                        <div *ngIf="formSubmitted && myForm.controls['validUpTo'].hasError('pattern')">
+                          <i style="color: red" class="fa fa-exclamation-circle"></i>
+                          <span style="color: red">Valid Up To is invalid</span>
+                        </div>
+                        <div *ngIf="validUpToErrorMessage">
+                          <i style="color: red" class="fa fa-exclamation-circle"></i>
+                          <span style="color: red">{{validUpToErrorMessage}}</span>
+                        </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12"  *ngIf="certification || membership">
+              <section class="pull-right buttons">
+                  <button id="submitButton" type="submit" *ngIf="!inputDisable" href="#" class="btn btn-primary">
+                      <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;
+                    <button id="submitButton" type="submit" *ngIf="inputDisable" href="#" class="btn btn-primary">
+                      <i class="fa fa-floppy-o"></i>&nbsp;Update</button>&nbsp;
+                    <button id="clearButton" type="button" (click)="cancelOrclearValues()" class="btn btn-default">
+                      <i class="fa fa-times"></i>&nbsp;Cancel</button>
+  
+              </section>
+          </div>
+      
+        </form>
+      </div>
+  </p-dialog>
+  <p-dialog [(visible)]="deletedisplay" appendTo="body" width="350" height="180" modal="true" header="Delete Professional Details">
+    <h4>Are you sure, you want to delete?</h4>
+    <div class="pull-right">
+      <button pButton name="submitBtn" id="submitBtn" type="button" (click)="deleteProfessionalDetails()" label="Yes"></button>&nbsp;
+      <button pButton name="cancelBtn" id="cancelBtn" type="button" (click)="cancelDeleteCancel()" label="No"></button>
+    </div>
+  </p-dialog>
+  
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>

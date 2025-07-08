@@ -1,0 +1,115 @@
+<mat-card>
+    <!-- <h4><strong>Tell us Your Location for Sign In / Sign Out</strong> </h4> -->
+    <div class="container">
+        
+            <div class="form-css">
+                <h4><strong>Location for Sign In / Sign Out</strong> </h4>
+                <form>
+                
+                <div >
+                   
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Location
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <mat-select [formControl]="location" matNativeControl>
+                              
+                            <mat-option *ngFor="let item of locations" [value]="item" >{{item}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="location.hasError('required')">Location is Required
+                        </mat-error>
+                    </mat-form-field>
+                   
+                </div>
+                <div>
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Remarks</mat-label>
+                        <textarea matInput [formControl]="remarks" type="text"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="right-aligned">
+                    <button mat-flat-button color="primary" class="btn-css" (click)="onButtonClick($event)"
+                        [disabled]="diasbaleButton">{{btnLabel}}</button>
+                </div>
+                </form>
+            </div>
+        
+            <div class="status-css">
+                <h4><strong> Sign In / Sign Out History</strong> </h4>
+                <div class="status-container" >
+                    <!-- <ul *ngFor="let status of punchesInfo">
+                        <li>{{status}}</li>
+                    </ul> -->
+                    <table class="table-css">
+                        <th>Signed History</th>
+                        <!-- <th>Location</th> -->
+                        
+                            <tr *ngIf="punchesData.length==0">
+                                <td colspan="2">Not Yet Signed In</td>
+                            </tr>
+                       
+                        <tr *ngFor="let status of punchesData">
+                            <td>{{status.label}}</td>
+                            <!-- <td>{{status.value}}</td> -->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        
+    </div>
+
+</mat-card>
+
+<div class="mt-2">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="Employee_Code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="Employee_Code"> Employee Code </th>
+            <td mat-cell *matCellDef="let element"> {{element.AsscociateId}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="shiftTimings">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="shiftTimings"> Shift Timings </th>
+            <td mat-cell *matCellDef="let element"> {{element.WorkingShift}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="punch-In-time">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="punch-In-time"> 
+                
+                Sign In Time &nbsp;<mat-icon class="info-css" style="font-size: 17px;" matTooltip="Initial punch is taken as sign in" matTooltipPosition="above">info</mat-icon></th>
+            <td mat-cell *matCellDef="let element"> {{element.InTime}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="punch-out-time">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="punch-out-time"> Sign Out Time 
+                &nbsp;<mat-icon class="info-css" style="font-size: 17px;" matTooltip="Subsequent sign in 's or sign out 's after initial sign-in is taken as sign out" matTooltipPosition="above">info</mat-icon>
+            </th>
+            <td mat-cell *matCellDef="let element"
+            > {{element.OutTime}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="Date"> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.Punch1_Date | date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Summary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="Summary"> Summary </th>
+            <td mat-cell  *matCellDef="let element"  ><div *ngIf="element.SUMMARY=='Punches Not In Pair'"> {{element.SUMMARY}}</div> </td>   
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="selectedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: selectedColumns;"></tr>
+        <!-- <tr  mat-row *matNoDataRow>
+            <td mat-cell >No Records Found</td> -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">Not Yet Signed In</td>
+
+
+    </table>
+
+
+
+
+</div>

@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="tables">
+       
+            <div style="text-align: right">
+              <input type="text" pInputText size="50" style="width: 30%" placeholder="Search" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                class="inputCls" />
+            </div>
+    <p-table #dt1 [columns]="cols" [value]="practiceAreaList" [paginator]="true" [rows]="PageSize" 
+      dataKey="vin" [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}"
+      [(selection)]="selectedRow" >
+   
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns"  [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+            {{ col.header }}
+
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th class="editCls">Edit</th>
+        </tr>
+
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+            <div>{{ rowData[col.field] }}</div>
+          </td>
+          <td>
+            <a style="cursor:pointer;">
+              <i class="editCls" title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="editPracticeArea(rowData)"></i>
+
+            </a>
+          </td>
+        </tr>
+
+      </ng-template>
+    </p-table>
+    </div>
+  </div>
+</div>

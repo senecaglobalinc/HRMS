@@ -1,0 +1,19 @@
+<div class="apply-css">
+    <div class="row col-md-12 regularization-css">
+    <div class="col-md-3 mt-2 icon-text-container">
+        <mat-icon  class="arrow-css" (click)="goBack()">arrow_back</mat-icon><p>Total Days Worked: {{daysWorked}}</p>
+    </div>
+    <div class="col-md-4 mt-2 " >
+        <mat-label *ngIf="roleName!='Associate'">Associate Name: <span style="font-weight: bold;" > {{employeeName}}</span></mat-label>  
+    </div>
+    <div class="col-md-5 mt-2 regularization-btn-css">
+        <button mat-flat-button color="primary" (click)="ApplyRegularization()" class="btn-css">Apply Regularization</button>
+    </div>
+</div>
+ 
+
+<div class="col-md-12 mt-4">
+    <full-calendar  #calender defaultView="dayGridMonth"   [options]="calendarOptions" 
+    ></full-calendar> 
+</div>
+</div>

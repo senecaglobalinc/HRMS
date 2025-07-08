@@ -1,0 +1,86 @@
+ul {
+    list-style-type: none;
+    text-decoration: none;
+    outline: none;
+    display: block;
+    float: left;
+    font-size: 14px;
+    line-height: 36px;
+    padding: 0 20px 0 40px;
+    background: #3399D1;
+    color: #FFF;
+    position: relative;
+    width: 100%;
+
+    &.fpd-breadcrumb {
+        margin: 0;
+        padding: 0;
+        padding-left: 2ex;
+        padding-right: 2ex;
+    }
+}
+
+li {
+    display: inline;
+    padding: 5px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: rgb(0, 70, 128);
+}
+
+li a {
+    color: white;
+}
+
+// li.fpd-breadcrumb-tabs::after {
+//     content: "\f061";
+//     font-family: FontAwesome;
+//     margin-left: 1ex;
+// }
+
+table > tbody > tr > td.actions {
+    text-align: right;
+    width: 100px;
+}
+
+#back{
+    color: white;
+    float: right; 
+}
+.active {
+    background: rgb(0, 70, 128);
+}
+
+li:nth-last-child(2)::after {
+    content: "";   
+}
+
+:host ::ng-deep .ui-steps .ui-steps-item {
+    width: 12%;
+    border: none;
+}
+
+:host ::ng-deep .ui-steps.steps-custom {
+    margin-bottom: 30px;
+}
+
+:host ::ng-deep .ui-steps.steps-custom .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+}
+
+:host ::ng-deep .ui-steps.steps-custom .ui-steps-item .ui-steps-number {
+    background-color: #0081c2;
+    color: #FFFFFF;
+    display: inline-block;
+    width: 36px;
+    border-radius: 50%;
+    margin-top: -14px;
+    margin-bottom: 10px;
+}
+
+:host ::ng-deep .ui-steps.steps-custom .ui-steps-item .ui-steps-title {
+    color: #555555;
+}

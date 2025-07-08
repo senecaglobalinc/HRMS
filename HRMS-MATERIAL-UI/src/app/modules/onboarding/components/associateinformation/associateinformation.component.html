@@ -1,0 +1,79 @@
+<mat-card>
+    <mat-card-content>
+        <div>
+            <button mat-flat-button color="primary" style="float: right;" (click)="syncProspectiveAssociateData()">
+                Sync
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="EmpCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Emp Code
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.EmpCode }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="EmpName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Emp Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.EmpName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="MobileNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Mobile Number
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.MobileNo }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="PersonalEmailAddress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Personal Email 
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.PersonalEmailAddress }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="BgvStatus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Bgv Status
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.BgvStatus }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Edit">
+                    <th [hidden]="!(roleName == 'HRA' || roleName == 'HRM')" mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                        Edit
+                    </th>
+                    <td [hidden]="!(roleName == 'HRA' || roleName == 'HRM')"  mat-cell *matCellDef="let element">
+                        <mat-icon style="cursor: pointer" (click)="editAssociatejoining(element)">edit</mat-icon>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <mat-paginator #paginator [length]="TotalCount" [pageIndex]="currentPage" [pageSize]="pageSize" showFirstLastButtons
+                [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

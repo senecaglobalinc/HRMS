@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;QA;UAT;DEV</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Admin\**" />
+    <EmbeddedResource Remove="Models\Admin\**" />
+    <None Remove="Models\Admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Domain\Employee1.cs" />
+    <Compile Remove="Models\Response\AddendumResponse.cs" />
+    <Compile Remove="Models\Response\AddendumResponse_bak.cs" />
+    <Compile Remove="Models\Response\ClientBillingRoleHistoryResponse.cs" />
+    <Compile Remove="Models\Response\ClientBillingRoleResponse.cs" />
+    <Compile Remove="Models\Response\ResourceAllocationResponse.cs" />
+    <Compile Remove="Models\Response\SOWResponse.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.Project.Entities\HRMS.Project.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

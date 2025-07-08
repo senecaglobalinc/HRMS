@@ -1,0 +1,102 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-6 font-weight-bold">
+              Associate Abscond Details
+            </div>
+            <div class="col-md-6 text-right">
+              <button mat-stroked-button  (click)="onBack()">
+                  <mat-icon>arrow_back</mat-icon>Back
+              </button>
+          </div>
+          </div> <br>
+        <form [formGroup]="abscondForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field [ngStyle]="{'color': disablefields ? 'rgba(0, 0, 0, 0.38)' : ''}" appearance={{themeConfigInput}}>
+                        <mat-label> Employee <span class="text-danger">*</span></mat-label>
+                        <input [readonly]="disablefields" type="text" placeholder="Select Associate" matInput
+                         formControlName="associateId"
+                            name="associateId" [matAutocomplete]="auto1">
+                        <mat-autocomplete [displayWith]="displayFn" #auto1="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredAssociates | async;" [value]="item">
+                                {{item.label}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Absent From Date<span class="text-danger">*</span></mat-label>
+                        <input [disabled]="disablefields" matInput [matDatepicker]="absentFromDate" [max]="currentDate"
+                            formControlName="absentFromDate" name="absentFromDate">
+                        <mat-datepicker-toggle matSuffix [for]="absentFromDate"></mat-datepicker-toggle>
+                        <mat-datepicker #absentFromDate></mat-datepicker>
+                        <!-- <mat-error *ngIf="abscondForm.get('absentFromDate').hasError('required')">
+                            Absent From Date is required.
+                        </mat-error> -->
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Absent To Date<span class="text-danger">*</span></mat-label>
+                        <input [disabled]="disablefields" matInput [matDatepicker]="absentToDate" [min]="abscondForm.value.absentFromDate"
+                            [max]="currentDate" formControlName="absentToDate" name="absentToDate">
+                        <mat-datepicker-toggle matSuffix [for]="absentToDate"></mat-datepicker-toggle>
+                        <mat-datepicker #absentToDate></mat-datepicker>
+                        <!-- <mat-error *ngIf="abscondForm.get('absentToDate').hasError('required')">
+                            Absent To Date is required.
+                        </mat-error> -->
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field [ngStyle]="{'color': disablefields ? 'rgba(0, 0, 0, 0.38)' : ''}" appearance={{themeConfigInput}}>
+                        <mat-label>Remarks By Team Lead<span class="text-danger">*</span></mat-label>
+                        <textarea [readonly]="disablefields" matInput formControlName="remarksByTL" name="remarksByTL"></textarea>
+                        <mat-error *ngIf="abscondForm.get('remarksByTL').hasError('required')">
+                            Remarks Required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="roleName==='HRA' || roleName==='HRM'" class="col-md-4">
+                    <mat-form-field [ngStyle]="{'color': disableforHRM ? 'rgba(0, 0, 0, 0.38)' : ''}"appearance={{themeConfigInput}}>
+                        <mat-label>Remarks By HRA<span class="text-danger">*</span></mat-label>
+                        <textarea [readonly]="disableforHRM" matInput formControlName="remarksByHRA" name="remarksByHRA"></textarea>
+                        <mat-error *ngIf="abscondForm.get('remarksByHRA').hasError('required')">
+                            Remarks is Required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="roleName==='HRM'" class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Remarks By HRM<span class="text-danger">*</span></mat-label>
+                        <textarea matInput formControlName="remarksByHRM" name="remarksByHRM"></textarea>
+                        <mat-error *ngIf="abscondForm.get('remarksByHRM').hasError('required')">
+                            Remarks is Required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        <div *ngIf="!disablebuttons" class="row">
+            <div class="col-md-12 text-right">
+                <mat-checkbox *ngIf="roleName==='HRM'" formControlName="isAbscond">&nbsp;Is Abscond
+                </mat-checkbox>
+                <button mat-stroked-button (click)="clear()">
+                    <mat-icon>clear</mat-icon> Clear</button>
+                <button class="mr-0" mat-flat-button color="primary" (click)="Submit()">Submit</button>
+            </div>
+        </div>
+        <div *ngIf="Abscondobj['StatusId'] === 40 && roleName==='HRM'" class="row">
+            <div class="col-md-12 text-right">
+                <mat-checkbox [disabled]="disablefields" *ngIf="roleName==='HRM'" formControlName="isAbscond">&nbsp;Is Abscond
+                </mat-checkbox>
+                <button class="mr-0" mat-flat-button color="primary" (click)="AbscondClearance()">Submit</button>
+            </div>
+        </div>
+    </form>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,36 @@
+[
+  {
+    "Name": "Sl No"
+  },
+  {
+    "Name": "Employee No"
+  },
+
+  {
+    "Name": "Name"
+  },
+  {
+    "Name": "Manager No"
+  },
+  {
+    "Name": "Manager Name"
+  },
+  {
+    "Name": "Leave Type"
+  },
+  {
+    "Name": "From"
+  },
+  {
+    "Name": "Session1"
+  },
+  {
+    "Name": "To"
+  },
+  {
+    "Name": "Session2"
+  },
+  {
+    "Name": "Days"
+  }
+]

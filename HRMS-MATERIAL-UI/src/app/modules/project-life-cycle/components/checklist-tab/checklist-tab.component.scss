@@ -1,0 +1,21 @@
+.mat-checkbox-label {
+    white-space: normal!important;
+}
+.scroll {
+    overflow: auto;
+    height: 75vh;
+}
+
+@media only screen and (max-width: 1200px) {
+    .scroll {
+        overflow: auto;
+        height: 60vh;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .scroll {
+        overflow: auto;
+        height: auto;
+    }
+}

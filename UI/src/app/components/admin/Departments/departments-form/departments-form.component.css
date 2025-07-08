@@ -1,0 +1,54 @@
+
+@media screen and (min-width: 64.063em){
+.ui-lg-3 {
+    width: 37%;
+}
+}
+input[type=text], select, textarea {
+    border:none;
+    border-bottom: 1px solid blue;
+   
+}
+:host ::ng-deep .ui-inputtext{
+    border:none;
+    border-bottom: 1px solid blue;
+  }
+  
+  :host ::ng-deep.ui-dropdown ,
+  :host ::ng-deep .ui-dropdown .ui-dropdown-trigger
+  {
+    border:none;
+  
+  }
+  .center{
+    margin-left:14vw;
+  
+  }
+  .buttons{
+    margin-right:378px;
+}
+
+   
+     /* Desktops and laptops ---------- */
+     @media screen and (max-width: 1440px){
+   
+        .buttons {
+          margin-right: 23vw;
+        }
+        /* .center{
+         margin-left:163px; 
+        
+        }*/
+        }
+                 /* tablets, iPads (landscape) ---------- */
+                 @media screen and (max-width: 1024px){
+               
+                    .center{
+                        margin-left:auto;
+                       
+                       }
+                       .buttons {
+                        margin-right: auto;
+                      }
+              }
+

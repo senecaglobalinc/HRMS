@@ -1,0 +1,127 @@
+
+  .buttons{
+      margin-right:426px;
+      margin-bottom:10px;
+  }
+  .inputCls{
+    margin-bottom:10px;
+  }
+  ::ng-deep .ui-table-thead tr th:nth-child(3) {
+    width: 100px;
+}
+::ng-deep .ui-table-thead tr th:nth-child(1) {
+  width: 250px;
+}
+  .clrbtn{
+
+    margin-right:30px;
+  }
+  .center{
+    margin-left:264px;
+  }
+  .tables{
+    padding-right: 395px;
+  }
+  .table-2{
+padding-right:238px;
+  }
+
+  @media screen and (min-width: 64.063em){
+.ui-lg-3{
+    width: 32%;
+}
+}
+
+
+  
+  @media screen and (max-width: 1024px){
+    .center {
+      margin: auto !important;         
+  }
+  .buttons{
+      margin-right:35px !important;
+      margin-top: -42px !important;
+  }
+  .tables{ 
+    padding-right:0px !important;
+    padding-left: 0px !important;
+   
+  }
+    }
+    
+
+  /* Desktops and laptops ---------- */
+  @media screen and (max-width: 1440px){
+   
+    .tables{
+      padding-right: 38px;
+     }
+
+    .buttons {
+      margin-right: 74px;
+  }
+  }
+
+
+
+
+
+
+
+  table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: #777;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  
+  .inner-table {
+    width: 100%;
+  }
+  
+  .inner-table mat-form-field {
+    margin-top: 15px;
+    width: 100%;
+  }
+  

@@ -1,0 +1,52 @@
+
+
+    input[type=text], select, textarea {
+        border:none;
+        border-bottom: 1px solid blue;
+       
+    }
+    :host ::ng-deep .ui-inputtext{
+        border:none;
+        border-bottom: 1px solid blue;
+      }
+      
+      :host ::ng-deep.ui-dropdown ,
+      :host ::ng-deep .ui-dropdown .ui-dropdown-trigger
+      {
+        border:none;
+      
+      }
+      .center{
+        margin-left:14vw;
+      
+      }
+      .buttons{
+        margin-right:375px;
+        margin-top:10px;
+    }
+    
+       
+         /* Desktops and laptops ---------- */
+         @media screen and (max-width: 1440px){
+       
+            .buttons {
+              margin-right: 324px;
+            }
+            /* .center{
+             margin-left:163px; 
+            
+            }*/
+            }
+                     /* tablets, iPads (landscape) ---------- */
+                     @media screen and (max-width: 1024px){
+                   
+                        .center{
+                            margin-left:auto;
+                           
+                           }
+                           .buttons {
+                            margin-right: auto !important;
+                          }
+                  }
+    
+    

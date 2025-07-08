@@ -1,0 +1,8 @@
+<h1 mat-dialog-title *ngIf="data.dlgHeadingData">{{data.dlgHeadingData}}</h1>
+<div mat-dialog-content>
+  <p *ngIf="data.dlgBodyData">{{data.dlgBodyData}}</p>
+</div>
+<div mat-dialog-actions *ngIf="data.dlgFooterBtns" align="center">
+  <button mat-stroked-button (click)="onNoClick()" color="primary" *ngIf="data.dlgFooterBtns[0]">{{data.dlgFooterBtns[0]}}</button>
+  <button mat-flat-button  [mat-dialog-close]="true" color="primary" *ngIf="data.dlgFooterBtns[1]">{{data.dlgFooterBtns[1]}}</button>
+</div>

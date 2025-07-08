@@ -1,0 +1,54 @@
+<mat-card>
+    <mat-card-content>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="EmpCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Emp Code
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.EmpCode }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="EmpName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Emp Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.EmpName }}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="JoiningDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Joining Date </th>
+                    <td mat-cell *matCellDef="let asstJoin"> {{asstJoin.JoiningDate}} </td>
+                  </ng-container>
+                
+                <ng-container matColumnDef="SendMail">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        SendMail Email 
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon style="cursor: pointer" (click)="sendMail(element)">edit</mat-icon>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

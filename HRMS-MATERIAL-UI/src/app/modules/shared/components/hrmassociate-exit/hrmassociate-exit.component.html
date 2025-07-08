@@ -1,0 +1,113 @@
+<mat-card class="mb-2">
+    <form [formGroup] ="associateexitform">
+            <p>Associate Detail</p>
+
+       <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label> Associate Id</mat-label>
+                    <input disabled="true" readonly type="text" placeholder="N0111" matInput
+                    formControlName="EmployeeId" name="EmployeeId">
+        
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label> Associate Name</mat-label>
+                    <input disabled="true" readonly type="text" placeholder="Lafname kalfname" matInput
+                    formControlName="EmployeeName" name="EmployeeName">
+        
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Date of Join</mat-label>
+                    <input  readonly type="text" placeholder="12/12/14" matInput
+                    formControlName="DateofJoin" name="DateofJoin" >
+                </mat-form-field>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Designation</mat-label>
+                        <input  readonly type="text" placeholder="Software Engineer" matInput
+                        formControlName="DesignationId" name="DesignationId">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Total Service</mat-label>
+                        <input  readonly type="text" placeholder="4" matInput
+                        formControlName="TotalService" name="TotalService">
+                    </mat-form-field>
+                </div>
+            
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Project</mat-label>
+                    <input  readonly type="text" placeholder="HRMS" matInput
+                    formControlName="ProjectId" name="ProjectId">
+                </mat-form-field>
+            </div>
+        </div>
+    
+
+<!--second row-->
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Experience</mat-label>
+                    <input  readonly type="text" placeholder="5" matInput
+                    formControlName="ExperienceId" name="ExperienceId">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Grade</mat-label>
+                    <input  readonly type="text" placeholder="G2-B" matInput
+                    formControlName="GradeId" name="GradeId">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Department</mat-label>
+                    <input  readonly type="text" placeholder="Delivery" matInput
+                    formControlName="Department" name="Department" >
+                </mat-form-field>
+            </div>
+        </div>
+<!--third row-->
+    <div class="row">
+        
+        <div class="col-md-4">
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Technology</mat-label>
+                <input  readonly type="text" placeholder="Java" matInput
+                formControlName="Technology" name="Technology" >
+            </mat-form-field>
+        </div>
+       
+        <div class="col-md-4">
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Reporting Manager</mat-label>
+                <input  readonly type="text" placeholder="Kalfname" matInput
+                formControlName="ReportingManager" name="ReportingManager">
+            </mat-form-field>
+        </div>
+        
+    </div>
+    <p>Exit Detail</p>
+
+
+<div class="row">
+    <div class="col-12 text-right">
+      <button mat-stroked-button (click)="clear()">
+        <mat-icon>close</mat-icon>Clear
+      </button>
+      <button mat-flat-button color="primary" (click)="confirmExit()">Submit</button>
+
+    </div>
+  </div>
+</form>
+</mat-card>

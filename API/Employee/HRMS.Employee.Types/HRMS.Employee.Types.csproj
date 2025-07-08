@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;DEV;QA;UAT</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PostgreSQLCopyHelper" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRMS.Employee.Entities\HRMS.Employee.Entities.csproj" />
+    <ProjectReference Include="..\HRMS.Employee.Infrastructure\HRMS.Employee.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HRMS.Common">
+      <HintPath>..\HRMS.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

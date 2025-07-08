@@ -1,0 +1,124 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-8 col-xs-8">
+        <h1 mat-dialog-title>COPY KRA</h1>
+      </div>
+      <div class="col-md-4 col-xs-4 text-right">
+        <button (click)="onNoClick()" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+      <img class="nounicons" src="../../../../../assets/icons/cross.svg" 
+          alt="import" />
+  </button>
+      </div>
+      <form [formGroup]="cloneKRAForm">
+        <div class="row">
+          <div class="col-md-2">
+            <mat-form-field appearance="{{themeappeareance}}">
+              <mat-label>Finacial Year</mat-label>
+              <mat-select placeholder="Select Financial Year" formControlName="financialYearId" (selectionChange)=onchange($event) required>
+                <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                  {{fin.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="{{themeappeareance}}">
+              <mat-label>Department</mat-label>
+              <mat-select placeholder="Select Department" formControlName="departmentId" (selectionChange)=ondepartmentchange($event) required>
+                <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                  {{dept.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field appearance="{{themeappeareance}}">
+              <mat-label>Grade</mat-label>
+              <mat-select placeholder="Select Grade" formControlName="gradeId" (selectionChange)=getApplicableGradeRoleTypesByGrade() required>
+                <mat-option *ngFor="let grade of gradeList" [value]="grade.value">
+                  {{grade.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-5 p-0 mt-0">
+                <mat-form-field appearance="{{themeappeareance}}">
+                  <mat-label>Role Type</mat-label>
+                  <mat-select placeholder="Select Role Type" formControlName="roleTypeId" (selectionChange)=onRoleTypeChange() required>
+                    <mat-option *ngFor="let role of roleTypeList" [value]="role.value">
+                      {{role.label}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+
+    <div class="col-md-12" *ngIf="leaderRole">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+          <div class="m-5">
+            <img src="../../../../../assets/icons/bigCross.svg" alt="Cross icon" />
+          </div>
+          <p class="mb-5">Delivery leader role type didn’t exist for selected year Please select from available role to clone KRA's</p>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" *ngIf="!leaderRole">
+      <div class="col-md-12">
+
+         <table mat-table [dataSource]="dataSource">
+ <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+          <ng-container matColumnDef="kraaspect">
+            <th class="w25p" mat-header-cell *matHeaderCellDef>ASPECT</th>
+            <td mat-cell *matCellDef="let element"> <b>{{element.AspectName}}</b> <br/><i class="text-muted"><small>Added on Thursday, 9 Jul 2020, 4:45 PM</small></i></td>
+          </ng-container>
+          <ng-container matColumnDef="metrics">
+            <th mat-header-cell *matHeaderCellDef> METRICS </th>
+            <td mat-cell *matCellDef="let element"> {{element.Metric}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ration">
+            <th class="w20p" mat-header-cell *matHeaderCellDef> TARGET </th>
+            <td mat-cell *matCellDef="let element"> {{element.ration}} <br/><span class="text-muted"><small>Half Yearly</small></span> </td>
+          </ng-container>         
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 col-md-offset-3 text-center">
+        <div class="mt-5 mb-1">
+          <button mat-flat-button color="primary"  (click)="Import()">COPY KRA</button>
+        </div>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>

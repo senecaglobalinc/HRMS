@@ -1,0 +1,15 @@
+.exportToExcel {
+    background: url('../../../../../../src/assets/images/excel.png') no-repeat;
+    margin-top: -3px;
+    padding-right: 47px;
+    width: 50px;
+    float: right;
+    padding-top: 27px;
+    cursor: pointer;
+    }
+
+mat-cell, .mat-cell {
+        // display:block; // flex prevents padding from working
+        // min-height:auto; // overrides the 'inherit' that set the min height of the row
+        padding: 0px 16px 12px 0px;
+      }

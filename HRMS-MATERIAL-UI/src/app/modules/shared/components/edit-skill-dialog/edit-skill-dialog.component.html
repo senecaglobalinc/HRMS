@@ -1,0 +1,20 @@
+<form [formGroup]="editProficiency">
+    <h1 mat-dialog-title>Proficiency</h1>
+    <mat-dialog-content>
+        <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Proficiency Level<span class="text-danger">*</span></mat-label>
+            <mat-select formControlName="ProficiencyLevelId">
+              <mat-option *ngFor="let p of proficiencyLevels" [value]="p.value">
+                {{p.label}} </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Remarks</mat-label>
+            <textarea rows="5" cols="40" formControlName="Remarks" maxlength="1000" matInput></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button color="primary" type="submit" (click)="Update()">Update</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

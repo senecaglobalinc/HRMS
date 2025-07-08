@@ -1,0 +1,66 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            Notification Type
+        </div>
+    </div>
+    <div class="panel-body">
+<div class="center">
+        <form [formGroup]="addNotificationType">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label for="CategoryMasterId">Category:</label> <span style="color: red">*</span>&nbsp;
+                            <div class="ui-fluid">
+                                <p-dropdown [style]="{'width':'70%'}" [options]="categoriesList" [disabled]="isEdit" formControlName="CategoryMasterId" [filter]="true"
+                                    required></p-dropdown>
+                            </div>
+                            <div *ngIf="formSubmitted&&addNotificationType.controls['CategoryMasterId'].hasError('required')">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Category Required.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label for="NotificationCode">Notification Type:</label><span style="color: red">*</span>&nbsp;
+                            <div class="ui-fluid">
+                                <input type="text" style="width: 70%" pInputText maxlength="50" pattern="^[a-zA-Z0-9_\d\s]*$" title="No special characters are allowed in Notification Type"
+                                    (paste)="$event.preventDefault()" formControlName="NotificationCode" />
+                            </div>
+                            <div *ngIf="formSubmitted&&addNotificationType.controls['NotificationCode'].hasError('required')">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">NotificationType Required.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label for="NotificationDescription">NotificationType Description</label>
+                            <div class="ui-fluid">
+                                <input type="text" style="width: 70%" pInputText maxlength="150" (paste)="$event.preventDefault()" formControlName="NotificationDescription"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <section class="pull-right buttons">
+                            <button type="submit" class="btn btn-custom" (click)="onSubmit()">
+                                <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>
+                            <!-- <button type="submit" pButton (click)="createCompetencyArea()"   class="btn btn-custom"><i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button> -->
+                            &nbsp;
+                            <button type="button" class="btn btn-default" (click)="reset()">
+                                <i class="fa fa-eraser"></i>Clear</button>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

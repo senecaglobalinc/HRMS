@@ -1,0 +1,28 @@
+.btn-css {
+    float: right;
+}
+
+.submit-btn{
+    display: flex;
+    justify-content: end;
+}
+
+.noDataContainerCss {
+    text-align: center;
+    margin : 50px;
+}
+
+.arrow-css {
+    cursor: pointer;
+    font-size:24px;
+    margin-right: 10px;
+}
+
+.icon-text-container {
+    display: flex;
+    align-items: center; /* Vertically align items in the center */
+  }
+
+  .icon-text-container p {
+    margin-bottom: 0px !important;
+   }

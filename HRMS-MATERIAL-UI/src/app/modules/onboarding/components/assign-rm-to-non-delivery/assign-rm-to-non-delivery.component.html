@@ -1,0 +1,26 @@
+<button class="close"  (click)="onNoClick()">x</button>
+<h2 mat-dialog-title class="dialog-title">Choose Reporting Manager</h2>
+<mat-dialog-content>
+    <div class="row">
+        <div class="col-md-11 pr-md-0">
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Reporting Manager
+                    <span class="text-danger">*</span>
+                </mat-label>
+                <mat-select (selectionChange)="onRmChange($event)" [formControl]="reportingManagerId">
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="associatesFilterCtrl" placeholderLabel="Search" noEntriesFoundLabel="Results Not Found"></ngx-mat-select-search>
+                      </mat-option>
+                    <mat-option *ngFor="let item of filteredAssociatesList | async"
+                        [value]="item.Id">{{item.Name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="reportingManagerId.hasError('required')">Reporting Manager is
+                    Required</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="save-btn">
+        <button mat-flat-button color="primary" (click)="saveRM()">Save</button>
+    </div>
+</mat-dialog-content>

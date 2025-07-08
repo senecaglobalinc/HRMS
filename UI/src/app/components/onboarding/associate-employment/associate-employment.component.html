@@ -1,0 +1,193 @@
+<form class="form-group" ngNativeValidate (ngSubmit)="onNewEmployment(emp)">
+    <!-- <div id="personal-profile"> -->
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Previous Employer Details
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- <div class="col-lg-12"> -->
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td rowspan="2" class="text-bold">Company Name
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td rowspan="2" class="text-bold">Company Address
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td rowspan="2" class="text-bold" style="width:150px">Designation
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td colspan="2" class="text-middle text-center text-bold">Service Duration
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td rowspan="2" class="text-bold">Reason for leaving
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td colspan="2" rowspan="2" class="text-middle text-center text-bold ">Action</td>
+                            </tr>
+                            <tr>
+                                <td class="text-middle text-center text-bold">From</td>
+                                <td class="text-middle text-center text-bold">To</td>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let emp of _Associate.PrevEmploymentDetails; let i = index; let lst = last; let fst=first">
+                            <tr>
+                                <td>
+                                    <input type="text" name="Name" [value]="emp.Name" (change)="emp.Name= $event.target.value" (paste)="$event.preventDefault()"
+                                        maxlength="100" class="form-control" (keypress)="omit_special_char($event)" required>
+                                </td>
+                                <td>
+                                    <textarea type="text" name="Address" [value]="emp.Address" (paste)="$event.preventDefault()" maxlength="256" (change)="emp.Address= $event.target.value"
+                                        (keypress)="forAddress($event)" class="form-control" required></textarea>
+                                </td>
+                                <td>
+                                    <input type="text" name="Designation" [value]="emp.Designation" (paste)="$event.preventDefault()" pattern="[a-zA-Z\s]+" maxlength="25"
+                                        (change)="emp.Designation= $event.target.value" (keypress)="onlychar($event)" class="form-control"
+                                        required>
+                                </td>
+                                <td class="Nobreak">
+                                    <div class="ui-fluid">
+                                    <p-calendar name="ServiceFrom{{i}}"  showIcon="true" monthNavigator="true" yearNavigator="true" [yearRange]="yearRange"
+                                        [(ngModel)]="emp.ServiceFrom" (onSelect)="validate(emp.ServiceTo,emp.ServiceFrom)" readonlyInput="true"
+                                        dateFormat="yy-mm-dd" required>
+                                    </p-calendar>
+                                    </div>
+                                </td>
+                                <td class="Nobreak">
+                                        <div class="ui-fluid">
+                                    <p-calendar name="ServiceTo{{i}}" showIcon="true" monthNavigator="true" yearNavigator="true" [yearRange]="yearRange"
+                                        [(ngModel)]="emp.ServiceTo" (onSelect)="validate(emp.ServiceTo,emp.ServiceFrom)" readonlyInput="true"
+                                        dateFormat="yy-mm-dd" required>
+                                    </p-calendar>
+                                    </div>
+                                </td>
+                                <td>
+                                        <div class="ui-fluid">
+                                    <textarea type="text" name="LeavingReson" [value]="emp.LeavingReason" (paste)="$event.preventDefault()" pattern="[a-zA-Z\s]+"
+                                        maxlength="100" (change)="emp.LeavingReason= $event.target.value" (keypress)="onlyStrings($event)"
+                                        class="form-control" required></textarea>
+                                        </div>
+                                </td>
+                                <td class="text-center">
+                                    <button type="submit" [hidden]="!lst">
+                                        <i class="fa fa-plus"  ></i>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                        <button (click)="onDeleteEmployment(i)" style="color: red" type="button" [hidden]="fst&&lst">
+                                            <i class="fa fa-trash"></i>
+                                        </button> &nbsp;
+                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!-- </div> -->
+            </div>
+        </div>
+
+    <!-- </div> -->
+</form>
+
+<form class="form-group" ngNativeValidate (ngSubmit)="onNewProfRef(emp)">
+    <!-- <div id="personal-profileProfessional"> -->
+
+        <div class="panel panel-default">
+            <!-- Header -->
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Professional Reference
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <!-- <div class="col-lg-12"> -->
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td class="text-bold">Name
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td class="text-bold">Designation Name
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td class="text-bold">Company Name
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td class="text-bold">Company Address
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td class="text-bold" width="180">Official Mail Address
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td class="text-bold">Contact Number
+                                    <span class="mandatory">*</span>
+                                </td>
+                                <td colspan="2" class=" text-bold text-center" >Action</td>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let emp of _Associate.ProfReferences; let i = index; let lst = last; let fst=first">
+                            <tr>
+                                <td>
+                                    <input type="text" name="Name" [value]="emp.Name" (paste)="$event.preventDefault()" pattern="[a-zA-Z0-9\s]+" maxlength="30"
+                                        (change)="emp.Name= $event.target.value" class="form-control" (keypress)="onlychar($event)"
+                                        required>
+                                </td>
+                                <td>
+                                    <input type="text" name="Designation" [value]="emp.Designation" (paste)="$event.preventDefault()" pattern="[a-zA-Z\s]+" maxlength="25"
+                                        (change)="emp.Designation= $event.target.value" (keypress)="onlychar($event)" class="form-control"
+                                        required>
+                                </td>
+                                <td>
+                                    <input type="text" name="CompanyName" [value]="emp.CompanyName" (paste)="$event.preventDefault()" maxlength="100" (change)="emp.CompanyName= $event.target.value"
+                                        (keypress)="omit_special_char($event)" class="form-control" required>
+                                </td>
+                                <td>
+                                    <div class="ui-fluid">
+                                    <textarea type="text" name="CompanyAddress" [value]="emp.CompanyAddress" (paste)="$event.preventDefault()" maxlength="256"
+                                        (change)="emp.CompanyAddress= $event.target.value" (keypress)="forAddress($event)" class="form-control"
+                                        required></textarea>
+                                        </div>
+                                </td>
+                                <td>
+                                    <input type="email" name="OfficeEmailAddress" maxlength="50" [value]="emp.OfficeEmailAddress" (change)="emp.OfficeEmailAddress= $event.target.value"
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" class="form-control" required oninvalid="setCustomValidity('Please enter valid email address')"
+                                        onchange="try{setCustomValidity('')}catch(e){}">
+                                </td>
+                                <td>
+                                    <input type="text" name="mobileNo" [value]="emp.MobileNo" (change)="emp.MobileNo= $event.target.value" (keypress)="onlyForNumbers($event)"
+                                        minlength="10" maxlength="10" (paste)="$event.preventDefault()" class="form-control"
+                                        required pattern="(?!0+)\d+" oninvalid="setCustomValidity('Please enter valid contact number')"
+                                        onchange="try{setCustomValidity('')}catch(e){}">
+                                </td>
+                                <td class="text-center">
+                                    <button type="submit" [hidden]="!lst">
+                                        <i class="fa fa-plus"  ></i>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                        <button (click)="onDeleteProfessionalRef(i)" style="color: red" type="button" [hidden]="fst&&lst">
+                                            <i class="fa fa-trash"></i>
+                                        </button> &nbsp;
+                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!-- </div> -->
+                <div class="col-lg-12">
+                    <section class="pull-right buttons">
+                        <button type="buttons" class="btn btn-custom" style="cursor:pointer;" *ngIf="type == 'new'" (click)="onSaveorUpdate(_Associate)">
+                            <i class="fa fa-floppy-o"></i>&nbsp; Save</button>
+                        <button type="buttons" class="btn btn-custom" style="cursor:pointer;" *ngIf="type != 'new'" (click)="onSaveorUpdate(_Associate)">
+                            <i class="fa fa-floppy-o">&nbsp;</i>Update</button>
+                    </section>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</form>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>

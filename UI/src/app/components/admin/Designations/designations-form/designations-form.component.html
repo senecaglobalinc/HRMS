@@ -1,0 +1,57 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <div>Designations</div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+        <form [formGroup]="addDesignation">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="box">
+                            <label for="grade">Grade Code:</label>
+                            <span style="color: red">*</span>&nbsp;
+                            <p-dropdown [style]="{'width':'60%'}" [options]="GradeCodeMasterData" formControlName="GradeId" name="GradeId" filter="true"
+                                required></p-dropdown>
+                            <div class="errMsg" *ngIf=" addDesignation.get('GradeId').hasError('required') && formSubmitted">
+                                <span style="color: red">Grade Required </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="box">
+                            <label for="DesignationCode">Designation Code:</label>
+                            <span style="color: red">*</span>&nbsp;
+                                <input formControlName="DesignationCode" style="width: 60%" name="DesignationCode" required type="text" size="30" pInputText>
+                                <div class="errMsg" *ngIf="addDesignation.get('DesignationCode').hasError('required') && formSubmitted">
+                                       <span style="color: red"> Designation Code Required </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="box">
+                            <label for="DesignationName">Designation Name:</label>
+                            <span style="color: red">*</span>&nbsp;
+                                <input formControlName="DesignationName" style="width: 60%" name="DesignationName" required type="text" size="30" pInputText>
+                                <div class="errMsg" *ngIf="addDesignation.get('DesignationName').hasError('required') && formSubmitted">
+                                        <span style="color: red">   Designation Name Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <section class="pull-right buttons">
+                            <button type="submit" class="btn btn-custom" (click)="CreateDesignation()">
+                                <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                            <button type="button" class="btn btn-default" (click)="Reset()">
+                                <i class="fa fa-eraser"></i>Clear</button>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

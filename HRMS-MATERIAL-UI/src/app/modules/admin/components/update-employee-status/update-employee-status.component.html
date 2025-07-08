@@ -1,0 +1,139 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="userform">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Department<span class="text-danger">*</span></mat-label>
+                        <mat-select formControlName="DepartmentId" (selectionChange)="onDepartmentChange($event.value)"
+                            >
+                            <mat-option disabled>Select Department</mat-option>
+                            <mat-option *ngFor="let aspect of departmentList" [value]="aspect.value">{{aspect.label}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formSubmitted && userform.get('DepartmentId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Department Required</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Associate<span class="text-danger"> *</span> </mat-label>
+                        <input appDropDownSuggestion [SearchList]="_usersList" appRequirematch type="text" matInput
+                          [matAutocomplete]="auto" formControlName="EmpId" appValidations appEmptySpacesValidations/>
+                        <button class="clearFieldIcon" *ngIf = "userform.value.EmpId"
+                          (click)="clearInput($event, 'EmpId')" mat-button matSuffix mat-icon-button aria-label="Clear">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="getAllocationHistory($event.option.value.value)">
+                            <mat-option disabled *ngIf="!userform.get('EmpId').hasError('invalidValue')">Select Associate</mat-option>
+                            <mat-option disabled *ngIf="userform.get('EmpId').hasError('invalidValue')">
+                            No matching value found
+                          </mat-option>
+                          <mat-option *ngFor="let option of filteredOptionsName | async" [value]="option">
+                            {{ option.label }}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="userform.get('EmpId').hasError('required')">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                          Associate Name Required
+                        </mat-error>
+                        <mat-error *ngIf="userform.get('EmpId').hasError('requireMatch')">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                          Select Associate Name from given options
+                        </mat-error>
+                      </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="{{themeConfigInput}}">
+                        <mat-label>Last Working Date<span class="text-danger">*</span></mat-label>
+                        <input formControlName="LastWorkingDate" matInput type="text" [min]="firstDate" [max]="today" [matDatepicker]="picker" readonly style="cursor: pointer;" (dateChange)="removeDateErrorMessage()" (click)="picker.open()">
+                        <mat-datepicker-toggle matSuffix *ngIf="userform.value.LastWorkingDate"
+                            (click)="clearInput($event, 'LastWorkingDate')">
+                            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="userform.get('LastWorkingDate').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Last Working Date Required.</span>
+                        </mat-error>
+                        <mat-error
+                            *ngIf="userform.get('LastWorkingDate').hasError('whitespace') && !userform.get('LastWorkingDate').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">No empty spaces allowed</span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-error *ngIf="isDateError">
+                        <i style="color: red" class="fa fa-exclamation-circle"></i>
+                        <span style="color: red">{{dateErrorMessage}}</span>
+                    </mat-error>
+                </div>
+
+                <div class="col-md-12 text-right">
+                    <button (click)="clear()" mat-stroked-button>
+                        <mat-icon>clear
+                        </mat-icon>Clear
+                    </button>
+                    <button type="submit" (click)="onSubmit()" mat-flat-button color="primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="col-md-12 floating-main" *ngIf="showAllocationHistoryGrid">
+
+    <h5>
+        <b>{{ allocationHistory[0].AssociateName}}'s</b> - Current Allocation</h5>
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <!-- <table class="table table-nowraptext"> -->
+            <tr class="d-center">
+                <th>
+                    <span class="text">Project Name</span>
+                </th>
+                <th>
+                    <span class="text">Effective From</span>
+                </th>
+                <th>
+                    <span class="text">Utilization (%)</span>
+                </th>
+                <th>
+                    <span class="text">Billable</span>
+                </th>
+                <th>
+                    <span class="text">Critical</span>
+                </th>
+                <th>
+                    <span class="text">Primary</span>
+                </th>
+            </tr>
+            <tbody *ngFor="let al of allocationHistory">
+                <tr class="text-center data-rows">
+                    <td class="text-left">{{al.Project}}</td>
+                    <td class="text-left">{{al.EffectiveDate | date:"MM/dd/yyyy"}}</td>
+                    <td class="text-left">{{al.AllocationPercentage}}</td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.Billable" disabled>
+                    </td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.isCritical" disabled>
+                    </td>
+                    <td class="text-left">
+                        <input name="HRABillable" type="checkbox" [checked]="al.IsPrimary" disabled>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

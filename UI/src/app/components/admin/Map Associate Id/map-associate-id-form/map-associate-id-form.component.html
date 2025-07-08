@@ -1,0 +1,52 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      Map Associate Id
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="center">
+    <form class="form-horizontal" [formGroup]="userform" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <div class="box">
+              <label class="chosenLabel">Associate Name:</label>&nbsp;
+              <p-dropdown formControlName="ddlEmp" [style]="{'width':'70%'}" [(ngModel)]="_empData.EmpId" [options]="_usersList" [autoWidth]="false"
+                filter="filter" (onChange)="onUserChange($event,_empData.UserId)">
+              </p-dropdown>
+              <div *ngIf="(!userform.controls['ddlEmp'].valid&&userform.controls['ddlEmp'].dirty)||(formSubmitted&&!userform.controls['ddlEmp'].valid)">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Associate Required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <div class="box">
+              <label class="chosenLabel">Email:</label>&nbsp;
+              <p-dropdown formControlName="ddlEmail" [style]="{'width':'70%'}" [(ngModel)]="_empData.UserId" [options]="_emailsList" [autoWidth]="false"
+                filter="filter" (onChange)="onEmailChange($event,_empData.EmpID)">
+              </p-dropdown>
+              <div *ngIf="(!userform.controls['ddlEmail'].valid&&userform.controls['ddlEmail'].dirty)||(formSubmitted&&!userform.controls['ddlEmail'].valid)">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Email Id Required.</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <section class="pull-right buttons">
+              <button type="submit" class="btn btn-custom">
+                <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;
+              <button type="button" class="btn btn-default" (click)="clear()">
+                <i class="fa fa-eraser"></i>Clear</button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,78 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form [formGroup]="mapAssociateId" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeAppearence }}" (click)="getFormControl('associateName')"
+            (keypress)="getFormControl('associateName')">
+            <mat-label>Associate
+              <span class="text-danger"> *</span>
+            </mat-label>
+            <input appDropDownSuggestion [SearchList]="usersList" type="text" appRequirematch #associateName
+              (keydown.enter)="associateName.blur()" matInput formControlName="associateName" [matAutocomplete]="auto"
+              appEmptySpacesValidations minlength="2" />
+            <button class="clearFieldIcon" *ngIf="mapAssociateId.value.associateName" mat-button matSuffix
+              mat-icon-button aria-label="Clear" (click)="clearInput($event, 'associateName')">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+              (optionSelected)="onUserChange($event, empData.UserId)">
+              <mat-option *ngIf="mapAssociateId.get('associateName').hasError('invalidValue')" disabled>No matching
+                value found</mat-option>
+              <mat-option *ngFor="let option of filteredOptionsName | async" [value]="option">
+                {{ option.label }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="mapAssociateId.get('associateName').hasError('required')">
+              Associate Required
+            </mat-error>
+            <mat-error *ngIf="mapAssociateId.get('associateName').hasError('requireMatch')">
+              Select Associate from given options
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeAppearence }}" (click)="getFormControl('associateEmail')"
+            (keypress)="getFormControl('associateEmail')">
+            <mat-label>Email
+              <span class="text-danger"> *</span>
+            </mat-label>
+            <input appDropDownSuggestion [SearchList]="emailsList" appRequirematch type="text" matInput
+              [formControl]="this.mapAssociateId.get('associateEmail')" [matAutocomplete]="email" #associateEmail
+              appEmptySpacesValidations minlength="2" (keydown.enter)="associateEmail.blur()" />
+
+            <button class="clearFieldIcon" *ngIf="mapAssociateId.value.associateEmail" mat-button matSuffix
+              mat-icon-button aria-label="Clear" (click)="clearInput($event, 'associateEmail')">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #email="matAutocomplete" [displayWith]="displayFn"
+              (optionSelected)="onEmailChange($event, empData.EmpId)">
+              <mat-option disabled *ngIf="mapAssociateId.get('associateEmail').hasError('invalidValue')">No matching
+                value found</mat-option>
+              <mat-option *ngFor="let selection of filteredOptionsEmail | async" [value]="selection">
+                {{ selection.label }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="mapAssociateId.get('associateEmail').hasError('required')">
+              Email Required
+            </mat-error>
+            <mat-error *ngIf="mapAssociateId.get('associateEmail').hasError('requireMatch')">
+              Select Associate email from given options
+            </mat-error>
+          </mat-form-field>
+          <br />
+        </div>
+      </div>
+      <div class="col-md-12 text-right">
+        <br />
+        <button mat-stroked-button type="reset" (click)="clear()">
+          <mat-icon>clear</mat-icon>Clear
+        </button>
+        <button mat-flat-button type="submit" (click)="onSubmit()" color="primary">
+          Save
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,301 @@
+<div class="col-12 text-right" *ngIf="projectState==='ClosureInitiated'">
+  <button *ngIf="roleName==='Program Manager'" mat-flat-button color="primary"  [disabled]="submitdisbale" (click)="SubmitForClosureApproval()">Submit</button>
+</div>
+<div class="col-12 text-right" *ngIf="roleName==='Department Head'">
+  <button mat-flat-button color="primary" (click)="SubmitForClosureByDH()">Approve</button>
+</div>
+
+<app-project-details></app-project-details>
+
+<div class="pt-2" *ngIf="tlnotfilled" >
+<mat-accordion  class="example-headers-align"  multi  >
+  <mat-expansion-panel>
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+            Project Closure Report
+          </mat-panel-title>
+          <mat-panel-description>
+          <mat-icon matSuffix><i class="fa fa-exclamation-circle" aria-hidden="true"></i></mat-icon>
+        </mat-panel-description>
+        </mat-expansion-panel-header>
+No Data
+</mat-expansion-panel>
+</mat-accordion>
+</div>
+
+<mat-accordion>
+<div class="pt-2" *ngIf="tlfilled" >
+
+  <mat-expansion-panel>
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+            Project Closure Report
+          </mat-panel-title>
+          <mat-panel-description>
+                <mat-icon class="material-icons color_green">check_circle</mat-icon>
+              </mat-panel-description>
+     </mat-expansion-panel-header>
+<!-- <mat-card >
+      <mat-card-header>
+              <mat-card-title class="h2">Project Closure Report</mat-card-title>
+          </mat-card-header> -->
+      <div class="container-fluid">
+          <!-- <div class="row">
+            <div class="col-md-12 text-right">
+                    <button *ngIf="roleName=='Program Manager'" mat-flat-button (click)="Reject()" color="primary">Reject</button>
+
+                </div>
+            </div> -->
+            <div class="col-md-12 text-right">
+                <button  *ngIf="roleName=='Program Manager' && projectState==='ClosureInitiated'" mat-flat-button (click)="Reject()" color="primary">Reject</button>
+
+            </div>
+        <div class="row">
+
+          <div class="col-md-12 col-xs-12">
+              <div class="row">
+                  <h3 class=" col-md-12 orange-text font-weight-bold pt-3">CLIENT FEEDBACK:</h3>
+                
+              </div>
+              
+                
+                <div class="row">
+                  
+                    <div class="col-md-12  pt-2"><a (click)="downloadclient()" style="cursor: pointer;color: blue;">{{projectclosurereport.ClientFeedbackFile}}</a></div>
+                  </div>
+          </div>
+          
+              <!-- <div class="col-12 h3 text-left ">
+                  <h3 class="orange-text">CLIENT FEEDBACK:</h3>
+               </div> -->
+                
+            <div class="col-md-12 col-xs-12">
+                <div class="row">
+                    <h3 class=" col-md-12 orange-text font-weight-bold pt-5">PROJECT EXECUTION AND DELIVERY PERFORMANCE:</h3>
+                    
+                </div>
+                    
+                <div class="row">
+                    <div class="col-md-12 pt-2"><a (click)="downloaddelivery()" style="cursor: pointer;color: blue;">{{projectclosurereport.DeliveryPerformanceFile}}</a></div>
+
+                  </div>   
+          </div>
+          <div class="col-md-12 col-xs-12">
+              <div class="row">
+                  <h3 class=" col-md-12 orange-text font-weight-bold  pt-5">VALUE DELIVERED TO THE CLIENT:</h3>
+                  
+              </div>   
+              <div class="row">
+                  <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.ValueDelivered"></div>
+              </div>
+    </div>
+        </div>
+        
+        <div class="row">
+        <div class="col-md-12">
+            <h3 class="orange-text font-weight-bold pt-5">PROJECT EXECUTION CHALLENGES:</h3>
+         </div>
+        </div>
+       
+      <div class="row ">
+          <div class="col-md-12 col-xs-12">
+              <div class="row">
+                <div class=" col-md-12 font-weight-bold pt-3">Project Management Challenges Faced During Execution of the Project:</div>
+                
+              </div>
+              <div class="row">
+                  <div class="col-md-12  pt-2" [innerHtml]="projectclosurereport.ManagementChallenges"></div>
+              </div>
+             
+              </div>
+              <div class="col-md-12 col-xs-12">
+                  <div class="row">
+                    <div class=" col-md-12 font-weight-bold  pt-3">Technology Challenges Faced During Execution of the Project:</div>
+                   
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12  pt-2" [innerHtml]="projectclosurereport.TechnologyChallenges"></div>
+                  </div>
+                  </div>
+                  <div class="col-md-12 col-xs-12">
+                      <div class="row">
+                         <div class=" col-md-12 font-weight-bold  pt-3">Software Engineering Challenges Faced During Execution of the Project:</div>
+                            
+                           </div>
+                           <div class="row">
+                              <div class="col-md-12  pt-2" [innerHtml]="projectclosurereport.EngineeringChallenges"></div>
+                           </div>
+                </div>
+      </div>
+      
+    <div class="row">
+      <div class="col-md-12 text-left">
+          <h3 class="orange-text font-weight-bold pt-5">BEST PRACTICES, LESSONS LEARNT, REUSABLE ARTEFACTS, AND PROCESS IMPROVEMENTS:</h3>
+       </div>
+      </div>
+        <div class="row ">
+           <div class="col-md-12 col-xs-12">
+              <div class="row ">
+              <div class=" col-md-12 font-weight-bold  pt-3">Best Practices Implemented:</div>
+                 
+                 </div>
+                 <div class="row">
+                    <div class="col-md-12  pt-2" [innerHtml]="projectclosurereport.BestPractices"></div>
+                 </div>
+              </div>
+              <div class="col-md-12 col-xs-12">
+                  <div class="row">
+                     <div class=" col-md-12 font-weight-bold pt-3">Lessons Learnt:</div>
+                        
+                          </div>
+                   <div class="row">
+                      <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.LessonsLearned"></div>
+                   </div>
+            </div>
+            <div class="col-md-12 col-xs-12">
+                <div class="row">
+                   <div class=" col-md-12 font-weight-bold pt-3">Reusable Artefacts:</div>
+                      
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.ReusableArtifacts"></div>
+                        </div>
+          </div>
+          <div class="col-md-12 col-xs-12">
+            <div class="row">
+               <div class=" col-md-12 font-weight-bold pt-3">Process Improvements:</div>
+                  
+             </div>
+             <div class="row">
+                <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.ProcessImprovements"></div>
+             </div>
+      </div>
+          </div>
+          <!-- <div class="row">
+          <div class="col-md-12 col-xs-12">
+              <div class="row">
+                 <div class=" col-md-12 font-weight-bold headsize pt-3">Process improvements:</div>
+                    
+               </div>
+               <div class="row">
+                  <div class="col-md-12 size pt-2">{{projectclosurereport.ProcessImprovements}}</div>
+               </div>
+        </div> -->
+         
+        <!-- </div> -->
+        
+        <div class="row">
+        <div class="col-md-12 text-left">
+            <h3 class="orange-text font-weight-bold pt-5">PROJECT TEAM ACHIEVEMENTS:</h3>
+         </div>
+        </div>
+    <div class="row ">
+        <div class="col-md-12 col-xs-12">
+            <div class="row">
+               <div class=" col-md-12 font-weight-bold pt-3">Awards and Rewards:</div>
+                 
+                    </div>
+             <div class="row">
+                <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.Awards"></div>
+             </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+          <div class="row">
+             <div class=" col-md-12 font-weight-bold pt-3">New Technology Skills Acquired:</div>
+               
+                   </div>
+                   <div class="row">
+                      <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.NewTechnicalSkills"></div>
+                   </div>
+          
+    </div>
+    <div class="col-md-12 col-xs-12">
+        <div class="row">
+           <div class=" col-md-12 font-weight-bold pt-3">New Tools Used:</div>
+              
+                </div>
+                <div class="row">
+                    <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.NewTools"></div>
+                </div>
+  </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-md-12 text-left ">
+        <h3 class="orange-text font-weight-bold pt-5">REMARKS FROM TEAM LEAD:</h3>
+     </div>
+    </div>
+    <div class="row ">
+        <div class="col-md-12 col-xs-12">
+            <div class="row">
+               <div class=" col-md-12 font-weight-bold pt-3">Remarks From Team Lead:</div>
+                  
+                    </div>
+        <div class="row">
+            <div class="col-md-12 pt-2" [innerHtml]="projectclosurereport.Remarks"></div>
+        </div>
+                
+      </div>
+
+    </div>
+      </div>
+      
+  <!-- <mat-card-content>
+         
+  </mat-card-content>
+</mat-card> -->
+</mat-expansion-panel>
+</div>
+
+<div *ngFor="let department of activityData">
+  <mat-expansion-panel *ngIf="department!==null">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Department-{{department.DepartmentName}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon *ngIf="department.StatusDescription==='Completed'" class="material-icons color_green">check_circle</mat-icon>
+        <mat-icon *ngIf="department.StatusDescription!=='Completed'" matSuffix><i class="fa fa-exclamation-circle" aria-hidden="true"></i></mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card-content *ngIf="department.StatusDescription==='Completed'">
+      <div class="container-fluid">
+        <!-- <h2 >Activities</h2> -->
+        <div class="p-2 mb-2" *ngFor="let element of department.ActivityDetails; let i=index">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <mat-checkbox [disabled]="true" [checked]="element.Value==='yes'">
+                      <span class="mat-checkbox-label">
+                        {{ checklist.get(element.ActivityId) }}
+                      </span>
+                    </mat-checkbox>
+                    
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Comments</mat-label>
+                        <textarea matInput type="text" [value]="element.Remarks" style="resize:none" readonly></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-3 m-2">
+            <label>Remarks</label>
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Remarks</mat-label>
+                <textarea matInput type="text" [value]="department.Remarks" style="resize:none" readonly></textarea>
+            </mat-form-field>
+        </div>
+        
+      </div> 
+    </mat-card-content>
+    <mat-card-content *ngIf="department.StatusDescription!=='Completed'">
+      <span class="mat-checkbox-label">This activity is yet to be submitted...</span>
+    </mat-card-content>
+
+  </mat-expansion-panel>
+</div>
+</mat-accordion>
+    
+<!-- </mat-card> -->

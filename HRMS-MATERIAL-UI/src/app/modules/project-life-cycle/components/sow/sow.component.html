@@ -1,0 +1,250 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+    <div class="row">
+        <div class="col-md-6">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="isSow">
+            <mat-radio-button [value]="1" checked (change)="radioChange($event)">SOW</mat-radio-button>
+            <mat-radio-button [disabled]="disableAddendum" [value]="0" (change)="radioChange($event)">Addendum</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    </div>
+    <form [formGroup] ="addSOW">
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Projects</mat-label>
+                    <mat-select formControlName="ProjectId" name="ProjectId" [disabled]="true" (onChange)="GetSows($event)">
+                        <mat-option *ngFor="let project of projectsList" [value]="project.value">{{project.label}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="isSow==1">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>SOW ID <span class="text-danger">*</span></mat-label>
+                    <div *ngIf="editMode == true">
+                        <input matInput placeholder="SOW ID" formControlName="SOWId" *ngIf="canEnableSowId() == true" disabled="true" name="SOWId" (keyup)="onEmpty($event, 'SOWId')" appEmptySpacesValidations>
+                        <input matInput placeholder="SOW ID" formControlName="SOWId" *ngIf="canEnableSowId() == false" name="SOWId" (keyup)="onEmpty($event, 'SOWId')"  appEmptySpacesValidations>
+                    </div>
+                    <div *ngIf="editMode == false">
+                        <input matInput formControlName="SOWId" name="SOWId" (keyup)="onEmpty($event, 'SOWId')" appEmptySpacesValidations>
+                    </div>
+                    <mat-error *ngIf="addSOW.get('SOWId').hasError('required')">
+                        SOW ID Required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+            <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>SOW File Name <span class="text-danger">*</span></mat-label>
+                        <input matInput formControlName="SOWFileName" name="SOWFileName" (keyup)="onEmpty($event, 'SOWFileName')" appEmptySpacesValidations>
+                        <mat-error *ngIf="addSOW.get('SOWFileName').hasError('required') ">
+                            SOW File Name Required
+                        </mat-error>
+                        <mat-error *ngIf="addSOW.get('SOWFileName').hasError('maxlength')">
+                            50 Characters allowed.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Signed Date<span class="text-danger">*</span></mat-label>
+                            <input matInput [min]="startdate" [matDatepicker]="SOWSignedDate" formControlName="SOWSignedDate" name="SOWSignedDate" readonly (click)="SOWSignedDate.open()" style="cursor: pointer">
+                            <mat-datepicker-toggle matSuffix *ngIf="addSOW.value.SOWSignedDate"
+                                (click)="clearInput($event, 'SOWSignedDate')">
+                                <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker-toggle matSuffix [for]="SOWSignedDate"></mat-datepicker-toggle>
+                            <mat-datepicker #SOWSignedDate></mat-datepicker>
+                            <mat-error *ngIf="addSOW.get('SOWSignedDate').hasError('required')">
+                                Signed Date Required
+                            </mat-error>
+                            <mat-error *ngIf="addSOW.get('SOWSignedDate').hasError('ValidationDateSOW') || addSOW.get('SOWSignedDate').errors?.invalidNumber">
+                                Should be greater than the project start date
+                            </mat-error>
+                          </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button mat-stroked-button (click)="cancelDialog()">
+                      <mat-icon>clear</mat-icon>
+                      {{ CancelBtnLabelSOW }}
+                    </button>
+                    <button class="mr-0" mat-flat-button color="primary" (click)="AddSOW()">{{ addButton }}</button>
+                  </div>
+            </div>
+    </form>
+
+    <!-- Addendum Form -->
+    <form [formGroup]="addAddendum" *ngIf="isSow == 0">
+        <div class="row">
+           <div class="col-md-4">
+            <mat-form-field appearance={{themeConfigInput}}>
+               <mat-label>SOW Id<span class="text-danger">*</span></mat-label>
+               <mat-select formControlName="Id" [disabled]="editMode" (selectionChange)=GetAddendumsBySOWId($event)>
+                   <mat-option *ngFor="let sow of sowlist" [value]="sow.value">{{sow.label}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="isSow == 0 && addAddendum.get('Id').hasError('required') ">
+                    SOW Id Required.
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Addendum No. <span class="text-danger">*</span></mat-label>
+                        <input matInput formControlName="AddendumNo" name="AddendumNo" (keyup)="onEmpty($event, 'AddendumNo')" appEmptySpacesValidations>
+                        <mat-error *ngIf="isSow == 0 && addAddendum.get('AddendumNo').hasError('required') ">
+                            Addendum Number Required
+                        </mat-error>
+            </mat-form-field>
+           </div> 
+           <div class="col-md-4">
+            <mat-form-field appearance={{themeConfigInput}}>
+                <mat-label>Addendum Signed Date<span class="text-danger">*</span></mat-label>
+                <input matInput [min]="startdate" [matDatepicker]="AddendumDate" formControlName="AddendumDate" name="AddendumDate" readonly (click)="AddendumDate.open()" style="cursor: pointer">
+                <mat-datepicker-toggle matSuffix *ngIf="addAddendum.value.AddendumDate"
+                    (click)="clearInput($event, 'AddendumDate')">
+                    <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="AddendumDate"></mat-datepicker-toggle>
+                <mat-datepicker #AddendumDate></mat-datepicker>
+                <mat-error *ngIf="isSow == 0 && addAddendum.get('AddendumDate').hasError('required') ">
+                    Addendum Signed Date Required
+                </mat-error>
+              </mat-form-field>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Recipient Name <span class="text-danger">*</span></mat-label>
+                            <input matInput formControlName="RecipientName" name="RecipientName" (keyup)="onEmpty($event, 'RecipientName')" appEmptySpacesValidations>
+                            <mat-error *ngIf="addAddendum.get('RecipientName').hasError('required') ">
+                                Recipient Name Required.
+                            </mat-error>
+                            <mat-error *ngIf="addAddendum.get('RecipientName').hasError('pattern')">
+                                Only characters allowed.
+                            </mat-error>
+                </mat-form-field>
+               </div> 
+               <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Comments <span class="text-danger">*</span></mat-label>
+                            <input matInput formControlName="Note" name="Note" (keyup)="onEmpty($event, 'Note')" appEmptySpacesValidations>
+                            <mat-error *ngIf="addAddendum.get('Note').hasError('required')  ">
+                                Comments Required.
+                            </mat-error>
+                </mat-form-field>
+               </div> 
+               <div class="col-md-12 text-right">
+                <button mat-stroked-button (click)="cancelAddendumDialog()">
+                  <mat-icon>clear</mat-icon>
+                  {{ CancelBtnLabelAddendum }}
+                </button>
+                <button class="mr-0" mat-flat-button color="primary" (click)="AddAddendum()">{{ btnLabel }}</button>
+              </div>
+        </div>
+    </form>
+</mat-card-content>
+</mat-card>
+    
+<mat-card>
+    <mat-card-content>
+        <!-- SOW Table -->
+        <div *ngIf="isSow == 1">
+        <div class ="table-responsive">
+            <table mat-table [dataSource]="dataSourceSOW" matSort class="mat-elevation-z8 col-12">
+                <ng-container matColumnDef="SOWId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> SOW ID </th>
+                    <td mat-cell *matCellDef="let SOW">{{SOW.SOWId}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="SOWFileName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> SOW File Name </th>
+                    <td mat-cell *matCellDef="let SOW">{{SOW.SOWFileName}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="SOWSignedDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Signed Date </th>
+                    <td mat-cell *matCellDef="let SOW">{{SOW.SOWSignedDate}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Edit">
+                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Edit </th>
+                    <td mat-cell *matCellDef="let SOW">
+                      <mat-icon style="cursor: pointer;" class="edit" (click)="EditSOW(SOW)">edit</mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Delete">
+                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Delete </th>
+                    <td mat-cell *matCellDef="let SOW">
+                      <mat-icon style="cursor: pointer;" class="delete" (click)="deleteDialog(SOW)">delete</mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsSOW"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsSOW;"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                  </tr>
+            </table>
+        </div>
+        </div>
+        
+        <!-- SOW Table -->
+
+        <!-- Addendum Table -->
+        <div *ngIf="isSow == 0">
+        <div class ="table-responsive">
+            <table mat-table [dataSource]="dataSourceAddendum" matSort class="mat-elevation-z8 col-12">
+                <ng-container matColumnDef="AddendumNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Addendum No. </th>
+                    <td mat-cell *matCellDef="let Addendum">{{Addendum.AddendumNo}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="AddendumDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Addendum Signed Date </th>
+                    <td mat-cell *matCellDef="let Addendum">{{Addendum.AddendumDate}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="RecipientName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Recipient Name </th>
+                    <td mat-cell *matCellDef="let Addendum">{{Addendum.RecipientName}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Note">
+                    <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Comments </th>
+                    <td mat-cell *matCellDef="let Addendum">{{Addendum.Note}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Edit">
+                    <th mat-header-cell *matHeaderCellDef> Edit </th>
+                    <td mat-cell *matCellDef="let Addendum">
+                      <mat-icon style="cursor: pointer;" class="edit" (click)="EditSOW(Addendum)">edit</mat-icon>
+                    </td>
+                  </ng-container>
+
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsAddendum"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsAddendum;"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                  </tr>
+            </table>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 20,30,40,50]"></mat-paginator>
+          </div>
+            
+
+        <!-- Addendum Table -->
+
+        
+    </mat-card-content>
+
+</mat-card>
+

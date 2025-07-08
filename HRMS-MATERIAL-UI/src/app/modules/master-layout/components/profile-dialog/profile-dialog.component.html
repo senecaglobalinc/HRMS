@@ -1,0 +1,50 @@
+
+<h1 mat-dialog-title class="title-css">Associate Information:
+    <mat-icon class="close-btn" (click)="onClearClick()">clear</mat-icon>
+</h1>
+<mat-dialog-content>
+    <div class="row">
+        <div class="col-md-4">
+            <img class="userIcon" src="../../../../../assets/images/user2-160x160.png">
+            <p style="font-size:12px;margin-top: 2px;">
+              <img class="blood-icon" src="../../../../../assets/images/blood-drop.svg">
+              <span class="blood-group-css"><strong >Blood Group :</strong> &nbsp; {{profileDetails.BloodGroup}}</span></p>
+        </div>
+        <div class="col-md-8 table-css">
+            <table>
+                <colgroup>
+                    <col style="background-color:rgba(226, 226, 226, 0.87);">
+                  </colgroup>
+                <tr>
+                  <td><strong>Name</strong></td>
+                  <td>{{profileDetails.EmployeeName}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Designation</strong></td>
+                  <td>{{profileDetails.Designation}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Grade</strong></td>
+                  <td>{{profileDetails.Grade}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Date of Joining</strong></td>
+                  <td>{{profileDetails.DateOfJoin}}</td>
+                </tr>
+                <tr *ngIf="profileDetails.DepartmentId==1">
+                  <td><strong>Program Manager</strong></td>
+                  <td>{{profileDetails.ProgramManager}}</td>
+                </tr>
+                <tr>
+                  <td><strong>Reporting Manager</strong></td>
+                  <td>{{profileDetails.ReportingManager}}</td>
+                </tr>
+                <tr *ngIf="profileDetails.DepartmentId==1">
+                    <td><strong>Team Lead</strong></td>
+                    <td>{{profileDetails.Lead}}</td>
+                  </tr>
+            </table>
+        </div>
+
+    </div>
+</mat-dialog-content>

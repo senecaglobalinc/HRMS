@@ -1,0 +1,838 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HRMS.Project.API</name>
+    </assembly>
+    <members>
+        <member name="M:HRMS.Project.API.Auth.AuthorizeAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <summary>  
+            This will Authorize User  
+            </summary>  
+            <returns></returns>  
+        </member>
+        <member name="T:HRMS.Project.API.AddendumController">
+            <summary>
+            Controller for Addendum object.
+            </summary>
+        </member>
+        <member name="M:HRMS.Project.API.AddendumController.Create(HRMS.Project.Infrastructure.Models.Request.AddendumRequest)">
+            <summary>
+            Creates new Addendum
+            </summary>
+            <param name="addendumRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.AddendumController.GetByIdAndProjectId(System.Int32,System.Int32,System.String)">
+            <summary>
+            GetByIdAndProjectId 
+            </summary>
+            <param name="id"></param>
+            <param name="projectId"></param>
+            <param name="roleName"></param>
+            <returns>Addendum</returns>
+        </member>
+        <member name="M:HRMS.Project.API.AddendumController.GetAllBySOWIdAndProjectId(System.Int32,System.Int32)">
+            <summary>
+            GetAllBySOWIdAndProjectId 
+            </summary>
+            <returns></returns>
+            <param name="sowId"></param>
+            <param name="projectId"></param>
+        </member>
+        <member name="M:HRMS.Project.API.AddendumController.Update(HRMS.Project.Infrastructure.Models.Request.AddendumRequest)">
+            <summary>
+            Create Addendum
+            </summary>
+            <param name="addendumRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AllocationPercentageController.GetAll">
+            <summary>
+            GetAll Associate Percentage
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AllocationPercentageController.GetAllocationPercentageForDropdown">
+            <summary>
+            GetAllocationPercentageForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AllocationPercentageController.GetById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HRMS.Project.API.Controllers.AssociateAllocationController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAll">
+            <summary>
+            GetAll Associate Allocations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetByEmployeeId(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAllAllocationByEmployeeId(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetByLeadId(System.Int32)">
+            <summary>
+            Get Associate Allocations By LeadId
+            </summary>
+            <param name="leadId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAllocationsByEmpIds(System.String)">
+            <summary>
+            GetById
+            </summary>
+            <param name="employeeIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.AllocateAssociateToTalentPool(HRMS.Project.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            Allocate employee to talent pool based on employee competency group
+            </summary>
+            <param name="employee"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetEmployeesForAllocations">
+            <summary>
+            GetEmployeesForAllocations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAssociatesForAllocation">
+            <summary>
+            GetAssociatesForAllocation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetRolesByDepartmentId(System.Int32)">
+            <summary>
+            GetRolesByDepartmentId
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetEmployeePrimaryAllocationProject(System.Int32)">
+            <summary>
+            Get EmployeePrimary AllocationProject
+            </summary>
+            <param name="EmployeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetEmpAllocationHistory(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.Create(HRMS.Project.Infrastructure.Models.Domain.AssociateAllocationDetails)">
+             <summary>
+            Allocate a associate to project
+             </summary>
+             <param name="associateDetails"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAssociatesToRelease(System.Int32,System.String)">
+            <summary>
+            Get Associates To Release from Allocated projects
+            </summary>
+            <param name="employeeId"></param>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.TemporaryReleaseAssociate(HRMS.Project.Infrastructure.Models.Domain.AssociateAllocationDetails)">
+            <summary>
+            Temporary Release Associate
+            </summary>
+            <param name="associateDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAllocatedAssociates">
+            <summary>
+            Get Associates from Allocated projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.ReleaseOnExit(System.Int32,System.String)">
+            <summary>
+            Release Associate on Exit
+            </summary>
+            <param name="employeeId"></param>
+            <param name="releaseDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetSkillSearchAssociateAllocations(System.String)">
+            <summary>
+            GetSkillSearchAssociateAllocations
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.UpdateAssociateAllocation(HRMS.Project.Infrastructure.Models.Domain.AssociateAllocationDetails)">
+             <summary>
+            Update Associate Allocation(Critical to non critical and vice versa)
+             </summary>
+             <param name="associateDetails"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetCurrentAllocationByEmpIdAndProjectId(System.Int32,System.Int32)">
+            <summary>
+            Get Current Allocation By EmpId And ProjectId
+            </summary>
+            <param name="employeeId"></param>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.ReleaseFromTalentPool(HRMS.Project.Infrastructure.Models.Domain.TalentPoolDetails)">
+            <summary>
+            Release From TalentPool
+            </summary>
+            <param name="tpDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.UpdatePracticeAreaOfTalentPoolProject(System.Int32,System.Int32)">
+             <summary>
+            UpdatePracticeAreaOfTalentPoolProject
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.ReleaseFromAllocations(System.Int32)">
+             <summary>
+            ReleaseFromAllocations
+             </summary>
+             <param name="EmployeeId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetActiveAllocations">
+            <summary>
+            Get Active Allocations 
+            </summary>
+            <param name="employeeId"></param>
+            <param name="roleName"></param>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetCompetencyAreaManagersDetails(System.Int32)">
+            <summary>
+            GetCompetencyAreaManagersDetails
+            </summary>
+            <param name="competencyAreaId"></param>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.AssociateAllocationController.GetAllAllocationDetails">
+            <summary>
+            GetAllAllocationDetails
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.NightlyJobController.GetUtilizationReportAllocations(HRMS.Project.Infrastructure.Models.Request.UtilizationReportFilter)">
+            <summary>
+            Gets Resource Utilization Details.
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.NightlyJobController.GetAllProjects">
+            <summary>
+            GetAll Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.NightlyJobController.GetEmployeesForAllocations">
+            <summary>
+            GetAll Associate Allocations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureActivityController.CreateActivityChecklist(System.Int32)">
+            <summary>
+            This method creates list of activities checklist
+            </summary>
+            <param name="projectId"></param>
+            <returns>ProjectClosureActivityId of Created checklist</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureActivityController.UpdateActivityChecklist(HRMS.Project.Infrastructure.Models.Domain.ActivityChecklist)">
+            <summary>
+            This method updates and  submit checklist activities.
+            </summary>
+            <param name="projectIn"></param>
+            <returns>Updated ProjectClosureActivityId</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureActivityController.GetActivitiesByProjectIdAndDepartmentId(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            This method fetches the closure Department activities by projectId and departmentId
+            </summary>
+            <param name="projectId"></param>
+            <returns>Closure Department Activities</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureActivityController.GetActivitiesByProjectIdForPM(System.Int32)">
+            <summary>
+            This method gets the submitted department activities in PM review tab  from projectClosureActivity table
+            </summary>
+            <param name="projectId"></param>
+            <returns> Submitted Department Activities</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureController.ProjectClosureInitiation(HRMS.Project.Infrastructure.Models.Domain.ProjectClosureInitiationResponse)">
+            <summary>
+            Initiates a Project Closure Process by taking projectData as paramenter
+            </summary>
+            <param name="projectData">Project information</param>
+            <returns>Integer value 0-represent unsucessful response and >1-represent successful response</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureController.SubmitForClosureApproval(HRMS.Project.Infrastructure.Models.Request.SubmitForClosureApprovalRequest)">
+            <summary>
+            Submits a project for closure approval By DH.
+            </summary>
+            <param name="submitForClosureApprovalRequest"></param>
+            <returns>Integer value, 0-Represents Unsuccessful Response and 1-Represents Successful Response</returns>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureController.ApproveOrRejectClosureByDH(HRMS.Project.Infrastructure.Models.Request.ApproveOrRejectClosureRequest)">
+            <summary>
+            Approves or Rejects a project by DH
+            </summary>
+            <param name="approveOrRejectClosureRequest"></param>
+            <returns>Integer Value 0-Represents Unsuccessful Response and 1-Represents Successful Response</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureController.RejectClosure(HRMS.Project.Infrastructure.Models.Domain.RejectClosureReport)">
+            <summary>
+            Reject a Closure Report sent by TL.
+            </summary>
+            <param name="rejectClosureReport"></param>
+            <returns>Integer Value 0-Represents Unsuccessful Response and 1-Represents Successful Response</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.Create(System.Int32)">
+            <summary>
+            This method creates new projectClosureReport by taking ProjectId as parameter .
+            </summary>
+            <param name="projectId"></param>
+            <returns>integer if reteun is"0" then the report is not created 
+            if return response is Project Clsoure Id then the report is created sucessfully</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.Update(HRMS.Project.Infrastructure.Models.Request.ProjectClosureReportRequest)">
+            <summary>
+            This method updates existing project closure report data by taking ProjectClosureReportRequest as parameter .
+            </summary>
+            <param name="projectIn"></param>
+            <returns>integer if reteun is"0" then the report is not created 
+            if return response is Project Clsoure Id then the report is created sucessfully</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.GetClosureReportByProjectId(System.Int32)">
+            <summary>
+            Get Project Closure Report By ProjectId
+            </summary>
+            <param name="projectId"></param>
+            <returns>Project Closure Report data</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.NotificationConfiguration(System.Int32,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            This method creates new projectClosureReport.
+            </summary>
+            <param name="projectId"></param>
+            <returns>Integer value 0-represents unsuccessful response and 1-represents successful response</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.Save(HRMS.Project.Infrastructure.Models.Domain.UploadFiles)">
+            <summary>
+            Save uploaded file details
+            </summary>
+            <param name="uploadFiles"></param>
+            <returns>>method returns integer "0" when files stored sucessfuly
+            else returns "0" fails to save the files</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.Download(System.String,System.Int32)">
+            <summary>
+            This downloads the file by taking its fileType and projectId as parameter
+            </summary>
+            <param name="fileType "></param>
+            <param name="projectId"></param>
+            <returns>File</returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.ProjectClosureReportController.Delete(System.String,System.Int32)">
+            <summary>
+            Delete uploded file details
+            </summary>
+            <param name="fileType"></param>
+            <param name="projectId"></param>
+            <returns>boolean if successfully deleted returns true else returns false </returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.TalentPoolController.GetAll">
+            <summary>
+            Get the all the TalentPool
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.Controllers.TalentPoolController.Create(HRMS.Project.Infrastructure.Models.Domain.TalentPoolRequest)">
+            <summary>
+            Create TalentPool
+            </summary>
+            <param name="projectId">projectId</param>
+            <param name="practiceAreaId">practiceAreaId</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ClientBillingRolesController.Create(HRMS.Project.Entities.ClientBillingRoles)">
+            <summary>
+            Create Client billing role
+            </summary>
+            <param name="clientBillingRoleIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ClientBillingRolesController.GetAllByProjectId(System.Int32)">
+            <summary>
+            GetAllByProjectId 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ClientBillingRolesController.Update(HRMS.Project.Entities.ClientBillingRoles)">
+            <summary>
+            Updates Client billing role
+            </summary>
+            <param name="clientBillingRoleIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ClientBillingRolesController.Delete(System.Int32)">
+            <summary>
+            Deletes Client billing role
+            </summary>
+            <param name="clientBillingRoleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ClientBillingRolesController.Close(System.Int32,System.DateTime,System.String)">
+            <summary>
+            Close Client billing role
+            </summary>
+            <param name="clientBillingRoleId"></param>
+            <param name="endDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HRMS.Project.API.HRMSExternalController">
+            <summary>
+            Controller for Addendum object.
+            </summary>
+        </member>
+        <member name="M:HRMS.Project.API.HRMSExternalController.GetEmployeeProjectDetails">
+            <summary>
+            GetEmployeeProjectDetails
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.HRMSExternalController.GetProjects">
+            <summary>
+            GetProjects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.HRMSExternalController.GetProjectById(System.Int32)">
+            <summary>
+            GetProjectById
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.Create(HRMS.Project.Infrastructure.Models.Request.ProjectRequest)">
+            <summary>
+            This method creates new project.
+            </summary>
+            <param name="projectIn"></param>
+            <returns>Project</returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetAll">
+            <summary>
+            GetAll Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.Update(HRMS.Project.Infrastructure.Models.Request.ProjectRequest)">
+            <summary>
+            This method updates existing project.
+            </summary>
+            <param name="projectIn"></param>
+            <returns>Project</returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.HasActiveClientBillingRoles(System.Int32)">
+            <summary>
+            HasActiveClientBillingRoles
+            </summary>
+             /// <param name="projectId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetProjectsList(System.String,System.Int32,System.String)">
+            <summary>
+            GetAll Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetByProjectId(System.Int32)">
+            <summary>
+            Gets project by project id 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.SubmitForApproval(System.Int32,System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="projectId"></param>
+            <param name="userRole"></param>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.ApproveOrRejectByDH(System.Int32,System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="projectId"></param>
+            <param name="status"></param>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.DeleteProject(System.Int32)">
+            <summary>
+            This method deletes a project.
+            </summary>
+            <param name="projectId"></param>
+            <returns>Project</returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetProjectsForAllocation">
+            <summary>
+            Get Projects ForAllocation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetAssociateProjectsForRelease(System.Int32)">
+            <summary>
+            Get Associate Projects For Release
+            <paramref name="employeeId"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetEmpTalentPool(System.Int32)">
+            <summary>
+            Get Emp TalentPool
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetEmpTalentPool(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get Emp TalentPool
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetProjectsByEmpId(System.Int32)">
+            <summary>
+            Gets projects by employee id 
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetProjectsForDropdown">
+            <summary>
+            Get Projects For Dropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectController.GetProjectsByIds(System.String)">
+            <summary>
+            Get the projects by Ids
+            </summary>
+            <param name="projectIds">project Ids</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.Create(HRMS.Project.Entities.ProjectManager)">
+            <summary>
+            This method creates new project manager.
+            </summary>
+            <param name="projectManagerIn"></param>
+            <returns>Project</returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            GetAll project managers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetByEmployeeId(System.Int32)">
+            <summary>
+            Get the data of Program Manager/ Reporting Manager/ Lead by employeeId
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetProjectManagerByEmployeeId(System.String)">
+            <summary>
+            Get the data of Program Manager/ Reporting Manager/ Lead by list of employeeIds
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetActiveProjectManagers(System.Nullable{System.Boolean})">
+            <summary>
+            Get the Active project managers
+            <param name="isActive"></param>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetReportingDetailsByProjectId(System.Int32)">
+            <summary>
+            Get Reporting Details By ProjectId
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetLeadsManagersBySearchString(System.String)">
+            <summary>
+            Gets the leads and Manager information by searchString
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetLeadsManagersForDropdown">
+            <summary>
+            Gets the leads and Manager information 
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetManagerandLeadByProjectIdandEmpId(System.Int32,System.Int32)">
+            <summary>
+            Gets the leads and Manager information by projectId and EmployeeId
+            </summary>
+            <param name="projectId"></param>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.UpdateReportingManagerToAssociate(HRMS.Project.Infrastructure.Models.Request.ProjectRequest,System.Boolean)">
+            <summary>
+            UpdateReportingManagerToAssociate
+            </summary>
+            <param name="projectData"></param>
+            <param name="isDelivery"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.SaveManagersToProject(HRMS.Project.Infrastructure.Models.Domain.ProjectManagersData)">
+            <summary>
+            SaveManagersToProject
+            </summary>
+            <param name="projectData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetProgramManagersForDropdown">
+            <summary>
+            GetProgramManagersForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetProjectLeadData(System.Int32)">
+            <summary>
+            GetProjectManagersData
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetProjectRMData(System.Int32)">
+            <summary>
+            GetProjectRMData
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetProjectManagerFromAllocations(System.Int32)">
+            <summary>
+            GetProjectManagerFromAllocations
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ProjectManagerController.GetPMByPracticeAreaId(System.Int32)">
+            <summary>
+            Get ProjectManagers by practiceAreaId
+            </summary>
+            <param name="practiceAreaId">practiceAreaId</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetFinanceReportAllocations(HRMS.Project.Infrastructure.Models.Request.FinanceReportFilter)">
+            <summary>
+            Get FinanceReportAllocations
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetUtilizationReportAllocations(HRMS.Project.Infrastructure.Models.Request.UtilizationReportFilter)">
+            <summary>
+            Gets Resource Utilization Details.
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetDomainWiseResourceCount">
+            <summary>
+            GetDomainWiseResourceCount
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetTalentPoolWiseResourceCount(System.String)">
+            <summary>
+            Get TalentPool Wise Resource Count
+            </summary>
+            <param name="projectTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetEmployeeByProjectId(System.Int32)">
+            <summary>
+            GetEmployeeByProjectId
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetResourceByProject(System.Int32)">
+            <summary>
+            GetResourceByProject
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetSkillSearchAllocations">
+            <summary>
+            Get GetSkillSearchAllocations
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetAll">
+            <summary>
+            GetAll Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetServiceTypeProjectCount">
+            <summary>
+            GetServiceTypeProjectCount
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetCriticalResourceReport">
+            <summary>
+            GetCriticalResourceReport
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetNonCriticalResourceReport">
+            <summary>
+            GetNonCriticalResourceReport
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportController.GetNonCriticalResourceBillingReport">
+            <summary>
+            GetNonCriticalResourceBillingReport
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportsController.GetResourceByProject(System.Int32)">
+            <summary>
+            Returns total number of resource, billable and non billable resource details.
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.ReportsController.GetProjectDetailsReport">
+            <summary>
+            Returns projects detailed information.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.SOWController.Create(HRMS.Project.Infrastructure.Models.Request.SOWRequest)">
+            <summary>
+            Create SOW
+            </summary>
+            <param name="sowRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.SOWController.Delete(System.Int32)">
+            <summary>
+            This methode deletes SOW.
+            </summary>
+            <param name="id"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:HRMS.Project.API.SOWController.GetAllByProjectId(System.Int32)">
+            <summary>
+            GetAllByProjectId 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.SOWController.GetByIdAndProjectId(System.Int32,System.Int32,System.String)">
+            <summary>
+            GetByIdAndProjectId Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.SOWController.Update(HRMS.Project.Infrastructure.Models.Request.SOWRequest)">
+            <summary>
+            Create SOW
+            </summary>
+            <param name="sowRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.TalentRequisitionController.#ctor(HRMS.Project.Types.ITalentRequisitionService,Microsoft.Extensions.Logging.ILogger{HRMS.Project.API.TalentRequisitionController})">
+            <summary>
+            TalentRequisitionController
+            </summary>
+            <param name="talentRequisitionService"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:HRMS.Project.API.TalentRequisitionController.GetAll">
+            <summary>
+            GetAll TalentRequisition
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Project.API.TalentRequisitionController.GetById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

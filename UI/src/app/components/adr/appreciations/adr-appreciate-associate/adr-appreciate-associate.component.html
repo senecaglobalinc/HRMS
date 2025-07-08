@@ -1,0 +1,155 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="text-middle text-bold">Appreciate</h4>
+  </div>
+  <div class="pull-right appreciateBtn">
+    <button type="button" class="btn btn-primary" (click)="appreciateAnAssociate()">
+      <i class="fa fa-handshake-o"></i>&nbsp;Appreciate</button>
+  </div>
+  <br>
+  <div class="panel-body">
+    <div style="text-align: right">
+      <i class="fa fa-search" class="iconCls"></i>
+      <input type="text" pInputText size="50" placeholder="Search" style="width: 40%"
+        (input)="dt1.filterGlobal($event.target.value, 'contains')" class="inputCls" />
+    </div>
+    <p-table #dt1 [columns]="cols" [value]="appreciationsList" [paginator]="true" [rows]="PageSize" [responsive]="true"
+      columnResizeMode="expand" [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': 'nowrap'}"
+      selectionMode="single" stateStorage="session" stateKey="statedemo-session">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+            {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>         
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td>{{ rowData.ToEmployeeName }}</td>
+            <td>{{ rowData.SourceOfOriginName }}</td>
+            <td>{{ rowData.ADRCycle }}</td>
+            <td>{{ rowData.FinancialYear }}</td>
+            <td>{{ rowData.AppreciationType }}</td>
+            <td>{{ rowData.AppreciationDate | date }}</td>            
+            <td>
+              <a style="cursor:pointer;color: #72afd2;" (click)="getMoreAppreciationInfo(rowData.AppreciationMessage)"
+                title="Description Appreciation">
+              View Appreciation
+              </a>
+            </td>            
+          </tr>
+        </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog appendTo="body" header="Appreciate" styleClass="appreciateDialog" width=700 [(visible)]="appreciateDisplay" responsive="true"
+  modal=true showHeader=true closeOnEscape=true closable=true>
+  <form class="panel formPanel">
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>ADR Cycle:</label>
+      </div>
+      <div class="col-lg-9">
+        <p-dropdown [style]="{'width':'100%'}" name="adrCycle" disabled="true" [options]="adrCycleList" filter="true"
+          [(ngModel)]="sendAppreciation.ADRCycleID" placeholder="Select an ADR Cycle"></p-dropdown>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>Finacial Year:</label>
+      </div>
+      <div class="col-lg-9">
+        <input type="text" name="financialYear" pInputText style="width: 100%;" disabled="true"
+          placeholder="Finacial Year" [(ngModel)]="sendAppreciation.FinancialYear" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>Appreciation Type:</label>
+      </div>
+      <div class="col-lg-9">
+        <p-dropdown name="appreciationType" [disabled]="sentUpdateBtn" [style]="{'width':'100%'}"
+          [options]="appreciationTypeList" filter="true" [(ngModel)]=sendAppreciation.AppreciationTypeID
+          placeholder="Select an Appreciation Type"></p-dropdown>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>To: <span style="color: red">*</span></label>
+      </div>
+      <div class="col-lg-9">
+        <p-autoComplete *ngIf="!sentUpdateBtn" name="associateNames" [suggestions]="filteredAssociateIds"
+          [style]="{'width':'100%'}" [(ngModel)]="sendAppreciation.AssociateNames"
+          (completeMethod)="filteredAssociatesMultiple($event)" field="Name" [multiple]="true"
+          placeholder="Enter Recipient Name">
+        </p-autoComplete>
+        <input *ngIf="sentUpdateBtn" disabled="true" type="text" name="associateNames" pInputText style="width: 100%;"
+          disabled="true" placeholder="Associate Name" [(ngModel)]="sendAppreciation.ToEmployeeName" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>Soruce Of Origin: <span style="color: red">*</span></label>
+      </div>
+
+
+
+      <div class="col-lg-9">
+        <p-dropdown name="sourceOfOrigin" [disabled]="sentUpdateBtn" [style]="{'width':'100%'}"
+          [options]="sourceOfOriginList" filter="true" [(ngModel)]="sendAppreciation.SourceOfOriginId"
+          placeholder="Select source of origin"></p-dropdown>
+      </div>
+
+
+
+
+
+
+
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>Appreciation Date:</label>
+      </div>
+      <div class="col-lg-9">
+        <p-calendar name="appreciationdate" [(ngModel)]="sendAppreciation.AppreciationDate" disabled="true"
+          showIcon="true" [readonlyInput]="true" name="appreciationdate" [style]="{'width':'100%'}"
+          styleClass="appreciateCalendarInput" dateFormat="mm-dd-yy"></p-calendar>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-3" style="width: 156px;">
+        <label>Appreciation: <span style="color: red">*</span></label>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-lg-12" style="width:98%;">
+        <p-editor name="appreciation" [style]="{'min-height':'120px'}" contenteditable="true"
+          [(ngModel)]="sendAppreciation.AppreciationMessage">
+          <p-header>
+            <span class="ql-formats">
+              <button class="ql-bold" aria-label="Bold"></button>
+              <button class="ql-italic" aria-label="Italic"></button>
+              <button class="ql-underline" aria-label="Underline"></button>
+              <button class="ql-list" value="ordered" aria-label="Ordered List"></button>
+              <button class="ql-list" value="bullet" aria-label="Unordered List"></button>
+            </span>
+          </p-header>
+        </p-editor>
+      </div>
+    </div>
+    <div class="pull-right sentBtn">
+      <button type="button" class="btn btn-primary" (click)="sendAnAppreciation(sendAppreciation)">
+        <i class="fa fa-paper-plane-o"></i>&nbsp;&nbsp;Send</button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog appendTo="body" header="Appreciation" [(visible)]="displayMoreInfoDialog" modal="modal" width="500" responsive="true"
+  modal=true showHeader=true closeOnEscape=true closable=true>
+  <div class="panel-body appreciateData" [innerHTML]="transformSanitizer(moreAppreciationInfo)"></div>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

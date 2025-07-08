@@ -1,0 +1,143 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span style="display: inline">
+            <h4 class="panel-title">{{employeeName}} - KRAs for the Financial Year - {{financialYear}}</h4>
+            <div class="pull-right" style="margin-top: -23px">
+                <a (click)="onBackButtonClick()">
+                    <i class="fa fa-arrow-circle-left fa-2x" title="Back" aria-hidden="true"></i>
+                </a>
+            </div>
+        </span>
+    </div>
+    <div class="panel-body">
+        <label>Organization KRAs</label>
+        <p-table #dt1 [columns]="cols" [value]="organizationKras" [paginator]="true" dataKey="vin" [rows]="PageSize" [rowsPerPageOptions]="PageDropDown"
+            [resizableColumns]="true" [reorderableColumns]="true" sortField="KRAAspectName" [style]="{ 'white-space': 'nowrap', 'font-size': '15px' }" selectionMode="single"
+            stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns">
+                  {{ col.header }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+                  <div>{{ rowData[col.field] }}</div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template *ngIf="!organizationKras" pTemplate="summary">
+                <div style="text-align: left">
+                    No records found
+                </div>
+            </ng-template>
+        </p-table>
+
+        <label>Custom KRAs</label>
+        <p-table #dt2 [columns]="cols1" [value]="customKras" [paginator]="true" dataKey="vin1" [rows]="PageSize" [rowsPerPageOptions]="PageDropDown"
+        [resizableColumns]="true" [reorderableColumns]="true" sortField="KRAAspectName" [style]="{ 'white-space': 'nowrap', 'font-size': '15px' }" selectionMode="single"
+        stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{ col.header }}
+            </th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+              <div>{{ rowData[col.field] }}</div>
+            </td>
+            <td style="width: 80px">
+              <a style="cursor:pointer;">
+                <i title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="editCustomKrasOfEmployee(kra)"></i>
+              </a>
+              <a style="cursor:pointer;">
+                <i title="Delete" class="fa fa-trash-o fa-lg" (click)="deleteCustomKrasOfEmployee(kra)"></i>
+              </a>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template *ngIf="!customKras" pTemplate="summary">
+            <div style="text-align: left">
+                No records found
+            </div>
+        </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog appendTo="body" header="{{heading}}" [(visible)]="display" [responsive]="true" showEffect="fade" [modal]="true" width="800">
+    <form [formGroup]="kraSetForm">
+        <div class="ui-grid ui-grid-responsive ui-fluid" style="max-height: 500px; overflow: auto">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <div class="form-group ui-grid-col-12 floating-main">
+                        <label for="aspect">KRA Aspect: </label>
+                    </div>
+                </div>
+                <div class="ui-grid-col-10">
+                    <div class="form-group ui-grid-col-12 floating-main">
+                        <div class="ui-fluid">
+                            <p-dropdown id="ddlAspects" [disabled]="true" [options]="kraAspectsList" [autoWidth]="false"
+                                [(ngModel)]="customKraData.KRAAspectID" filter="filter">
+                            </p-dropdown>
+                            <div *ngIf="(!kraSetForm.controls['aspect'].valid&&kraSetForm.controls['aspect'].dirty)||(kraFormSubmitted&&!kraSetForm.controls['aspect'].valid)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">KRA Aspect is required.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <div class="form-group ui-grid-col-12 floating-main">
+                        <label for="metric">Metric: </label>
+                    </div>
+                </div>
+                <div class="ui-grid-col-10">
+                    <div class="form-group ui-grid-col-12 floating-main">
+                        <textarea class="form-control" [rows]="5" [cols]="30" id="metric" [(ngModel)]="customKraData.KRAAspectMetric"
+                            style="border:solid 1px grey" pInputTextarea autoResize="autoResize"></textarea>
+                        <div *ngIf="(!kraSetForm.controls['metric'].valid && kraSetForm.controls['metric'].dirty)||(kraFormSubmitted && !kraSetForm.controls['metric'].valid)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Metric is required.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <div class="form-group ui-grid-col-12 floating-main">
+                        <label for="target">Target: </label>
+                    </div>
+                </div>
+                <div class="ui-grid-col-10">
+                    <div class="form-group ui-grid-col-12 floating-main">
+                        <input pInputText id="target" [(ngModel)]="customKraData.KRAAspectTarget" />
+                        <div *ngIf="(!kraSetForm.controls['target'].valid && kraSetForm.controls['target'].dirty)||(kraFormSubmitted && !kraSetForm.controls['target'].valid)">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Target is required.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" class="btn btn-secondary" (click)="cancel()" title="Cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="update()" title="Update">
+                <i class="fa fa-floppy-o"></i>&nbsp;Update</button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-confirmDialog appendTo="body" key="customKraMetric" width="500"></p-confirmDialog>
+<p-toast [style]="{marginTop: '80px'}"></p-toast> 

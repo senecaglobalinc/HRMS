@@ -1,0 +1,98 @@
+<mat-card class="mb-2">
+    <app-view-associate-exit-details></app-view-associate-exit-details>
+    
+    <form [formGroup]="exitFeedbackForm" >
+        <div class="row">
+    
+            <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Reason for Leaving Company</mat-label>
+                    <mat-select formControlName="reasonId" name="reasonId">
+                        <mat-option *ngFor="let reason of reasonList" [value]="reason.value">{{reason.label}}</mat-option>
+                    </mat-select>
+                </mat-form-field> 
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Resignation Reason Details</mat-label>
+                    <textarea matInput formControlName="reasonDetail" name="reasonDetail"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class ="row">
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label> Address For Future Correspondence
+                        <span class="text-danger"> *</span>
+                    </mat-label>
+                    <textarea type="text" placeholder="" matInput formControlName="alternateAddress"
+                        name="address"> </textarea>
+                    <mat-error *ngIf="exitFeedbackForm.get('alternateAddress').hasError('required')">
+                        Address Required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+    
+                    <mat-label>Email
+                        <span class="text-danger"> *</span>
+                    </mat-label>
+                    <input disabled="true"  type="email" placeholder="" matInput formControlName="alternateEmail"
+                        name="address">
+                    <mat-error *ngIf="exitFeedbackForm.get('alternateEmail').hasError('required')">
+                        Email Required
+                    </mat-error>
+                    <mat-error *ngIf="exitFeedbackForm.get('alternateEmail').hasError('pattern')">
+                        Enter valid Email 
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Mobile Number
+                        <span class="text-danger"> *</span>
+                    </mat-label>
+                    <input matInput type="text" formControlName="alternateMobileNo" (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" maxlength="10" minlength="10">
+                    <mat-error *ngIf="exitFeedbackForm.get('alternateMobileNo').hasError('required')">
+                        Mobile Number  Required
+                    </mat-error>
+                    <mat-error *ngIf="exitFeedbackForm.get('alternateMobileNo').hasError('pattern')">
+                        Enter valid Mobile Number 
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-3">
+                <div class="col-md-12"  [ngStyle]="{'color': disableform ? 'rgba(0, 0, 0, 0.38)' : ''}" >
+                    <angular-editor [placeholder]="'Enter Exit Interview Details and Feedback *'"
+                        formControlName="remarks" [config]="editorConfig"></angular-editor>
+                        <mat-error class="editor-text-required-error" *ngIf="(formsubmitted && exitFeedbackForm.get('remarks').hasError('required')) || (exitFeedbackForm.controls.remarks.touched && exitFeedbackForm.controls.remarks.invalid)">
+                            Exit Interview Feedback Required
+                        </mat-error>
+                </div>
+
+
+
+            <!-- <div class="col-md-4">
+                <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Summary of the Exit </mat-label>
+                    <textarea placeholder="Summary of the Exit " formControlName="remarks"matInput></textarea>
+                </mat-form-field>
+                </div> -->
+        </div>
+       
+        <div *ngIf="!disableform" class="col-md-12 text-right">
+            <div *ngIf="previous=='/associateexit/associateexitinformation';else elseblock"> </div>
+            <ng-template #elseblock>
+                <mat-checkbox formControlName="notify">&nbsp;Notify
+                </mat-checkbox>
+                <button mat-stroked-button (click)="clear()">
+                    <mat-icon>clear</mat-icon> Clear
+                </button>
+                <button [disabled]="disableSubmit" type="submit" name="btnSubmit" mat-flat-button color="primary" (click)="submitFeedBack()">
+                    Submit</button>
+            </ng-template>
+        </div>
+    </form>
+    </mat-card>

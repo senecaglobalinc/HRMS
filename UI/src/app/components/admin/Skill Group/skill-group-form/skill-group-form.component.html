@@ -1,0 +1,69 @@
+
+    <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Skill Group
+                </div>
+            </div>
+            <div class="panel-body">
+    <div class="center">
+                <form [formGroup]="addSkillGroup" class="form-horizontal">
+                    <div class="row">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4 ui-lg-3">
+                                <div class="box">
+                                    <label>Competency Area</label>
+                                    <span style="color: red">*</span>&nbsp;
+                                    <p-dropdown *ngIf="!isEdit" [style]="{'width':'70%'}" name="CompetencyAreaId" [options]="competencyAreaList" filter="true"
+                                        formControlName="CompetencyAreaId" tabindex="2"></p-dropdown>
+                                    <p-dropdown *ngIf="isEdit" [disabled]="isEdit" [style]="{'width':'70%'}" name="CompetencyAreaId" [options]="competencyAreaList"
+                                        filter="true" formControlName="CompetencyAreaId" tabindex="2" readonly></p-dropdown>
+                                    <div *ngIf="addSkillGroup.get('CompetencyAreaId').hasError('required') && formSubmitted">
+                                        <span style="color: red">Competency Area Required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-4 ui-lg-3">
+                                <div class="box">
+                                    <label for="SkillGroupName">Skill Group Name:</label>
+                                    <span style="color: red">*</span>&nbsp;
+                                    <input formControlName="SkillGroupName" style="width: 70%" name="SkillGroupName" required type="text" size="30" pInputText>
+                                    <div *ngIf="addSkillGroup.get('SkillGroupName').hasError('required') && formSubmitted">
+                                        <span style="color: red"> Skill Group Required</span>
+                                    </div>
+                                    <div *ngIf="addSkillGroup.get('SkillGroupName').hasError('pattern') ">
+                                        <span style="color: red">Enter Valid SkillGroup Name</span>
+                                    </div>
+                                    <div *ngIf="addSkillGroup.get('SkillGroupName').hasError('maxlength')">
+                                        <span style="color: red">Only 100 characters</span>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4 ui-lg-3">
+                                <div class="box">
+                                    <label for="Description">Skill Group Description:</label>&nbsp;&nbsp;
+                                    <textarea formControlName="Description" style="width: 70%" name="Description" type="textarea" size="30" pInputTextarea></textarea>
+                                    <div *ngIf="addSkillGroup.get('Description').hasError('required') && formSubmitted">
+                                        <span style="color: red">Skill Group Description Required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <section class="pull-right buttons">
+                                    <button type="submit" class="btn btn-custom" style="cursor:pointer;" (click)="addSkillGroups()">
+                                        <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="cancel()">
+                                        <i class="fa fa-eraser"></i>Clear</button>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    
+    <p-toast [style]="{marginTop: '80px'}"></p-toast>

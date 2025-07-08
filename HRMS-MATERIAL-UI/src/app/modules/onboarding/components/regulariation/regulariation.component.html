@@ -1,0 +1,116 @@
+<div *ngIf="toBeRegularizedDays.length == 0">
+
+    <div class="noDataContainerCss">
+    <img src="../../../../../assets/images/calender.jpeg"><p><strong>Hurray! No Actions To Perform</strong></p>
+</div>
+</div>
+<div *ngIf="toBeRegularizedDays.length > 0">
+<!-- <mat-card>
+    <mat-card-content>
+        <form>
+            <div [formGroup]="regularizationForm">
+                <div class="rm-css">
+                    <div class="col-md-4">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Reporting Manager
+                                <span class="text-danger">*</span>
+                            </mat-label>
+                            <mat-select formControlName="reportingManager" disabled="true" >
+                                <mat-option *ngFor = "let option of reportingManagers" [value]="option.value">{{option.label}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance={{themeConfigInput}}>
+                            <mat-label>Remarks By Reporting Manager</mat-label>
+                            <textarea matInput formControlName="remarksByReportingManager"
+                                name="remarksByReportingManager"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card> -->
+
+
+
+<mat-card class="mt-2">
+    <mat-card-content>
+        <div class="icon-text-container mb-2">
+            <mat-icon  class="arrow-css" (click)="goBack()">arrow_back</mat-icon><p>Reporting Manager : {{reportingManagers[0].label}}</p>
+        </div>
+        <form [formGroup]="regularizationForm">
+            <div>
+                <div formArrayName="dateWiseRegularization"
+                    *ngFor="let day of regularizationForm.get('dateWiseRegularization')['controls']; let i = index;">
+                    <div [formGroupName]="i" class="row col-lg-12 col-md-12 col-sm-12">
+
+                        <!-- <div > -->
+                        <div class="col-lg-2 col-md-12 col-sm-12">
+                            <mat-form-field appearance={{themeConfigInput}} class="date-css">
+                                <mat-label>Date
+                                    <span class="text-danger">*</span>
+                                </mat-label>
+                                <input autocomplete="disabled" matInput disabled="true" type="text"
+                                    formControlName="date" [matDatepicker]="absentDate" readonly
+                                    (click)="absentDate.open()" style="cursor: pointer;">
+                                <mat-datepicker-toggle matSuffix [for]="absentDate"></mat-datepicker-toggle>
+                                <mat-datepicker #absentDate></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12">
+                            <mat-form-field appearance={{themeConfigInput}}>
+                                <mat-label>Location
+                                    <span class="text-danger">*</span>
+                                </mat-label>
+                                <mat-select formControlName="Location">
+                                    <mat-option *ngFor="let item of Locations" [value]="item">{{item}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12">
+                            
+                           <mat-form-field appearance={{themeConfigInput}}> <input matInput [ngxTimepicker]="toggleTimepicker" [disableClick]="true" readonly  formControlName="fromTime" [format]="24">
+                            <ngx-material-timepicker-toggle  matSuffix [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
+                            <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
+                           </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12">
+                            <!-- <material-timepicker color="primary" label="To Time" [userTime]="exportToTime"
+                                (change)="onToTimeChange($event,i)" revertLabel="Remove" submitLabel="Ok"
+                                appearance={{themeConfigInput}}  ></material-timepicker> -->
+                                <mat-form-field appearance={{themeConfigInput}}> <input matInput [ngxTimepicker]="toggleTimepicker1" [disableClick]="true" formControlName="toTime" [format]="24" readonly>
+                                    <ngx-material-timepicker-toggle  matSuffix [for]="toggleTimepicker1"></ngx-material-timepicker-toggle>
+                                    <ngx-material-timepicker #toggleTimepicker1></ngx-material-timepicker>
+                                   </mat-form-field>
+                            
+                        </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12">
+                            <mat-form-field appearance={{themeConfigInput}}>
+                                <mat-label>Remarks</mat-label>
+                                <input matInput formControlName="Remarks" name="Remarks">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-1 col-md-12 col-sm-12">
+                            <button type="button" mat-icon-button class="mt-2 close-btn-css" (click)="onDelete(i)">
+                                <mat-icon >delete</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="submit-btn">
+            <button type="submit" mat-flat-button color="primary" class=" mt-2 btn-css"
+                    (click)="ApplyRegularization()">
+                    Submit
+                </button>
+            </div>
+            <!-- </div> -->
+        </form>
+    </mat-card-content>
+</mat-card>
+</div>

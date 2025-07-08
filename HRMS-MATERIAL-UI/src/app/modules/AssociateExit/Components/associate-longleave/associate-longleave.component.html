@@ -1,0 +1,209 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+      <form [formGroup]="searchAssociate">
+        <div class="row">
+                <div class="col-md-6">
+                <mat-checkbox  formControlName="Maternity"
+                    (change)="IsMaternityCheck($event)">Maternity</mat-checkbox>
+                </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+
+            <mat-form-field appearance={{themeConfigInput}} class="customMatSelect">
+                <mat-label>Associate Name<span class="text-danger"> *</span></mat-label>
+                <input appDropDownSuggestion [SearchList]="employeeList"
+                appRequirematch 
+                placeholder="Select Associate" type="text" matInput 
+                formControlName="AssociateName" #trigger="matAutocompleteTrigger"
+                [matAutocomplete]="auto" appValidations appEmptySpacesValidations minlength="2"/>
+                <button class="clearFieldIcon" *ngIf="searchAssociate.value.AssociateName" mat-button matSuffix
+                  mat-icon-button aria-label="Clear" (click)="clearField()">
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngIf="searchAssociate.get('AssociateName').hasError('invalidValue') && searchAssociate.value.AssociateName"
+                   disabled>No matching value found</mat-option>
+                  <mat-option *ngFor="let option of filteredOptionsName | async" [value]="option" >
+                    {{ option.label }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="searchAssociate.get('AssociateName').hasError('requireMatch')">
+                  Select Associate from given options
+                </mat-error>
+                <mat-error *ngIf="searchAssociate.get('AssociateName').hasError('required') && searchFormSubmitted">
+                    Select Associate
+                </mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <div class="d-flex align-items-center mnh60"> 
+              <button type="submit" mat-flat-button color="primary" 
+                (click)="getAssociatesById(searchAssociate.value.AssociateName.value)">Search</button>
+            </div>
+          </div>
+        </div>
+      </form>
+  
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card [hidden]="!isVisible">
+    <mat-card-content>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        
+      <ng-container matColumnDef="radioButton">
+          <th mat-header-cell [hidden]="isDisable" *matHeaderCellDef class="font-weight-bold">Select</th>
+          <td mat-cell *matCellDef="let element" [hidden]="isDisable">
+            <mat-radio-button [hidden]="isDisable" [(ngModel)]="SelectedItem" (click)="radioChangeHandler(element)">
+            </mat-radio-button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="EmployeeName">
+            <th mat-header-cell *matHeaderCellDef   class="font-weight-bold">EmployeeName</th>
+            <td mat-cell *matCellDef="let element"> {{element.EmployeeName}} </td>
+          </ng-container>
+  
+        <ng-container matColumnDef="ProjectName">
+          <th mat-header-cell *matHeaderCellDef  class="font-weight-bold">ProjectName</th>
+          <td mat-cell *matCellDef="let element"> {{element.ProjectName}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="ProgramManagerName">
+          <th mat-header-cell *matHeaderCellDef   class="font-weight-bold">ProgramManagerName </th>
+          <td mat-cell *matCellDef="let element"> {{element.ProgramManagerName}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="ReportingManagerName">
+          <th mat-header-cell *matHeaderCellDef  class="font-weight-bold">ReportingManagerName</th>
+          <td mat-cell *matCellDef="let element"> {{element.ReportingManagerName}} </td>
+        </ng-container>
+  
+      
+        <ng-container matColumnDef="IsBillable">
+          <th mat-header-cell *matHeaderCellDef  class="font-weight-bold">IsBillable</th>
+          <td mat-cell *matCellDef="let element"> {{element.IsBillable}} </td>
+        </ng-container>
+        <ng-container matColumnDef="IsCritical">
+          <th mat-header-cell *matHeaderCellDef   class="font-weight-bold">IsCritical</th>
+          <td mat-cell *matCellDef="let element"> {{element.IsCritical}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Rejoin">
+                <th mat-header-cell  [hidden]="!isDisable" *matHeaderCellDef   class="font-weight-bold">Rejoin</th>
+                <td mat-cell [hidden]="!isDisable" *matCellDef="let element">
+                    <button type="submit" [hidden]="!isDisable" (click)="rejoin(element)"  mat-flat-button
+                    color="primary">Rejoin</button>
+                </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card [hidden]="!isVisible">
+      <mat-card-content>
+          <form  [formGroup]="longLeaveForm">
+              <div class="row">
+                  <div class="col-md-5">
+                      <mat-form-field appearance="{{themeConfigInput}}">
+                          <mat-label>Long Leave Start Date<span class="text-danger">*</span></mat-label>
+                          <input formControlName="LongLeaveStartDate" [disabled]="isDisable" matInput type="text" [(ngModel)]="longLeaveData.LongLeaveStartDate" (dateChange)="CalculateMaternityPeriod(longLeaveData.LongLeaveStartDate)"  [matDatepicker]="picker" readonly style="cursor: pointer;" (click)="picker.open()">
+                          <mat-datepicker-toggle matSuffix *ngIf="longLeaveForm.value.LongLeaveStartDate" 
+                              (click)="clearInput($event, 'LongLeaveStartDate')">
+                              <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker  #picker></mat-datepicker>
+                          <mat-error *ngIf="longLeaveForm.get('LongLeaveStartDate').hasError('required') && formSubmitted">
+                              <span style="color: red">Long Leave Start Date Required.</span>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+              
+                  <div class="col-md-5">
+                      <mat-form-field appearance="{{themeConfigInput}}">
+                          <mat-label>Tentative Join Date<span class="text-danger">*</span></mat-label>
+                          <input formControlName="TentativeJoinDate" matInput type="text" (dateChange)="validateDates(longLeaveData.LongLeaveStartDate,tentativeJoinDate)" 
+                           [(ngModel)]="tentativeJoinDate"  [matDatepicker]="picker1" readonly style="cursor: pointer;" (click)="picker1.open()">
+                          <mat-datepicker-toggle matSuffix *ngIf="longLeaveForm.value.TentativeJoinDate"
+                              (click)="clearInput($event, 'TentativeJoinDate')">
+                              <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                          <mat-error *ngIf="longLeaveForm.get('TentativeJoinDate').hasError('required') && formSubmitted">
+                              <span style="color: red">Tentative Join Date is Required.</span>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <mat-form-field appearance={{themeConfigInput}}>
+                          <mat-label>Reason</mat-label>
+                          <textarea matInput [(ngModel)]="longLeaveData.Reason" formControlName="Reason" ></textarea>
+                      </mat-form-field>
+                  </div>
+              </div>
+              
+              <div class="row">
+                  <div class="col-md-12 text-right">
+                    <div>
+                        <button type="submit" (click)="onCreate()" mat-flat-button
+                            color="primary">Save</button>
+                        <button mat-stroked-button [disabled]="isDisable" (click)="resetForm()">
+                            <mat-icon>clear</mat-icon>
+                            Clear
+                        </button> 
+                    </div>
+                  </div>
+              </div>
+          </form>
+      </mat-card-content>
+  </mat-card>
+
+  <ng-template #AssociateRejoinDialog>  
+    <form [formGroup]="dialogForm" >
+        <div mat-dialog-content>
+                <h4>Are you sure, you want to Rejoin Associate?</h4>
+            <div class="row">
+            <div class="col-md-9">
+            <mat-form-field appearance="{{themeConfigInput}}">
+                    <mat-label>Rejoin Date<span class="text-danger">*</span></mat-label>
+                    <input [min]="minDate" [max]="maxDateValue" formControlName="RejoinedDate" name="RejoinedDate" matInput type="text" 
+                    [(ngModel)]="RejoinedDate"  [matDatepicker]="picker2" readonly style="cursor: pointer;" (click)="picker2.open()">
+                    <mat-datepicker-toggle matSuffix *ngIf="dialogForm.value.RejoinedDate"
+                        (click)="clearInput($event, 'RejoinedDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="dialogForm.controls.RejoinedDate.hasError('required') && dialogFormSubmitted">     
+                            <span style="color: red">Rejoin Date is Required.</span>
+                        </mat-error>
+                </mat-form-field>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-9">
+            <mat-form-field appearance={{themeConfigInput}}>
+                    <mat-label>Notes : </mat-label>
+                    <textarea matInput  formControlName="reason" name="reason" ></textarea>
+            </mat-form-field>
+            </div>
+            </div>
+            <div class="col-lg-12">
+                    <section class="pull-right buttons">         
+                    <button mat-flat-button color="primary" id="submitButton" type="submit" (click)="rejoinAssociate(dialogForm.value.reason, dialogForm.value.RejoinedDate)">
+                        Yes</button>
+                    <button mat-flat-button id="clearButton" color="primary" type="button" (click)="cancelRejoin()">
+                            No</button>
+                    </section>
+                </div>
+        </div>
+    </form>
+   </ng-template>

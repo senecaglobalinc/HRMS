@@ -1,0 +1,53 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h4>Proficiency Level</h4>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+        <form [formGroup]="addProficiencyLevel">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="box">
+                            <label for="ProficiencyLevelCode">Proficiency Code:</label>
+                            <span style="color: red">*</span>&nbsp;
+                            <input formControlName="ProficiencyLevelCode" style="width: 50%" name="ProficiencyLevelCode" required type="text" size="30"
+                                pInputText>
+                            <div class="errMsg" *ngIf="addProficiencyLevel.get('ProficiencyLevelCode').hasError('required') && formSubmitted">
+                                <span style="color: red">Proficiency Level Code Required</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="box">
+                            <label for="ProficiencyLevelDescription">Proficiency Description:</label>
+                            <span style="color: red">*</span>&nbsp;
+                            <input formControlName="ProficiencyLevelDescription" style="width: 50%" name="ProficiencyLevelDescription" required type="text"
+                                size="30" pInputText>
+                            <div class="errMsg" *ngIf="addProficiencyLevel.get('ProficiencyLevelDescription').hasError('required') && formSubmitted">
+                                <span style="color: red">Proficiency Level Description Required</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g">
+                    <div class="col-lg-12">
+                        <section class="pull-right buttons">
+                            <button type="submit" class="btn btn-custom" (click)="CreateProficiencyLevelData()">
+                                <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                            <button type="button" class="btn btn-default" (click)="Reset()">
+                                <i class="fa fa-eraser"></i>Clear</button>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </form>
+</div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,48 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <div>Grades</div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+            <form [formGroup]="addGrades">
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="box">
+                                <label for="GradeCode">Grade Code</label>
+                                <span style="color: red">*</span>
+                                <input formControlName="GradeCode" name="GradeCode" style="width: 70%" required type="text" size="30" pInputText>
+                                <div class="errMsg" *ngIf="addGrades.get('GradeCode').hasError('required') && formSubmitted">
+                                    <span style="color: red">Grade Code Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="box">
+                                <label for="GradeName">Grade Name</label>
+                                <span style="color: red">*</span>
+
+                                <input formControlName="GradeName" style="width: 70%" name="GradeName" required type="text" size="30" pInputText>
+                                <div class="errMsg" *ngIf="addGrades.get('GradeName').hasError('required') && formSubmitted">
+                                    <span style="color: red">Grade Name Required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                        <section class="pull-right buttons">
+                                <button type="submit" style="cursor: pointer;" class="btn btn-custom" (click)="CreateGrades()">
+                                        <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                                    <button type="button" style="cursor: pointer;" class="btn btn-default" (click)="Reset()">
+                                        <i class="fa fa-eraser"></i>Clear</button>
+                        </section>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

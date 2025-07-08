@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+      <div>Department Type</div>
+  </div>
+  <div class="panel-body">
+      <div class="center">
+          <form class="form-horizontal" [formGroup]="addDepartmentType">
+              <div class="row">
+                  <div class="ui-g">
+                      <div class="ui-g-12 ui-md-4 ui-lg-3">
+                          <div class="box">
+                              <label for="DepartmentTypeDescription">Department Type Description:</label>
+                              <span style="color: red">*</span>&nbsp;
+                              <input formControlName="DepartmentTypeDescription"  name="DepartmentTypeDescription" required type="text" size="30"
+                                  pInputText>
+                              <!-- <div class="(keypress)="omit_special_char($event)"" *ngIf="addDepartmentType.get('(keypress)="omit_special_char($event)"').hasError('required') && formSubmitted">
+                                  <span style="color: red">Domain Name Required</span>
+                              </div> -->
+                              <div class="DepartmentType" *ngIf="addDepartmentType.get('DepartmentTypeDescription').hasError('pattern') ">
+                                  <span style="color: red">Only characters allowed</span>
+                              </div>
+                              <div class="DepartmentType" *ngIf="addDepartmentType.get('DepartmentTypeDescription').hasError('maxlength') ">
+                                  <span style="color: red">Only 100 characters</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-4 ui-lg-3">
+                          <div class="box buttons">
+                              <button type="submit" class="btn btn-custom submit" style="cursor:pointer;" (click)="createDepartmentType()">
+                                  <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                              <button type="button" class="btn btn-default cancel" style="cursor:pointer;" (click)="cancel()">
+                                  <i class="fa fa-eraser"></i>Clear</button>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

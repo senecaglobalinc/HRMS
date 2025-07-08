@@ -1,0 +1,47 @@
+<mat-toolbar>
+  <div class="logoDiv">
+    <b class="mr-2 mr-sm-5">Choose Role</b>
+  </div>
+
+  <span class="flex-spacer"></span>
+  <button mat-icon-button>
+    <i *ngIf = "!isImagePresent" class="fa fa-user" aria-hidden="true"></i>
+    <img *ngIf = "isImagePresent"[src]="image">
+    <!-- <img class="rounded-circle" src="../../../../../assets/images/avatar.png" alt="Avatar" /> -->
+  </button>
+  <button mat-icon-button aria-label="Account Menu" [matMenuTriggerFor]="accountmenu">
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu #accountmenu="matMenu">
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>power_settings_new</mat-icon>
+    <span>Sign Out</span>
+  </button>
+</mat-menu>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-sm-3 my-3" *ngFor="let role of roles">
+      <mat-card (click)="changeRole(role.label)">
+        <mat-card-content>
+          <div class="d-flex justify-content-center align-items-center chooseRole">
+            <div class="iconbox" (click)="changeRole(role.label)">
+              <div class="text-center">
+                <h4 class="m-0 p-0">{{ role.label }}</h4>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

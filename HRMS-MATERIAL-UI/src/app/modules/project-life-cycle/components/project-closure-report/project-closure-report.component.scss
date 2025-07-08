@@ -1,0 +1,23 @@
+// .example-1 {
+//     position: relative;
+//     overflow-y: scroll;
+//     height: 500px; }
+
+.scroll {
+    overflow: auto;
+    height: 75vh;
+}
+
+@media only screen and (max-width: 1500px) {
+    .scroll {
+        overflow: auto;
+        height: 55vh;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .scroll {
+        overflow: auto;
+        height: auto;
+    }
+}

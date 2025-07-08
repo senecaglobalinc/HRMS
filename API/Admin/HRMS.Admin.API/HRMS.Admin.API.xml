@@ -1,0 +1,1288 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HRMS.Admin.API</name>
+    </assembly>
+    <members>
+        <member name="M:HRMS.Admin.API.Auth.AuthorizeAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <summary>  
+            This will Authorize User  
+            </summary>  
+            <returns></returns>  
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.Create(HRMS.Admin.Entities.Activity)">
+            <summary>
+            CreateActivity
+            </summary>
+            <param name="activityIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.Update(HRMS.Admin.Entities.Activity)">
+            <summary>
+            UpdateActivity
+            </summary>
+            <param name="activityIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.GetAll(System.Boolean)">
+            <summary>
+            GetActivitys
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.GetByActivityId(System.Int32)">
+            <summary>
+            Gets the Activity by Id
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.GetActivitiesForDropdown">
+            <summary>
+            GetActivitiesForDropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.GetExitActivitiesByDepartment(System.Nullable{System.Int32})">
+            <summary>
+            GetExitActivitiesByDepartment
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.GetClosureActivitiesByDepartment(System.Nullable{System.Int32})">
+            <summary>
+            GetClosureActivitiesByDepartment
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ActivityController.GetTransitionPlanActivities">
+            <summary>
+            GetTransitionPlanActivities
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.CategoryMasterController.Create(HRMS.Admin.Entities.CategoryMaster)">
+            <summary>
+            This method creates new category master.
+            </summary>
+            <param name="categoryMasterIn"></param>
+            <returns>CategoryMaster</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.CategoryMasterController.Delete(System.Int32)">
+            <summary>
+            This methode deletes category master.
+            </summary>
+            <param name="categoryMasterID"></param>
+            <returns>bool</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.CategoryMasterController.GetAll(System.Nullable{System.Boolean})" -->
+        <member name="M:HRMS.Admin.API.Controllers.CategoryMasterController.GetByCategoryName(System.String)">
+            <summary>
+            Gets category master's
+            </summary>
+            <param name="categoryName"></param>
+            <returns>CategoryMaster</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.CategoryMasterController.GetParentCategoies" -->
+        <member name="M:HRMS.Admin.API.Controllers.CategoryMasterController.Update(HRMS.Admin.Entities.CategoryMaster)">
+            <summary>
+            This method updates category master details.
+            </summary>
+            <param name="categoryMasterIn"></param>
+            <returns>NotificationType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ClientController.Create(HRMS.Admin.Entities.Client)">
+            <summary>
+            Create Client
+            </summary>
+            <param name="clientIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ClientController.GetAll(System.Boolean)">
+            <summary>
+            GetClientsDetails
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ClientController.GetClientsForDropdown">
+            <summary>
+            GetClientsForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ClientController.GetByIds(System.Int32[])">
+            <summary>
+            Gets Clients by Ids
+            </summary>
+            <param name="clientIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ClientController.GetById(System.Int32)">
+            <summary>
+            GetClientById
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ClientController.Update(HRMS.Admin.Entities.Client)">
+            <summary>
+            Update Client
+            </summary>
+            <param name="clientIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.CompetencyAreaController.Create(HRMS.Admin.Entities.CompetencyArea)">
+            <summary>
+            This method creates new competency area.
+            </summary>
+            <param name="competencyAreaIn"></param>
+            <returns>CompetencyArea</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.CompetencyAreaController.Delete(System.Int32)">
+            <summary>
+            This methode update competency area's IsActive flag to false.
+            Updation of competency is allowed only there is no active record for skill and skill group table.
+            </summary>
+            <param name="competencyAreaID"></param>
+            <returns>bool</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.CompetencyAreaController.GetAll(System.Nullable{System.Boolean})" -->
+        <member name="M:HRMS.Admin.API.Controllers.CompetencyAreaController.Update(HRMS.Admin.Entities.CompetencyArea)">
+            <summary>
+            This method updates competency area details.
+            Updation of competency is allowed only there is no active record for skill and skill group table.
+            </summary>
+            <param name="competencyArea"></param>
+            <returns>CompetencyArea</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.Create(HRMS.Admin.Entities.Department)">
+            <summary>
+            Create Department
+            </summary>
+            <param name="department"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetAll(System.Boolean)">
+            <summary>
+            GetAll DepartmentTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetById(System.Int32)">
+            <summary>
+            Get Department By Id
+            </summary>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetUserDepartmentDetails">
+            <summary>
+            Get UserDepartment Details
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetUserDepartmentDetailsByEmployeeID(System.Int32)">
+            <summary>
+            Get UserDepartmentDetails By EmployeeID
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.Update(HRMS.Admin.Entities.Department)">
+            <summary>
+            Update Department
+            </summary>
+            <param name="department"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetByDepartmentCode(System.String)">
+            <summary>
+            GetByDepartmentCode
+            </summary>
+            <param name="departmentCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetByDepartmentCodes(System.String)">
+            <summary>
+            GetByDepartmentCodes
+            </summary>
+            <param name="departmentCodes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetMasterTablesData">
+            <summary>
+            Get GetMasterTablesData
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetDepartmentDLByDeptId(System.Int32)">
+            <summary>
+            Get DepartmentDL By DeptId
+            </summary>
+            <param name="deptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentController.GetAllDepartmentsWithDLs">
+            <summary>
+            Get DepartmentDL By DeptId
+            </summary>
+            <param></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentTypeController.Create(HRMS.Admin.Entities.DepartmentType)">
+            <summary>
+            Create DepartmentType
+            </summary>
+            <param name="departmentTypeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentTypeController.GetAll(System.Boolean)">
+            <summary>
+            GetAll DepartmentTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DepartmentTypeController.Update(HRMS.Admin.Entities.DepartmentType)">
+            <summary>
+            Update DepartmentType
+            </summary>
+            <param name="departmentTypeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.Create(HRMS.Admin.Entities.Designation)">
+            <summary>
+            Create Designation
+            </summary>
+            <param name="designationIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            GetDesignationDetails
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.GetDesignationsForDropdown">
+            <summary>
+            GetDesignationsForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.GetById(System.Int32)">
+            <summary>
+            Get Designation Details by id
+            </summary>
+            <param name="designationId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.GetByCode(System.String)">
+            <summary>
+            Get Designation Details by code
+            </summary>
+            <param name="designationCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.Update(HRMS.Admin.Entities.Designation)">
+            <summary>
+            Update Designation
+            </summary>
+            <param name="designationIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DesignationController.GetBySearchString(System.String)">
+            <summary>
+            GetBySearchString
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DomainController.Create(HRMS.Admin.Entities.Domain)">
+            <summary>
+            CreateDomain
+            </summary>
+            <param name="domainIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DomainController.GetAll(System.Boolean)">
+            <summary>
+            GetDomains
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DomainController.GetByDomainId(System.Int32)">
+            <summary>
+            Gets the Domain by Id
+            </summary>
+            <param name="domainId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.DomainController.Update(HRMS.Admin.Entities.Domain)">
+            <summary>
+            UpdateDomain
+            </summary>
+            <param name="domainIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ExitTypeController.Create(HRMS.Admin.Entities.ExitType)">
+            <summary>
+            CreateExitType
+            </summary>
+            <param name="exitTypeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ExitTypeController.GetAll(System.Boolean)">
+            <summary>
+            GetExitTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ExitTypeController.GetByExitTypeId(System.Int32)">
+            <summary>
+            Gets the ExitType by Id
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ExitTypeController.GetExitTypesForDropdown">
+            <summary>
+            GetExitTypesForDropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ExitTypeController.Update(HRMS.Admin.Entities.ExitType)">
+            <summary>
+            UpdateExitType
+            </summary>
+            <param name="exitTypeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ExitTypeController.GetExitTypeIdByName(System.String)">
+            <summary>
+            Gets ExitTypeId By Name
+            </summary>
+            <param name="exitTypeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FinancialYearController.GetAll">
+            <summary>
+            Get all Financial years
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FinancialYearController.GetById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="financialYearId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FinancialYearController.GetCurrentFinancialYear">
+            <summary>
+            This method gets the current financial year.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.Create(HRMS.Admin.Entities.RoleMaster)">
+            <summary>
+            Create FuctionalRole
+            </summary>
+            <param name="department"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.GetAll">
+            <summary>
+            Get all roles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.GetRoleNames">
+            <summary>
+            Get Roles by Role id
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.GetByDepartmentID(System.Int32)">
+            <summary>
+            Get all roles by DepartmentID
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.GetSGRoleSuffixAndPrefix(System.Int32)">
+            <summary>
+            Get all records from SGRoles, SGRolePrefix, SGRoleSuffix tables.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.Update(HRMS.Admin.Entities.RoleMaster)">
+            <summary>
+            Update FuctionalRole
+            </summary>
+            <param name="department"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.FunctionalRoleController.GetRolesAndDepartments">
+            <summary>
+            Get all roles and mapped departments
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeController.Create(HRMS.Admin.Entities.Grade)">
+            <summary>
+            Create Grade
+            </summary>
+            <param name="gradeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            GetGradesDetails
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeController.GetGradesForDropdown">
+            <summary>
+            GetGradesForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeController.GetById(System.Int32)">
+            <summary>
+            GetGradesById
+            </summary>
+            <param name="gradeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeController.Update(HRMS.Admin.Entities.Grade)">
+            <summary>
+            Update Grade
+            </summary>
+            <param name="gradeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeController.GetGradeByDesignation(System.Int32)">
+            <summary>
+            GetGradeByDesignation
+            </summary>
+            <param name="designationId"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.GradeRoleTypeController.GetAll(System.Nullable{System.Boolean})" -->
+        <member name="M:HRMS.Admin.API.Controllers.GradeRoleTypeController.GetById(System.Int32)">
+            <summary>
+            Gets Grade Role Type
+            </summary>
+            <param name="isActive"></param>
+            <returns>GradeRoleType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeRoleTypeController.Create(HRMS.Admin.Infrastructure.Models.GradeRoleTypeRequest)">
+            <summary>
+            This method creates new Role Type.
+            </summary>
+            <param name="model"></param>
+            <returns>GradeRoleType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.GradeRoleTypeController.GetGradesByDepartment(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets the Grade details by Financial Year, Department and RoleTypeId(optional)
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.HolidayController.Create(HRMS.Admin.Entities.Holiday)">
+            <summary>
+            CreateHoliday
+            </summary>
+            <param name="holidayIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.HolidayController.GetAll">
+            <summary>
+            GetHolidays
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.HolidayController.GetByHolidayId(System.Int32)">
+            <summary>
+            Gets the Holiday by Id
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.HolidayController.GetHolidaysForDropdown">
+            <summary>
+            GetHolidaysForDropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.HolidayController.Update(HRMS.Admin.Entities.Holiday)">
+            <summary>
+            UpdateHoliday
+            </summary>
+            <param name="holidayIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.HolidayController.GetHolidayIdByName(System.String)">
+            <summary>
+            Gets HolidayId By Name
+            </summary>
+            <param name="holidayName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.KeyFunctionController.Create(HRMS.Admin.Entities.SGRole)">
+            <summary>
+            Create KeyFunction
+            </summary>
+            <param name="keyFunctionIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.KeyFunctionController.GetAll(System.Boolean)">
+            <summary>
+            Get KeyFunction List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.KeyFunctionController.Update(HRMS.Admin.Entities.SGRole)">
+            <summary>
+            Update KeyFunction
+            </summary>
+            <param name="keyFunctionIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.MenuController.GetMenuDetails(System.String)">
+            <summary>
+            Get Menu Details by logged in user role
+            </summary>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.MenuController.GetSourceMenuRoles(System.Int32)">
+            <summary>
+            GetSourceMenuRoles
+            </summary>
+            <param name="RoleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.MenuController.GetTargetMenuRoles(System.Int32)">
+            <summary>
+            GetTargetMenuRoles
+            </summary>
+            <param name="RoleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.MenuController.AddTargetMenuRoles(HRMS.Admin.Infrastructure.Models.Domain.MenuRoleDetails)">
+            <summary>
+            AddTargetMenuRoles
+            </summary>
+            <param name="menuRoles"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.NightlyJobController.GetUtilizationReportMasters" -->
+        <member name="M:HRMS.Admin.API.Controllers.NightlyJobController.GetAllByCategoryName(System.String)">
+            <summary>
+            GetStatuses
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NightlyJobController.GetAllDepartments(System.Boolean)">
+            <summary>
+            GetAll Departments
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NightlyJobController.GetAllPracticeAreas(System.Boolean)">
+            <summary>
+            GetAll Departments
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationConfigurationController.Create(HRMS.Admin.Entities.NotificationConfiguration)">
+            <summary>
+            This method creates new notification configuration.
+            </summary>
+            <param name="notificationConfigurationIn"></param>
+            <returns>NotificationConfiguration</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.NotificationConfigurationController.GetAll(System.Nullable{System.Boolean})" -->
+        <member name="M:HRMS.Admin.API.Controllers.NotificationConfigurationController.GetByNotificationTypeAndCategory(System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Gets notification configuration's
+            </summary>
+            <param name="notificationTypeId"></param>
+            <param name="categoryMasterId"></param>
+            <returns>NotificationConfiguration</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationConfigurationController.GetByNotificationTypeAndEmailTo(System.Nullable{System.Int32},System.String)">
+            <summary>
+            Gets notification configuration's
+            </summary>
+            <param name="notificationTypeId"></param>
+            <param name="emailTo"></param>
+            <returns>NotificationConfiguration</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationConfigurationController.GetEmployeeWorkEmails">
+            <summary>
+            Gets notification configuration's
+            </summary>      
+            <returns>String</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationConfigurationController.GetNotificationConfiguration(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Get Notification Configuration
+            </summary>
+            <param name="notificationCode"></param>
+            <param name="categoryMasterId"></param>
+            <returns>NotificationConfiguration</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationConfigurationController.Update(HRMS.Admin.Entities.NotificationConfiguration)">
+            <summary>
+            This method updates notification configuration details.
+            </summary>
+            <param name="notificationConfigurationIn"></param>
+            <returns>NotificationConfiguration</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationManagerController.SendEmail(HRMS.Admin.Infrastructure.Models.NotificationDetail)">
+            <summary>
+            This method sends Email.
+            </summary>
+            <param name="notificationDetail"></param>
+            <returns>notificationDetail</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationTypeController.Create(HRMS.Admin.Entities.NotificationType)">
+            <summary>
+            This method creates new notification type.
+            </summary>
+            <param name="notificationTypeIn"></param>
+            <returns>CompetencyArea</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationTypeController.Delete(System.Int32)">
+            <summary>
+            This methode deletes notification type.
+            Before deleting notification type, associated notification configuration will be deleted
+            </summary>
+            <param name="notificationTypeID"></param>
+            <returns>bool</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.NotificationTypeController.GetAll(System.Nullable{System.Boolean})" -->
+        <member name="M:HRMS.Admin.API.Controllers.NotificationTypeController.GetByNotificationCode(System.String)">
+            <summary>
+            Gets notification type's
+            </summary>
+            <param name="notificationCode"></param>
+            <returns>NotificationType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.NotificationTypeController.Update(HRMS.Admin.Entities.NotificationType)">
+            <summary>
+            This method updates notification type details.
+            </summary>
+            <param name="notificationTypeIn"></param>
+            <returns>NotificationType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.Create(HRMS.Admin.Entities.PracticeArea)">
+            <summary>
+            Create practice area
+            </summary>
+            <param name="practiceAreaIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.Delete(System.Int32)">
+            <summary>
+            This methode update competency area's IsActive flag to false.
+            Updation of competency is allowed only there is no active record for skill and skill group table.
+            </summary>
+            <param name="practiceAreaID"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            Gets practice area's
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.GetTechnologyForDropdown">
+            <summary>
+            GetTechnologyForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.GetByIds(System.Int32[])">
+            <summary>
+            Gets practice area's by ids
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.GetById(System.Int32)">
+            <summary>
+             Gets practice area's by id
+            </summary>
+            <param name="practiceAreaId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.Update(HRMS.Admin.Entities.PracticeArea)">
+            <summary>
+            Update practice area
+            </summary>
+            <param name="practiceAreaIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.PracticeAreaController.GetByPracticeAreaCode(System.String)">
+            <summary>
+            GetByPracticeAreaCode
+            </summary>
+            <param name="practiceAreaCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProficiencyLevelController.Create(HRMS.Admin.Entities.ProficiencyLevel)">
+            <summary>
+            CreateProficiencyLevel
+            </summary>
+            <param name="proficiencyLevelIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProficiencyLevelController.Update(HRMS.Admin.Entities.ProficiencyLevel)">
+            <summary>
+            UpdateProficiencyLevel
+            </summary>
+            <param name="proficiencyLevelIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProjectTypeController.Create(HRMS.Admin.Entities.ProjectType)">
+            <summary>
+            CreateProjectType
+            </summary>
+            <param name="projectTypeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProjectTypeController.GetAll(System.Boolean)">
+            <summary>
+            GetProjectType
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProjectTypeController.GetByIds(System.Int32[])">
+            <summary>
+            GetProjectType
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProjectTypeController.GetById(System.Int32)">
+            <summary>
+            GetProjectType
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProjectTypeController.Update(HRMS.Admin.Entities.ProjectType)">
+            <summary>
+            UpdateProjectType
+            </summary>
+            <param name="projectTypeIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ProjectTypeController.GetProjectTypeByCode(System.String)">
+            <summary>
+            GetProjectTypeByCode
+            </summary>
+            <param name="projectTypeCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.Create(HRMS.Admin.Entities.Reason)">
+            <summary>
+            CreateReason
+            </summary>
+            <param name="reasonIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.GetAll(System.Boolean)">
+            <summary>
+            GetReasons
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.GetByReasonId(System.Int32)">
+            <summary>
+            Gets the Reason by Id
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.GetReasonsForDropdown">
+            <summary>
+            GetReasonsForDropdown
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.GetVoluntaryExitReasons">
+            <summary>
+            GetVoluntaryExitReasons
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.GetOtherExitReasons">
+            <summary>
+            GetOtherExitReasons
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReasonController.Update(HRMS.Admin.Entities.Reason)">
+            <summary>
+            UpdateReason
+            </summary>
+            <param name="reasonIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetFinanceReportMasters">
+            <summary>
+            Get FinanceReportMasters
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetUtilizationReportMasters">
+            <summary>
+            Get UtilizationReportMasters
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetDomainReportMasters">
+            <summary>
+            Get DomainReportMasters
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetTalentPoolReportMasters">
+            <summary>
+            Get TalentPool Report Masters
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetSkillSearchMasters">
+            <summary>
+            GetSkillSearchMasters
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetSkillsBySearchString(System.String)">
+            <summary>
+            GetSkillsBySearchString
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ReportController.GetAssociateAllocationMasters">
+            <summary>
+            Get GetAssociateAllocationMasters
+            </summary>       
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.RoleTypeController.GetAll(System.Nullable{System.Boolean})" -->
+        <member name="M:HRMS.Admin.API.Controllers.RoleTypeController.GetById(System.Int32)">
+            <summary>
+            Gets Grade Role Type
+            </summary>
+            <param name="isActive"></param>
+            <returns>GradeRoleType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.RoleTypeController.Create(HRMS.Admin.Infrastructure.Models.RoleTypeModel)">
+            <summary>
+            This method creates new Role Type.
+            </summary>
+            <param name="model"></param>
+            <returns>RoleType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.RoleTypeController.Update(HRMS.Admin.Infrastructure.Models.RoleTypeModel)">
+            <summary>
+            This method updates Role Type details.
+            </summary>
+            <param name="RoleTypesMasterIn"></param>
+            <returns>NotificationType</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.RoleTypeController.Delete(System.Int32)">
+            <summary>
+            This methode deletes Role Type.
+            </summary>
+            <param name="RoleTypesMasterID"></param>
+            <returns>bool</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:HRMS.Admin.API.Controllers.RoleTypeController.GetRoleTypesForDropdown(System.Int32,System.Int32)" -->
+        <member name="M:HRMS.Admin.API.Controllers.RoleTypeController.GetRoleTypesAndDepartmentsAsync(System.Int32)">
+            <summary>
+            Gets Department info and Role Types for the passed in Department Id
+            </summary>
+            <param name="departmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SeniorityController.Create(HRMS.Admin.Entities.SGRolePrefix)">
+            <summary>
+            Create Seniority
+            </summary>
+            <param name="seniorityIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SeniorityController.GetAll(System.Boolean)">
+            <summary>
+            Get Seniority List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SeniorityController.Update(HRMS.Admin.Entities.SGRolePrefix)">
+            <summary>
+            Update Seniority
+            </summary>
+            <param name="seniorityIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ServiceTypeController.Create(HRMS.Admin.Entities.ServiceType)">
+            <summary>
+            Create Service Type
+            </summary>
+            <param name="serviceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ServiceTypeController.Update(HRMS.Admin.Entities.ServiceType)">
+            <summary>
+            Update Service Type
+            </summary>
+            <param name="serviceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ServiceTypeController.GetAll(System.Boolean)">
+            <summary>
+            GetAll ServiceTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.ServiceTypeController.GetServiceTypeForDropdown">
+            <summary>
+            GetServiceTypeForDropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.Create(HRMS.Admin.Entities.Skill)">
+            <summary>
+            Create Skill
+            </summary>
+            <param name="skillIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            Get Skills
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetActiveSkillsForDropdown">
+            <summary>
+            Get Active Skills For Dropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetSkillsForDropdown">
+            <summary>
+            Get Skills For Dropdown
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetById(System.String)">
+            <summary>
+            Get skills by SkillId
+            </summary>
+            <param name="skillIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetBySkillGroupId(System.String)">
+            <summary>
+            Get skills by SkillGroupId
+            </summary>
+            <param name="skillGroupIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.Update(HRMS.Admin.Entities.Skill)">
+            <summary>
+            Update Skill
+            </summary>
+            <param name="skillIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetskillsBySkillGroupId(System.Int32)">
+            <summary>
+            Update Skill
+            </summary>
+            <param name="skillgroupid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillController.GetSkillsBySearchString(System.String)">
+            <summary>
+            GetskillsBySearchString
+            </summary>
+            <param name="skillsearchstring"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillGroupController.Create(HRMS.Admin.Entities.SkillGroup)">
+            <summary>
+            Create SkillGroup
+            </summary>
+            <param name="skillGroupIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillGroupController.Delete(System.Int32)">
+            <summary>
+            Delete skillGroup.
+            </summary>
+            <param name="skillGroupId"></param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillGroupController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            GetSkillGroups
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillGroupController.Update(HRMS.Admin.Entities.SkillGroup)">
+            <summary>
+            Update skillGroup
+            </summary>
+            <param name="skillGroupIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillGroupController.GetByCompetencyAreaId(System.Int32)">
+            <summary>
+            GetByCompetencyAreaId
+            </summary>
+            <param name="competencyAreaID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SkillGroupController.GetByCompetencyAreaCode(System.String)">
+            <summary>
+            GetByCompetencyAreaCode
+            </summary>
+            <param name="competencyAreaCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SpecialityController.Create(HRMS.Admin.Entities.SGRoleSuffix)">
+            <summary>
+            Create Speciality
+            </summary>
+            <param name="specialityIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SpecialityController.GetAll(System.Boolean)">
+            <summary>
+            Get Speciality List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.SpecialityController.Update(HRMS.Admin.Entities.SGRoleSuffix)">
+            <summary>
+            Update Speciality
+            </summary>
+            <param name="specialityIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            GetStatuses
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetStatusByCode(System.Int32)">
+            <summary>
+            GetStatusById
+            </summary>
+            <param name="statusId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetStatusByCode(System.String)">
+            <summary>
+            GetStatusByCode
+            </summary>
+            <param name="statusCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetByCategoryAndStatusCode(System.String,System.String)">
+            <summary>
+            GetByCategoryAndStatusCode
+            </summary>
+            <param name="category"></param>
+            <param name="statusCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetAllByCategoryName(System.String)">
+            <summary>
+            GetStatuses
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetByCategoryIdAndStatusCode(System.Int32,System.String)">
+            <summary>
+            GetByCategoryIdAndStatusCode
+            </summary>
+            <param name="categoryId"></param>
+            <param name="statusCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.StatusController.GetProjectStatuses">
+            <summary>
+            GetStatuses
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetUsers">
+            <summary>
+            Get users with employee table join
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetUsersBySearchString(System.String)">
+            <summary>
+            Get users by search string 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetAllUsers(System.Nullable{System.Boolean})">
+            <summary>
+            GetAllUsers
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetByUserId(System.Int32)">
+            <summary>
+            GetAllUsers
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetById(System.Int32)">
+            <summary>
+            GetUserById
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetActiveUserByUserId(System.Int32)">
+            <summary>
+            GetUserById
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetByEmail(System.String)">
+            <summary>
+            GetAllUsers
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.UpdateUser(System.Int32)">
+            <summary>
+            UpdateUser
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetUsersByRoles(System.String)">
+            <summary>
+            GetUsersByRoles
+            </summary>
+            <param name="roles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserController.GetUserEmail">
+            <summary>
+            Get logged-In User EmailId 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetProgramManagers(System.String,System.Int32)">
+            <summary>
+            GetProgramManagers
+            </summary>
+            <param name="userRole"></param>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetRoles(System.Nullable{System.Boolean})">
+            <summary>
+            GetRoles
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetUserRolesbyUserID(System.Int32)">
+            <summary>
+            GetUserRolesbyUserID
+            </summary>
+            <param name="userID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.UpdateUserRole(HRMS.Admin.Entities.UserRole)">
+            <summary>
+            UpdateUserRole
+            </summary>
+            <param name="userRole"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetUserRoleOnLogin(System.String)">
+            <summary>
+            GetUserRoleOnLogin
+            </summary>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetUserRoles">
+            <summary>
+            GetUserRoles
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetAllRoles(System.Nullable{System.Boolean})">
+            <summary>
+            GetAllRoles
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetAllUserRoles(System.Nullable{System.Boolean})">
+            <summary>
+            GetAllUserRoles
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetHRAAdvisors">
+            <summary>
+            GetHRAAdvisors
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetRoleByRoleName(System.String)">
+            <summary>
+            Get the Role by role name
+            </summary>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.GetUserDetailsByUserName(System.String)">
+            <summary>
+            Get the Role by role name
+            </summary>
+            <param name="roleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Admin.API.Controllers.UserRoleController.RemoveUserRoleOnExit(System.Int32)">
+            <summary>
+            RemoveUserRoleOnExit
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

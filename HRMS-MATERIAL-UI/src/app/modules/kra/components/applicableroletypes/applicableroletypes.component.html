@@ -1,0 +1,122 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+
+    <form [formGroup]="approleTypeForm">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Financial Year</mat-label>
+            <mat-select placeholder="Select Financial Year" formControlName="FinancialYearId" (selectionChange)="getApplicableRoleTypeList($event)"
+              required>
+              <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                {{fin.label}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="approleTypeForm.get('FinancialYearId').hasError('required')">
+              Financial Year Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Select Department {{selectedParameters.DepartmentName}}</mat-label>
+            <mat-select placeholder="Select Department" formControlName="DepartmentId" required>
+              <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                {{dept.label}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="approleTypeForm.get('DepartmentId').hasError('required')">
+              Department Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="{{themeappeareance}}">
+            <!--<mat-label>Select Role Type</mat-label>
+            <mat-select placeholder="Select Role Type" formControlName="RoleTypeId" required multiple>-->
+            <mat-label>Select Role Type {{selectedParameters.RoleTypeName}}</mat-label>
+            <mat-select placeholder="Select Role Type" formControlName="GradeRoleTypeId" required multiple>
+              <mat-option *ngFor="let role of roletypedata" [value]="role.GradeRoleTypeId">
+                {{role.Grade + "-" + role.RoleTypeName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="approleTypeForm.get('GradeRoleTypeId').hasError('required')">
+              Role Type Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <button type="submit" mat-flat-button color="primary" (click)="saveApplicableRoleType()">
+           Save
+          </button>
+          <button type="button" mat-flat-button color="primary" (click)="Reset()">
+           Clear
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card matSort>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSource" cdkDropList
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)"
+        matSort>
+        <ng-container matColumnDef="FinancialYearName">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Financial Year
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.FinancialYearName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DepartmentDescription">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Department
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.DepartmentDescription }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="GradeName">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Grade
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.GradeName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="RoleTypeName">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Role Type
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.RoleTypeName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef>
+            Delete
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon style="cursor: pointer" (click)="deleteApplicableRoleType(element)">delete</mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

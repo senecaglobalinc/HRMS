@@ -1,0 +1,19 @@
+<mat-sidenav-container>
+  <app-top-nav class="fixed-topnav" fxHide.gt-xs></app-top-nav>
+  <app-top-nav fxHide.xs></app-top-nav>
+  <mat-sidenav #appDrawer [opened]="screenWidth > 840" [mode]="(screenWidth > 840) ? 'side' : 'over'"
+    disableClose="true" autoFocus="false">
+    <div fxHide.gt-xs class="d-flex justify-content-between logoDiv px-3 py-1">
+      <h2><b>HRMS</b></h2>
+      <button mat-icon-button id="menu" (click)="navService.toggle()">
+        <img class="wimg" src="../../../../../assets/icons/Hamburger-Menu.svg" alt="Hamburger Menu">
+      </button>
+    </div>
+    <mat-nav-list>
+      <app-menu-list-item *ngFor="let item of menuDetails" [item]="item"></app-menu-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <router-outlet></router-outlet>
+  <div fxFlex></div>
+  <span class="version-info">{{currentYear}} All Rights Reserved © SenecaGlobal IT Services Private Limited</span>
+</mat-sidenav-container>

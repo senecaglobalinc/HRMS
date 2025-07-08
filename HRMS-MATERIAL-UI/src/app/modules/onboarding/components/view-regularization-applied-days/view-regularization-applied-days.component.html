@@ -1,0 +1,86 @@
+<mat-card>
+    <mat-card-content>
+      <div class="row col-md-12">
+        <div class="col-md-3 m-0 text-left" style="margin:0px">
+        <!-- <button mat-stroked-button  (click)="onBackClick()"> -->
+          <mat-icon (click)="onBackClick()" class="arrow-css">arrow_back</mat-icon>
+          <!-- <span class="d-none d-sm-inline">Back</span> -->
+        <!-- </button> -->
+      </div>
+      <div class="col-md-4 m-0 text-left" style="margin:0px">
+        <mat-label>Associate Name: <span style="font-weight: bold;">{{AssociateName}}</span></mat-label>
+      </div>
+          <div class="col-md-5 text-right btn-css">
+              <button mat-flat-button color="primary" (click)="ApproveOrReject('Approve')">Approve</button>
+              <button mat-stroked-button  (click)="ApproveOrReject('Reject')">Reject</button>
+          </div>
+      </div>
+     
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="RegularizationAppliedDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Date
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.RegularizationAppliedDate  | date: 'dd/MM/yyyy'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="InTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>In Time
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.InTime }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="OutTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Out Time
+          </th>
+          <td mat-cell *matCellDef="let element;let i = index">
+          {{ element.OutTime}}
+          </td>
+      </ng-container>
+        
+        <ng-container matColumnDef="Location">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Location
+            </th>
+            <td mat-cell *matCellDef="let element;let i = index">
+            {{ element.Location }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Remarks">
+          <th mat-header-cell *matHeaderCellDef> Remarks </th>
+          <td mat-cell *matCellDef="let element">{{element.Remarks}}
+          </td>
+        </ng-container>
+        
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No Record is available</td>
+          </tr>
+    </table>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[5,10, 20, 30]"
+                    showFirstLastButtons >
+      </mat-paginator>
+    </div>
+    </mat-card-content>
+  </mat-card> 
+  
+    

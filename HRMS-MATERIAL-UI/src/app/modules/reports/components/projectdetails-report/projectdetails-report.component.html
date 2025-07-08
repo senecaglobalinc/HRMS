@@ -1,0 +1,65 @@
+
+      <span style="float: right;">
+        <!-- <a *ngIf="projectDetailsReportList.length>0"
+            (click)="exporter.exportTable('csv',{fileName: 'ProjectInformationReport'})" title="Export to Excel">
+            <div class="exportToExcel"></div>
+        </a> -->
+        <a *ngIf="projectDetailsReportList.length>0"
+          (click)="exportAsXLSX()" title="Export to Excel">
+          <div class="exportToExcel"></div>
+      </a>
+      </span> <br><br>
+
+<mat-card>
+    <mat-card-content>
+      <div class="table-responsive">
+        <table #table mat-table matTableExporter [dataSource]="dataSource" matSort class="mat-elevation-z8" #exporter="matTableExporter">
+         
+          <ng-container matColumnDef="ProjectCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold">Project Code</th>
+            <td mat-cell *matCellDef="let element"> {{element.ProjectCode}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="ProjectName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold">Project Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.ProjectName}} </td>
+          </ng-container>
+  
+        <ng-container matColumnDef="Technology">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Technology</th>
+          <td mat-cell *matCellDef="let element"> {{element.Technology}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="ProgramManager">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold">Program Manager </th>
+          <td mat-cell *matCellDef="let element"> {{element.ProgramManager}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="Total">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Total Resource(s)</th>
+          <td mat-cell *matCellDef="let element"> {{element.Total}} </td>
+        </ng-container>   
+        <ng-container matColumnDef="Billable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Billable</th>
+          <td mat-cell *matCellDef="let element"> {{element.Billable}} </td>
+        </ng-container>
+        <ng-container matColumnDef="NonBillable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold">Non Billable</th>
+          <td mat-cell *matCellDef="let element"> {{element.NonBillable}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ClientName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold">ClientName</th>
+            <td mat-cell *matCellDef="let element"> {{element.ClientName}} </td>
+          </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data</td>
+             </tr>
+        </table>
+      </div>
+      <div class="row justify-content-center">
+        <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+    </div>
+    </mat-card-content>
+  </mat-card>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.Common", "HRMS.Common\HRMS.Common.csproj", "{CDC734DB-49E7-4122-92B4-68A134F46076}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDC734DB-49E7-4122-92B4-68A134F46076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDC734DB-49E7-4122-92B4-68A134F46076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDC734DB-49E7-4122-92B4-68A134F46076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDC734DB-49E7-4122-92B4-68A134F46076}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37AEDC2B-23A6-4158-A757-877AE1788CEB}
+	EndGlobalSection
+EndGlobal

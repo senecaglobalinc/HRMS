@@ -1,0 +1,51 @@
+.delCls {
+  cursor: pointer;
+  color: red;
+}
+.iconCls {
+  margin: 4px 4px 0 0;
+}
+.inputCLs {
+  width: auto;
+}
+.editCls {
+  cursor: pointer;
+  color: #337ab7;
+}
+
+  .ActCls{
+    text-align: center;
+}
+
+::ng-deep .ui-table-thead tr th.viewCls {
+   width: 100px;
+   
+}
+::ng-deep .ui-table-thead tr th.ActCls {
+   width: 150px;
+   
+}
+.center{
+  margin-left:200px;
+  margin-right:200px;
+
+}
+
+  
+    /* tablets, iPads (landscape) ---------- */
+    @media screen and (max-width: 1024px){
+      .center {
+        margin: auto !important;         
+    }
+}
+/* Desktops and laptops ---------- */
+@media screen and (max-width: 1440px){
+
+.tables{
+ padding-right: 360px;
+}
+.center{
+ margin-left:224px;
+
+}
+}

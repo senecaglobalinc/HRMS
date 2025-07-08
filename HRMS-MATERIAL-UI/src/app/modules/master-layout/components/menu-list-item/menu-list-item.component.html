@@ -1,0 +1,38 @@
+<!-- (click)="onItemSelected(item)" -->
+
+<a mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px'}" (click)="onItemSelected(item)"  
+   [ngClass]="{'active': item.route ? router.isActive(item.route, true): false, 'expanded': expanded}"
+   class="menu-list-item">
+  <!-- <mat-icon  class="{{item.Style }}"></mat-icon> -->
+  <span class="mr-2"><i class="{{item.Style }}"></i></span>
+
+  <!-- <img class="menu-images" src="../../../../../assets/icons/{{item.iconName}}" alt="{{item.displayName}}" /> -->
+  {{item.Title}}
+  <span fxFlex *ngIf="item.Categories && item.Categories.length">
+    <span fxFlex></span>
+    <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
+      expand_more
+    </mat-icon>
+  </span>
+</a>
+<div *ngIf="expanded">
+  <app-menu-list-item *ngFor="let child of item.Categories | orderBy: 'DisplayOrder':'asc'" [item]="child" [depth]="depth+1">
+  </app-menu-list-item>
+</div>
+
+
+
+<!-- 
+<a mat-list-item [routerLink]="item.Path ? item.Path : '.'" (click)="onItemSelected(item)" [ngStyle]="{ 'padding-left': depth * 12 + 'px' }">
+  <mat-icon class="{{ item.Style }}"></mat-icon>&nbsp;{{ item.Title }}
+  <span fxFlex *ngIf="item.Categories && item.Categories.length">
+    <span fxFlex></span>
+    <mat-icon [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">
+      expand_more
+    </mat-icon>
+  </span>
+</a>
+<div *ngIf="expanded">
+  <app-menu-list *ngFor="let child of item.Categories" [item]="child" [depth]="depth + 1">
+  </app-menu-list>
+</div> -->

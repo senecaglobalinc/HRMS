@@ -1,0 +1,66 @@
+
+
+<mat-card>
+    <mat-card-content>
+      <div class="text-right">
+        <button type="button" mat-flat-button color="primary" (click)="onAdd()">Add</button>
+      </div>
+      
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="EmpName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Name </th>
+                <td mat-cell *matCellDef="let prospEmp"> {{prospEmp.EmpName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Designation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Designation </th>
+                <td mat-cell *matCellDef="let prospEmp"> {{prospEmp.Designation}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Department">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Department </th>
+                <td mat-cell *matCellDef="let prospEmp"> {{prospEmp.DepartmentDesc}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="JoiningDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Joining Date </th>
+                <td mat-cell *matCellDef="let prospEmp"> {{prospEmp.JoiningDate}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="HRAdvisorName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Advisor </th>
+                <td mat-cell *matCellDef="let prospEmp"> {{prospEmp.HRAdvisorName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let prospEmp">
+                  <mat-icon style="cursor: pointer" (click)="onEdit(prospEmp)">edit</mat-icon>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Confirm">
+                <th mat-header-cell *matHeaderCellDef> Confirm </th>
+                <td mat-cell *matCellDef="let prospEmp">
+                  <button type="button" mat-flat-button color="primary" (click)="onConfirm(prospEmp)">Confirm</button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+
+        
+        </table>
+      </div>
+      <div class="row justify-content-center">
+        <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+      </div>
+    </mat-card-content>
+</mat-card>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+  size="medium">
+  <p class="loading">Loading ...</p>
+</ngx-spinner>

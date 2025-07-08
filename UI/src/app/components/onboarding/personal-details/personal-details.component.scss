@@ -1,0 +1,31 @@
+
+.form-control {
+  
+  border: none;
+}
+
+.buttons {
+    margin-top: 22px;
+    margin-right: 82px;
+  }
+
+ 
+
+button[type="submit"]
+{
+    width: 105px;  
+}
+.buttons {
+    margin-top: 22px;
+    margin-right: 72px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  .dropdowns
+  {
+      width: 70%;
+      border:none;
+      border-bottom: 1px solid rgb(184, 159, 174);
+   
+  }

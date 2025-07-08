@@ -1,0 +1,92 @@
+<div class="panel panel-default  project-details">
+    <div class="panel-heading">
+            <div class="panel-title">
+                    Projects
+            </div>
+          </div>
+
+    <div *ngIf="domainList!=[]" class="panel-body">
+        <form ngNativeValidate #projectsForm="ngForm" (ngSubmit)="OnSubmit(projects)">
+                <div class="col-lg-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td class="text-bold">S.No</td>
+                        <td class=" text-bold">Domain Name<span class="mandatory">*</span></td>
+                        <td class=" text-bold">Organization Name<span class="mandatory">*</span>
+                        </td>
+                        <td class=" text-bold">Project Name<span class="mandatory">*</span></td>
+                        <td class=" text-bold">Duration(Months)<span class="mandatory">*</span>
+                        </td>
+                        <td class=" text-bold">Key Achievements<span class="mandatory">*</span>
+                        </td>
+                        <td  colspan="2" class="text-middle text-center text-bold ">Action</td>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let project of projects; let i = index; let lst = last; let fst=first">
+                    <tr>
+                        <td>
+                            {{i+1}}
+                        </td>
+                        <td>
+                            <select class="form-control" name="domain" [value]="project.DomainId"
+                                (change)="project.DomainId = $event.target.value" (keypress)="omit_special_char($event)"
+                                required>
+                                <option value=null></option>
+                                <option *ngFor="let g of domainList" value={{g.value}}>{{g.label}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="OrganizationName" maxlength="100"
+                                [value]="project.OrganizationName" (paste)="$event.preventDefault()"
+                                (keypress)="omit_special_char($event)"
+                                (change)="project.OrganizationName = $event.target.value" class="form-control" required>
+                        </td>
+                        <td>
+                            <input type="text" name="ProjectName{{i}}" maxlength="25" [(ngModel)]="project.ProjectName"
+                                (paste)="$event.preventDefault()" pattern="[a-zA-Z0-9\s]+" class="form-control"
+                                required>
+                        </td>
+
+                        <td>
+                            <input type="text" name="duration" maxlength="3" [value]="project.Duration"
+                                (paste)="$event.preventDefault()" (change)="project.Duration = $event.target.value"
+                                (keypress)="onlyNumbers($event)" class="form-control" pattern="[1-9]\d*"
+                                title="Duration should not start with zero" required>
+                        </td>
+                        <td>
+                            <div class="ui-fluid">
+                            <textarea type="text" name="keyAchievement" [value]="project.KeyAchievements"
+                                (paste)="$event.preventDefault()" pattern="[a-zA-Z\s]+"
+                                (change)="project.KeyAchievements = $event.target.value" class="form-control"
+                                required></textarea>
+                                </div>
+                        </td>
+                        <td class="text-center">
+                            <button type="submit" (click)="setNewProjectButtonType(project)"
+                                [hidden]="!lst"><i class="fa fa-plus"></i> </button>
+                        </td>
+                        <td class="text-center">
+                                <button (click)="onDelete(i)" style="color: red"  [hidden]="fst&&lst" type="button" ><i class="fa
+                                        fa-trash" title="delete"  ></i></button> 
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="col-lg-12">
+                  
+                    <section class="pull-right buttons">
+                    <button type="submits" class="btn btn-custom"  style="cursor:pointer;" *ngIf="type == 'new'" (click)="OnSave()">
+                        <i title="save" class="fa fa-floppy-o"></i>&nbsp; Save
+              </button>
+                  <button type="submits" class="btn btn-custom" *ngIf="type != 'new'"  style="cursor:pointer;" (click)="OnUpdate()">
+                        <i title="Update" class="fa fa-floppy-o"></i>&nbsp; Update
+              </button>
+                    </section>
+            </div>
+            <p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+            <p-toast [style]="{marginTop: '80px'}" #messageToaster id="messageToaster"></p-toast>
+        </form>
+    </div>
+</div>

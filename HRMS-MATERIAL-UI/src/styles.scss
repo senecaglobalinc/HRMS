@@ -1,0 +1,198 @@
+@import './theme';
+
+html,body{
+    height: 100%;
+}
+:focus{
+    outline: none !important;
+}
+.flex-spacer {
+    flex: 1 1 auto;
+  }
+  .menu-images{
+      padding:5px;
+      margin-right:20px;
+      min-height: 30px;
+      min-width: 30px;
+   }
+   .mat-drawer.mat-sidenav .mat-list-item{
+    padding: 0 0 !important;
+}
+ 
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+    /* Track */
+  ::-webkit-scrollbar-track {
+    background: #cecece;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #999;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+
+ 
+
+// .mat-drawer-container,.mat-toolbar {
+//     background: #F6F8F9 !important;
+// }
+  
+.themeCardBdr{
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15) !important;
+border-radius: 4px !important;
+}
+  
+.mat-list-item-content{
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.1px;
+  // color: rgba(19, 19, 19, 0.54);
+}
+
+ .mat-form-field{
+   width:100%;
+ }
+.mat-list-item-content:hover{
+  //background-color: #fdf0e8 !important;
+  //color: #0c4dff  !important;
+  background-color:#E5F2FF !important;
+  color:#0071E3  !important;
+}
+.mat-list-item-content:hover img{
+  //color: #0c4dff  !important;
+  color: #0071E3  !important; 
+  filter: invert(34%) sepia(46%) saturate(7293%) hue-rotate(197deg) brightness(96%) contrast(100%) !important;
+}
+
+ 
+.mnh60{
+  min-height: 60px;
+}
+.mnh-300{
+  min-height: 300px;
+}
+.mnh-400{
+  min-height: 400px;
+}
+.chooseRole{
+  cursor: pointer;
+  min-height: 60px;
+}
+table{
+  width:100%;
+}
+
+.topNavGlobalSearch{
+  width:300px;
+}
+.topNavGlobalSearch {
+  padding-bottom: 0px !important;
+  font: 500 12px/15px Montserrat;
+  margin-top: 15px;
+  margin-right: 20px;
+}
+
+.topNavGlobalSearch .mat-form-field-appearance-outline .mat-form-field-outline{
+  background: #ffffff;
+    border: 0;
+    border-radius: 6px;
+}
+
+.clearFieldIcon{
+  position: relative;
+  top: -3px;
+}
+
+.logo{
+  cursor: pointer;
+}
+.bg-primary {
+  background-color:  #0c4dff!important;
+}
+
+.ae-picker, .angular-editor-button{
+  height: 26px !important;
+}
+
+.mt30{
+  margin-top:30px !important;
+}
+
+.stepperBackBtn{
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  z-index: 999;
+}
+
+ 
+.dividerHeading{
+  overflow:hidden;
+}
+.dividerHeading:after{
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid mat-color($mat-primary,main);
+  border-top: 1px solid mat-color($mat-primary,main);
+  top: 12px;
+  // right: 10px;
+  width: 100%;
+}
+.dividerHeading{
+  color:mat-color($mat-primary,main);
+}
+
+.addNewRowTbl .mat-table  .mat-cell{
+padding-left:2px !important;
+padding-right:2px !important;
+}
+.w100{
+  width: 100px !important;
+}
+.w150{
+  width: 150px;
+}
+.w170{
+  width: 170px;
+}
+.w200{
+  width: 200px;
+}
+
+td{
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 150px;
+}
+mat-datepicker-toggle {
+  display: inline-block;
+}
+
+snack-bar-container.error-alert {
+  background-color: red !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+mat-simple-snackbar-action {
+  color: white !important;
+  font-weight: bold;
+}
+
+snack-bar-container.success-alert {
+  background-color: green !important;
+  color: white !important;
+  font-weight: bold;
+}

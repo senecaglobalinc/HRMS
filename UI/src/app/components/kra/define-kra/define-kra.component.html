@@ -1,0 +1,298 @@
+<mat-toolbar><span>Define Key Result Areas</span></mat-toolbar>
+<div class="bg-white mb-100">
+    <!-- // Start - Freezed Define KRA -->
+   <div class="row">
+     <form [formGroup]="defineKRAForm">
+      <div class="col-md-2">
+         <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Finacial Year</mat-label>
+            <mat-select [(ngModel)] ="selectedParameters.FinancialYearName" placeholder="Select Financial Year" formControlName="financialYearId" (selectionChange) = onchange($event) required>
+               <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                 {{fin.label}}
+               </mat-option>
+             </mat-select>
+         </mat-form-field>
+      </div>
+      <div class="col-md-3">
+         <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Select Department {{selectedParameters.DepartmentName}}</mat-label>
+            <mat-select [(ngModel)] = "selectedParameters.DepartmentName" placeholder="Select Department" formControlName="departmentId" (selectionChange) = ondepartmentchange($event) required>
+               <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                 {{dept.label}}
+               </mat-option>
+             </mat-select>
+         </mat-form-field>
+      </div>
+      <div class="col-md-2">
+         <mat-form-field appearance="{{themeappeareance}}">
+            <mat-label>Select Grade {{selectedParameters.GradeName}} </mat-label>
+            <mat-select [(ngModel)] = "selectedParameters.GradeName" placeholder="Select Grade" formControlName="gradeId" (selectionChange) = getApplicableGradeRoleTypesByGrade() required>
+               <mat-option *ngFor="let grade of gradeList" [value]="grade.value">
+                  {{grade.label}}
+               </mat-option>
+            </mat-select>
+         </mat-form-field>
+      </div>
+      <div class="col-md-4">
+         <div class="row">
+            <div class="col-md-5 p-0 mt-0">
+               <mat-form-field appearance="{{themeappeareance}}">
+                  <mat-label>Select Role Type {{selectedParameters.RoleTypeName}}</mat-label>
+                  <mat-select [(ngModel)] = "selectedParameters.RoleTypeName" placeholder="Select Role Type" formControlName="roleTypeId" (selectionChange) = showDefineKRAs()  required>
+                     <mat-option *ngFor="let role of roleTypeList" [value]="role.value">
+                       {{role.label}}
+                     </mat-option>
+                   </mat-select>
+               </mat-form-field>
+            </div>
+            <div class="col-md-7 p-0 mt-0">
+               <div class="text-right mt-1">
+                  <button *ngIf="addKra || importedKRA"  (click)="openAddKRA('add')"  [disabled]="checkMarkAsFinished" mat-button color="primary">+ ADD KRA</button>
+                  <button  *ngIf="addKra || importedKRA" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                  <img class="nounicons" src="../../../../assets/images/hrms/icons/import.svg"
+                     alt="import" />
+                  </button>
+                  <button  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                  <img class="nounicons" src="../../../../assets/images/hrms/icons/more.svg" alt="more" />
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+     </form>
+   </div>
+   <div class="center" *ngIf="addApplicableRole">
+    <div class="row" >
+   <div class="col-md-6">
+      <section class="pull-right buttons">       
+      <button mat-flat-button color="primary" (click)="addAppRoleType()">ADD APPLICABLE ROLE TYPE</button> 
+      </section>
+    </div>    
+    </div>
+   </div>
+   <div class="row" *ngIf="freezedKRA">
+      <div class="col-md-12">
+         <!--<mat-form-field  class="margin-s" >
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                </mat-form-field>-->
+                 <table mat-table [dataSource]="defineDataSource">
+            <ng-container matColumnDef="kraaspect">
+               <th class="w25p" mat-header-cell *matHeaderCellDef> ASPECT </th>
+               <td mat-cell *matCellDef="let element"> <b>{{element.AspectName}}</b> <br/><i class="text-muted"><small>{{element.Date}}</small></i></td>
+            </ng-container>
+            <!--<ng-container matColumnDef="metrics">
+               <th mat-header-cell *matHeaderCellDef> METRICS </th>
+               <td mat-cell *matCellDef="let element"> {{element.Metric}} <img class="pull-right" *ngIf="element.kraaspect=='Associate Development'" src="../../../../assets/images/hrms/icons/commentIcon.svg"  alt="comment" />  </td>
+            </ng-container>-->
+                <ng-container matColumnDef="metrics">
+               <th mat-header-cell *matHeaderCellDef> METRICS </th>
+               <td mat-cell *matCellDef="let element"
+                  [ngClass]="{'greenClr': element.AspectName=='Learning and Growth', 'op-50': element.AspectName=='Teaming'}">
+                  {{element.Metric}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ration">
+               <th class="w30p" mat-header-cell *matHeaderCellDef> TARGET </th>
+               <td mat-cell *matCellDef="let element"
+                  [ngClass]="{'greenClr': element.AspectName=='Learning and Growth' && addedTR, 'op-50': element.AspectName=='Teaming' && deletedTr }">
+                  <div class="row">
+                      <div class="col-md-4">
+                        <span *ngIf="element.AspectName=='Client Delivery' && marksAsFinish"><span
+                              class="orangeTxt"><b>{{element.ration}}</b></span>
+                           <!-- <span *ngIf="!undoBtn && marksAsFinish" class="whitecircle" (mouseover)="dispUndo()" >1</span> -->
+                           <span *ngIf="undoDiv" class="undomsg">Previous target was {{element.previousration}} <br /><button mat-button
+                               
+                                 class="blueClr">USE THIS</button></span>
+                           <span *ngIf="undoBtn && marksAsFinish" (mouseover)="dispUndo()"
+                              class="orangecircle">1</span><br /><span class="text-muted"><small></small></span></span>
+                        <span *ngIf="element.AspectName=='Client Delivery' && !marksAsFinish">{{element.ration}} <br /><span class="text-muted"><small></small></span></span>
+                        <span *ngIf="element.AspectName!='Client Delivery'">{{element.ration}} <br /><span class="text-muted"><small></small></span></span>
+                     </div>
+
+                     <div class="col-md-8 hoveredit" *ngIf="editKra">
+                        <span>
+                           <button (click)="openAddKRA(element.DefinitionDetailsId)" mat-icon-button>
+
+                             <span> <img src="../../../../assets/images/hrms/icons/pencil.svg" alt="Pencil" /><br /></span>
+                             
+                           </button>
+                           <button type="button" mat-icon-button color="primary" (click)="onDeleteKRA(element.DefinitionDetailsId)">
+                              <mat-icon class="mat-18">delete</mat-icon>
+                           </button>
+                           <!--<button mat-icon-button>
+                              <img src="../../../../assets/images/hrms/icons/clone.svg" alt="Clone" />
+                           </button>
+                           <button [matMenuTriggerFor]="menu" mat-icon-button>
+                              <img src="../../../../assets/images/hrms/icons/more.svg" alt="More" />
+                           </button>-->
+                        </span>
+                     </div>
+                  </div>
+               </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                
+         </table>
+           <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons (page)="onPageChanged($event)"></mat-paginator>
+         <!--<div class="mt-100 mb-5">
+            <div class="row mt-5 mb-5">
+               <div class="col-md-4">
+                  <button mat-button class="lightradiosCheckbBtns">PREVIOUS</button> <span class="m-4 p-2 lightradiosCheckbBtns">|</span>
+                  <button mat-button  class="lightradiosCheckbBtns">NEXT</button>
+               </div>
+               <div class="col-md-4 text-center circleCheckbox">
+                  <div class="mt-2">
+                     <mat-checkbox [checked]='true' color="primary" class="lightradiosCheckbBtns">Above KRA are freezed</mat-checkbox>
+                  </div>
+               </div>
+               <div class="col-md-4 text-right">
+                  <button mat-button  class="lightradiosCheckbBtns">COMMENT MODE</button>
+               </div>
+            </div>
+         </div>-->
+      </div>        
+   </div>  
+
+   <!-- Start Add New KRA Starts Here -->
+<div class="row mb-100 mt-100">
+  <div *ngIf="markasfinish">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="text-center mt-5">
+        <div class="mt-5 mb-5">
+          <button mat-flat-button color="primary" (click)="markAsFinish()">MARK AS FINISHED</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-10 text-center" *ngIf="markedAsFinish">
+    <div class="row">
+      <div class="col-md-4 border-right">
+        <div class="mt-2 circleCheckbox  mn-h54">
+          <mat-checkbox [checked]='true' color="primary" class="lightradiosCheckbBtns"></mat-checkbox>
+          <p class="checkboxlabel">Marked as finished</p>
+        </div>
+      </div>
+
+      <div class="col-md-4 border-right">
+        <div class="mt-2 mn-h54">
+          <img src="../../../../assets/images/hrms/icons/clock.svg">
+          <p class="checkboxlabel">Awaiting to be sent to Head HR for acceptance</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="mt-4 circleCheckbox">
+          <button mat-button color="primary" (click)="ContinueEditing()">CONTINUE EDITING</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-md-10 text-center" *ngIf="sendtoHOD">
+       <div class="col-md-15 border-right">
+        <div class="mt-2 mn-h54">
+          <img src="../../../../assets/images/hrms/icons/clock.svg">
+          <p class="checkboxlabel">Sent for acceptance to HOD, awaiting feedback</p>
+        </div>
+      </div>
+    </div>
+  <div class="col-md-6 col-md-offset-3" *ngIf="addNewKRA">
+    <div class="text-center mt-5">
+      <img class="nounicons" src="../../../../assets/images/hrms/icons/notepadedit.svg" alt="Note Pad Edit" />
+      <div class="mt-5 mb-5">
+        <p class="halfblack">Great! You are all set to start creating set of KRA for selected role type Create from scratch or import KRA’s from
+          previous years</p>
+      </div>
+      <div class="mt-5 mb-5">
+        <button mat-flat-button color="primary" (click)="openAddKRA('add')">START ADDING KRA</button> <span class="m-4 p-2 halfblack">OR</span>        <button (click)="openImportKRA()" mat-stroked-button color="primary">IMPORT KRA</button>
+      </div>
+    </div>
+  </div>
+</div>
+     
+   <!-- Start Add New KRA Starts Here -->
+
+
+   <!-- Start Imported KRA's-->
+   <div class="row" *ngIf="importedKRA">
+    <div class="col-md-12">
+       <table mat-table [dataSource]="dataSource">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+             <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+             </th>
+             <td mat-cell *matCellDef="let row">
+                <mat-checkbox  color="primary" (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+             </td>
+          </ng-container>
+          <!-- Position Column -->
+          <ng-container matColumnDef="kraaspect">
+             <th class="w25p" mat-header-cell *matHeaderCellDef> KRA ASPECTS </th>
+             <td mat-cell *matCellDef="let element"> {{element.kraaspect}} <br/><i class="text-muted"><small>Added on Thursday, 9 Jul 2020, 4:45 PM</small></i></td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="metrics">
+             <th mat-header-cell *matHeaderCellDef> METRICS </th>
+             <td mat-cell *matCellDef="let element"> {{element.metrics}} </td>
+          </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="ration">
+
+          
+             <th class="w30p" mat-header-cell *matHeaderCellDef> TARGET </th>
+             <td mat-cell *matCellDef="let element">
+                <div class="row">
+                <div class="col-md-4">
+                    {{element.ration}} <br/><span class="text-muted"><small>Half Yearly</small></span>
+                </div>
+                <div class="col-md-8 hoveredit">
+                    <span>
+                        <button  (click)="openAddKRA('edit')"  mat-icon-button>
+                            <img src="../../../../assets/images/hrms/icons/pencil.svg" alt="Pencil" />
+                          </button>
+                          <button mat-icon-button>
+                            <img src="../../../../assets/images/hrms/icons/clone.svg" alt="Clone" />
+                          </button>
+                          <button mat-icon-button>
+                            <img src="../../../../assets/images/hrms/icons/more.svg" alt="More" />
+                          </button>
+                        </span>
+                </div>
+                </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="importedKradisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: importedKradisplayedColumns;"></tr>
+       </table>
+    </div>
+
+    <div class="col-md-12">
+        <div class="row mt-100 mb-5">
+           <div class="col-md-4">
+              <button mat-button class="lightradiosCheckbBtns">PREVIOUS</button> <span class="m-4 p-2 lightradiosCheckbBtns">|</span>
+              <button mat-button  class="lightradiosCheckbBtns">NEXT</button>
+           </div>
+           <div class="col-md-4 text-center circleCheckbox">
+            <button mat-flat-button color="primary">MARK AS FINISHED</button>
+           </div>
+           <div class="col-md-4 text-right">
+              <button mat-button  class="lightradiosCheckbBtns">COMMENT MODE</button>
+           </div>
+        </div>
+    </div>
+
+ </div>
+    <!-- Start Imported KRA's-->
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+

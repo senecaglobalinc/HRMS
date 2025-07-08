@@ -1,0 +1,210 @@
+﻿<div class="row mb-2">
+  <div class="col-md-12 text-right">
+    <button mat-flat-button color="primary" type="button" *ngIf="isDrafted" class="btn btn-custom"
+      (click)="RollbackDialog()">
+      Delete project</button> &nbsp;
+    <button mat-flat-button color="primary" type="submit" *ngIf="canApprove" class="btn btn-custom pull-right"
+      (click)="ApproveOrRejectByDH()">Approve</button>
+    &nbsp;
+  </div>
+</div>
+<mat-card class="mb-2">
+   <mat-card-subtitle class="font-weight-bold">PROJECT DETAILS</mat-card-subtitle>
+  <div class="row">
+    <!-- <div class="col-md-6">
+      PROJECT DETAILS
+    </div> -->
+    <div class="col-md-6 text-right">
+      <button mat-button (click)="onBack()" hidden>
+        <mat-icon>arrow_back</mat-icon>Back
+      </button>
+    </div>
+  </div>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Project Code</div>
+          <div class="col-md-6">: {{projectData.ProjectCode }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Project Name</div>
+          <div class="col-md-6">: {{projectData.ProjectName }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Project Type</div>
+          <div class="col-md-7">: {{projectData.ProjectTypeCode }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Technology Area</div>
+          <div class="col-md-6">: {{projectData.PracticeAreaCode }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Client</div>
+          <div class="col-md-6">: {{projectData.ClientName }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Domain</div>
+          <div class="col-md-7">: {{projectData.DomainName }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Program Manager</div>
+          <div class="col-md-6">: {{projectData.ManagerName }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Department</div>
+          <div class="col-md-6">: {{projectData.DepartmentCode }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Project State</div>
+          <div class="col-md-7">: {{projectData.ProjectState }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">Start Date</div>
+          <div class="col-md-6">: {{projectData.ActualStartDate | date: 'mediumDate'}}</div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-6 font-weight-bold">End Date</div>
+          <div class="col-md-6">: {{projectData.ActualEndDate | date: 'mediumDate'}}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="mb-2" [hidden]="!ShowSOW()">
+  <mat-card-subtitle class="font-weight-bold">SOW</mat-card-subtitle>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSourceSOW">
+        <ng-container matColumnDef="SOWId">
+          <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+            SOW ID
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.SOWId }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="SOWFileName">
+          <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+            SOW File Name
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.SOWFileName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="SOWSignedDate">
+          <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+            SOW Signed Date
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.SOWSignedDate }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsSOW"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsSOW"></tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [hidden]="!ShowSOW()" #sowPaginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mb-2" [hidden]="!ShowCBR()">
+  <div>
+    <mat-card-subtitle class="font-weight-bold">Client Billing Roles</mat-card-subtitle>
+    <mat-card-content>
+      <div class="table-responsive">
+        <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSourceClient">
+          <ng-container matColumnDef="ClientBillingRoleName">
+            <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+              Role
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.ClientBillingRoleName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="NoOfPositions">
+            <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+              Total Position(s)
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.NoOfPositions }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="ClientBillingPercentage">
+            <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+              Billing %
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.ClientBillingPercentage }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="StartDate">
+            <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+              Billing Start Date
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.StartDate }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="EndDate">
+            <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+              Billing End Date
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.EndDate }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Position">
+            <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">
+              Position
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <b *ngIf="canShowActions(element) == false">Closed </b>
+              <b *ngIf="canShowActions(element)">Opened </b>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsClient"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsClient"></tr>
+        </table>
+      </div>
+      <div class="row justify-content-center">
+        <mat-paginator [hidden]="!ShowCBR()" #clientPaginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+      </div>
+    </mat-card-content>
+  </div>
+</mat-card>

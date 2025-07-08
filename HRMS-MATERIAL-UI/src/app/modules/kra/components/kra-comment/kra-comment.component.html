@@ -1,0 +1,36 @@
+
+<mat-card class="mb-2">
+    <mat-card-content>
+  <form [formGroup]="addComment">
+  <div class="row">
+    <div class="col-md-8 col-xs-8">
+      <!-- <h1 mat-dialog-title>{{data.heading}}</h1> -->
+    </div>
+    <div class="col-md-4 col-xs-4 text-right">
+      <button (click)="onNoClick()"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <img class="nounicons" src="../../../../../assets/icons/cross.svg" 
+            alt="import" />
+    </button>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <mat-form-field   appearance="{{themeappeareance}}">
+        <mat-label>Comment</mat-label>
+        <textarea formControlName="comment" matInput placeholder="Leave a comment"  rows="4"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 col-md-offset-5 mt-2 mb-2">
+      <div class="text-center">
+        <button mat-flat-button class="btn-block" (click)="onAddClick()" color="primary">Post</button>
+        <button mat-flat-button class="btn-block" (click)="onNoClick()" color="primary">Cancel</button>
+      </div>
+      </div>
+    </div></form>
+    </mat-card-content>
+  </mat-card>
+  

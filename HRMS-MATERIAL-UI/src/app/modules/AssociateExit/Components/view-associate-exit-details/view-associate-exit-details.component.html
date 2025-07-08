@@ -1,0 +1,91 @@
+<mat-card class="mb-2">
+    <div class="row">
+      <div class="col-md-6 font-weight-bold">
+        Associate Details
+      </div>
+      <div class="col-md-6 text-right">
+        <button mat-stroked-button  *ngIf="showback" (click)="onBack()">
+            <mat-icon>arrow_back</mat-icon>Back
+        </button>
+    </div>
+    </div> <br>
+    <div class="row"></div> 
+    <mat-card-content>
+        <div class="row">
+        <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Associate Id</div>
+          <div class="col-md-7">: {{AssociateExit?.EmployeeCode}}</div>
+    </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Associate Name</div>
+          <div class="col-md-7">: {{AssociateExit?.EmployeeName }} </div>
+        </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="row">
+            <div class=" col-md-5 font-weight-bold">Designation</div>
+            <div class="col-md-7">: {{AssociateExit?.Designation}}</div>
+            </div>
+          </div>
+       
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Program Manager</div>
+          <div class="col-md-7">: {{ AssociateExit?.ProgramManager}}</div>
+      </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="row">
+            <ng-container *ngIf="showProject">
+              <div class=" col-md-5 font-weight-bold">Project</div>
+              <div class="col-md-7">: {{AssociateExit?.ProjectName}}</div>
+        </ng-container>
+          </div>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <div class="row">
+              <div class=" col-md-5 font-weight-bold">Department</div>
+              <div class="col-md-7">: {{AssociateExit?.Department}}</div>
+          </div>
+            </div>
+            <!-- <div class="col-md-4 col-xs-12">
+              <div class="row">
+                <div class=" col-md-5 font-weight-bold">Reason</div>
+                <div class="col-md-7">:{{AssociateExit.ReasonId}}</div>
+              </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="row">
+                  <div class=" col-md-5 font-weight-bold">Rehire Eligibility</div>
+                  <div class="col-md-7">:{{AssociateExit.RehireEligibility}}</div>
+                </div>
+                </div> -->
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+      <div class="row">
+        <div class=" col-md-5 font-weight-bold">Date of Joining</div>
+        <div class="col-md-7">: {{AssociateExit?.DateOfJoin |date: 'mediumDate' }}</div>
+    </div>
+      </div>
+      <div class="col-md-4 col-xs-12" *ngIf="AssociateExit?.ResignationDate">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Resignation Date</div>
+          <div class="col-md-7">: {{AssociateExit?.ResignationDate | date: 'mediumDate' }}</div>
+        </div>
+        </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="row">
+          <div class=" col-md-5 font-weight-bold">Date of Exit</div>
+          <div class="col-md-7">: {{AssociateExit?.ExitDate | date: 'mediumDate' }}</div>
+        </div>
+        </div>
+    </div>
+    
+    </mat-card-content>
+  </mat-card>

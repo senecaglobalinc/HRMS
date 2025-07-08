@@ -1,0 +1,76 @@
+
+
+
+                        <div class="row">
+                                <div class="col-md-12">
+                                        <h3 class="dividerHeading">Upload Documents</h3>
+                                </div>
+                        </div>
+                        <form [formGroup]="fileGroup" class="row justify-content-center">
+                                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                                        <br>
+                                        <input #fileInput type="file" id="fileToUpload" #fileUpload ngf-select formControlName="uploadselect" [value]="documentDesc.file"
+                                                (change)="documentUploadChange(fileUpload.value)" name="file" accept="image/*" style="margin-top: 10px;">
+                                </div>
+                                <div class="ui-g-12 ui-md-4 ui-lg-3">
+                                        <br>
+                                        <div class="row">
+                                                <div class="col-md-7">
+                                                        <input matInput #fileName readonly="readonly" id="name" name="name" type="text" formControlName="SelectedFileShow" [value]="selectedFile"
+                                                                class="form-control input-md">
+                                                </div>
+                                                <div class="col md-3">
+                                                        <button mat-flat-button color="primary" (click)="onSave()">
+                                                                <mat-icon>upgrade</mat-icon> Upload
+                                                        </button>
+                                                </div>
+                                        </div>
+                        
+                                </div>
+                        </form>
+                        
+                        <mat-card>
+                                <mat-card-content>
+                                        <div class="table-responsive">
+                                                <table mat-table [dataSource]="uploaddata" matSort>
+                                                        <ng-container matColumnDef="Sno">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> S.No </th>
+                                                                <td mat-cell *matCellDef="let element ; let i = index"> {{i+1}} </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="DocumentName">
+                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Document Name </th>
+                                                                <td mat-cell *matCellDef="let element"> {{element.FileName}} </td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Delete">
+                                                                <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Delete </th>
+                                                                <td mat-cell *matCellDef="let element">
+                                                                        <mat-icon (click)="onDelete(element)" style="cursor:pointer;">delete</mat-icon>
+                                                                </td>
+                                                        </ng-container>
+                                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                        <tr class="mat-row" *matNoDataRow>
+                                                                <td class="mat-cell" colspan="4">No data</td>
+                                                </table>
+                        
+                                        </div>
+                        
+                        
+                        
+                        
+                                        <div class="row">
+                                                <div class="col-lg-12">
+                                                        <section class="pull-right butt">
+                                                                <br>
+                                                                <button mat-flat-button color="primary" type="submit" [disabled]="PAstatus == 2" (click)="submit_approval()">Submit</button>
+                        
+                                                        </section>
+                                                </div>
+                                        </div>
+                                </mat-card-content>
+                        
+                        </mat-card>
+                        <ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="true" type="ball-clip-rotate-multiple"
+                                size="medium">
+                                <p class="loading">Loading ...</p>
+                        </ngx-spinner>

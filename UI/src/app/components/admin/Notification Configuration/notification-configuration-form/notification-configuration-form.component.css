@@ -1,0 +1,24 @@
+
+
+  input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+   
+}
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+.btn-default {
+    border: 1px solid #337ab7;
+    color: #337ab7;
+}
+.btns{ 
+ margin-right: 105px;
+}
+.ntButtons{
+    margin-top: 10px;
+}

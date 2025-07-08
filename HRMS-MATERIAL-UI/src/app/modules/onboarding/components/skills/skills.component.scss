@@ -1,0 +1,25 @@
+.warning {
+    display: inline-block;
+}
+
+.icon {
+    font-size: 17px;
+}
+.icon, .text {
+    display:inline;
+    line-height: 26px;
+    color: red;
+}
+
+.clearFieldIcon {
+    font-size: medium;
+}
+
+// .infoCss {
+//     font-size: larger;
+//     cursor: pointer;
+//   }
+
+  .my-tooltip {
+    white-space: pre-line !important;
+}

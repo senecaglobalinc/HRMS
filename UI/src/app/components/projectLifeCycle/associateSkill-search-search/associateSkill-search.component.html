@@ -1,0 +1,252 @@
+<div class="panel-heading">
+  <div class="panel-title">Associate skill search</div>
+</div>
+<div class="panel-body">
+  <form class="form-horizontal" >
+    <div class="center">
+      <div class="row">
+        <div class="ui-fluid">
+          <div class="p-grid">
+            <div class="p-col-4">
+              <div class="box">
+                  <p-autoComplete [style]="{'width':'100%'}" [suggestions]="filteredSkills" [forceSelection]="true"
+                  [multiple]="true" [(ngModel)]="associateSkillSearchObject.selectedSkillIds" name="selectedSkillIds"
+                  (completeMethod)="getSkillsBySearchString($event)" field="Name" placeholder="Search Skill">
+                </p-autoComplete>
+              </div>
+            </div>
+            <div class="p-col-6">
+              <div class="box">
+                <button type="button" class="btn btn-custom" style="cursor:pointer;" (click)="searchData()">
+                  <i class="fa fa-search"></i>&nbsp;Search</button>&nbsp;
+                <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="clear()">
+                  <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-fluid">
+          <div class="p-grid">
+            <div class="p-col-2">
+              <div class="box">
+                <label class="switch ui-fluid">
+                   <input type="checkbox" [disabled]="canDisableCheckBox()"
+                    [checked]="associateSkillSearchObject.IsPrimary" name="Primary" id="chkPrimary"
+                    [(ngModel)]="associateSkillSearchObject.IsPrimary" name="isPrimary">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <label class="switchLabel">Primary</label>
+              </div>
+            </div>
+            <div class="p-col-2">
+              <div class="box">
+                <label class="switch ui-fluid">
+                    <input type="checkbox" [disabled]="canDisableCheckBox()"
+                    [checked]="associateSkillSearchObject.IsSecondary" name="Secondary" id="chkSecondary"
+                    [(ngModel)]="associateSkillSearchObject.IsSecondary" name="isSecondary">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <label class="switchLabel">Secondary</label>
+              </div>
+            </div>
+            <div class="p-col-2">
+              <div class="box">
+                <label class="switch ui-fluid">                    
+                  <input type="checkbox" [disabled]="!isDisplay" [checked]="associateSkillSearchObject.IsBillable"
+                    name="Billable" id="chkBillable" [(ngModel)]="associateSkillSearchObject.IsBillable" name="isBillable">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <label class="switchLabel">Billable</label>
+              </div>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-2">
+              <div class="box">
+                <label class="switch ui-fluid">            
+                  <input type="checkbox" [disabled]="!isDisplay" [checked]="associateSkillSearchObject.IsnonBillable"
+                    name="NonBillable" id="chkNonBillable" [(ngModel)]="associateSkillSearchObject.IsnonBillable" name="isNonBillable">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <label class="switchLabel">Non-billable</label>
+              </div>
+            </div>
+            <div class="p-col-2">
+              <div class="box">
+                <label class="switch ui-fluid">
+                  <input type="checkbox" [disabled]="!isDisplay" [checked]="associateSkillSearchObject.IsCritical"
+                    name="Critical" id="chkCritical" [(ngModel)]="associateSkillSearchObject.IsCritical" name="isCritical">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <label class="switchLabel">Critical</label>
+              </div>
+            </div>
+            <div class="p-col-2">
+              <div class="box">
+                <label class="switch ui-fluid">
+                   <input type="checkbox" [disabled]="!isDisplay" [checked]="associateSkillSearchObject.IsnonCritical"
+                    name="NonCritical" id="chkNonCritical" [(ngModel)]="associateSkillSearchObject.IsnonCritical" name="isNonCritical">
+                  <span class="slider round"></span>
+                </label>&nbsp;
+                <label class="switchLabel">Non-critical</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <section class="pull-right buttons">
+          <button type="button" class="btn btn-custom" style="cursor:pointer;" value=".align-self-end"
+            (click)="addToTagList()">Tag associate(s)</button>
+          &nbsp;
+          <button type="button" class="btn btn-custom" style="cursor:pointer;" value=".align-self-end"
+            (click)="viewTagList()">View tagged list</button>
+        </section>
+      </div>
+    </div>
+  </form>
+  <br>
+
+  <!-- table -->
+  <div class="container-fluid">
+    <div class="col-lg-12">
+      <div class="ui-helper-clearfix">
+        <span style="float:left">
+          <b>Total Records:</b>
+          <span>{{totalRecords}}</span>
+        </span>
+        <span style="float:right">
+          <input type="search" pInputText size="50" placeholder="Search"
+            (input)="dt1.filterGlobal($event.target.value, 'contains')" class="inputcls" style="width:70%;">
+        </span>
+      </div>
+
+      <p-table #dt1 [columns]="cols" [value]="associateSkillSearchData" [totalRecords]="totalRecords" [paginator]="true"
+        [rows]="PageSize" datakey="EmployeeId" [resizableColumns]="true" [first]="first" columnResizeMode="expand"
+        [reorderableColumns]="true" [(selection)]="selectedAssociateSkillSearch">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 5em">Select</th>
+            <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field" pResizableColumn
+              pReorderableColumn>
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td [pSelectableRow]="rowData">
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]" class="ui-resizable-column"
+              [ngStyle]="getStyles(col.type)">
+              <span *ngIf="col.type != truncate && col.type != 'boolean' ">
+                {{ rowData[col.field] }}
+              </span>
+              <span *ngIf="col.type =='boolean'">
+                <i *ngIf="rowData[col.field] == true" style="color: green;" class="fa fa-check"></i>
+                <i *ngIf="rowData[col.field] == false" style="color: red" class="fa fa-times"></i>
+              </span>
+              <span *ngIf="col.type == truncate">
+                {{ col.type.transform(rowData[col.field], 30) }}
+                <a style="cursor:pointer;" *ngIf="rowData[col.field]!=null" (click)="ViewAllSkills(rowData, col.field)">
+                  <span> ...more</span>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+     
+      </p-table>
+        <div style="text-align: left">
+          {{gridMessage}}
+        </div>
+    </div>
+  </div>
+
+<p-dialog styleClass="Tag Associate(s)" appendTo="body" header="Tag Associate(s)" width=600 height=250
+  [(visible)]="displayTagList" responsive="true" [style]="{'over-flow':'hidden'}" modal=true showHeader=true
+  closeOnEscape=true closable=true>
+  <div style="height:250px;">
+    <div class="tag">
+      <div class="row">
+        <p-radioButton name="group2" value="0" [(ngModel)]="isNewTagList" label="New tag list" (click)="onRadioClick()" name="isNewTagList">
+        </p-radioButton>&nbsp;&nbsp;&nbsp;
+        <p-radioButton name="group2" value="1" [(ngModel)]="isNewTagList" name="isNewTagList" label="Existing tag list" inputId=""
+          (click)="onRadioClick()"></p-radioButton>
+      </div>
+      <div class="row" *ngIf="isNewTagList=='1'">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+              <div class="ui-fluid">
+                <p-dropdown [options]="tagListNames" [autoWidth]="false" [(ngModel)]="selectedTagListData.TagListId" name="tagListId"
+                  (onChange)="tagListOnChange($event)" [filter]="true" [style]="{'width':'230px'}">
+                </p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isNewTagList=='0'">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+              <div class="ui-fluid">
+                <input name="TaglistName" required type="text" size="30" placeholder="Enter list name"
+                  [(ngModel)]="selectedTagListData.TagListName" name="tagListName" pInputText>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <section class="pull-right tagbtn">
+          <button type="button" class="btn btn-custom" style="cursor:pointer;" (click)="saveToTagList()">
+            <i class="fa fa-floppy-o"></i>&nbsp;Save</button>&nbsp;&nbsp;
+          <button type="button" class="btn btn-default" style="cursor:pointer; " (click)="CancelTagList()">
+            <i class="fa fa-eraser"></i>&nbsp;Cancel</button>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</p-dialog>
+  
+<p-dialog [header]=skillDetailsHeader [(visible)]="displaySkills" appendTo="body" [modal]="true" [responsive]="true"
+  width=900 height=400>
+  <div style="height:400px;">
+    <p-table #skillTable [columns]="skillsCols" [value]="skillsData" [resizableColumns]="true" [first]="first"
+      columnResizeMode="expand" [reorderableColumns]="true" [scrollable]="true" scrollHeight="250px">
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">
+          <input type="text" pInputText size="50" placeholder="Search"
+            (input)="skillTable.filterGlobal($event.target.value, 'contains')" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn
+            [ngStyle]="getStyles(col.type)">
+            {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]" [ngStyle]="getStyles(col.type)">
+            <div *ngIf="col.dataType == null">{{ rowData[col.field] }}</div>
+            <div *ngIf="col.dataType != null" style="text-align: right;">{{ rowData[col.field] }}</div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+</div>

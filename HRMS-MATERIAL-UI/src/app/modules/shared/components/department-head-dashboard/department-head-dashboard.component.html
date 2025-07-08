@@ -1,0 +1,187 @@
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table
+        class="mat-elevation-z8 col-12"
+        mat-table
+        [dataSource]="dataSource"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        matSort
+      >
+        <ng-container matColumnDef="ProjectName">
+          <th
+            mat-header-cell
+            cdkDrag
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-weight-bold"
+          >
+            Project Name
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.ProjectName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ManagerName">
+          <th
+            mat-header-cell
+            cdkDrag
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-weight-bold"
+          >
+            Project Manager
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.ManagerName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PracticeAreaCode">
+          <th
+            mat-header-cell
+            cdkDrag
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-weight-bold"
+          >
+            Technology
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.PracticeAreaCode }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ClientName">
+          <th
+            mat-header-cell
+            cdkDrag
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-weight-bold"
+          >
+            Client Name
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.ClientName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ActualStartDate">
+          <th
+            mat-header-cell
+            cdkDrag
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-weight-bold"
+          >
+            Start Date
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.ActualStartDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ProjectState">
+          <th
+            mat-header-cell
+            cdkDrag
+            *matHeaderCellDef
+            mat-sort-header
+            class="font-weight-bold"
+          >
+            Status
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.ProjectState }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+            Edit
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon [ngStyle]="canViewEdit(element)" style="cursor: pointer" (click)="EditProject(element)"
+              >edit</mat-icon
+            >
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="View">
+          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+            View
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon style="cursor: pointer" (click)="ViewProject(element)"
+              >visibility</mat-icon
+            >
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator
+        [pageSizeOptions]="[10, 20, 30]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+<!--Associate Exit Card-->
+<!-- <mat-card class="mb-2" [hidden]="!(dataSourceAssociateExit && dataSourceAssociateExit.data.length > 0)">
+  <mat-card-header>
+    <mat-card-title>Associate Exit Actions</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <div class ="table-responsive">
+          <table mat-table [dataSource]="dataSourceAssociateExit" matSort>
+              <ng-container matColumnDef="EmployeeCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Emp Id </th>
+                  <td mat-cell *matCellDef="let element">{{element.EmployeeCode}}</td>
+                </ng-container>
+
+              <ng-container matColumnDef="EmployeeName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Employee Name </th>
+                  <td mat-cell *matCellDef="let element">{{element.EmployeeName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Designation">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Designation </th>
+                  <td mat-cell *matCellDef="let element">{{element.Designation}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ExitDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Exit Date </th>
+                  <td mat-cell *matCellDef="let element">{{element.ExitDate}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="StatusCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Status </th>
+                  <td mat-cell *matCellDef="let element">{{element.StatusCode}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Action">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Action </th>
+                  <td mat-cell  *matCellDef="let element">
+                    <mat-icon *ngIf="element.StatusCode!='RevokeInitiated'" style="cursor: pointer" (click)="viewResignationDets(element)">visibility</mat-icon>
+                      <mat-icon *ngIf="element.StatusCode=='RevokeInitiated'" style="cursor: pointer;color: green" (click)= "revokeResignation(element,'Approve')" >check</mat-icon>
+                      <mat-icon *ngIf="element.StatusCode=='RevokeInitiated'"  style="cursor: pointer;color: red" (click)= "revokeResignation(element,'Reject')">clear</mat-icon>
+                      <mat-icon *ngIf="element.StatusCode=='RevokeInitiated'" [matTooltip]="element.WithdrawReason" style="cursor: pointer">info</mat-icon>      
+                </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayColumnsAssociateExit"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayColumnsAssociateExit"></tr>
+          </table>
+      </div>
+      <div class="row justify-content-center">
+        <mat-paginator #exitPaginator [pageSizeOptions]="[10, 20, 30]"
+                      showFirstLastButtons >
+        </mat-paginator>
+      </div>
+  </mat-card-content>
+</mat-card> -->
+

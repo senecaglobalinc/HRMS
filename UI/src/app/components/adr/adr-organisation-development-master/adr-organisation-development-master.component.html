@@ -1,0 +1,104 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">ADR Organisation Development Master</div>
+  </div>
+</div>
+<div class="panel-body">
+  <div class="center">
+    <form class="form-horizontal" [formGroup]="addOrgActivity">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4 ui-lg-3">
+            <div class="box">
+              <label id="label">Financial Year:</label>
+              <span style="color: red">*</span>&nbsp;
+              <br>
+              <p-dropdown [options]="financialYearsList" formControlName="financialYearId" [style]="{'width':'70%'}" name="financialYearId"
+                [(ngModel)]="financialYearId" [autoWidth]="false" required (onChange)="getADROrganisationDevelopment();dt1.reset();" filter="filter">
+              </p-dropdown>
+              <div>
+                <span style="color: red" *ngIf="(formSubmitted && (financialYearId==null))">
+                  Financial Year is required
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-4 ui-lg-4">
+            <div class="box">
+              <label id="label">ADR Organisation Development Activity:</label>
+              <span style="color: red">*</span>&nbsp;
+              <textarea rows="2" cols="32" formControlName="ADROrganisationDevelopmentActivity" name="OrgActivity" required type="text"
+                autoResize="autoResize" pInputTextarea></textarea>
+              <div *ngIf="addOrgActivity.get('ADROrganisationDevelopmentActivity').hasError('required') && formSubmitted">
+                <span style="color: red">Organisation Development Activity Required</span>
+              </div>
+              <div class="ADROrganisationDevelopmentActivity" *ngIf="addOrgActivity.get('ADROrganisationDevelopmentActivity').hasError('maxlength') ">
+                <span style="color: red">Only 1000 characters</span>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="ui-g-12 ui-md-4 ui-lg-12">
+            <div class="box buttons">
+              <span *ngIf="DisableEdit">
+                <button type="submit" class="btn btn-custom submit" style="cursor:pointer;" (click)="toAddorUpdateOrgActivity();">
+                  &nbsp;{{btnLabel}}</button>
+              </span>
+              <span *ngIf="!DisableEdit">
+                <button type="submit" class="btn btn-custom submit" style="cursor:not-allowed; opacity: 0.5;">{{btnLabel}}</button>
+              </span>
+              &nbsp;
+              <button type="button" class="btn btn-default cancel" style="cursor:pointer;" (click)="clear()">
+                <i class="fa fa-eraser"></i>Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<div class="content-fluid center">
+  <div class="tables">
+    <div style="text-align: right">
+      <i class="fa fa-search" class="iconCls"></i>
+
+      <input type="text" pInputText size="50" placeholder="Search" style="width: 40%" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+        class="inputCls" />
+    </div>
+    <p-table #dt1 [columns]="cols" [value]="orgActivitiesList" [paginator]="true" [rows]="PageSize" [responsive]="true" columnResizeMode="expand"
+      [resizableColumns]="true" [reorderableColumns]="true" [style]="{ 'white-space': ''}" selectionMode="single" [(selection)]="selectedRow"
+      stateStorage="session" stateKey="statedemo-session">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+            {{ col.header }}
+
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th class="editCls">Edit</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]">
+            <div>{{ rowData[col.field] }}</div>
+          </td>
+          <td *ngIf='!DisableEdit'>
+            <a style="cursor:pointer;">
+              <i class="editCls" style="cursor: not-allowed; opacity: 0.5;" title="Edit" class="fa fa-pencil-square-o fa-lg"></i>
+            </a>
+          </td>
+          <td *ngIf='DisableEdit'>
+            <a style="cursor:pointer;">
+              <i class="editCls" style="cursor: pointer;" title="Edit" class="fa fa-pencil-square-o fa-lg" (click)="editOrgActivity(rowData)"></i>
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-toast [style]="{marginTop: '80px'}"></p-toast>
+  </div>
+</div>

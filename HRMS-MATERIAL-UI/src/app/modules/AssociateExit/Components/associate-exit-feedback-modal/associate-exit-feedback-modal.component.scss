@@ -1,0 +1,16 @@
+.feedback-modal {
+    display: flex;
+    justify-content: space-between;
+}
+
+.feeback-heading {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
+.feedback-initialremarks{
+    margin-top: 20px;
+    background: #f5f5f5;
+    height:150px;
+    overflow-y: scroll;
+}

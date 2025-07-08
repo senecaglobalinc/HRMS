@@ -1,0 +1,132 @@
+<div class="panel panel-default">
+    <div class="panel-heading" style="height: 57px;">
+      <div class="row" style="padding: 10px;">
+        <div class="col-12">
+          <span style="float: left;">
+            <h4 class="panel-title">Resource Report By Month</h4>
+          </span>
+          <span style="float: right;">
+            <button type="button" class="btn btn-primary btn-xs" (click)="onFilter()" title="Filter">
+              <i class="fa fa-filter fa-lg"></i>
+            </button>
+            <a *ngIf="associateUtilizationReportList.length>0" (click)="table.exportCSV()" title="Export to Excel" aria-hidden="true"
+              style="padding:10px;font-size:15px;">
+              <img src="./assets/images/excel.png">
+              <div class="exportToExcel"> </div>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="col-lg-12">
+          <div class="p-grid p-justify-between">
+              <div class="p-col-3">
+                <div class="box">
+                  <span>
+                    <b>Total Records:</b>
+                    <span>{{totalRecordsCount >0 ? totalRecordsCount: 0}}</span>
+                  </span>
+                </div>
+              </div>
+              <div class="p-col-4">
+                <div class="box">
+                  <input type="text"  pInputText size="50"  placeholder="Search" style="width: 50%"  (input)="table.filterGlobal($event.target.value, 'contains')"
+                     class="inputCls" />
+                </div>
+              </div>
+            </div>
+        <p-table #table [value]="associateUtilizationReportList" [columns]="cols" [rows]="PageSize" [responsive]="true" [rowsPerPageOptions]="PageDropDown"
+          [paginator]="true" [resizableColumns]="true" columnResizeMode="expand" [reorderableColumns]="true" selectionMode="single">
+  
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>{{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns" [pSelectableRow]="rowData[col]" class="ui-resizable-column">
+                {{ rowData[col.field] }}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary">
+            <div *ngIf="associateUtilizationReportList.length==0" style="text-align: left">
+              No Records Found
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  
+  <p-dialog styleClass="resourceReport" appendTo="body" header="Filters" width=600 height=400 [(visible)]="filterDisplay" responsive="true"
+    [style]="{'over-flow':'hidden'}" modal=true showHeader=true closeOnEscape=true closable=true>
+    <div style="height:400px;">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+              <label>From Month</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+              <p-dropdown [options]="FrommonthOptions" [style]="{'width':'70%'}" [autoWidth]="false" [(ngModel)]="reportsFilterData.utilizationReportByMonthFilterData.FromMonth"
+                placeholder="Select a Month"></p-dropdown>
+                </div>
+              <div *ngIf="afterSearchFilter && (reportsFilterData.utilizationReportByMonthFilterData.FromMonth==null || reportsFilterData.utilizationReportByMonthFilterData.FromMonth==undefined
+                      ||reportsFilterData.utilizationReportByMonthFilterData.FromMonth==0)">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">From month is required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+              <label>To Month</label>
+              <span style="color: red">*</span>
+              <div class="ui-fluid">
+              <p-dropdown [options]="FrommonthOptions"   [style]="{'width':'70%'}" [autoWidth]="false" [(ngModel)]="reportsFilterData.utilizationReportByMonthFilterData.ToMonth"
+                placeholder="Select a Month"></p-dropdown>
+                </div>
+              <div *ngIf="afterSearchFilter && (reportsFilterData.utilizationReportByMonthFilterData.ToMonth==null || reportsFilterData.utilizationReportByMonthFilterData.ToMonth==undefined
+                                ||reportsFilterData.utilizationReportByMonthFilterData.ToMonth==0)">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">To month is required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <div class="box">
+              <label>Year</label>
+              <span style="color: red">*</span>
+                <div class="ui-fluid">
+              <input type="text"  style="width: 70%" pInputText [(ngModel)]="reportsFilterData.utilizationReportByMonthFilterData.Year" #year (input)="checkYear($event.target.value)"
+                (keypress)="onlyNumbers($event)" maxlength="4" minlength="4" placeholder="Year" (paste)="$event.preventDefault()"
+              />
+              </div>
+              <div *ngIf="afterSearchFilter && (reportsFilterData.utilizationReportByMonthFilterData.Year==null || reportsFilterData.utilizationReportByMonthFilterData.Year==undefined
+                                              ||reportsFilterData.utilizationReportByMonthFilterData.Year==0)">
+                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                <span style="color: red">Year is required.</span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="col-lg-12">
+            <section class="pull-right buttons">
+                <button type="submit" style="cursor:pointer;" class="btn btn-primary" (click)="onsearchByFilter();table.reset()">
+                    <i class="fa fa-filter"></i>&nbsp;Apply</button>&nbsp;
+              <button type="button" style="cursor:pointer;" class="btn btn-default" (click)="OpenConfirmationDialog()">
+                <i class="fa fa-eraser"></i>&nbsp;Clear</button>
+             
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>
+  <p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>

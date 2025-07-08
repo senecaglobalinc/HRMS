@@ -1,0 +1,211 @@
+<div class="container-fluid">
+        
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>filter_list</mat-icon> Filter Service Type Data
+            </mat-panel-title>
+           </mat-expansion-panel-header>
+        <form [formGroup]="searchUserForm">
+            <div>
+                <mat-form-field appearance="{{themeAppearence}}" class="col-4">
+                    <mat-label>Service Type</mat-label>
+                    
+                    <mat-select formControlName="ServiceType"  multiple>
+                        
+                            <!-- <mat-select-trigger>
+                                    {{this.searchUserForm.controls.ServiceType.value == 0 ? 'All' : this.count[this.searchUserForm.controls.ServiceType.value]}}
+                                    <span *ngIf="this.searchUserForm.controls.ServiceType.value?.length > 1" >
+                                      (+{{this.searchUserForm.controls.ServiceType.value.length - 1}} {{this.searchUserForm.controls.ServiceType.value?.length === 2 ? 'other' : 'others'}})
+                                    </span>
+                                  </mat-select-trigger> -->
+                                
+                            <mat-option #allSelected (click)="toggleAllSelection()" [value]="0" >All</mat-option>
+                        <mat-option *ngFor="let service of projectType" [value]="service.ProjectTypeId" (click)="tosslePerOne(allSelected.viewValue)">{{service.ProjectTypeCode}}</mat-option>
+                        
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="text-right buttons">
+                <button type="button" mat-stroked-button (click)="Clear()" >
+                    Clear</button>
+                <button type="submit" class="mr-0" mat-flat-button color="primary" (click)="Apply()" >
+                    Apply</button>
+            </div>
+        </form>
+           </mat-expansion-panel>
+           </mat-accordion>
+           
+           <mat-card class="mt-2">
+                <div>
+                    <form >
+                            <!-- <div class="row">
+                            
+                            
+                                    <div class="col-md-4"> -->
+                                            <div class="mt-3 text-right">
+                                                
+                                                <a *ngIf="count.length>0 "
+                                                    (click)="exporter.exportTable('csv',{fileName: 'ServiceTypeReport'})" title="Export to Excel">
+                                                    <div class="exportToExcel"></div>
+                                                </a>
+                                            </div>
+                                    <!-- </div>
+                                </div> -->
+                        <div class="table-responsive">
+                            <table mat-table #table matTableExporter [dataSource]="selectedColumns" matSort #exporter="matTableExporter">
+                                <ng-container  matColumnDef="ServiceName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Service Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">{{element.ServiceTypeCode}}</td>
+                                </ng-container>
+                                <ng-container  matColumnDef="ServiceDescription">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Service Description
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">{{element.ServiceTypeDescription}}</td>
+                                </ng-container>
+                                <ng-container  matColumnDef="ProjectCount">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Project Count
+                                    </th>
+                                    <td mat-cell *matCellDef="let element"><a (click)="EmployeePop(element)"  class="text-primary">{{element.ResourceCount}}</a></td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displaycols"></tr>
+                            
+                                <tr mat-row *matRowDef="let row; columns: displaycols;"></tr>
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data</td>
+                            
+                            </table>
+                        </div>
+                        <div class="row justify-content-center">
+                            <mat-paginator #counttable [pageSizeOptions]="[5, 10, 15, 20]"></mat-paginator>
+                        </div>
+                        
+                    </form>
+                </div>
+            </mat-card>
+            <mat-card class="mt-2">
+                <div class="container-fluid">
+                    <h3 mat-dialog-title>Project Details</h3>
+                   
+                    </div>
+            <div>
+                    <form >
+                        <!-- <div class="row">
+                            
+                            
+                            <div class="col-md-4"> -->
+                                    <div class="mt-3 text-right">
+                                        
+                                        <a *ngIf="emp.length>0 "
+                                            (click)="export.exportTable('csv',{fileName: 'ServiceTypeReportProjects'})" title="Export to Excel">
+                                            <div class="exportToExcel"></div>
+                                        </a>
+                                    </div>
+                            <!-- </div>
+                        </div> -->
+                        <div class="table-responsive">
+                            <table mat-table #prjtable matTableExporter [dataSource]="selectedProjColumns" matSort #export="matTableExporter">
+                                <ng-container  matColumnDef="ProjectCode">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Project Code
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">{{element.ProjectCode}}</td>
+                                </ng-container>
+                                <ng-container  matColumnDef="ProjectName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Project Name
+                                    </th>
+                                    <!--<td mat-cell *matCellDef="let element">{{element.ProjectName}}</td>-->
+                                    <td mat-cell *matCellDef="let element" (click)="ResourceReportByProject(element)"  class="text-primary">{{element.ProjectName}}</td>
+                                </ng-container>
+                                <ng-container  matColumnDef="Actual StartDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Actual StartDate
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">{{element.ActualStartDate}}</td>
+                                </ng-container>
+                                <ng-container  matColumnDef="Status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Status
+                                        </th>
+                                        <td mat-cell *matCellDef="let element">{{element.StatusCode}}</td>
+                                    </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayEmpcols"></tr>
+                            
+                                <tr mat-row *matRowDef="let row; columns: displayEmpcols;"></tr>
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No data</td>
+                            
+                            </table>
+                        </div>
+                        <div class="row justify-content-center">
+                            <mat-paginator #counttable [pageSizeOptions]="[5, 10, 15, 20]"></mat-paginator>
+                        </div>
+                        <div class="text-right buttons" (click)="closeDialog()">
+                            <button type="button" mat-stroked-button>
+                                Close</button>
+                        </div>
+                    </form>
+                </div>
+            </mat-card>
+
+</div>
+<ng-template #AssociateDialog>
+        <div class="container-fluid">
+                <h3 mat-dialog-title>Project Details</h3>
+               
+                </div>
+        <div>
+                <form >
+                    <!-- <div class="row">
+                        
+                        
+                        <div class="col-md-4"> -->
+                                <div class="mt-3 text-right">
+                                    
+                                    <a *ngIf="emp.length>0 "
+                                        (click)="export.exportTable('csv',{fileName: 'ServiceTypeReportProjects'})" title="Export to Excel">
+                                        <div class="exportToExcel"></div>
+                                    </a>
+                                </div>
+                        <!-- </div>
+                    </div> -->
+                    <div class="table-responsive">
+                        <table mat-table #prjtable matTableExporter [dataSource]="selectedProjColumns" matSort #export="matTableExporter">
+                            <ng-container  matColumnDef="ProjectCode">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">ProjectCode
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{element.ProjectCode}}</td>
+                            </ng-container>
+                            <ng-container  matColumnDef="ProjectName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">ProjectName
+                                </th>
+                                <!--<td mat-cell *matCellDef="let element">{{element.ProjectName}}</td>-->
+                                <td mat-cell *matCellDef="let element" (click)="ResourceReportByProject(element)"  class="text-primary">{{element.ProjectName}}</td>
+                            </ng-container>
+                            <ng-container  matColumnDef="Actual StartDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Actual StartDate
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{element.ActualStartDate}}</td>
+                            </ng-container>
+                            <ng-container  matColumnDef="Status">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Status
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">{{element.StatusCode}}</td>
+                                </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayEmpcols"></tr>
+                        
+                            <tr mat-row *matRowDef="let row; columns: displayEmpcols;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data</td>
+                        
+                        </table>
+                    </div>
+                    <div class="row justify-content-center">
+                        <mat-paginator #counttable [pageSizeOptions]="[5, 10, 15, 20]"></mat-paginator>
+                    </div>
+                    <div class="text-right buttons" (click)="closeDialog()">
+                        <button type="button" mat-stroked-button>
+                            Close</button>
+                    </div>
+                </form>
+            </div>
+   </ng-template>

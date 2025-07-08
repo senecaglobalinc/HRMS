@@ -1,0 +1,173 @@
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="clientBillingRolesForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Projects</mat-label>
+                        <mat-select formControlName="ProjectId" name="ProjectId" [disabled]="disableProject" (onChange)="getClientBillingRolesByProjectId(clientBillingRolesForm.value.ProjectId)">
+                            <mat-option *ngFor="let project of projectsList" [value]="project.value">{{project.label}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="clientBillingRolesForm.get('ProjectId').hasError('required') ">
+                            Project is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Client Billing Role Name <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Client Billing Role" formControlName="ClientBillingRoleName" name="ClientBillingRoleName" maxlength="60" (keyup)="onEmpty($event)" appEmptySpacesValidations>
+                    <mat-error *ngIf="clientBillingRolesForm.get('ClientBillingRoleName').hasError('required')">
+                        Client Billing Role Required.
+                    </mat-error>
+                    <mat-error *ngIf="clientBillingRolesForm.get('ClientBillingRoleName').hasError('pattern')">
+                        Only characters allowed.
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>No. of positions<span class="text-danger">*</span></mat-label>
+                        <input matInput type="number" placeholder="No. of positions" formControlName="NoOfPositions" name="NoOfPositions" [min]="1" [max]="99">
+                    <mat-error *ngIf="clientBillingRolesForm.get('NoOfPositions').hasError('required')">
+                        No. of Positions Required.
+                    </mat-error>
+                    <mat-error *ngIf="clientBillingRolesForm.get('NoOfPositions').hasError('pattern')">
+                        Should not be Zero
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Client Billing %<span class="text-danger">*</span></mat-label>
+                        <mat-select formControlName = "ClientBillingPercentage" name = "ClientBillingPercentage">
+                            <mat-option *ngFor="let billingPercent of clientBillingRoleOptions" [value]="billingPercent.value">{{billingPercent.label}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="clientBillingRolesForm.get('ClientBillingPercentage').hasError('required')">
+                            Client Billing % Required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            <!-- </div>
+            <div class="row"> -->
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Billing Start Date<span class="text-danger">*</span></mat-label>
+                        <input matInput [min]="minClientBillingStartDate" [max]="maxClientBillingStartDate" [matDatepicker]="StartDate" formControlName="StartDate" name="StartDate" readonly (click)="StartDate.open()" style="cursor: pointer">
+                        <mat-datepicker-toggle matSuffix *ngIf="clientBillingRolesForm.value.StartDate"
+                                (click)="clearInput($event, 'StartDate')">
+                                <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker-toggle matSuffix [for]="StartDate"></mat-datepicker-toggle>
+                        <mat-datepicker #StartDate></mat-datepicker>
+                        <mat-error *ngIf="clientBillingRolesForm.get('StartDate').hasError('required') ">
+                            Billing Start Date Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+                <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Billing End Date</mat-label>
+                        <input matInput [matDatepicker]="EndDate" formControlName="EndDate" name="EndDate"  readonly (click)="EndDate.open()" style="cursor: pointer">
+                        <mat-datepicker-toggle matSuffix *ngIf="clientBillingRolesForm.value.EndDate"
+                                (click)="clearInput($event, 'EndDate')">
+                                <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker-toggle matSuffix [for]="EndDate"></mat-datepicker-toggle>
+                        <mat-datepicker #EndDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 text-right">
+                <button mat-stroked-button (click)="clearClientDialog()">
+                  <mat-icon>clear</mat-icon>{{ cancelBtnLabel }}
+                </button>
+                <button class="mr-0" mat-flat-button color="primary" *ngIf='saveRoleData' (click)="addClientBillingRole()">Add</button>
+                <button class="mr-0" mat-flat-button color="primary" *ngIf='!saveRoleData' (click)="updateClientBillingRole()">Update</button> 
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="mb-2">
+    <mat-card-content>
+        <div class ="table-responsive">
+            <table mat-table class="mat-elevation-z8 col-12" [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="ClientBillingRoleName">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold"> Client Billing Role</th>
+                    <td mat-cell class="text-center" *matCellDef="let clientBillingRole">{{clientBillingRole.ClientBillingRoleName}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="NoOfPositions">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold"> Total Position(s)</th>
+                    <td mat-cell class="text-center" *matCellDef="let clientBillingRole">{{clientBillingRole.NoOfPositions}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="AllocationCount">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">Allocated Position(s)</th>
+                    <td class="text-center" *matCellDef="let clientBillingRole" mat-cell> 
+                        <a *ngIf="clientBillingRole.AllocationCount>0" role="button" style="cursor:pointer; color: #169af1;" (click)="getResourceReportByProjectId(clientBillingRole.ProjectId, clientBillingRole.ClientBillingRoleId)">{{clientBillingRole.AllocationCount}}</a>
+                    <span *ngIf="clientBillingRole.AllocationCount==0">{{clientBillingRole.AllocationCount}}</span></td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="AvailablePositions">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">Open Position(s)</th>
+                    <td class="text-center" mat-cell *matCellDef="let clientBillingRole">{{clientBillingRole.AvailablePositions}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="StartDate">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">Start Date</th>
+                    <td mat-cell *matCellDef="let clientBillingRole">{{clientBillingRole.StartDate}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="EndDate">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">End Date</th>
+                    <td class="text-center" mat-cell *matCellDef="let clientBillingRole">{{clientBillingRole.EndDate}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ClientBillingPercentage">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">Client Billing %</th>
+                    <td class="text-center" mat-cell *matCellDef="let clientBillingRole">{{clientBillingRole.ClientBillingPercentage}}</td>
+                  </ng-container>
+
+                  <ng-container *ngIf="canEditOrDelete()" matColumnDef="Edit">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold"> Edit </th>
+                    <td mat-cell *matCellDef="let clientBillingRole">
+                      <mat-icon class="edit" [ngStyle]="disableEditAndDelete(clientBillingRole)" (click)="editBillingRole(clientBillingRole)">edit</mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <ng-container *ngIf="canEditOrDelete()" matColumnDef="Delete">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold"> Delete </th>
+                    <td  mat-cell *matCellDef="let clientBillingRole">
+                      <mat-icon class="edit" [ngStyle]="disableEditAndDelete(clientBillingRole)" (click)="deleteDialog(clientBillingRole)">delete</mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="CloseRole">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">Close Role</th>
+                    <td  mat-cell *matCellDef="let clientBillingRole"><mat-icon style="cursor: pointer;" class="edit" *ngIf="canShowActions(clientBillingRole)" (click)="closeCBRData(clientBillingRole)">close</mat-icon></td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Clone">
+                    <th mat-header-cell cdkDrag *matHeaderCellDef class="font-weight-bold">Clone</th>
+                    <td mat-cell *matCellDef="let clientBillingRole"><mat-icon style="cursor: pointer;" class="edit" (click)="CloneData(clientBillingRole)">content_copy</mat-icon></td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="getdisplayedColumns()"></tr>
+                  <tr mat-row *matRowDef="let row; columns: getdisplayedColumns();"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                  </tr>
+
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 20,30,40,50]"></mat-paginator>
+          </div>
+    </mat-card-content>
+</mat-card>

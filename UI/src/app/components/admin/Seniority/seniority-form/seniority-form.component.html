@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+      <div>Seniority</div>
+  </div>
+  <div class="panel-body">
+      <div class="center">
+          <form class="form-horizontal" [formGroup]="addSeniorityName">
+              <div class="row">
+                  <div class="ui-g">
+                      <div class="ui-g-12 ui-md-4 ui-lg-3">
+                          <div class="box">
+                              <label for="Seniority Name">Seniority Name:</label>
+                              <span style="color: red">*</span>&nbsp;
+                              <input formControlName="PrefixName" (keypress)="omit_special_char($event)" name="PrefixName" required type="text" size="30"
+                                  pInputText>
+                              <div *ngIf="addSeniorityName.get('PrefixName').hasError('required') && formSubmitted">
+                                  <span style="color: red">Seniority Name Required</span>
+                              </div>
+                              <div *ngIf="addSeniorityName.get('PrefixName').hasError('pattern') ">
+                                  <span style="color: red">Only characters allowed</span>
+                              </div>
+                              <div *ngIf="addSeniorityName.get('PrefixName').hasError('maxlength') ">
+                                  <span style="color: red">Only 100 characters</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-4 ui-lg-3">
+                          <div class="box buttons">
+                              <button type="submit" class="btn btn-custom submit" style="cursor:pointer;" (click)="addSeniority()">
+                                  <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                              <button type="button" class="btn btn-default cancel" style="cursor:pointer;" (click)="cancel()">
+                                  <i class="fa fa-eraser"></i>Clear</button>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

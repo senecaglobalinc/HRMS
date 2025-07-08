@@ -1,0 +1,33 @@
+/* footer{
+    height:20px;
+} */
+.main-footer {
+    margin-left: 0 !important;
+    min-height: 0 !important;
+    -webkit-transform: translate(0, 0) !important;
+    -ms-transform: translate(0, 0) !important;
+    -o-transform: translate(0, 0) !important;
+    transform: translate(0, 0) !important;
+
+      position: sticky;
+      position: -webkit-sticky; /* For macOS/iOS Safari */
+      bottom: 0; /* Sets the sticky toolbar to be on top */
+      /* z-index: 1000; Ensure that your app's content doesn't overlap the toolbar */
+      align-self: flex-end;
+  }
+  
+  .main-footer {
+    background-color: #367fa9;
+    padding: 15px;
+    color: #444;
+    border-top: 1px solid #d2d6de;
+  }
+  .pull-right a {
+padding-right: 85px;
+  }
+  .url{
+      padding-left:90px;
+      color:  yellowgreen;
+  }
+
+

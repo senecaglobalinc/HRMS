@@ -1,0 +1,76 @@
+<mat-card class="mb-2">
+  <mat-card-content>
+    <form [formGroup]="addGrades">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeappeareance }}">
+            <mat-label>Grade Code<span class="text-danger"> *</span></mat-label>
+            <input matInput placeholder="Grade Code" type="text" name="GradeCode" formControlName="GradeCode" appGradesValidations appEmptySpacesValidations minlength="2"/>
+            <mat-error
+              *ngIf="addGrades.get('GradeCode').errors">
+              Grade Code Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="{{ themeappeareance }}">
+            <mat-label>Grade Name<span class="text-danger"> *</span></mat-label>
+            <input matInput placeholder="Grade Name" formControlName="GradeName" name="GradeName" appGradesValidations appEmptySpacesValidations minlength="2"/>
+            <mat-error *ngIf="addGrades.get('GradeName').errors">
+              Grade Name Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-12 text-right">
+        <button mat-stroked-button (click)="Reset()">
+          <mat-icon>close</mat-icon>Clear
+        </button>
+        <button mat-flat-button color="primary" class="mr-0" (click)="CreateGrades()">
+          {{ btnLabel }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="mat-elevation-z8 col-12" mat-table [dataSource]="dataSource" cdkDropList
+        cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" matSort>
+        <ng-container matColumnDef="GradeCode">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Grade Code
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.GradeCode }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="GradeName">
+          <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header class="font-weight-bold">
+            Grade Name
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.GradeName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+            Edit
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon style="cursor: pointer" (click)="SetEditObj(element)">edit</mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

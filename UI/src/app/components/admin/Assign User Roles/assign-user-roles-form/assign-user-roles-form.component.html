@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+<div class="panel-heading">
+    <div class="panel-title">
+        Assign User Roles
+    </div>
+</div>
+<div class="panel-body">
+<div class="center">
+    <div class="row">
+        <div class="col-md-3">
+                <label for="RoleId">Associate List:</label>
+                <span style="color: red">*</span>&nbsp;
+                <p-dropdown [style]="{'width':'70%'}" [options]="userNamesList" [(ngModel)]="selectedUserId" [autoWidth]="false" (onChange)="GetUserRoles()"
+                    [filter]="true"></p-dropdown>
+        </div>
+        <form [formGroup]="newRole">
+            <div class="col-md-3">
+                <label for="RoleId">Roles List:</label><span style="color: red">*</span>&nbsp;
+                    <p-dropdown [style]="{'width':'70%'}" [disabled]="EditMode()" [options]="rolesList" formControlName="RoleId" name="RoleId"
+                        [autoWidth]="false" [filter]="true"></p-dropdown>
+                        <div  *ngIf="newRole.get('RoleId').hasError('required') && formSubmitted">
+                                <span style="color: red">Required Field</span></div>
+            </div>
+          
+            <div class="col-md-2">
+                <label for="IsActive" style="padding-right: 10px;">IsActive</label>
+                <p-inputSwitch formControlName="IsActive" name="IsActive"></p-inputSwitch>
+            </div>
+           
+            <div class="col-md-3">
+                <div>
+                    <button type="submit" class="btn btn-custom" (click)="SaveOrUpdateUserRoles()"><i class="fa fa-floppy-o"></i>&nbsp;{{ btnLabel }}</button>                    &nbsp;
+                    <button type="button" class="btn btn-default" (click)="Reset()"><i class="fa fa-eraser"></i>Clear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

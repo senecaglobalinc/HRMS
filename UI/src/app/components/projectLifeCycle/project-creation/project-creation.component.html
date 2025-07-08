@@ -1,0 +1,245 @@
+<!-- <div class="panel-body"> -->
+<div class="center">
+  <form class="form-horizontal" [formGroup]="addProject">
+    <div class="row">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Project Code
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid" *ngIf="projectId != 0">
+              <input formControlName="ProjectCode" style="width:70%;" class="code" maxlength="30" disabled="true" name="ProjectCode" type="text"
+                size="30" pInputText>
+            </div>
+            <div class="ui-fluid" *ngIf="projectId == 0">
+              <input formControlName="ProjectCode" maxlength="30" style="width:70%;" class="code" name="ProjectCode" type="text" size="30"
+                pInputText>
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('ProjectCode').hasError('required')">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red"> Required Field.</span>
+            </div>
+            <div *ngIf="addProject.get('ProjectCode').hasError('unAllowed') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red" class="invalidErr">Invalid Project Code.</span>
+            </div>
+            <div *ngIf="addProject.get('ProjectCode').hasError('pattern')">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red" class="patternErr">No special characters are allowed expect one hyphen</span>
+            </div>
+            <div *ngIf="addProject.get('ProjectCode').hasError('maxlength') && addProject.get('ProjectCode').touched" f>
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Only 30 characters are allowed</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Project Name
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid">
+              <input formControlName="ProjectName"  style="width:70%;" maxlength="50" class="Projectname" name="ProjectName"
+                maxlength="50" type="text" size="50" pInputText>
+
+              
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('ProjectName').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field</span>
+            </div>
+
+            <div *ngIf="addProject.get('ProjectName').hasError('unAllowed') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Should not have continuous spaces.</span>
+            </div>
+            <div *ngIf=" addProject.get('ProjectName').hasError('pattern')">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">No special characters are allowed expect one hyphen</span>
+            </div>
+            <div *ngIf="addProject.get('ProjectName').hasError('maxlength') && addProject.get('ProjectName').touched" f>
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Only 50 characters are allowed</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Project Type
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid">
+
+              <p-dropdown formControlName="ProjectTypeId"  [style]="{'width':'70%'}" [options]="projectTypes" [autoWidth]="false"
+                [filter]="true">
+              </p-dropdown>
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('ProjectTypeId').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red" class="requiredErr">Required Field.</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Technology Area
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid">
+              <p-dropdown formControlName="PracticeAreaId"  [style]="{'width':'70%'}" [options]="practiceAreaList"
+                [autoWidth]="false" [filter]="true">
+              </p-dropdown>
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('PracticeAreaId').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field.</span>
+            </div>
+
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Client
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid">
+
+              <p-dropdown formControlName="ClientId"  [style]="{'width':'70%'}" [options]="clientsList" [autoWidth]="false"
+                [filter]="true">
+              </p-dropdown>
+            </div>
+            <div *ngIf="formSubmitted && !addProject.get('ClientId').valid ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field.</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+
+            <label class="labels">Domain
+            </label>
+
+            <div class="ui-fluid">
+                <!-- [disabled]="projectId != 0 && CanDisableDomain()" -->
+              <p-dropdown formControlName="DomainId" [style]="{'width':'70%'}"
+                [options]="domainList" [autoWidth]="false" [filter]="true">
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Program Manager
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid">
+
+              <p-dropdown formControlName="ManagerId" [options]="managersList" [style]="{'width':'70%'}" [disabled]="!showDropdown"
+                [autoWidth]="false" [filter]="showDropdown">
+              </p-dropdown>
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('ManagerId').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field.</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Departments</label>
+            <div class="ui-fluid">
+              <p-dropdown formControlName="DepartmentId" [disabled]="true" [style]="{'width':'70%'}" [options]="departmentsList" [autoWidth]="false"
+                [filter]="true">
+              </p-dropdown>
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('DepartmentId').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field.</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels">Start Date
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui-fluid">
+
+              <p-calendar formControlName="ActualStartDate" readonlyInput="true" yearRange="1900:+3000" monthNavigator="true"
+                yearNavigator="true" [showIcon]="true" [style]="{'width':'70%'}"></p-calendar>
+
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('ActualStartDate').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field.</span>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-3">
+          <div class="box">
+            <label class="labels"> End Date</label>
+            <span style="color: red" *ngIf="isEndDateRequired">* </span>
+            <div class="ui-fluid">
+              <p-calendar formControlName="ActualEndDate"   [showIcon]="true" yearRange="1900:+3000" monthNavigator="true" yearNavigator="true"
+                readonlyInput="true" [style]="{'width':'70%'}"></p-calendar>
+            </div>
+            <div *ngIf="formSubmitted && addProject.get('ActualEndDate').hasError('required') ">
+              <i style="color: red" class="fa fa-exclamation-circle"></i>
+              <span style="color: red">Required Field.</span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="ui-g-12 ui-md-4 ui-lg-3" >
+              <div class="box" *ngIf="projectId != 0 && stateDisable == true && !hideProjectState">
+                <label class="labels">Project State
+                </label>
+                <div class="ui-fluid">
+                  <input maxlength="30" style="width:70%;" [disabled]="true" [value]="updatedProjectData.ProjectState" type="text" size="30"
+                    pInputText>
+                </div>
+              </div>
+            </div> -->
+        <!-- <div class="ui-g-12 ui-md-4 ui-lg-3">
+              <div class="box" *ngIf="projectId != 0 && stateDisable == false && !hideProjectState">
+                <label class="labels">Project State
+    
+                </label>
+                <div class="ui-fluid">
+                  <p-dropdown formControlName="ProjectStateId" (onChange)="OnChange($event)" [options]="statusList" [autoWidth]="false" [style]="{'width':'70%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div> -->
+      </div>
+    </div>
+  </form>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+
+      <section class="pull-right buttons">
+        <button type="submit" class="btn btn-custom submitBtn" (click)="SaveProject()">
+          <i *ngIf = "btnLabel == 'save'"class="fa fa-floppy-o"></i>&nbsp;{{ btnLabel }}</button>&nbsp;
+        <button *ngIf="projectId == 0" type="button" class="btn btn-default" (click)="OpenConfirmation()">
+          <i class="fa fa-eraser"></i>Clear</button>
+      </section>
+    </div>
+  </div>
+
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle" width="425" #cd></p-confirmDialog>
+<p-dialog header="Client Billing Roles" [(visible)]="displayCBR" appendTo="body" [modal]="true" [style]="{width: '350px', minWidth: '200px'}"
+  [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  {{ dialogMsg}}
+  <p-footer>
+    <button type="button" class="btn btn-custom" (click)="NavigateCBR(1)">Yes</button>
+    &nbsp;
+    <button type="button" class="btn btn-custom" (click)="CancelCBR()">No</button>
+  </p-footer>
+</p-dialog>
+

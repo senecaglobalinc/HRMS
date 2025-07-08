@@ -1,0 +1,134 @@
+<mat-card class="mb-2">
+    <mat-card-content>
+        <form [formGroup]="releaseForm">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <mat-form-field hideRequiredMarker="true" appearance={{themeConfigInput}}>
+                        <mat-label>Employee
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input appDropDownSuggestion [SearchList]="associatesList" appRequirematch type="text" placeholder="Select Employee" matInput
+                        formControlName="employeeId" name="employeeId" [matAutocomplete]="auto2" #trigger="matAutocompleteTrigger">
+                        <button class="clearFieldIcon" *ngIf="releaseForm.value.employeeId" (click)="clearInput($event, 'employeeId')"
+                        mat-button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matSuffix *ngIf="!releaseForm.value.employeeId">keyboard_arrow_down</mat-icon>
+                        <mat-autocomplete [displayWith]="displayFn"  #auto2="matAutocomplete" (optionSelected)="getProjectList($event.option.value.value)">
+                        <mat-option disabled
+                            *ngIf="releaseForm.get('employeeId').hasError('invalidValue') && releaseForm.value.employeeId">
+                            No matching value found</mat-option>
+                        <mat-option *ngIf="!releaseForm.get('employeeId').hasError('invalidValue')" disabled>Select Employee</mat-option>
+                        <mat-option *ngFor="let item of filteredEmployee | async;"
+                            [value]="item">
+                            {{item.label}}
+                        </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="releaseForm.get('employeeId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Employee Required
+                        </mat-error>
+                        <mat-error *ngIf="releaseForm.get('employeeId').hasError('requireMatch')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            Select Employee from given options
+                        </mat-error>
+                    </mat-form-field>
+                    
+                </div>
+
+
+                <div class="col-md-4" >
+                    <mat-form-field hideRequiredMarker="true" appearance={{themeConfigInput}}>
+                        <mat-label for="ddlproject">Current Project
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <mat-select  formControlName="ProjectId" name="ddlProject"
+                            [disabled]="disableddlProject" required
+                            (selectionChange)="getAndfillProjectData(releaseForm.value.employeeId.value)" required>
+                            <mat-option *ngFor="let proj of projectsList" [value]="proj.value">
+                                {{proj.label}}</mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="releaseForm.get('ProjectId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Project Required.</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" *ngIf="false">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <!-- <mat-label for="ddlemployee">Current Project</mat-label> -->
+                        <input formControlName="ProjectName" name="trainingProject" placeholder="Training Project" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field hideRequiredMarker="true" appearance={{themeConfigInput}}>
+                        <mat-label>Release Date
+                            <span class="text-danger">*</span>
+                        </mat-label>
+                        <input name="dtRelease" formControlName="releaseDate" matInput (click)="picker.open()" style="cursor: pointer"
+                            [matDatepicker]="picker" [min]="firstDate" [max]="lastDate" required readonly />
+                        <mat-datepicker-toggle matSuffix *ngIf="releaseForm.value.releaseDate"
+                            (click)="clearInput($event, 'releaseDate')">
+                            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                            *ngIf="releaseForm.get('releaseDate').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Release Date is required.</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" >
+                    <mat-form-field hideRequiredMarker="true"  appearance={{themeConfigInput}}>
+                      <mat-label>Releasing To
+                        <span class="text-danger">*</span>
+                           </mat-label>
+                        
+                           <mat-select  formControlName="releaseProjectId" name="talentpool"  [disabled]="disableddlReleaseTo"                          
+                            required>
+                            <mat-option *ngFor="let proj of releaseToProjectsList" [value]="proj.value">
+                                {{proj.label}}</mat-option>
+                        </mat-select>
+
+                        <mat-error
+                            *ngIf="releaseForm.get('releaseProjectId').hasError('required')">
+                            <i style="color: red" class="fa fa-exclamation-circle"></i>
+                            <span style="color: red">Releasing To Required.</span>
+                        </mat-error>
+                       
+                       <!-- <input placeholder="Talent Pool" formControlName="talentpool" name="talentpool" matInput
+                            class="disabled" readonly /> -->
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-checkbox formControlName="NotifyAll" name="notifyAll" >&nbsp;Notify All
+                    </mat-checkbox>
+                </div>
+
+                <div class="col-md-12 text-right">
+                    <button (click)="Clear()" type="reset" mat-stroked-button>
+                        <mat-icon>clear
+                        </mat-icon>Clear
+                    </button>
+
+                    <button type="submit" (click)="submit()" mat-flat-button color="primary">
+                        Release</button>
+                </div>
+
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

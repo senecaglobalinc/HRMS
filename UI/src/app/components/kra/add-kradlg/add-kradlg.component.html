@@ -1,0 +1,92 @@
+<form [formGroup]="addKRA">
+<div class="row">
+  <div class="col-md-8 col-xs-8">
+    <h1 mat-dialog-title>{{data.heading}}</h1>
+  </div>
+  <div class="col-md-4 col-xs-4 text-right">
+    <button (click)="onNoClick()"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+      <img class="nounicons" src="../../../../assets/images/hrms/icons/cross.svg"
+          alt="import" />
+  </button>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-6">
+     <mat-form-field    appearance="{{themeappeareance}}">
+        <mat-label>KRA Aspect</mat-label>
+        <mat-select formControlName="kraaspect" [(ngModel)]="selectedkraaspect" (selectionChange)="onAspectChanged($event.value)">
+           <mat-option *ngFor="let aspect of aspectList" [value]="aspect.value">
+            {{aspect.label}}</mat-option> 
+        </mat-select>
+     </mat-form-field>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-12">
+    <mat-form-field   appearance="{{themeappeareance}}">
+      <mat-label>Metric</mat-label>
+      <textarea formControlName="metrics" [(ngModel)]="selectedmetrics"  matInput placeholder="Leave a comment"  rows="4"></textarea>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <mat-form-field appearance="{{themeappeareance}}">
+      <mat-label>Measurement Type</mat-label>
+      <mat-select   formControlName="measurementtype" [(ngModel)]="selectedmeasurementtype" (selectionChange)="onMeasurementChanged($event.value)">
+         <mat-option *ngFor="let measurementtype of measurementTypeList" [value]="measurementtype.value">
+          {{measurementtype.label}}</mat-option>
+      </mat-select>
+   </mat-form-field>
+  </div>
+  <div class="col-md-6">
+    <mat-form-field  appearance="outline">
+      <mat-label>Target Value</mat-label>
+      <input matInput placeholder="Target Value" [(ngModel)]="selectedtargetvalue" formControlName="targetvalue" type="number">
+    </mat-form-field>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <mat-form-field *ngIf="showScales" appearance="{{themeappeareance}}">
+      <mat-label>Select Scale</mat-label>
+      <mat-select  formControlName="scalevalue" [(ngModel)]="selectedscalevalue" (selectionChange)="onScaleChanged($event.value)">
+         <mat-option *ngFor="let scale of scaleList" [value]="scale.value">
+          {{scale.label}}</mat-option>
+      </mat-select>
+   </mat-form-field>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <mat-form-field   appearance="{{themeappeareance}}">
+      <mat-label>Operator</mat-label>
+    <mat-select   formControlName="operator"  [(ngModel)]="selectedoperator" (selectionChange)="onOperatorChanged($event.value)">
+      <mat-option *ngFor="let operator of operatorList" [value]="operator.value">
+      {{operator.label}}</mat-option>
+    </mat-select>
+   </mat-form-field>
+  </div>
+  <div class="col-md-6">
+    <mat-form-field   appearance="{{themeappeareance}}">
+      <mat-label>Target Period</mat-label>
+      <mat-select  formControlName="targetperiod" [(ngModel)]="selectedtargetperiod" (selectionChange)="onTargetPeriodChanged($event.value)">
+        <mat-option *ngFor="let tp of targetPeriodList" [value]="tp.value">
+          {{tp.label}}</mat-option>
+      </mat-select>
+   </mat-form-field>
+  </div>
+
+  <div class="col-md-2 col-md-offset-5 mt-2 mb-2">
+    <div class="text-center">
+      <button mat-flat-button *ngIf="data.btntext=='Add' || data.btntext=='Update'"  class="btn-block" (click)="onAddClick()" color="primary">{{data.btntext}}</button>
+      <button mat-flat-button *ngIf="data.btntext=='Done'" class="btn-block" (click)="onNoClick()" color="primary">{{data.btntext}}</button>
+    </div>
+    </div>
+  </div></form>
+  <p-toast [style]="{marginTop: '80px'}"></p-toast>

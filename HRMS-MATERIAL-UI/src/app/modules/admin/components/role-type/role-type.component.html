@@ -1,0 +1,117 @@
+<mat-card class="mb-2">
+  <mat-card-content class="container">
+    <form class="form-horizontal" [formGroup]="roleTypeForm">
+      <div class="row">
+        <div class="col-5">
+          <mat-form-field appearance="{{themeConfigInput}}">
+            <mat-label>Financial Year</mat-label>
+            <mat-select [disabled]="editMode" placeholder="Select Financial Year" formControlName="financialYearId" (selectionChange)=onchange($event) required>
+              <mat-option *ngFor="let fin of financialYearList" [value]="fin.value">
+                {{fin.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-5">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Department</mat-label>
+            <mat-select [disabled]="editMode" formControlName="DepartmentId" name="DepartmentId" (selectionChange)=onDepartmentChange($event) required>
+                <mat-option disabled>Select Department</mat-option>
+                <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                    {{dept.label}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="roleTypeForm.get('DepartmentId').hasError('required')">
+                Department is Required
+            </mat-error>
+        </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-5">
+          <mat-form-field appearance="{{themeConfigInput}}">
+            <mat-label>Role Type</mat-label>
+            <mat-select [disabled]="editMode" placeholder="Select Role Type" formControlName="RoleTypeId" required>
+              <mat-option disabled>Select RoleType</mat-option>
+              <mat-option *ngFor="let role of roleTypeList" [value]="role.value">
+                {{role.label}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="roleTypeForm.get('RoleTypeId').hasError('required')">
+              RoleType is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-5">
+          <mat-form-field appearance={{themeConfigInput}}>
+            <mat-label>Grade</mat-label>
+            <mat-select placeholder="Select Grade" multiple  formControlName="GradeId">
+              <mat-option  [value]="">Select Grade</mat-option>
+              <mat-option *ngFor="let g of gradeList" [value]="g.GradeId">
+                {{g.GradeCode}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="roleTypeForm.get('GradeId').hasError('required')">
+              Grade is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-2 mt-2">
+          <mat-slide-toggle formControlName="IsActive" color="primary" [disabled] = "this.buttonTitle == 'SAVE'">Is Active</mat-slide-toggle>
+        </div>
+      </div>
+      <!-- <div>
+        <mat-slide-toggle formControlName="IsActive" color="primary" [disabled] = "this.buttonTitle == 'SAVE'">Is Active</mat-slide-toggle>
+      </div> -->
+      <div class="row">
+        <div class="col-12 text-right">
+          <button mat-stroked-button (click)="clear()">
+            <mat-icon>close</mat-icon>Clear
+          </button>
+          <button mat-flat-button color="primary" (click)="onSubmit()">
+            {{buttonTitle}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="Department">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Department </th>
+          <td mat-cell *matCellDef="let element"> {{element.DepartmentDescription}} </td>
+        </ng-container>
+        <ng-container matColumnDef="RoleTypeName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold" class="font-weight-bold"> Role Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.RoleTypeName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="RoleTypeDescription">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold" class="font-weight-bold"> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.RoleTypeDescription}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Grade">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Grade </th>
+          <td mat-cell *matCellDef="let element"> {{element.GradeName}} </td>
+        </ng-container>        
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon style="cursor: pointer" (click)="onEdit(element)">edit</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data</td>
+        </tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

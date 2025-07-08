@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid;
+            border: 1px solid;
+            font-family: 'Poppins';
+            font-size: 13px;
+            font-weight: 500;
+            color: #000000;
+            font-style: normal;
+            align-items: center;
+        }
+
+        td, th {
+            border: 1px solid;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #dddddd;
+        }
+
+            td:nth-child(1) {
+                background-color: #dddddd;
+            }
+    </style>
+</head>
+<body>
+    {ActivitiesInitiationToHRA}
+    {KTInitiationToTL}
+    {loginURL}
+    <p>Dear {AssociateName},</p>
+    <p>Associate Resignation Details:</p>
+    <table>
+        <tr style="white-space: nowrap;">
+            <th><strong>Associate Code</strong></th>
+            <td>{AssociateCode}</td>
+            <th><strong>Associate Name</strong></th>
+            <td>{AssociateName}</td>
+            <th><strong>Designation</strong></th>
+            <td>{Designation}</td>
+        </tr>
+        <tr style="white-space: nowrap;">
+            <th><strong>Project</strong></th>
+            {ProjectName}
+            <th><strong>Program Manager</strong></th>
+            <td>{ProgramManager}</td>
+            <th><strong>Reporting Manager</strong></th>
+            <td>{ReportingManager}</td>
+        </tr>
+        <tr style="white-space: nowrap;">
+            <th><strong>Client Name</strong></th>
+            {ClientName}
+            <th><strong>Resigned Date</strong></th>
+            <td>{ResignationDate}</td>
+            <th><strong>Last Working Date></strong></th>
+            <td>{LastWorkingDate}</td>
+        </tr>
+    </table>
+    <p>Your resignation dated <strong>{ResignationDate}</strong> has been submitted for review.</p>
+    <p>We appreciate your cooperation during the exit process. Should you have any questions, please feel free to reach out to the HR team.</p>
+    <p>Best regards,<br>
+        <strong>HR (Relations and Operations) Team</strong>
+    </p>
+</body>
+</html>

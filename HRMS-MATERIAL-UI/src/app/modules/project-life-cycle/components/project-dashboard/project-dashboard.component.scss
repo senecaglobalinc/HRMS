@@ -1,0 +1,28 @@
+
+ ::ng-deep .ui-table-thead tr th.viewCls {
+    width: 100px;
+    text-align: center;
+    
+}
+::ng-deep .ui-table-thead tr th.actCls {
+    width: 150px;
+    text-align: center;
+    
+}
+ #dashboardbtn{
+     margin-top: -7px;
+ }
+ .inputCls{
+     margin-bottom:10px;
+ }
+ th.mat-header-cell {
+    text-align: center !important;
+  }
+  .mat-cell {
+    padding: 8px 15px 8px 0;
+    }
+    
+    .mat-row {
+    height: auto;
+    }
+ 

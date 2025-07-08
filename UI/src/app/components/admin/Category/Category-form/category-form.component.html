@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <div>Category Master</div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+            <form [formGroup]="addCategory">
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="box">
+                                <label for="Category">Category Name:</label>
+                                <span style="color: red">*</span>&nbsp;
+                                <input formControlName="CategoryName" style="width: 60%" name="CategoryName" required
+                                    type="text" size="30" pInputText>
+                                <div class="errMsg"
+                                    *ngIf="addCategory.get('CategoryName').hasError('required') && formSubmitted">
+                                    <span style="color: red"> Category Code Required </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="box">
+                                <label for="parent">Parent:</label>
+                                <p-dropdown [style]="{'width':'60%'}" [options]="ParentData" formControlName="ParentId"
+                                    name="Parent" filter="true">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <section class="pull-right buttons">
+                                <button type="submit" class="btn btn-custom" (click)="CreateCategory()">
+                                    <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>&nbsp;
+                                <button type="button" class="btn btn-default" (click)="Reset()">
+                                    <i class="fa fa-eraser"></i>Clear</button>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

@@ -1,0 +1,179 @@
+<div class="row">    
+    <div class="col-md-12">
+      <span style="float: right;">    
+        <a *ngIf="reportDetails.length>0"
+          (click)="exportAsXLSX()" title="Export to Excel">
+          <div class="exportToExcel"></div>
+      </a>
+      </span>
+  
+      </div>    
+  </div> 
+  <br>
+  <mat-card *ngIf="Role == 'Program Manager'" class="mb-2">
+    <div class="titleClass">Filter Associate Exit Report :</div>
+    <div class="row col-md-12" [formGroup]="exitReportForm">
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>Start date:
+            <span class="text-danger">*</span>
+          </mat-label>
+          <input formControlName="startDate" matInput [matDatepicker]="picker" (click)="picker.open()"
+            style="cursor: pointer">
+          <mat-datepicker-toggle matSuffix *ngIf="exitReportForm.value.startDate"
+            (click)="clearInput($event, 'startDate')">
+            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="exitReportForm.controls['startDate'].hasError('required')">
+                <span style="color: red">Start Date is required</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance={{themeConfigInput}}>
+          <mat-label>End date:
+            <span class="text-danger">*</span>
+          </mat-label>
+          <input formControlName="endDate" matInput [matDatepicker]="picker1" (click)="picker1.open()"
+            style="cursor: pointer" [min]="exitReportForm.value.startDate">
+          <mat-datepicker-toggle matSuffix *ngIf="exitReportForm.value.endDate" (click)="clearInput($event, 'endDate')">
+            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <mat-error *ngIf="exitReportForm.controls['endDate'].hasError('required')">
+              <span style="color: red">End Date is required</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="text-right buttons">
+      <button type="button" mat-stroked-button (click)="clearFilter()">
+          Clear</button>
+      <button type="submit" class="mr-0" mat-flat-button color="primary" (click)="GetAssociateExitReportDetailsForPM()">
+          Apply</button>
+  </div>
+  </mat-card>
+  <mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table #table mat-table matTableExporter [dataSource]="dataSource" matSort class="mat-elevation-z8" #exporter="matTableExporter">
+       
+        <ng-container matColumnDef="AssociateCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left" [hidden]="isProgramManager">Associate Code</th>
+          <td mat-cell *matCellDef="let element" class="td-left" [hidden]="isProgramManager"> {{element.AssociateCode}} </td>
+        </ng-container>
+  
+      <ng-container matColumnDef="AssociateName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Associate Name</th>
+          <td mat-cell *matCellDef="let element" class="td-left"> {{element.AssociateName}} </td>
+        </ng-container>        
+          <ng-container matColumnDef="Project">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left" [hidden]="isProgramManager">Project</th>
+            <td mat-cell *matCellDef="let element" class="td-left" [hidden]="isProgramManager"> {{element.Project}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ReportingManager">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Reporting Manager</th>
+            <td mat-cell *matCellDef="let element" class="td-left"> {{element.ReportingManager}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ProgramManager">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Program Manager</th>
+            <td mat-cell *matCellDef="let element" class="td-left"> {{element.ProgramManager}} </td>
+          </ng-container>
+      <ng-container matColumnDef="JoinDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold th-center">Join Date</th>
+        <td mat-cell *matCellDef="let element" class="td-left"> {{element.JoinDate | date:'MM/dd/yyyy'}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="ExitDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-center">Exit Date</th>
+        <td mat-cell *matCellDef="let element" class="td-left"> {{element.ExitDate | date:'MM/dd/yyyy'}} </td>
+      </ng-container>      
+  
+      <ng-container matColumnDef="Grade">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold th-left">Grade</th>
+        <td mat-cell *matCellDef="let element" class="td-left"> {{element.Grade}} </td>
+      </ng-container> 
+      <ng-container matColumnDef="Gender"> 
+        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Gender</th>
+        <td mat-cell *matCellDef="let element" class="td-left"> {{element.Gender}} </td>
+      </ng-container>  
+      <ng-container matColumnDef="Department">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold th-right">Department</th>
+        <td mat-cell *matCellDef="let element" class="td-left"> {{element.Department}} </td>
+      </ng-container>    
+      <ng-container matColumnDef="TechnologyGroup">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Technology Group</th>
+          <td mat-cell *matCellDef="let element" class="td-left"> {{element.TechnologyGroup}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ExitType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Exit Type</th>
+          <td mat-cell *matCellDef="let element" class="td-left" [hidden]="isProgramManager"> {{element.ExitType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ExitCause">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Exit Cause</th>
+          <td mat-cell *matCellDef="let element" class="td-left" [hidden]="isProgramManager"> {{element.ExitCause}} </td>
+        </ng-container>
+        <ng-container matColumnDef="RehireEligibility">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Eligible for Rehire</th>
+          <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.RehireEligibilityStr}} </td>
+        </ng-container>
+        <ng-container matColumnDef="LegalExit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Legal Exit</th>
+          <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.LegalExitStr}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ImpactOnClientDelivery">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Impact On Client Delivery</th>
+            <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.ImpactOnClientDeliveryStr}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ServiceTenure">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Service Tenure</th>
+            <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.ServiceTenure}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ServiceTenureWithSG">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Service Tenure With SG</th>
+            <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.ServiceTenureWithSG}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ServiceTenurePriorToSG">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Service Tenure Prior To SG</th>
+            <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.ServiceTenurePriorToSG}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ServiceTenureRange">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Service Tenure Range</th>
+            <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.ServiceTenureRange}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ServiceTenureWithSGRange">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Service Tenure With SG Range</th>
+            <td mat-cell *matCellDef="let element" class="td-center" [hidden]="isProgramManager"> {{element.ServiceTenureWithSGRange}} </td>
+          </ng-container>
+          <ng-container matColumnDef="FinancialYear">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Financial Year</th>
+            <td mat-cell *matCellDef="let element" class="td-left" [hidden]="isProgramManager"> {{element.FinancialYear}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Quarter">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right" [hidden]="isProgramManager">Quarter</th>
+            <td mat-cell *matCellDef="let element" class="td-left" [hidden]="isProgramManager"> {{element.Quarter}} </td>
+          </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data</td>
+           </tr>
+      </table>
+    </div>
+    <div class="row justify-content-center">
+      <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+  </div>
+  <ngx-spinner
+   bdColor="rgba(0, 0, 0, 0.1)"
+   color="#585858"
+   [fullScreen]="false"
+   type="ball-clip-rotate-multiple" 
+   size="medium">
+      <p class="loading">Loading ...</p>
+  </ngx-spinner>
+  </mat-card-content>
+  </mat-card>

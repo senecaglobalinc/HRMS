@@ -1,0 +1,116 @@
+<div class="panel-heading">
+    <div class="panel-title" *ngIf="disableProject; else resourceReport">
+        Allocation Detail
+        <li *ngIf="disableProject" id="back" (click)="backToProjects()">
+            <i class="fa fa-arrow-left" title="Back to Tag-list" aria-hidden="true">&nbsp;Back</i>
+        </li>
+    </div>
+    <ng-template #resourceReport>
+        <div class="panel-title">Resource Report By Project
+        </div>
+    </ng-template>
+</div>
+<div class="panel-body">
+        <form class="form-horizontal" [formGroup]="projectsForm">
+    <div class="row form-group col-lg-12 floating-main">
+        <div class="col-sm-1">
+            <label>Project</label>
+        </div>
+        <div class="col-md-4 ui-fluid">
+            <p-dropdown [options]="projectsList" [disabled]="disableProject" [autoWidth]="false"
+            formControlName="ProjectId" [filter]="true"
+                (onChange)="onProjectChange(projectsForm.value.ProjectId)"></p-dropdown>
+        </div>
+    </div>
+    </form>
+    <div *ngIf="resourceAllocationList.length>0" class="form-group col-md-3 floating-main">
+        <p-chart [type]="chartType" #resourceChart [data]="resourceReportByProjectChart" [options]="options" width="300" height="400"></p-chart>
+    </div>
+    <div *ngIf="resourceAllocationList.length>0" class="form-group col-md-1 floating-main">
+        <div class="pull-right">
+            <i class="fa fa-bar-chart fa-lg" style="color: #4b8eb9;cursor: pointer;" (click)="onBarChartClick(resourceAllocationCount)"
+                aria-hidden="true"></i>
+            <i class="fa fa-pie-chart fa-lg" style="color: #4b8eb9;cursor: pointer;" (click)="onPieChartClick(resourceAllocationCount)"
+                aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="form-group col-md-8 floating-main">
+        <div *ngIf="resourceAllocationList.length>0" class="form-group col-md-12 reportDataTable">
+            <p-table #dt [columns]="cols" [value]="resourceAllocationList" [scrollable]="true" [rows]="10" [style]="{'white-space':'normal','font-size':'12px'}"
+                [responsive]="true" [resizableColumns]="true" columnResizeMode="expand">
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div *ngIf="resourceAllocationList.length==0" style="text-align: left">
+                        No Records Found
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+        <div *ngIf="billableResourceAllocationList.length>0" class="form-group col-md-12 billableResourcesTable">
+            <p-table #dt1 [columns]="billcols" [value]="billableResourceAllocationList" [style]="{'white-space':'normal','font-size':'12px'}"
+                [responsive]="true" [resizableColumns]="true" columnResizeMode="expand" [rowsPerPageOptions]="PageDropDown" [rows]="PageSize"
+                [paginator]="true">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            <!-- {{rowData[col.field]}} -->
+                            {{ col.type ? col.type.transform(rowData[col.field]) : rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div *ngIf="nonBillableResourceAllocationList.length>0" class="form-group col-md-12 nonBillableResourcesTable">
+            <p-table #dt2 [columns]="billcols" [value]="nonBillableResourceAllocationList" [style]="{'white-space':'normal','font-size':'12px'}"
+                [responsive]="true" [resizableColumns]="true" columnResizeMode="expand" [rowsPerPageOptions]="PageDropDown" [rows]="PageSize"
+                [paginator]="true">
+
+                <!-- <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" class="text-center" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>{{col.header}}
+                                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template> -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            <!-- {{rowData[col.field]}} -->
+                            {{ col.type ? col.type.transform(rowData[col.field], col.arg1, col.arg2, col.arg3) : rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-toast [style]="{'margin-top':'80px'}"></p-toast>

@@ -1,0 +1,75 @@
+<div class="panel panel-default  document-details">
+    <!-- Header -->
+
+    <div class="panel-heading">
+        <div class="panel-title">
+            Upload Documents
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="center">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <input #fileInput type="file" id="fileToUpload" #fileUpload ngf-select [ngModel]="documentDesc.file" (change)="documentUploadChange(fileUpload.value)"
+                                name="file" accept="image/*" style="margin-top: 10px;">
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <div class="ui-fluid">
+                                <input #fileName readonly="readonly" id="name" name="name" type="text" [(ngModel)]="selectedFile" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <a href="" class="btn btn-custom" (click)="onSave()">
+                                <i class="fa fa-upload icon-margin"></i>Upload</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-12 tables">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class=" col-md-1">S.No</th>
+                            <th class=" col-md-8">Document Name</th>
+                            <th class="text-center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let d of uploaddata; let i = index; let lst = last;" style="list-style: none;">
+                        <tr>
+                            <td class="text-center col-md-1">{{i+1}}</td>
+                            <td class="text-center col-md-8"> {{d.FileName}}</td>
+                            <td class="text-center">
+                                <button (click)="onDelete(d)"  style="color: red"  type="button"  >
+                                    <i class="fa fa-trash"  title="delete"  ></i>
+                                        </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+                <section class="pull-right butt">
+                    <button type="submit" class="submit" class="btn btn-custom" [disabled]="PAstatus == 2" (click)="submit_approval()">
+                        <i class="fa fa-floppy-o"></i>&nbsp;Submit</button>
+                </section>
+            </div>
+    </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}" #messageToaster id="messageToaster"></p-toast>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>

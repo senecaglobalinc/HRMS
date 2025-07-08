@@ -1,0 +1,86 @@
+.title-css {
+    font-size: 15px;
+    margin-left: 16px;
+    margin-bottom: 17px;
+}
+
+.center {
+    border: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 43px;
+    width: 40%;
+
+}
+
+.center .btn-css {
+    margin-left : 93px;
+}
+
+.file-input {
+    display: none;
+  }
+
+//   .selected-file__header{
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     .selected-file__name{
+//         color: #5885AF;
+//         overflow: hidden;
+//         padding: 0 0px;
+//         text-overflow: ellipsis;
+//         white-space: nowrap;
+//     }
+//     .selected-file__actions{
+//         display: flex;
+//         justify-content: flex-end;
+//         // margin-left: 40px;
+//         button{
+//             display: flex;
+//             align-items: center;
+//             min-width: 0;
+//             padding: 0 0px;
+//             margin: 2px;
+//         }
+//     }
+
+    .selected-file__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .selected-file__name{
+            color: #5885AF;
+            overflow: hidden;
+            padding: 0 0px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .selected-file__actions{
+            display: flex;
+            justify-content: flex-end;
+            // margin-left: 40px;
+            button{
+                display: flex;
+                align-items: center;
+                min-width: 0;
+                padding: 0 0px;
+                margin: 2px;
+            }
+        }
+    }
+
+    .selected-file__header:hover .selected-file__name {
+            overflow: visible; 
+            white-space: normal;
+            height: auto;
+            max-height: 1000px;
+        }
+
+
+.template-css {
+   display: flex;
+   justify-content: flex-end;
+}

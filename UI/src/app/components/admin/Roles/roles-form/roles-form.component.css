@@ -1,0 +1,35 @@
+.roleContainer{
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.errorCircle,
+.errorMessage {
+    color: red;
+}
+.peditorCustomHeight
+{
+    height: 100px;
+}
+#labelWidth{
+    width:10%;
+}
+#controlWidth{
+    width:27.3%
+}
+.label {
+    display: block;
+    text-align: right;
+    width: 150px;
+    color: black;
+}
+.btn-default {
+          border: 1px solid #337ab7;
+          color: #337ab7;
+   }
+
+.roleDropdown .ui-dropdown{
+    width: 93%;
+}
+.roleDropdown .ui-dropdown .ui-widget{
+    width: 93%;
+}

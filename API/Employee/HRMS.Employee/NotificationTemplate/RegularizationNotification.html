@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+            td:nth-child(1) {
+                background-color: #dddddd;
+            }
+    </style>
+</head>
+<body>
+    <p>Dear {ReportingManager},</p>
+    <p>{AssociateName} {AssociateCode} has applied for attendance regularization for the following dates.</p>
+    <p>Please log on to <a href="https://hrms.senecaglobal.com/">https://hrms.senecaglobal.com/ </a> and review the attendance regularization request.</p>
+    <p>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Attendance Date</th>
+                    <th colspan="2">Actual</th>
+                    <th colspan="2">Employee Proposed</th>
+                    <th rowspan="2">Reason</th>
+                </tr>
+                <tr>
+                    <th>FIT</th>
+                    <th>LOT</th>
+                    <th>FIT</th>
+                    <th>LOT</th>
+                </tr>
+            </thead>
+            <tbody>
+              {TableData}            
+            </tbody>
+        </table>
+    <p>Thanks !</p>
+    <p><br></p>
+    <p>Note: This is an auto-generated mail. Please do not reply.</p>
+</body>
+</html>

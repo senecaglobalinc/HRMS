@@ -1,0 +1,16 @@
+.reportDataTable th.mat-header-cell{
+    background: #42A5F5;
+  //  color: white;
+}
+
+.billableResourcesTable th.mat-header-cell {
+    background: #39ac39;
+  //  color: white;
+}
+.nonBillableCriticalResourcesTable th.mat-header-cell {
+    background: #ffbb33;
+  //  color:white;
+  }
+  .nonBillableNonCriticalResourcesTable th.mat-header-cell {
+    background: #ff6666;
+  }

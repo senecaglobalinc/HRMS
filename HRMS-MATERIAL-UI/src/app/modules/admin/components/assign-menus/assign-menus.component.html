@@ -1,0 +1,124 @@
+<mat-card class="mb-2">
+   <mat-card-content>
+      <form [formGroup]="assignMenus">
+         <div class="row">
+            <div class="col-md-6">
+               <mat-form-field appearance={{themeConfigInput}}>
+                  <mat-label>Role</mat-label>
+                  <mat-select (selectionChange)="getRoleId($event.value)" formControlName="RoleId">
+                     <mat-option disabled>Select Role</mat-option>
+                     <mat-option *ngFor="let role of rolesList" [value]="role.value">
+                        {{role.label}} </mat-option>
+                  </mat-select>
+               </mat-form-field>
+            </div>
+         </div>
+      </form>
+   </mat-card-content>
+</mat-card>
+<mat-card *ngIf="show" class="mb-2 assignMenusCard">
+   <mat-card-content>
+      <div class="d-flex justify-content-center">
+         <div class="w45p">
+            <mat-card>
+               <mat-card-header>
+                  <mat-card-title>Available Menus</mat-card-title>
+               </mat-card-header>
+               <div class="table-container">
+                  <mat-form-field>
+                     <mat-label>Search</mat-label>
+                     <input matInput appEmptySpacesValidations (keyup)="applyFilterAvailableMenu($event)" placeholder="filter" #inputavailable />
+                  </mat-form-field>
+                  <table mat-table [dataSource]="dataSourceAvailableMenus">
+                     <!-- Checkbox Column -->
+                     <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                           <mat-checkbox (change)="$event ? masterToggleAvailable() : null"
+                              [checked]="selectionAvailableMenus.hasValue() && isAllSelectedAvailable()"
+                              [indeterminate]="selectionAvailableMenus.hasValue() && !isAllSelectedAvailable()">
+                           </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                           <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selectionAvailableMenus.toggle(row) : null"
+                              [checked]="selectionAvailableMenus.isSelected(row)">
+                           </mat-checkbox>
+                        </td>
+                     </ng-container>
+                     <!-- Position Column -->
+                     <ng-container matColumnDef="availablemenus">
+                        <th mat-header-cell *matHeaderCellDef>Select All</th>
+                        <td mat-cell *matCellDef="let element"> {{element.MenuName}} </td>
+                     </ng-container>
+                     <tr mat-header-row *matHeaderRowDef="displayedColumnsAvailableMenu"></tr>
+                     <tr mat-row *matRowDef="let row; columns: displayedColumnsAvailableMenu;"
+                        (click)="selectionAvailableMenus.toggle(row)">
+                     </tr>
+                  </table>
+               </div>
+            </mat-card>
+         </div>
+         <div class="w10p">
+            <div class="text-center">
+               <button mat-icon-button color="primary" (click)="moveAvailabletoSelected()">
+                  <mat-icon>arrow_forward</mat-icon>
+               </button>
+            </div>
+            <div class="text-center">
+               <button mat-icon-button color="primary" (click)="moveSelectedtoAvailable()">
+                  <mat-icon>arrow_backward</mat-icon>
+               </button>
+            </div>
+         </div>
+         <div class="w45p">
+            <mat-card class="mb-2 assignMenusCard">
+               <mat-card-header>
+                  <mat-card-title>Selected Menus</mat-card-title>
+               </mat-card-header>
+               <mat-form-field>
+                  <mat-label>Search</mat-label>
+                  <input matInput appEmptySpacesValidations (keyup)="applyFilterSelectedMenu($event)" placeholder="filter" #inputavailable />
+               </mat-form-field>
+               <div class="table-container">
+                  <table mat-table [dataSource]="dataSourceSelectedMenus">
+                     <!-- Checkbox Column -->
+                     <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                           <mat-checkbox (change)="$event ? masterToggleSelected() : null"
+                              [checked]="selectionSelectedMenus.hasValue() && isAllSelectedSelected()"
+                              [indeterminate]="selectionSelectedMenus.hasValue() && !isAllSelectedSelected()">
+                           </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                           <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selectionSelectedMenus.toggle(row) : null"
+                              [checked]="selectionSelectedMenus.isSelected(row)">
+                           </mat-checkbox>
+                        </td>
+                     </ng-container>
+                     <!-- Position Column -->
+                     <ng-container matColumnDef="selectedmenus">
+                        <th mat-header-cell *matHeaderCellDef>Select All</th>
+                        <td mat-cell *matCellDef="let element"> {{element.MenuName}} </td>
+                     </ng-container>
+                     <tr mat-header-row *matHeaderRowDef="displayedColumnsSelectedMenu"></tr>
+                     <tr mat-row *matRowDef="let row; columns: displayedColumnsSelectedMenu;"
+                        (click)="selectionSelectedMenus.toggle(row)">
+                     </tr>
+                  </table>
+               </div>
+            </mat-card>
+         </div>
+      </div>
+      <div class="col-md-auto col-sm-auto mt-2 text-right">
+         <div class="mt-10">
+            <button mat-stroked-button (click)="cancel()">
+               <mat-icon>clear</mat-icon>
+               Cancel
+            </button>
+            <button mat-flat-button color="primary" [disabled]="!changeInMenu" class="mr-0"
+               (click)="saveTargetMenus()">Save</button>
+         </div>
+      </div>
+   </mat-card-content>
+</mat-card>

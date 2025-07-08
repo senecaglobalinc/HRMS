@@ -1,0 +1,348 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="dividerHeading">Family Details</h3>
+        </div>
+        <form [formGroup]="relationshipForm">
+            <div class="col-md-12">
+                <div class="table-responsive addNewRowTbl">
+                    <table mat-table [dataSource]="dataSource" formArrayName="RelationsInfo">
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="6">No data</td>
+                        </tr>
+                        <ng-container matColumnDef="S.no">
+                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">S.No </th>
+                            <td mat-cell *matCellDef="let element; let i = index;">
+                                {{i+1}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="RelationShip">
+                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> RelationShip
+                                <span class="text-danger">*</span>
+                            </th>
+                            <td mat-cell *matCellDef="let element; let i = index;" [formGroupName]="i">
+                                <mat-form-field class="w170" appearance={{themeAppearence}}>
+                                    <!-- <mat-label>RelationShip</mat-label> -->
+                                    <mat-select (selectionChange)="onRelationChange($event,i)" formControlName="RelationShip">
+                                        <mat-option *ngFor="let r of ddlRelations" [value]="r.ValueKey">
+                                            {{r.ValueName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <!-- <mat-error *ngIf=" !relationsForm.get('RelationShip').valid && added"> RelationShip Required</mat-error> -->
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Name">
+                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Name
+                                <span class="text-danger">*</span>
+                            </th>
+                            <td mat-cell *matCellDef=" let element; let i = index;" [formGroupName]="i">
+                                <mat-form-field appearance={{themeAppearence}}>
+                                    <!-- <mat-label>Name </mat-label> -->
+                                    <input type="text" matInput formControlName="Name" (change)="element.Name = $event.target.value" (keypress)="onlychar($event)">
+                                    <!-- <mat-error *ngIf=" !relationsForm.get('Name').valid && added"> Name Required</mat-error> -->
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="DateOfBirth">
+                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">DateOfBirth
+                                <span class="text-danger">*</span>
+                            </th>
+                            <td mat-cell *matCellDef=" let element; let i = index;" [formGroupName]="i">
+                                <mat-form-field class="w170" appearance={{themeAppearence}}>
+                                    <input matInput  [min]="minDate" [max]="maxDate" [matDatepicker]="DateOfBirth" formControlName="DateOfBirth" readonly (click)="DateOfBirth.open()" style="cursor: pointer;">
+                                    <!-- placeholder="Choose a date" -->
+                                    <mat-datepicker-toggle matSuffix *ngIf="relationshipForm.controls['RelationsInfo']['controls'][i].controls.DateOfBirth.value"
+                                            (click)="clearInput($event, 'DateOfBirth', i)">
+                                            <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker-toggle matSuffix [for]="DateOfBirth"></mat-datepicker-toggle>
+                                    <mat-datepicker #DateOfBirth color="primary" disabled="false"></mat-datepicker>
+                                    <!-- <mat-error *ngIf=" !relationsForm.get('DateOfBirth').valid && added"> DateOfBirth Required </mat-error> -->
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Occupation">
+                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Occupation
+                                <span class="text-danger">*</span>
+                            </th>
+                            <td mat-cell *matCellDef=" let element; let i = index;" [formGroupName]="i">
+                                <mat-form-field appearance={{themeAppearence}}>
+                                    <input  type="text" matInput formControlName="Occupation" (change)="element.Occupation = $event.target.value" (keypress)="onlychar($event)">
+                                    <!-- <mat-error *ngIf="!relationsForm.get('Occupation').valid && added"> Occupation Required</mat-error> -->
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Action">
+                            <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> Action </th>
+                            <td mat-cell *matCellDef=" let element; let i = index; let lst = last; let fst=first;" [formGroupName]="i">
+                                <button [disabled]="relationshipForm.controls.RelationsInfo.invalid" type="button" mat-icon-button (click)="onNewRelation(i)" [hidden]="!lst">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                                <button  type="button" mat-icon-button (click)="onDelete(i)" [hidden]="fst&&lst">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                            <td mat-cell *matCellDef="let element; let i = index; let lst = last; let fst=first;" [formGroupName]="i">
+                            </td>
+                        </ng-container>
+                         </table>
+                </div>
+            </div>
+            <div class="col-md-12 my-5">
+                <h3 class="dividerHeading">Emergency Contact Details</h3>
+            </div>
+
+            <div class="col-md-12" formArrayName="contactDetailsOne">
+
+                <div class="my-3">
+                    <mat-checkbox  color="primary" formControlName="IsPrimary" (change)="updateSelection('contactDetailsOne')">Is Primary Contact</mat-checkbox>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>First Contact Name
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <input matInput (keypress)="onlychar($event)" formControlName="ContactName" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['ContactName'].invalid">Firstname Required </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Relation
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <mat-select formControlName="Relationship">
+                                <mat-option *ngFor="let r of ddlRelations" value={{r.ValueKey}}>{{r.ValueName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['ContactName'].invalid">Relation Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>Address Line1
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <input matInput (keypress)="forAddress($event)" formControlName="AddressLine1" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['AddressLine1'].invalid">Address Line 1 Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>Address Line2</mat-label>
+                            <input matInput (keypress)="forAddress($event)" formControlName="AddressLine2" />
+                        </mat-form-field>
+                    </div>
+                    <div class="  col-md-3 ">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>City
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <input matInput (keypress)="onlychar($event)" formControlName="City" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['City'].invalid">City Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>
+                                State
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <input matInput (keypress)="onlychar($event)" formControlName="State" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['State'].invalid">State Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>
+                                Country
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <mat-select (selectionChange)="setfirstcontactzipLength($event)" formControlName="Country">
+                                <mat-option *ngFor="let c of ddlCountries" value={{c.ValueName}}>{{c.ValueName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['Country'].invalid">Country Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>
+                                Zip
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <input matInput (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" formControlName="PostalCode" [minlength]="firstcontactzipLength"
+                                [maxlength]="firstcontactzipLength" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['PostalCode'].invalid">Zip Required/Invalid</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="  col-md-3 ">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>
+                                Telephone Number
+                            </mat-label>
+                            <input matInput (keypress)="phoneNumbers($event)" (paste)="$event.preventDefault()" formControlName="TelePhoneNo" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['TelePhoneNo'].invalid">Invalid Telephone Number </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>
+                                Mobile Number
+                                <span class="text-danger"> *</span>
+                            </mat-label>
+                            <input matInput (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" formControlName="MobileNo" maxlength="10" minlength="10" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['MobileNo'].invalid">Mobile Number required/Invalid</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance={{themeAppearence}}>
+                            <mat-label>
+                                Email ID
+                            </mat-label>
+                            <input matInput formControlName="EmailAddress" />
+                            <mat-error *ngIf="relationshipForm.controls['contactDetailsOne']['controls']['EmailAddress'].invalid">Please enter valid Email Id</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12" formArrayName="contactDetailsTwo">
+                    <div class="my-3">
+                            <mat-checkbox  color="primary" formControlName="IsPrimary" (change)="updateSelection('contactDetailsTwo')">Is Primary Contact</mat-checkbox>
+                        </div>
+
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>First Contact Name
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <input matInput (keypress)="onlychar($event)" formControlName="ContactName" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['ContactName'].invalid">Firstname Required </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Relation
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <mat-select formControlName="Relationship">
+                                            <mat-option *ngFor="let r of ddlRelations" value={{r.ValueKey}}>{{r.ValueName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['ContactName'].invalid">Relation Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>Address Line1
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <input matInput (keypress)="forAddress($event)" formControlName="AddressLine1" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['AddressLine1'].invalid">Address Line 1 Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>Address Line2</mat-label>
+                                        <input matInput (keypress)="forAddress($event)" formControlName="AddressLine2" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="  col-md-3 ">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>City
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <input matInput (keypress)="onlychar($event)" formControlName="City" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['City'].invalid">City Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>
+                                            State
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <input matInput (keypress)="onlychar($event)" formControlName="State" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['State'].invalid">State Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>
+                                            Country
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <mat-select (selectionChange)="setsecondcontactzipLength($event)" formControlName="Country">
+                                            <mat-option *ngFor="let c of ddlCountries" value={{c.ValueName}}>{{c.ValueName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['Country'].invalid">Country Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>
+                                            Zip
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <input matInput (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" formControlName="PostalCode"  [minlength]="secondcontactzipLength" [maxlength]="secondcontactzipLength"/>
+                                            <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['PostalCode'].invalid">Zip Required/Invalid</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="  col-md-3 ">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>
+                                            Telephone Number
+                                        </mat-label>
+                                        <input matInput (keypress)="phoneNumbers($event)" (paste)="$event.preventDefault()" formControlName="TelePhoneNo" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['TelePhoneNo'].invalid">Invalid Telephone Number </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>
+                                            Mobile Number
+                                            <span class="text-danger"> *</span>
+                                        </mat-label>
+                                        <input matInput (keypress)="onlyForNumbers($event)" (paste)="$event.preventDefault()" formControlName="MobileNo" maxlength="10" minlength="10" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['MobileNo'].invalid">Mobile Number required/Invalid</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance={{themeAppearence}}>
+                                        <mat-label>
+                                            Email ID
+                                        </mat-label>
+                                        <input matInput formControlName="EmailAddress" />
+                                        <mat-error *ngIf="relationshipForm.controls['contactDetailsTwo']['controls']['EmailAddress'].invalid">Please enter valid Email Id</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                </div>
+
+
+            <div class="col-12 text-right">
+                <button mat-stroked-button *ngIf="type == 'new'" (click)="onClear()">Clear </button>
+                <button mat-flat-button color="primary" *ngIf="type == 'new'" (click)="onSaveorUpdate()">
+                    Save
+                </button>
+                <button mat-flat-button color="primary" *ngIf="type != 'new'" (click)="onSaveorUpdate()">
+                    Update
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="true" type="ball-clip-rotate-multiple"
+size="medium">
+<p class="loading">Loading ...</p>
+</ngx-spinner>

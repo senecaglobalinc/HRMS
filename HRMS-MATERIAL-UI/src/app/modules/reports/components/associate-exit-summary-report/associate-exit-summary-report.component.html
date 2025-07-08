@@ -1,0 +1,279 @@
+<mat-accordion>
+  <mat-expansion-panel    [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+          <mat-icon>filter_list</mat-icon> Filter Associate Exit Summary
+      </mat-panel-title>
+     </mat-expansion-panel-header>
+
+     <form [formGroup]="myForm">
+      <div class="row">
+          <div class="col-md-4"> 
+            <br>             
+              <mat-form-field appearance={{themeAppearence}}>
+                  <mat-label>From Date<span style="color: red"> *</span></mat-label>
+
+                  <input matInput [matDatepicker]="from" (click)="from.open()" formControlName="fromDate" style="cursor: pointer"
+                      format='dd/mm/yy' (dateChange)="searchData.FromDate = $event.value"
+                      [value]="searchData.FromDate" (paste)="$event.preventDefault()" [max]="lastDate" readonly>
+                  <mat-datepicker-toggle matSuffix *ngIf="myForm.value.fromDate"
+                      (click)="clearInput($event, 'fromDate')">
+                      <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                  <mat-datepicker #from></mat-datepicker>
+                  <mat-error *ngIf="myForm.controls.fromDate.hasError('required')">From Date is required
+                  </mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <br>                
+              <mat-form-field appearance={{themeAppearence}}>
+                  <mat-label>To Date<span style="color: red"> *</span></mat-label>
+                  <input matInput [matDatepicker]="to" (click)="to.open()" formControlName="toDate" style="cursor: pointer"
+                      format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value"
+                      [value]="searchData.ToDate" [max]="lastDate" readonly (paste)="$event.preventDefault()">
+                  <mat-datepicker-toggle matSuffix *ngIf="myForm.value.toDate"
+                      (click)="clearInput($event, 'toDate')">
+                      <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                  <mat-datepicker #to></mat-datepicker>
+                  <mat-error *ngIf="myForm.controls.toDate.hasError('required')">To Date is required</mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-4" >
+             <br>   
+            <mat-form-field  appearance={{themeAppearence}}>
+              <mat-label>Summary By                
+                   </mat-label>                
+                   <mat-select  formControlName="reportType" name="reportType" (selectionChange)="searchData.ReportType = $event.value.value; reportName =$event.value.label;"                           
+                    required>
+                    <mat-option *ngFor="let report of summaryList" [value]="report">
+                        {{report.label}}</mat-option>
+                </mat-select>
+
+                <mat-error
+                    *ngIf="myForm.get('reportType').hasError('required')">
+                    <i style="color: red" class="fa fa-exclamation-circle"></i>
+                    <span style="color: red">Summary By Required.</span>
+                </mat-error>
+               
+              
+            </mat-form-field>
+        </div>
+      </div>
+      <div class="text-right buttons">
+          <button type="button" mat-stroked-button (click)="clearFilter()">
+              Clear</button>
+          <button type="submit" class="mr-0" mat-flat-button color="primary" (click)="fetchAssociateExitReport()">
+              Apply</button>
+      </div>
+  </form>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-8">
+
+                <mat-tab-group (selectedTabChange)="changeChart($event)" class="border">
+                  <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">pie_chart</mat-icon>
+                        Pie
+                    </ng-template>
+                    <div class="my-3">
+                        <canvas class="charts" id="resourceReportByPieProjectChart"
+                            (click)="selectedPieData($event)" #resourceReportByPieProjectChart
+                            height="265"></canvas>
+                    </div>
+
+                </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+                            Bar
+                        </ng-template>
+
+                        <div class="my-3">
+                            <canvas class="charts" id="resourceReportByProjectChart" (click)="selectedbarData($event)"
+                                #resourceReportByProjectChart height="265"></canvas>
+                        </div>
+
+                    </mat-tab>
+                   
+                </mat-tab-group>
+
+
+
+            </div>
+            <div class="col-md-4">
+                <div class="table-responsive border">
+                    <table mat-table [dataSource]="lstAssociateExitDataSource" #sort2="matSort" matSort>
+                        <ng-container matColumnDef="Label">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> {{reportName}}
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.Label}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Value">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold"> Count
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.Value}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">No data</td>
+                       </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div  class="mt-4">
+                            <span *ngIf="reportValue != ''"> {{reportName}}: <strong> {{reportValue}} </strong>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div *ngIf="reportDetails.length > 0" class="mt-4">
+                            <a (click)="exportAsXLSX()" title="Export to Excel">
+                                <div class="exportToExcel"></div>
+                            </a>                                                       
+                              <div class="refreshTable"> 
+                                <mat-icon matTooltip="Refresh" (click)="refreshExitData()" style="font-size:24px;color:#000000;cursor:pointer">autorenew</mat-icon>
+                              </div>
+                             
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table #table mat-table matTableExporter [dataSource]="employeedataSource" #sort1="matSort" matSort class="mat-elevation-z8" #exporter="matTableExporter">
+                     
+                      <ng-container matColumnDef="AssociateCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Associate Code</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.AssociateCode}} </td>
+                      </ng-container>
+                
+                    <ng-container matColumnDef="AssociateName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Associate Name</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.AssociateName}} </td>
+                      </ng-container>        
+                        <ng-container matColumnDef="Project">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Project</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> {{element.Project}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ReportingManager">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Reporting Manager</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> {{element.ReportingManager}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ProgramManager">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Program Manager</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> {{element.ProgramManager}} </td>
+                        </ng-container>
+                    <ng-container matColumnDef="JoinDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold th-center">Join Date</th>
+                      <td mat-cell *matCellDef="let element" class="td-center"> {{element.JoinDate | date:'MM/dd/yyyy'}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="ExitDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-center">Exit Date</th>
+                      <td mat-cell *matCellDef="let element" class="td-center"> {{element.ExitDate | date:'MM/dd/yyyy'}} </td>
+                    </ng-container>      
+                
+                    <ng-container matColumnDef="Grade">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold th-left">Grade</th>
+                      <td mat-cell *matCellDef="let element" class="td-left"> {{element.Grade}} </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="Gender"> 
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Gender</th>
+                      <td mat-cell *matCellDef="let element" class="td-center"> {{element.Gender}} </td>
+                    </ng-container>  
+                    <ng-container matColumnDef="Department">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold th-right">Department</th>
+                      <td mat-cell *matCellDef="let element" class="td-center"> {{element.Department}} </td>
+                    </ng-container>    
+                    <ng-container matColumnDef="TechnologyGroup">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Technology Group</th>
+                        <td mat-cell *matCellDef="let element" class="td-center"> {{element.TechnologyGroup}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="ExitType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Exit Type</th>
+                        <td mat-cell *matCellDef="let element" class="td-center"> {{element.ExitType}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="ExitCause">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Exit Cause</th>
+                        <td mat-cell *matCellDef="let element" class="td-center"> {{element.ExitCause}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="RehireEligibility">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Eligible for Rehire</th>
+                        <td mat-cell *matCellDef="let element" class="td-center"> {{element.RehireEligibilityStr}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="LegalExit">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Legal Exit</th>
+                        <td mat-cell *matCellDef="let element" class="td-center"> {{element.LegalExitStr}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="ImpactOnClientDelivery">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Impact On Client Delivery</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.ImpactOnClientDeliveryStr}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ServiceTenure">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Service Tenure</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.ServiceTenure}} </td>
+                        </ng-container>
+              
+                        <ng-container matColumnDef="ServiceTenureWithSG">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Service Tenure With SG</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.ServiceTenureWithSG}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ServiceTenurePriorToSG">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Service Tenure Prior To SG</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.ServiceTenurePriorToSG}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ServiceTenureRange">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Service Tenure Range</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.ServiceTenureRange}} </td>
+                        </ng-container>
+              
+                        <ng-container matColumnDef="ServiceTenureWithSGRange">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Service Tenure With SG Range</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.ServiceTenureWithSGRange}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="FinancialYear">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Financial Year</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.FinancialYear}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Quarter">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-right">Quarter</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.Quarter}} </td>
+                        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnss"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnss;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data</td>
+                         </tr>
+                    </table>
+                  </div>
+                <div class="row justify-content-center">
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+                </div>
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

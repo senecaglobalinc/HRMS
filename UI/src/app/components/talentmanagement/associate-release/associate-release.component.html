@@ -1,0 +1,101 @@
+<div class="panel-heading">
+    <div class="panel-title">Associate Release</div>
+</div>
+<div class="panel-body">
+    <form class="form-horizontal" novalidate>
+        <div class="row" class="form-group">
+            <div class="row">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label for="ddlemployee">Employee:</label> <span style="color: red">*</span>
+                            <div class="ui-fluid">
+                                <p-dropdown [options]="associatesList" [style]="{'width':'70%'}" name="ddlEmployee" [autoWidth]="false" [(ngModel)]="releaseResource.employeeId"
+                                    (onChange)="getProjectsByEmployeeId(releaseResource.employeeId)" [filter]="true"></p-dropdown>
+                            </div>
+                            <div *ngIf="releaseFormSubmitted && (releaseResource.employeeId==null || releaseResource.employeeId==undefined)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Employee is required.</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label for="ddlproject">Current Project:</label><span style="color: red">*</span>
+                            <div class="ui-fluid">
+                                <p-dropdown [options]="projectsList" [style]="{'width':'70%'}" *ngIf="hideTrainingProject" name="ddlProject" [autoWidth]="false"
+                                    [disabled]="disableddlProject" [(ngModel)]="releaseResource.ProjectId" (onChange)="getAndfillProjectData(releaseResource.employeeId)"
+                                    [filter]="true">
+                                </p-dropdown>
+                            </div>
+                            <div *ngIf="releaseFormSubmitted && (releaseResource.ProjectId==null || releaseResource.ProjectId==undefined)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Current Project is required.</span>
+                            </div>
+                            <input [disabled]="true" *ngIf="!hideTrainingProject" name="trainingProject" pInputText type="text" class="form-control input-md"
+                                placeholder="Training Project" [(ngModel)]="releaseResource.ProjectName">
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label for="dtRelease">Release Date:</label><span style="color: red">*</span>
+                            <div class="ui-fluid">
+                                <p-calendar name="dtRelease" [readonlyInput]="true" yearRange="2000:2030" showIcon="true" [style]="{'width':'70%'}" [(ngModel)]="releaseResource.releaseDate"
+                                monthNavigator="true" yearNavigator="true" dateFormat="yy-mm-dd" [minDate]="firstDate" [maxDate]="lastDate" placeholder="Release Date"></p-calendar>
+                            </div>
+                            <div *ngIf="releaseFormSubmitted && (releaseResource.releaseDate=='' || releaseResource.releaseDate==undefined)">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Release Date is required.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label class="chosenLabel" name="lead">Releasing To:</label>
+                            <div class="ui-fluid">
+                                <input type="text" [disabled]="true" style="width: 70%" *ngIf="hideTrainingProject" name="poolProject" pInputText type="text" class="form-control input-md"
+                                    placeholder="Talent Pool" [(ngModel)]="releaseResource.talentpool">
+                                <p-dropdown [style]="{'width':'70%'}" [options]="talentpoolsList" *ngIf="!hideTrainingProject" name="ddlTalentPool" [autoWidth]="false"
+                                    [(ngModel)]="releaseResource.releaseProjectId" [filter]="true" (onChange)="getAndfillProjectData(releaseResource.employeeId)"></p-dropdown>
+                            </div>
+                            <div *ngIf="releaseFormSubmitted && (releaseResource.releaseProjectId==null || releaseResource.releaseProjectId==undefined) && !hideTrainingProject">
+                                <i style="color: red" class="fa fa-exclamation-circle"></i>
+                                <span style="color: red">Pool Project is required.</span>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div>
+                <div class="ui-g"> -->
+                    <div class="ui-g-12 ui-md-4 ui-lg-3">
+                        <div class="box">
+                            <label>
+                                <input type="checkbox" name="notifyAll" [(ngModel)]="releaseResource.NotifyAll">&nbsp;Notify All
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <section class="pull-right buttons">
+                <button type="button" class="btn btn-custom" style="cursor:pointer;" (click)="submit()">
+                    <i class="fa fa-share icon-margin"></i>Release</button>&nbsp;
+                <button id="btn-cancel" class="btn btn-default" style="cursor:pointer;" type="button" (click)="OpenConfirmationDialog()">
+                    <i class="fa fa-eraser icon-margin"></i>Clear</button>
+
+            </section>
+        </div>
+    </form>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-confirmDialog header="Confirmation" appendTo="body" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-dialog header="Please  select a project to be made primary" [(visible)]="isEligiblePrimary">
+    <p-dropdown [options]="remainingProjects" [style]="{'width':'70%'}" appendTo="body" [(ngModel)]="releaseResource.MakePrimaryProjectId"></p-dropdown>
+    <p-footer>
+        <button type="button" pButton label="Ok" (click)="releaseAssociate(releaseResource)"></button>
+        <button type="button" pButton label="Cancel" (click)="cancel()"></button>
+    </p-footer>
+</p-dialog>

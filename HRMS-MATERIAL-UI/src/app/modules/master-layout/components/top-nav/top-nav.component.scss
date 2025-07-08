@@ -1,0 +1,22 @@
+
+.flex-container{
+    display:flex;
+    align-items: center;
+}
+.child-container1{
+    flex-grow: 1;
+}
+
+.content-info{
+    //background: linear-gradient(45deg, #0288d1, #26c6da) !important;
+    margin-left: 5px;
+   // color:#f5f7fa;
+    //padding:3px;
+    font-size: 15px;
+}
+.header-welcome{
+    font-size:14px;
+    //background-color: #fff;
+    padding:3px;
+    //font-weight: 550;
+}

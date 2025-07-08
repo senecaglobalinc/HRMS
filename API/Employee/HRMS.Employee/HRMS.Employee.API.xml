@@ -1,0 +1,1373 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HRMS.Employee.API</name>
+    </assembly>
+    <members>
+        <member name="M:HRMS.Employee.API.Auth.AuthorizeAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <summary>  
+            This will Authorize User  
+            </summary>  
+            <returns></returns>  
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.GetAssociateByLead(System.Int32,System.Int32)">
+            <summary>
+            Get Associate By Lead and Dept
+            </summary>
+            <param name="leadId"></param>
+            <param name="deptId"></param>
+            <returns>The list of Employees belongs to the Lead.</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.GetAssociatesAbscondDashboard(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets abscond employees list by user role, employeeId and dashboard
+            </summary>
+            <param name="userRole"></param>
+            <param name="employeeId"></param>
+            <param name="departmentId"></param>
+            <returns>The list of Abscoded Associates based on role</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.GetAbscondDetailByAssociateId(System.Int32)">
+            <summary>
+            Get Abscond Detail by AssociateId
+            </summary>
+            <param name="associateId">associateId</param>
+            <returns>The details of Associate by Id</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.CreateAbscond(HRMS.Employee.Infrastructure.Models.Domain.AssociateAbscondModel)">
+            <summary>
+            Create Abscond Request
+            </summary>
+            <remarks>
+            Sample request :
+            
+                POST /CreateAbscond
+                {
+                    "associateAbscondId": 0,
+                    "associateId": 0,
+                    "associateName": "string",
+                    "absentFromDate": "2023-04-18T11:19:00.397Z",
+                    "absentToDate": "2023-04-18T11:19:00.397Z",
+                    "isAbscond": true,
+                    "statusId": 0,
+                    "tlId": 0,
+                    "remarksByTL": "string",
+                    "hraId": 0,
+                    "remarksByHRA": "string",
+                    "hrmId": 0,
+                    "remarksByHRM": "string"
+                }
+                
+            </remarks>
+            <param name="abscondReq">abscondReq</param>
+            <returns>A newly created abscond request</returns>
+            <response code="200">Returns the newly created request</response>
+            <response code="400">If the item is null</response>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.AcknowledgeAbscond(HRMS.Employee.Infrastructure.Models.Domain.AssociateAbscondModel)">
+            <summary>
+            Acknowledge Abscond Request
+            </summary>
+            <remarks>
+            Sample request :
+            
+                POST /AcknowledgeAbscond
+                {
+                    "associateAbscondId": 0,
+                    "associateId": 0,
+                    "associateName": "string",
+                    "absentFromDate": "2023-04-18T11:19:00.397Z",
+                    "absentToDate": "2023-04-18T11:19:00.397Z",
+                    "isAbscond": true,
+                    "statusId": 0,
+                    "tlId": 0,
+                    "remarksByTL": "string",
+                    "hraId": 0,
+                    "remarksByHRA": "string",
+                    "hrmId": 0,
+                    "remarksByHRM": "string"
+                }
+                
+            </remarks>
+            <param name="abscondReq">abscondReq</param>
+            <returns>Acknowledge the created abscond request</returns>
+            <response code="200">Returns the details of asconded request</response>
+            <response code="400">If the item is null</response>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.ConfirmAbscond(HRMS.Employee.Infrastructure.Models.Domain.AssociateAbscondModel)">
+            <summary>
+            Confirm/Disprove Abscond Request
+            </summary>
+            <remarks>
+            Sample request :
+            
+                POST /ConfirmAbscond
+                {
+                    "associateAbscondId": 0,
+                    "associateId": 0,
+                    "associateName": "string",
+                    "absentFromDate": "2023-04-18T11:19:00.397Z",
+                    "absentToDate": "2023-04-18T11:19:00.397Z",
+                    "isAbscond": true,
+                    "statusId": 0,
+                    "tlId": 0,
+                    "remarksByTL": "string",
+                    "hraId": 0,
+                    "remarksByHRA": "string",
+                    "hrmId": 0,
+                    "remarksByHRM": "string"
+                }
+            </remarks>
+            
+            <param name="abscondReq">abscondReq</param>
+            <returns>Confirm/Disprove the abscond request</returns>
+            <response code="200">Returns the details of asconded request</response>
+            <response code="400">If the item is null</response>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.AbscondClearance(HRMS.Employee.Infrastructure.Models.Domain.AssociateAbscondModel)">
+            <summary>
+            Provide Clearance for Abscond Request
+            </summary>
+            <remarks>
+            Sample request :
+            
+                POST /AbscondClearance
+                {
+                    "associateAbscondId": 0,
+                    "associateId": 0,
+                    "associateName": "string",
+                    "absentFromDate": "2023-04-18T11:19:00.397Z",
+                    "absentToDate": "2023-04-18T11:19:00.397Z",
+                    "isAbscond": true,
+                    "statusId": 0,
+                    "tlId": 0,
+                    "remarksByTL": "string",
+                    "hraId": 0,
+                    "remarksByHRA": "string",
+                    "hrmId": 0,
+                    "remarksByHRM": "string"
+                }
+                
+            </remarks>
+            <param name="abscondReq">abscondReq</param>
+            <returns>Provide clearance for the abscond request</returns>
+            <response code="200">Returns the details of asconded request</response>
+            <response code="400">If the item is null</response>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateAbscondController.GetAbscondSubStatus(System.Int32)">
+            <summary>
+            Get Abscond SubStatus
+            </summary>
+            <param name="associateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitActivityController.CreateActivityChecklist(System.Int32,System.Int32)">
+            <summary>
+            This method creates list of activities checklist
+            </summary>
+            <param name="projectId"></param>
+            <returns>AssociateExitActivityId of Created checklist</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitActivityController.UpdateActivityChecklist(HRMS.Employee.Infrastructure.Models.Domain.ActivityChecklist)">
+            <summary>
+            This method updates and  submit checklist activities.
+            </summary>
+            <param name="employeetIn"></param>
+            <returns>Updated associateExitActivityId</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitActivityController.GetActivitiesByEmployeeIdAndDepartmentId(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            This method fetches the associateExit Department activities by employeetId and departmentId
+            </summary>
+            <param name="projectId"></param>
+            <returns>associateExit Department Activities</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitActivityController.GetActivitiesByemployeeIdForHRA(System.Int32)">
+            <summary>
+            This method gets the submitted department activities in HRA review tab  from associateExitActivity table
+            </summary>
+            <param name="employeetId"></param>
+            <returns> Submitted Department Activities</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitAnalysisController.GetAssociateExitAnalysis(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+            This method fetches the associateExit Analysis Details
+            </summary>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <returns>associateExit Analysis Details</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitAnalysisController.CreateExitAnalysis(HRMS.Employee.Infrastructure.Models.Domain.ExitAnalysis)">
+            <summary>
+            Create Exit Analysis form
+            </summary>
+            <param name="interviewRequest"></param>
+            <returns>Integer value 0-represents UnSuccessful response and >0- represents Successful response</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            Get Active Prospective Associates based on Departments, Designations and PracticeArea.
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetByEmployeeId(System.Int32,System.Boolean)">
+            <summary>
+            GetByEmployeeId
+            </summary>
+            <param name="EmployeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.Create(HRMS.Employee.Infrastructure.Models.Request.AssociateExitRequest)">
+            <summary>
+            Create AssociateExit
+            </summary>
+            <param name="AssociateExitIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.ReviewByPM(HRMS.Employee.Infrastructure.Models.Request.AssociateExitPMRequest)">
+            <summary>
+            Review AssociateExit By PM
+            </summary>
+            <param name="associateExitPMIn">associateExitPMIn</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.Approve(HRMS.Employee.Infrastructure.Models.Request.AssociateExitRequest)">
+            <summary>
+            Approve AssociateExit
+            </summary>
+            <param name="AssociateExitIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetAssociatesForExitDashboard(System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            GetByEmployeeId
+            </summary>
+            <param name="userRole"></param>
+            <param name="employeeId"></param>
+            <param name="dashboard"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.RevokeExit(HRMS.Employee.Infrastructure.Models.Domain.RevokeRequest)">
+            <summary>
+            Revoke Exit by Associate
+            </summary>
+            <param name="revokeRequest"></param>
+            <returns>Integer value 0-represents UnSuccessful response and >0- represents Successful response</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.ExitClearance(HRMS.Employee.Infrastructure.Models.Domain.ClearanceRequest)">
+            <summary>
+            Provide Exit Clearance By HRA
+            </summary>
+            <param name="clearanceRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.ApproveOrRejectRevoke(HRMS.Employee.Infrastructure.Models.Domain.RevokeRequest)">
+            <summary>
+            Approve or Reject ExitRevoke by ProgramManager/DepartmentHead
+            </summary>
+            <param name="revokeRequest"></param>
+            <returns>Integer value 0-represents UnSuccessful response and >0- represents Successful response</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.RequestForWithdrawResignation(System.Int32,System.String)">
+            <summary>
+            Program Manager Request Associate to Withdraw Resignation
+            </summary>
+            <param name="employeeId"></param>
+            <param name="resignationRecommendation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetClearanceRemarks(System.Int32)">
+             <summary>
+            Get Clearance Remarks
+             </summary>
+             <param name="employeeId"></param>
+             <returns>Clearance Remarks of Associate</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetAssociateExitDailyNotification(System.Int32)">
+             <summary>
+            GetAssociateExitDailyNotification
+             </summary>
+             <param name="departmentId"></param>
+             <returns>GetAssociateExitDailyNotification</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetResignationSubStatus(System.Int32)">
+             <summary>
+            Get Clearance Remarks
+             </summary>
+             <param name="employeeId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.GetResignedAssociateByID(System.Int32)">
+            <summary>
+            GetResignedAssociateByID
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitController.ReviewReminderNotification(System.Int32)">
+            <summary>
+            ReviewReminderNotification
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitInterviewController.CreateExitFeedback(HRMS.Employee.Infrastructure.Models.Domain.ExitInterviewRequest)">
+            <summary>
+            Create Exit Feedback form
+            </summary>
+            <param name="interviewRequest"></param>
+            <returns>Integer value 0-represents UnSuccessful response and >0- represents Successful response</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitInterviewController.GetExitInterview(System.Int32)">
+            <summary>
+            Get Exit Feedback form
+            </summary>
+            <param name="employeeId"></param>
+            <returns>Associate Exit Interview</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitInterviewReviewController.GetAll(HRMS.Employee.Infrastructure.Models.Domain.ExitInterviewReviewGetAllRequest)">
+            <summary>
+            Gets Associate Exit Interview Review
+            </summary>
+            <param name="exitInterviewReviewRequest"></param>
+            <returns>Associate Exit Interview Review</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitInterviewReviewController.Create(HRMS.Employee.Infrastructure.Models.Domain.ExitInterviewReviewCreateRequest)">
+            <summary>
+            Creates Associate Exit Interview Review
+            </summary>
+            <param name="exitInterviewReviewRequest"></param>
+            <returns>Integer value 0-represents UnSuccessful response and >0- represents Successful response</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitTypesController.GetEmployeesByEmpIdAndRole(System.Int32,System.String)">
+            <summary>
+            This method gets the employee details
+            </summary>
+            <param name="employeetId"></param>
+            <param name="roleName"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateExitTypesController.GetByExitTypeId(System.Int32)">
+            <summary>
+            GetByExitTypeId
+            </summary>
+            <param name="exitTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateLeaveController.UploadLeaveData(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Upload Leave Data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateLeaveController.GetTemplateFile">
+            <summary>
+            Get Template File
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateLongLeaveController.CreateAssociateLongLeave(HRMS.Employee.Infrastructure.Models.Domain.AssociateLongLeaveData)">
+            <summary>
+            this method is used to create associate long leave
+            </summary>
+            <param name="leaveDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateLongLeaveController.CalculateMaternityPeriod(System.String)">
+            <summary>
+            CalculateMaternityPeriod
+            </summary>
+            <param name="longLeaveStartDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateLongLeaveController.ReJoinAssociateByID(System.Int32,System.String,System.String)">
+            <summary>
+            ReJoinAssociateByID
+            </summary>
+            <param name="empID"></param>
+            <param name="reason"></param>
+            <param name="rejoinedDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateResignationController.CreateAssociateResignation(HRMS.Employee.Infrastructure.Models.Domain.AssociateResignationData)">
+            <summary>
+            this method is used to create associate resignation
+            </summary>
+            <param name="resignationDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateResignationController.GetAssociatesById(System.Int32,System.Int32)">
+            <summary>
+            GetAssociatesById
+            </summary>
+            <param name="resignEmployeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateResignationController.CalculateNoticePeriod(System.String)">
+            <summary>
+            CalculateNoticePeriod
+            </summary>
+            <param name="resignationDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AssociateResignationController.RevokeResignationByID(System.Int32,System.String,System.String)">
+            <summary>
+            RevokeResignationByID
+            </summary>
+            <param name="empID"></param>
+            <param name="reason"></param>
+            <param name="revokedDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AttendanceRegularizationController.GetNotPunchInDates(HRMS.Employee.Infrastructure.Models.Domain.AttendanceRegularizationFilter)">
+            <summary>
+            Get Not Punch-In Dates from the given dates of an associate
+            </summary>
+            <param name="attendanceRegularizationFilter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AttendanceRegularizationController.SaveAttendanceRegularizationDetails(System.Collections.Generic.List{HRMS.Employee.Entities.AttendanceRegularizationWorkFlow})">
+             <summary>
+            Save attendance regularization details of an associate
+             </summary>
+             <param name="attendanceRegularizationWorkFlow"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AttendanceRegularizationController.ApproveOrRejectAttendanceRegularizationDetails(HRMS.Employee.Infrastructure.AttendanceRegularizationWorkFlowDetails)">
+            <summary>
+            Approve Attendance Regularization Details By RM
+            </summary>
+            <param name="regularizationWorkFlowDetails"></param>      
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AttendanceRegularizationController.GetAllAssociateSubmittedAttendanceRegularization(System.Int32,System.String)">
+             <summary>
+            Get All Associate Submitted Attendance Regularization details
+             </summary>
+             <param name="managerId"></param>
+             <param name="roleName"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.AttendanceRegularizationController.GetAssociateSubmittedAttendanceRegularization(System.String,System.String)">
+             <summary>
+            Get Associate Submitted Attendance Regularization
+             </summary>
+             <param name="AssociateId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetAttendanceSummaryReport(HRMS.Employee.Infrastructure.Models.Domain.AttendanceReportFilter)">
+            <summary>
+            Get Biometric Attendance Summary Report
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetAttendanceDetailReport(HRMS.Employee.Infrastructure.Models.Domain.AttendanceReportFilter)">
+            <summary>
+            Get Biometric Attendance Detail Report
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetAdvanceAttendanceReport(HRMS.Employee.Infrastructure.Models.Domain.AttendanceReportFilter)">
+            <summary>
+            Get Advance Attendance Report
+            </summary>
+            <param name="filter"></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetAttendanceMaxDate">
+            <summary>
+            Get Biometric Attendance Max Date
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.IsDeliveryDepartment(System.Int32)">
+            <summary>
+            Get is the associate is delivery department or not
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetAssociatesReportingToManager(System.Int32,System.String,System.Int32,System.Boolean)">
+            <summary>
+            Get Associates Details who are Reporting To Manager
+            </summary>
+            <param name="employeeId"></param>
+            <param name="roleName"></param> 
+            <param name="projectId"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetProjectsByManager(System.Int32,System.String)">
+            <summary>
+            Get Projects Details By Manager
+            </summary>
+            <param name="employeeId"></param>
+            <param name="roleName"></param>          
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BioMetricAttendanceController.GetAttendanceMuster(System.Int32,System.Int32)">
+            <summary>
+            Get Attendance Muster
+            </summary>
+            <param name="year"></param>
+            <param name="month"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BookParkingSlotController.Create(HRMS.Employee.Infrastructure.BookedParkingSlotDetails)">
+            <summary>
+            Book a parking slot of an associate for a day
+            </summary>
+            <param name="bookedParkingSlots"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BookParkingSlotController.GetSlotDetailsByEmailID(System.String)">
+            <summary>
+            Get booked parking slot details of an associate by emailid
+            </summary>
+            <param name="EmailID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BookParkingSlotController.GetSlotDetails(System.String)">
+            <summary>
+            Get total slot, available slot details
+            </summary>
+            <param name="PlaceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.BookParkingSlotController.ReleaseSlot(System.String)">
+            <summary>
+            Release from existing slot of associate by emailid
+            </summary>
+            <param name="email">email</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetAll(System.Nullable{System.Boolean})">
+            <summary>
+            GetAll Employees
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeByUserName(System.String)">
+            <summary>
+            Gets the employee information by username
+            </summary>
+            <param name="userName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeNames">
+            <summary>
+            Get the active Employee's names
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetById(System.Int32)">
+            <summary>
+            Get the employee by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetByIds(System.String)">
+            <summary>
+            Get the employees by ids
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmpTypes">
+            <summary>
+            Get All Active Employee Types
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetJoinedEmployees">
+            <summary>
+             Get the active Employees based on PracticeArea, Departments, designations and statusId.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetBusinessValues(System.String)">
+            <summary>
+            Get the BusinessValues by valueKey
+            </summary>
+            <param name="valueKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeInfo(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the Employee info based on departments and approved status.
+            </summary>
+            <param name="searchString"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeOnPagination(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the GetEmployeeOnPagination based on departments and approved status.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeCount(System.String)">
+            <summary>
+            Gets the Active GetEmployeeCount .
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeesBySkillUsingCache">
+            <summary>
+            GetEmployeesBySkillUsingCache
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetByUserId(System.Int32)">
+            <summary>
+            GetByUserId
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetActiveEmployeeById(System.Int32)">
+            <summary>
+            GetById
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetManagersAndLeads(System.Nullable{System.Int32})">
+            <summary>
+             Get the active Managers, Leads, ProgramMangers, ReportingManagers, department heads and competency leads.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetProgramManagersList">
+            <summary>
+            Gets Managers list
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmpList">
+            <summary>
+            Gets All Active Employees
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetStatusbyId(System.Int32)">
+            <summary>
+            Get employee Status based on Id
+            </summary>
+            <param name="empId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetPendingProfiles">
+            <summary>
+            Gets the list of Employees whose profiles are pending.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetRejectedProfiles">
+            <summary>
+            Gets the list of Employees whose profiles are rejected.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeBySearchString(System.String)">
+            <summary>
+            Gets the employee information by username
+            </summary>
+            <param name="searchString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeesForDropdown">
+            <summary>
+            Gets the employee information 
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetAssociatesForDropdown">
+            <summary>
+            Gets the employee information 
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetAssociatesByDepartmentId(System.Int32)">
+            <summary>
+            Get Associates By DepartmentId
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetDepartmentHeadByDepartmentId(System.Int32)">
+            <summary>
+            GetDepartmentHeadByDepartmentId
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeDetailsByNameString(System.String)">
+            <summary>
+             Gets the employee id and name by nameString
+            </summary>
+            <param name="nameString">nameString</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeWorkEmailAddress(System.Int32)">
+            <summary>
+            Get Employee Work Email Address
+            </summary>
+            <param name="empId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeesByRole(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Gets the list of Employees whose profiles are pending.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeesByCode(System.Collections.Generic.List{System.String})">
+            <summary>
+            Gets the list of Employees whose profiles are pending.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetListAssociatesByRoles(System.String)">
+            <summary>
+            Get List Associates By Roles
+            </summary>
+            <param name="roles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeesOnLongLeave(System.Int32)">
+            <summary>
+            Gets the list of Employees on Long Leave.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetEmployeeRoleTypes(System.Int32)">
+            <summary>
+            Gets the Employee RoleTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.DownloadKRA(System.String,System.String,System.String)">
+            <summary>
+            Download KRA
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetAssociatesByProjectId(System.Int32)">
+            <summary>
+            GetAssociatesByProjectId 
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetAssociateRMDetailsByDepartmentId(System.Int32)">
+            <summary>
+            Get Associates RM Details By DepartmentId
+            <paramref name="departmentId"/>
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.GetServiceDepartmentAssociates">
+            <summary>
+            GetServiceDepartmentAssociates
+            </summary>       
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeController.UpdateNonDeliveryAssociateRM(HRMS.Employee.Infrastructure.Models.Domain.AssociatesRMDetails)">
+             <summary>
+            UpdateServiceDepartmentAssociateRM
+             </summary>       
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeEducationController.GetById(System.Int32)">
+            <summary>
+            Gets the EmployeeEducationDetails based on empId
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeEducationController.Save(HRMS.Employee.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            Save method performs both creation and updation of education details
+            </summary>
+            <param name="educationDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeEmploymentController.GetPrevEmploymentDetailsById(System.Int32)">
+            <summary>
+            Gets the Previous Employment details based on empId
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeEmploymentController.GetProfReferencesById(System.Int32)">
+            <summary>
+            Gets the Professional References based on empId
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeEmploymentController.Save(HRMS.Employee.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            Save method performs both creation and updation of employment details
+            </summary>
+            <param name="employmentDetailsIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeFamilyDetailsController.UpdateFamilyDetails(HRMS.Employee.Infrastructure.Models.Domain.EmployeePersonalDetails)">
+            <summary>
+            Updates family details of an employee
+            </summary>
+            <param name="details"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeFamilyDetailsController.GetFamilyDetailsById(System.Int32)">
+            <summary>
+            Gets the family details of an employee by the given employee Id
+            </summary>
+            <param name="empId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeFilesController.GetByEmployeeId(System.Int32)">
+            <summary>
+            Get Uploaded file details based on employee Id
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeFilesController.Save(HRMS.Employee.Infrastructure.Models.Domain.UploadFiles)">
+            <summary>
+            Save uploaded file details
+            </summary>
+            <param name="uploadFiles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeFilesController.Delete(System.Int32,System.Int32)">
+            <summary>
+            Delete uploded file details
+            </summary>
+            <param name="id"></param>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeFilesController.GeneratePDFReport(System.Int32)">
+            <summary>
+            GeneratePDFReport
+            </summary>
+            <param name="uploadFiles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeePersonalDetailsController.AddPersonalDetails(HRMS.Employee.Infrastructure.Models.Domain.EmployeePersonalDetails)">
+            <summary>
+            Adds personal details and contacts of an employee and updates the data in prospective associate table.
+            </summary>
+            <param name="personalDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeePersonalDetailsController.UpdatePersonalDetails(HRMS.Employee.Infrastructure.Models.Domain.EmployeePersonalDetails)">
+            <summary>
+            Updates personal details and contacts of an employee.
+            </summary>
+            <param name="personalDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeePersonalDetailsController.GetPersonalDetailsById(System.Int32)">
+            <summary>
+            Gets personal details by given employee Id.
+            </summary>
+            <param name="empId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeePersonalDetailsController.UpdateReportingManagerId(System.Int32,System.Int32)">
+            <summary>
+            Update Reporting Manager after project allocation.
+            </summary>
+            <param name="employeeId"></param>
+            <param name="reportingManagerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeePersonalDetailsController.UpdateExternal(HRMS.Employee.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            Update Employee External services
+            </summary>
+            <param name="employeeId"></param>
+            <param name="reportingManagerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeePersonalDetailsController.GetEmployeeDetailsDashboard(System.Int32)">
+            <summary>
+            Gets personal details by given employee Id.
+            </summary>
+            <param name="empId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProfessionController.CreateCertificate(HRMS.Employee.Entities.AssociateCertification)">
+            <summary>
+            Create Certificate
+            </summary>
+            <param name="certificationIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProfessionController.CreateMembership(HRMS.Employee.Entities.AssociateMembership)">
+            <summary>
+            Create Membership
+            </summary>
+            <param name="membershipIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProfessionController.Delete(System.Int32,System.Int32)">
+            <summary>
+            delete professional details
+            </summary>
+            <param name="id"></param>
+            <param name="programType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProfessionController.GetByEmployeeId(System.Int32)">
+            <summary>
+            Get professional details By EmployeeId based on Skill and SkillGroup
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProfessionController.UpdateCertificate(HRMS.Employee.Entities.AssociateCertification)">
+            <summary>
+            Update Certificate details
+            </summary>
+            <param name="certificationIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProfessionController.UpdateMembership(HRMS.Employee.Entities.AssociateMembership)">
+            <summary>
+            Update Membership details
+            </summary>
+            <param name="membershipIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProjectController.Create(HRMS.Employee.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            Removes existing projects and inserts new projects based on employeeId
+            </summary>
+            <param name="employeeDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeProjectController.GetByEmployeeId(System.Int32)">
+            <summary>
+            Fetches project details of an employee based on employee id
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillController.Create(HRMS.Employee.Infrastructure.Models.Domain.EmployeeSkillDetails)">
+            <summary>
+            Create skill 
+            </summary>
+            <param name="employeeSkillDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillController.GetByEmployeeId(System.Int32,System.String)">
+            <summary>
+            Fetches project details of an employee based on employee id
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillController.Update(HRMS.Employee.Infrastructure.Models.Domain.EmployeeSkillDetails)">
+            <summary>
+            Update skill 
+            </summary>
+            <param name="employeeSkillDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillController.DeleteSkill(System.Int32)">
+            <summary>
+            Fetches project details of an employee based on employee id
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillWorkFlowController.Create(System.Int32)">
+            <summary>
+            Create skill work flow
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillWorkFlowController.SkillStatusApprovedByRM(System.Int32)">
+            <summary>
+            Create skill work flow
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillWorkFlowController.GetSkillSubmittedByEmployee(System.Int32)">
+             <summary>
+            get all the skill submitted employees details 
+             </summary>
+             <param name=""></param>
+             <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeSkillWorkFlowController.getAllSubmittedSkillsByEmpid(System.Int32)">
+            <summary>
+            get all the skills based on empid
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeStatusController.GetEmployeeResignStatus">
+            <summary>
+            Get the status by status code Resigned and category AssociateExit.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.EmployeeStatusController.UpdateEmployeeStatus(HRMS.Employee.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            This method is to make employee inactive.
+            <param name="associate"></param>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetProjects">
+            <summary>
+            Get all Project details
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetProjectById(System.Int32)">
+            <summary>
+            Get Project By Project Id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetActiveEmployees">
+            <summary>
+            Get Active Employees
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetEmpDataForExternalProjects">
+            <summary>
+            GetAllEmployeeDetailsForExternal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetDepartmentsList">
+            <summary>
+            GetDepartmentsList
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetProjectsByEmailAndRole(System.String)">
+            <summary>
+            Get Projects Based On Email and Role
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.HRMSExternalController.GetProgramManagersList">
+            <summary>
+            GetProgramManagersList
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.MapAssociateIdController.GetUnMappedUsers">
+            <summary>
+            Retrieves active users where the UserId is not mapped to employee.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.MapAssociateIdController.MapAssociateId(HRMS.Employee.Infrastructure.Models.Domain.EmployeeDetails)">
+            <summary>
+            Maps the UserId to the UserId in Employee
+            <param name="associate"></param>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.NightlyJobController.GetUtilizationReportAssociates(HRMS.Employee.Infrastructure.Models.Request.UtilizationReportEmployeeFilter)">
+            <summary>
+            GetUtilizationReportAssociates
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.NightlyJobController.GetResourceUtilization(System.Nullable{System.Int32})">
+            <summary>
+            GetResourceUtilization
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveAssociateController.GetProspectiveAssociates(System.Nullable{System.Boolean})">
+            <summary>
+            Get Active Prospective Associates based on Departments, Designations and PracticeArea.
+            </summary>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveAssociateController.GetbyId(System.Int32)">
+            <summary>
+            Gets the prospectiveAssociate data based on Id
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveAssociateController.Update(HRMS.Employee.Entities.ProspectiveAssociate)">
+            <summary>
+            Update ProspectiveAssociate
+            </summary>
+            <param name="prospectiveAssociateIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveAssociateController.Create(HRMS.Employee.Entities.ProspectiveAssociate)">
+            <summary>
+            Create ProspectiveAssociate
+            </summary>
+            <param name="prospectiveAssociateIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveAssociateController.UpdateEmployeeStatusToPending(HRMS.Employee.Infrastructure.Models.Domain.EmployeeProfileStatus)">
+            <summary>
+            This method is to update employee status to pending and send email to HRM for approval.
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveAssociateController.UpdateEmployeeProfileStatus(HRMS.Employee.Infrastructure.Models.Domain.EmployeeProfileStatus)">
+            <summary>
+            This method is to Update employee status and send respective email either approval or rejection notification to HRM 
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ProspectiveDetailsSyncController.ReadRepository">
+            <summary>
+            Gets the Prospective Associate info from the repository and sync data into respective Employee tables.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetFinanceReportAssociates(HRMS.Employee.Infrastructure.Models.Request.FinanceReportEmployeeFilter)">
+            <summary>
+            GetFinanceReportAssociates
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetUtilizationReportAssociates(HRMS.Employee.Infrastructure.Models.Request.UtilizationReportEmployeeFilter)">
+            <summary>
+            GetUtilizationReportAssociates
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetDomainWiseResourceCount">
+            <summary>
+            GetDomainWiseResourceCount
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetDomainReportAssociates(System.String)">
+            <summary>
+            GetDomainReportAssociates
+            </summary>
+            <param name="domainId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetTalentPoolReportAssociates(System.Int32)">
+            <summary>
+            GetTalentPoolReportAssociates
+            </summary>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetSkillSearchAssociates(HRMS.Employee.Infrastructure.Models.Request.SkillSearchFilter)">
+            <summary>
+            GetSkillSearchAssociates
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetActiveAssociates(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            GetActiveAssociates
+            </summary>
+            <param name="employeeIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetServiceTypeResourceCount">
+            <summary>
+            GetDomainWiseResourceCount
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetUtilizationReport">
+            <summary>
+            GetUtilizationReport
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetResourceUtilization(System.Nullable{System.Int32})">
+            <summary>
+            GetResourceUtilization
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetAssociateExitReport">
+            <summary>
+            GetAssociateExitReport
+            </summary>
+            <param name=""></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetAssociateExitData">
+            <summary>
+            GetAssociateExitData
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetAssociateExitReportTypes">
+            <summary>
+            GetAssociateExitReportTypes
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetAssociateExitChartReport(HRMS.Employee.Infrastructure.Models.Request.AssociateExitReportFilter)">
+            <summary>
+            GetAssociateExitChartReport
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ReportController.GetParkingSlotReport(HRMS.Employee.Infrastructure.Models.Domain.ParkingSearchFilter)">
+            <summary>
+            GetParkingSloteport
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ServiceTypeToEmployeeController.Create(HRMS.Employee.Infrastructure.Models.Domain.ServiceType)">
+            <summary>
+            Removes existing projects and inserts new projects based on employeeId
+            </summary>
+            <param name="employeeDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ServiceTypeToEmployeeController.Update(HRMS.Employee.Infrastructure.Models.Domain.ServiceType)">
+            <summary>
+            Removes existing projects and inserts new projects based on employeeId
+            </summary>
+            <param name="employeeDetails"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.ServiceTypeToEmployeeController.GetServiceTypeByEmployeeId(System.Int32)">
+            <summary>
+            Fetches project details of an employee based on employee id
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.SkillSearchController.BulkInsert">
+            <summary>
+            BulkInsert 
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.SkillSearchController.GetAll">
+            <summary>
+            Get All Skill Search
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.SkillSearchController.GetById(System.Int32)">
+            <summary>
+            Get SkillSearch by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.SkillSearchController.GetAllSkillDetails(System.Int32)">
+            <summary>
+            Get All Skill Details
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.TransitionPlanController.UpdateTransitionPlan(HRMS.Employee.Infrastructure.Models.Domain.TransitionDetail)">
+            <summary>
+            This method updates and  submit checklist activities.
+            </summary>
+            <param name="projectIn"></param>
+            <returns>Updated ProjectClosureActivityId</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.TransitionPlanController.GetTransitionPlanByAssociateIdandProjectId(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            This method fetches the closure Department activities by employeeId and projectId
+            </summary>
+            <param name="employeeId"></param>
+            <returns>Closure Department Activities</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.TransitionPlanController.GetTransitionPlanByAssociateId(System.Int32)">
+            <summary>
+            This method fetches the Transition Plan  activities by employeeId
+            </summary>
+            <param name="employeeId"></param>
+            <returns>Transition Activities</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.TransitionPlanController.DeleteTransitionActivity(System.Int32,System.Nullable{System.Int32},System.Int32)">
+            <summary>
+            This method Deletes the Transition Activities
+            </summary> 
+            <param name="employeeId">employeeId</param>
+            <param name="projectId">projectId</param>
+            <param name="activityId">activityId</param>
+            <returns>Integer value</returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.WelcomeEmailController.GetWelcomeEmployeeInfo">
+            <summary>
+            Gets the Employee info based on departments and approved status.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.WelcomeEmailController.CreateWelcomeEmailInfo(System.Int32)">
+            <summary>
+            Create WelcomeEmail
+            </summary>
+            <param name="employeeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.WorkFromHomeAttendanceController.SaveAttendanceDetais(HRMS.Employee.Entities.BioMetricAttendance)">
+            <summary>
+             Save Work from home day attendance detail of an associate
+            </summary>
+            <param name="bioMetricAttendance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.WorkFromHomeAttendanceController.GetAttendanceDetais(System.String)">
+            <summary>
+            Get Associates Work from home attendance detail of the day.
+            </summary>
+            <param name="employeeCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.API.Controllers.WorkFromHomeAttendanceController.GetloginStatus(System.String)">
+            <summary>
+            Get Associates logedIn/Signin status detail of the day.
+            </summary>
+            <param name="employeeCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.Controllers.AttendanceReportController.GetAssociatesReportingToManager(System.Int32,System.String,System.Int32,System.Boolean)">
+            <summary>
+            GetAssociatesReportingToManager
+            </summary>
+            <param name="employeeId"></param>
+            <param name="roleName"></param> 
+            <param name="projectId"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:HRMS.Employee.Controllers.AttendanceReportController.GetProjectsByManager(System.Int32,System.String)">
+            <summary>
+            Get Projects By Manager
+            </summary>
+            <param name="employeeId"></param>
+            <param name="roleName"></param>          
+            <returns></returns>
+        </member>
+    </members>
+</doc>

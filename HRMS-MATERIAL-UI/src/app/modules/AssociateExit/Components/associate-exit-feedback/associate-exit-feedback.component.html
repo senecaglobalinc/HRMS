@@ -1,0 +1,113 @@
+
+<mat-accordion>
+    <mat-expansion-panel    [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            <mat-icon>filter_list</mat-icon> Filter Associate Exit Feedback Review
+        </mat-panel-title>
+       </mat-expansion-panel-header>
+<form  [formGroup]="myForm">
+    <div class="row">
+        <div class="col-md-4"> 
+            <mat-form-field appearance={{themeAppearence}}>
+                <mat-label>From Date<span style="color: red"> *</span></mat-label>
+                <input matInput [matDatepicker]="from" (click)="from.open()" formControlName="FromDate" format='dd/mm/yy' (dateChange)="searchData.FromDate = $event.value"
+                    [value]="searchData.FromDate" (paste)="$event.preventDefault()">
+                <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                <mat-datepicker #from></mat-datepicker>
+                <mat-error *ngIf="myForm.controls.FromDate.hasError('required')">From Date is required</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+           
+                <mat-form-field appearance={{themeAppearence}}>
+                        <mat-label>To Date<span style="color: red"> *</span></mat-label>
+                        <!-- <input matInput [matDatepicker]="to" (click)="to.open()" formControlName="ToDate" format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value"
+                            [value]="searchData.ToDate" (paste)="$event.preventDefault()"> -->
+                            <input matInput [matDatepicker]="to" (click)="to.open()" formControlName="ToDate" format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value"
+                            [value]="searchData.ToDate" (paste)="$event.preventDefault()">
+                        <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                        <mat-datepicker #to></mat-datepicker>
+                        <mat-error *ngIf="myForm.controls.ToDate.hasError('required')">To Date is required</mat-error>
+                    </mat-form-field>
+        </div>     
+    
+    <div class="col-md-4">
+        <br>
+        <section class="text-right buttons">
+            <button type="button" mat-flat-button (click)="clear()">
+                Clear</button>
+            <button type="submit" mat-flat-button color="primary" (click)="submitReport()">
+                Apply</button>
+        </section>
+    
+    </div>
+    </div>
+    </form>
+</mat-expansion-panel>
+</mat-accordion>
+<mat-card >
+<!-- <span *ngIf="!this.associateInfoList">List of Associates(0)</span>
+<span *ngIf="this.associateInfoList">List of Associates({{associateInfoList.length}})</span> -->
+    <mat-card-content>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort>
+               
+                <ng-container matColumnDef="AssociateName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Associate Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.AssociateName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="InitialRemarks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Associate Feedback
+                    </th>
+                    <td  class="hidden-text" matTooltip="{{element.InitialRemarks}}" mat-cell *matCellDef="let element">
+                        {{ element.InitialRemarksNoHtml }}
+                    </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="FinalRemarks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Curated Feedback</th>
+                    <td class="hidden-text" matTooltip="{{asstJoin.FinalRemarks}}" mat-cell *matCellDef="let asstJoin"> {{asstJoin.FinalRemarksNoHtml}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="ShowInitialRemarks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">Show Associate Feedback</th>
+                    <td  mat-cell *matCellDef="let asstJoin"> {{asstJoin.ShowInitialRemarksStr}} </td>
+                    <td mat-cell *matCellDef="let asstJoin">
+                        <mat-checkbox  color="primary" checked="asstJoin.ShowInitialRemarks"></mat-checkbox>
+                    </td>
+                      </ng-container>
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-weight-bold">
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span style="cursor: pointer;" (click)="sendMail(element)">
+                            <mat-icon style="color:#33BA89;font-size: 18px;margin-top:10px" >message</mat-icon><span class="d-none d-sm-inline" style="color:#33BA89;">View</span>
+                        </span>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center">
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+<ngx-spinner
+ bdColor="rgba(0, 0, 0, 0.1)"
+ color="#585858"
+ [fullScreen]="false"
+ type="ball-clip-rotate-multiple" 
+ size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

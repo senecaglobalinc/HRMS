@@ -1,0 +1,57 @@
+    @media screen and (min-width: 64.063em){
+.ui-lg-3 {
+    width: 31%;
+}
+}
+
+@media screen and (min-width: 40.063em){
+.ui-md-4 {
+    width: 38.3333%;
+}
+}
+.center{
+  //padding-right: 220px;
+ margin-left: 187px;
+}
+     .tables{
+       padding-right: 340px;
+     }
+
+     
+    /* tablets, iPads (landscape) ---------- */
+    @media screen and (max-width: 1024px){
+      .center {
+        padding-right: 0px !important;;
+        padding-left: 0px !important;           
+        }
+        .tables{ 
+          padding-right: 195px !important;
+          padding-left: 0px !important;
+         
+        }
+        .buttons {
+          margin-right: 195px !important;
+      }
+      }
+  
+    /* Desktops and laptops ---------- */
+    @media screen and (max-width: 1440px){
+     
+      .tables{
+        padding-right: 294px;
+       }
+  
+      .buttons {
+        margin-right: 279px !important;
+    }
+    }
+    
+     .buttons {
+      margin-right: 327px;
+      margin-bottom: 4px;
+      margin-top: 20px;
+  }
+    ::ng-deep .ui-table-thead tr th.select {
+        width: 120px;
+        
+     }

@@ -1,0 +1,40 @@
+.tables{  margin-right: -15px;
+  margin-left: 35px;}
+ 
+  .radio-inline
+  {
+    margin-left: 3px;
+  }
+
+  .delCls{
+ 
+    cursor:pointer;
+    // text-align: center;
+    color: red;
+}
+button[type="submit"]
+{
+    width: 105px;  
+}
+@media only screen and (max-width:1024px){
+  .buttons {
+    margin-top: 2px;
+    margin-right: 51px !important;
+  }
+  }
+.buttons {
+  margin-top: 2px;
+  margin-right: 87px;
+}
+.butt {
+  margin-top: 2px;
+  margin-right: 103px;
+}
+button[type="submit"]
+{
+    width: 105px;  
+}
+.inputCls{
+  margin-bottom: 10px;
+  margin-right:93px;
+}

@@ -1,0 +1,66 @@
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Practice Area
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="center">
+            <form [formGroup]="addPracticeArea" class="form-horizontal">
+                <div class="row">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="box">
+                                <label for="PracticeAreaCode">Practice Area Code:</label>
+                                <span style="color: red">*</span>&nbsp;
+                                <input *ngIf="!isEdit" style="width: 50%" formControlName="PracticeAreaCode" name="PracticeAreaCode" required type="text"
+                                    size="30" pInputText>
+                                <input *ngIf="isEdit" style="width: 50%" disabled="true" formControlName="PracticeAreaCode" name="PracticeAreaCode" required
+                                    type="text" size="30" pInputText readonly>
+                                <div *ngIf="addPracticeArea.get('PracticeAreaCode').hasError('required') && formSubmitted">
+                                    <span style="color: red">Practice Area Code Required</span>
+                                </div>
+                                <div *ngIf="addPracticeArea.get('PracticeAreaCode').hasError('maxlength')">
+                                    <span style="color: red">Only 100 characters.</span>
+                                </div>
+                                <div *ngIf="addPracticeArea.get('PracticeAreaCode').hasError('pattern')">
+
+                                    <span style="color: red">Only characters allowed.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <div class="box">
+                                <label for="PracticeAreaDescription">Practice Area Description:</label>
+                                <span style="color: red">*</span>&nbsp;
+                                <input formControlName="PracticeAreaDescription" style="width: 50%" name="PracticeAreaDescription" required type="text" size="30" pInputText>
+                                <div *ngIf="addPracticeArea.get('PracticeAreaDescription').hasError('required') && formSubmitted">
+                                    <span style="color: red"> Practice Area Description Required</span>
+                                </div>
+                                <div *ngIf="addPracticeArea.get('PracticeAreaDescription').hasError('maxlength')">
+                                    <span style="color: red">Only 100 characters.</span>
+                                </div>
+                                <div *ngIf="addPracticeArea.get('PracticeAreaDescription').hasError('pattern')">
+                                    <span style="color: red">Only characters allowed.</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <section class="pull-right buttons">
+                                <button type="submit" class="btn btn-custom" style="cursor:pointer;" (click)="addpracticeAreas()">
+                                    <i class="fa fa-floppy-o"></i>&nbsp;{{btnLabel}}</button>
+                                &nbsp;
+                                <button type="button" class="btn btn-default" style="cursor:pointer;" (click)="cancel()">
+                                    <i class="fa fa-eraser"></i>Clear</button>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+      
+    </form>
+    </div>
+</div>
+</div>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>

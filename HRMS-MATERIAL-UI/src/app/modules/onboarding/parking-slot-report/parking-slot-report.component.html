@@ -1,0 +1,103 @@
+<mat-card class="mt-2">
+    <mat-card-title>
+        Filter Parking Slots Data
+    </mat-card-title>
+    <mat-card-content>
+        <span>
+            <a (click)="exportToExcel()" >
+                <div class="exportToExcel"></div>
+            </a>
+        </span>
+
+        <div class="row col-lg-12 col-md-6 col-sm-12" [formGroup]="parkingFilterForm">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field appearance="{{themeConfigInput}}">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput type="text" formControlName="startDate" [max]="today" [matDatepicker]="picker"
+                        readonly style="cursor: pointer;" (click)="picker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field appearance="{{themeConfigInput}}">
+                    <mat-label>End Date</mat-label>
+                    <input matInput type="text" formControlName="endDate" [min]="parkingFilterForm.get('startDate').value" [max]="today" [matDatepicker]="picker1"
+                        readonly style="cursor: pointer;" (click)="picker1.open()"
+                        [disabled]="parkingFilterForm.get('startDate').value == null">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field appearance="{{themeConfigInput}}">
+                    <mat-label>Choose Location</mat-label>
+                    <mat-select formControlName="location" [disabled]="parkingFilterForm.get('endDate').value == null">
+                        <mat-option *ngFor="let location of parkingLocations" [value]="location">{{location |
+                            titlecase}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row btn-css">
+        <button mat-stroked-button   (click)="clearInput()"
+            > Clear
+        </button>
+        <button mat-flat-button color="primary" (click)="applyFilter()"
+           [disabled]="parkingFilterForm.get('endDate').value == null">Apply
+        </button>
+    </div>
+    </mat-card-content>
+</mat-card>
+
+<div class="mt-2">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="Email"> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="VehicleNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="VehicleNumber"> Vehicle Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.VehicleNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="BookedDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="BookedDate"> Booked Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.BookedDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="BookedTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="BookedTime"> Booked Time </th>
+            <td mat-cell *matCellDef="let element"> {{element.BookedTime}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Location">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="Location"> Location </th>
+            <td mat-cell *matCellDef="let element"> {{element.Location | titlecase}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+        <!-- <tr  mat-row *matNoDataRow>
+            <td mat-cell >No Records Found</td> -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="5">No Records Found</td>
+          
+
+    </table>
+    
+       
+      
+      
+</div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]"></mat-paginator>
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>

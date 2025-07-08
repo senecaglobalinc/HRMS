@@ -1,0 +1,30 @@
+<p-table #project [value]="projectHistory" [resizableColumns]="true" columnResizeMode="expand"
+  [reorderableColumns]="true" [scrollable]="true" scrollHeight="250px">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>Project Name</th>
+      <th>Client Name</th>
+      <th>Role</th>
+      <th>Effective From</th>
+      <th>Release Date</th>
+      <th>Is Billable</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td>{{ rowData.ProjectName }}</td>
+      <td>{{ rowData.ClientName }}</td>
+      <td>{{ rowData.RoleName }}</td>
+      <td>{{ rowData.FromDate | date }}</td>
+      <td style="text-align: center" *ngIf="!rowData.ToDate || rowData.ToDate == '0001-01-01T00:00:00'">-
+      </td>
+      <td *ngIf="rowData.ToDate && rowData.ToDate != '0001-01-01T00:00:00'">
+        {{ rowData.ToDate | date }}</td>
+      <td>{{ rowData.Billable }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+<div *ngIf="!projectHistory || projectHistory.length==0" style="text-align: center">
+  <br>
+  No project history data found
+</div>

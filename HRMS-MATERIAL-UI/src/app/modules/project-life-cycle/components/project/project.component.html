@@ -1,0 +1,15 @@
+<!-- <div class="panel panel-default"> -->
+    <div class="pull-right">    <button mat-button (click)="onBack()"><mat-icon>arrow_back</mat-icon>Back</button>
+    </div>
+    <mat-tab-group (selectedTabChange)="setSelectedTab($event)" [selectedIndex]="SelectedTab">
+        <mat-tab label="Project Details" > <app-project-creation></app-project-creation> </mat-tab>
+        <mat-tab [disabled] = "isNewProject" label="SOW">  <div *ngIf ="SelectedTab == 1" ><app-sow></app-sow> </div></mat-tab>
+        <mat-tab [disabled] = "isNewProject" label="Client Billing Role"> <div *ngIf ="SelectedTab == 2"><app-client-billing-role></app-client-billing-role></div></mat-tab>
+        <mat-tab [disabled] = "isNewProject" label="Review"><button mat-flat-button
+            type="submit" *ngIf =  "canShow" class="pull-right" (click)="SubmitProject()">
+             {{ btnLabel }}
+            </button><app-view-project></app-view-project>
+            
+        </mat-tab>
+</mat-tab-group>
+    

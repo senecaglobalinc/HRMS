@@ -1,0 +1,33 @@
+
+::ng-deep .ui-table-thead tr th.actCls {
+    width:100px;
+    text-align: center;
+}
+::ng-deep .ui-table-thead tr th.allocaCls {
+    width:300px;
+    text-align: center;
+}
+
+li {
+    display: inline;
+    padding: 5px;
+    cursor: pointer;
+}
+
+li:hover {
+    background: skyblue;
+}
+
+li a {
+    color: white;
+}
+
+#back{
+  
+    float: right; 
+}
+.delCls{
+     
+    cursor:pointer;
+    color: red;     
+}

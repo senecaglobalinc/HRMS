@@ -1,0 +1,206 @@
+<mat-accordion>
+    <mat-expansion-panel    [expanded]="step === 0" (opened)="step=0" (closed)="step=1">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            <mat-icon>filter_list</mat-icon> Filter Attendance Report
+        </mat-panel-title>
+       </mat-expansion-panel-header>
+  
+       <form [formGroup]="myForm">
+        <div class="row">
+            <div class="col-md-3"> 
+              <br>             
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>From Date<span style="color: red"> *</span></mat-label>
+  
+                    <input matInput [matDatepicker]="from" [min]="minDate" [max]="maxDate"  (click)="from.open()" formControlName="fromDate" style="cursor: pointer"
+                        format='dd/mm/yy' (dateChange)="searchData.FromDate = $event.value;clearData();"
+                        [value]="searchData.FromDate" (paste)="$event.preventDefault()"  readonly>
+                    <mat-datepicker-toggle matSuffix *ngIf="myForm.value.fromDate"
+                        (click)="clearInput($event, 'fromDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                    <mat-datepicker #from></mat-datepicker>
+                    <mat-error *ngIf="myForm.controls.fromDate.hasError('required')">From Date is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <br>                
+                <mat-form-field appearance={{themeAppearence}}>
+                    <mat-label>To Date<span style="color: red"> *</span></mat-label>
+                    <input matInput [matDatepicker]="to" [min]="minDate" [max]="maxDate"  (click)="to.open()" formControlName="toDate" style="cursor: pointer"
+                        format='dd/mm/yy' (dateChange)="searchData.ToDate = $event.value;clearData();"
+                        [value]="searchData.ToDate"  readonly (paste)="$event.preventDefault()">
+                    <mat-datepicker-toggle matSuffix *ngIf="myForm.value.toDate"
+                        (click)="clearInput($event, 'toDate')">
+                        <mat-icon matDatepickerToggleIcon>close</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                    <mat-datepicker #to></mat-datepicker>
+                    <mat-error *ngIf="myForm.controls.toDate.hasError('required')">To Date is required</mat-error>
+                </mat-form-field>
+            </div>     
+            <div *ngIf="IsLeadership === false && isDeliveryDepartment === true" class="col-md-3">
+              <br>
+              <mat-form-field appearance="{{ themeAppearence }}">
+                  <mat-label>Project</mat-label>
+                  <input type="text" placeholder="Select Project" matInput
+                  formControlName="ProjectId" name="ProjectId" [matAutocomplete]="auto">
+                  <button class="clearFieldIcon" *ngIf="myForm.value.ProjectId"  (click)="clearField('ProjectId')" mat-button matSuffix
+                  mat-icon-button aria-label="Clear">
+                  <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option (click)="selectedChangeIds('ProjectId',item)"  (keyup.enter)="selectedChangeIds('ProjectId',item)" *ngFor="let item of filteredProject | async;" [value]="item.label">
+                      {{item.label}}
+                  </mat-option>
+              </mat-autocomplete>
+              </mat-form-field>
+          </div> 
+          <div class="col-md-3">
+            <br>           
+
+          <mat-form-field appearance={{themeAppearence}}>
+            <mat-label> Associate</mat-label>
+            <input type="text" placeholder="Select Associate" matInput formControlName="EmployeeName"
+                name="EmployeeName" [matAutocomplete]="auto1">
+            <button class="clearFieldIcon" *ngIf="myForm.value.EmployeeName"
+                (click)="clearField('EmployeeName')" mat-button matSuffix mat-icon-button aria-label="Clear">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete #auto1="matAutocomplete">
+                <mat-option (click)="selectedChangeIds('EmployeeName',item)"
+                    (keyup.enter)="selectedChangeIds('EmployeeName',item)"
+                    *ngFor="let item of filteredAssociates | async;" [value]="item.label">
+                    {{item.label}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+          </div>      
+        </div>
+        <div class="text-right buttons">
+          <mat-checkbox (change)="CheckIsLeadership($event)"  formControlName="Leadership" *ngIf="roleName==='Department Head'">Customized Attendance Data
+          </mat-checkbox>
+            <button type="button" mat-stroked-button (click)="clearFilter()">
+                Clear</button>
+            <button type="submit" class="mr-0" mat-flat-button color="primary" (click)="fetchAttendanceReport()">
+                Apply</button>
+        </div>
+    </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-3">
+                <mat-icon style="vertical-align: middle;">people</mat-icon><b> List of associates </b>
+               <span>{{lstEmployees.length}}</span>
+             </div>
+             <div class="col-3">
+              <b> Total Working Days </b>
+             <span>{{totalWorkingDays}}</span>
+           </div>
+           <div class="col-3">
+            <b> Holidays </b>
+           <span>{{totalHolidays}}</span>
+         </div>
+         <div class="col-3">
+          <div class="row">
+              <div class="col-3">
+                  <span>
+                      <a *ngIf="lstEmployees.length>0"
+                         (click)="exportAsXLSX()" title="Export to Excel">
+                          <div class="exportToExcel"></div>
+                      </a>
+                  </span>
+              </div>
+              <div class="col-9">
+                    <button (click)="exportAdvanceAsXLSX()" title="Export to Excel" class="btn btn-primary">
+                      Advance Report
+                    </button>
+              </div>
+          </div>
+      </div>
+               
+        </div>
+        <div class="row">
+            <div class="col-md-12">               
+                <div class="table-responsive">
+                    <table #table mat-table matTableExporter [dataSource]="employeedataSource" matSort class="mat-elevation-z8" #exporter="matTableExporter">
+                     
+                      <ng-container matColumnDef="EmployeeCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">ID</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.EmployeeCode}} </td>
+                      </ng-container>
+                
+                    <ng-container matColumnDef="EmployeeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Name</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.EmployeeName}} </td>
+                      </ng-container>   
+                      <ng-container matColumnDef="DepartmentName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left" >Department</th>
+                        <td mat-cell *matCellDef="let element" class="td-left"> {{element.DepartmentName}} </td>
+                      </ng-container>     
+                        <ng-container matColumnDef="ProjectName">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left" >Project</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> {{element.ProjectName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ReportingManagerName">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Reporting Manager</th>
+                          <td mat-cell *matCellDef="let element" class="td-left"> {{element.ReportingManagerName}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="TotalDaysWorked">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header  class="font-weight-bold th-left">Total Days Worked</th>
+                            <td mat-cell *matCellDef="let element" class="td-center"> {{element.TotalDaysWorked}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="TotalWfoDays">
+                          <th mat-header-cell *matHeaderCellDef   class="font-weight-bold th-left">Total WFO Days &nbsp;<mat-icon class="info-css" style="font-size: 17px;" matTooltip="Work From Office" matTooltipPosition="above">info</mat-icon></th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> {{element.TotalWFODays}}
+                          </td>
+                      </ng-container>
+                      <ng-container matColumnDef="TotalWfhDays">
+                        <th mat-header-cell *matHeaderCellDef   class="font-weight-bold th-left">Total WFH Days &nbsp;<mat-icon class="info-css" style="font-size: 17px;" matTooltip="Work From Home" matTooltipPosition="above">info</mat-icon></th>
+                        <td mat-cell *matCellDef="let element" class="td-center"> {{element.TotalWFHDays}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="TotalLeavesTaken">
+                      <th mat-header-cell *matHeaderCellDef   class="font-weight-bold th-left table-css">Total Leaves Taken <mat-icon class="info-css"  matTooltip="Leaves Taken" matTooltipPosition="above">info</mat-icon></th>
+                      <td mat-cell *matCellDef="let element" class="td-center table-css"> {{element.TotalLeaves}}
+                      </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Compliance%">
+                    <th mat-header-cell *matHeaderCellDef   class="font-weight-bold th-left table-css">Hybrid Compliance %<mat-icon class="info-css"  matTooltip="Total WFO days/(Total Workingdays - Total leaves)" matTooltipPosition="above">info</mat-icon></th>
+                    <td mat-cell *matCellDef="let element" class="td-center table-css"> {{element.CompliancePrecentage}}
+                    </td>
+                </ng-container>
+                        <ng-container matColumnDef="View">
+                          <th mat-header-cell *matHeaderCellDef class="font-weight-bold th-left">Detail View</th>
+                          <td mat-cell *matCellDef="let element" class="td-center"> <mat-icon style="vertical-align: middle;cursor: pointer;" (click)="viewAttendanceDetails(element)" [hidden]="element.TotalDaysWorked == 0"> visibility</mat-icon> </td>
+                      </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="row.WorkFromHome ? 'workfromhome' : 'workfromoffice'"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data</td>
+                        </tr>
+                    </table>
+                  </div>
+                <div class="row justify-content-center">
+                    <mat-paginator [pageSizeOptions]="[10, 15, 20,25,30,40,50,60,70,80,90,100]"></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+  
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.1)" color="#585858" [fullScreen]="false" type="ball-clip-rotate-multiple"
+    size="medium">
+    <p class="loading">Loading ...</p>
+</ngx-spinner>
+
+

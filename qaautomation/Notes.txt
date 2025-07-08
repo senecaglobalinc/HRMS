@@ -1,0 +1,29 @@
+Cypress framework explanation folder by folder and file bby file (as per folder structure)
+
+e2e > this folder contains all spec files whose extension is cy.js
+
+fixtures > 
+
+screenshots > this folder contains all the screenshots we captured while executing test cases (specs)
+
+support > this folder will contains subfolders like pageObjects, JS files like commands.js, constants.js, e2e.js
+
+pageObjects > this folder contains all js files related to specs.
+
+common.js > in this we create a class with name "common" and creates a constructor for common locaters like username, pwd etc. In this we create method login.
+
+commands > this will be added into the folder by default (comes with cypress installation)
+
+constants.js > this is the first file we create for maintaining application URL and login credentials.
+
+e2e.js > this will be comes with cypress 
+
+
+
+
+
+
+
+
+
+

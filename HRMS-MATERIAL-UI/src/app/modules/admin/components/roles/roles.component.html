@@ -1,0 +1,118 @@
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="addRole">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label> Department <span class="text-danger"> *</span></mat-label>
+                        <mat-select [disabled]=disableDepartment formControlName="DepartmentId" name="DepartmentId"
+                            (optionSelected)=getRoleSuffixAndPrefixlist($event.value)>
+                            <mat-option disabled>Select Deparment</mat-option>
+                            <mat-option *ngFor="let dept of departmentList" [value]="dept.value">
+                                {{dept.label}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addRole.get('DepartmentId').hasError('required')">
+                            Department Name Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label> Key Function <span class="text-danger">*</span> </mat-label>
+                        <mat-select [disabled]="editDisable" formControlName="SGRoleID">
+                            <mat-option disabled>Select Key Function</mat-option>
+                            <mat-option *ngFor="let keyFunction of keyFunctionList" [value]="keyFunction.value">
+                                {{keyFunction.label}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addRole.get('SGRoleID').hasError('required')">
+                            Key Function Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row" *ngIf="showSenoritySpeciality">
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label> Seniority </mat-label>
+                        <mat-select [disabled]="editDisable" formControlName="PrefixID">
+                            <mat-option disabled>Select Seniority</mat-option>
+                            <mat-option *ngFor="let seniority of seniorityList" [value]="seniority.value">
+                                {{seniority.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label> Speciality </mat-label>
+                        <mat-select [disabled]="editDisable" formControlName="SuffixID">
+                            <mat-option disabled>Select Speciality</mat-option>
+                            <mat-option *ngFor="let speciality of specialityList" [value]="speciality.value">
+                                {{speciality.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <mat-form-field appearance={{themeConfigInput}}>
+                        <mat-label>Role Description</mat-label>
+                        <textarea matInput formControlName="RoleDescription" minlength="2"></textarea>
+                        <mat-error *ngIf="addRole.get('RoleDescription').hasError('minlength')">
+                            Atleast enter 2 characters
+                        </mat-error>
+                        <mat-error *ngIf="addRole.get('RoleDescription').hasError('maxlength')">
+                            Only enter 4000 characters
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <angular-editor [placeholder]="'Enter Education Qualification and Certification...'"
+                        formControlName="EducationQualification" [config]="editorConfig" minlength="2"></angular-editor>
+                    <mat-error *ngIf="addRole.get('EducationQualification').hasError('maxlength')">
+                        Only 500 characters are allowed
+                    </mat-error>
+                    <mat-error *ngIf="addRole.get('EducationQualification').hasError('minlength')">
+                        Atleast Enter 2 characters
+                    </mat-error>
+                </div>
+                <div class="col-md-12">
+                    <angular-editor [placeholder]="'Enter Key Responsibilities...'"
+                        formControlName="KeyResponsibilities" [config]="editorConfig"></angular-editor>
+                    <mat-error *ngIf="addRole.get('KeyResponsibilities').hasError('minlength')">
+                        Atleast enter 2 spaces
+                    </mat-error>
+                    <mat-error *ngIf="addRole.get('KeyResponsibilities').hasError('maxlength')">
+                        Only 500 Characters allowed
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="my-5">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button mat-stroked-button (click)="backToRoleList()">
+                                    <mat-icon>arrow_back</mat-icon>
+                                    Back
+                                </button>
+                            </div>
+                            <div>
+                                <button mat-stroked-button (click)="cancel()">
+                                    <mat-icon>clear</mat-icon>
+                                    Clear
+                                </button>
+                                <button type="submit" (click)="onAddRole()" mat-flat-button
+                                    color="primary">{{btnLabel}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

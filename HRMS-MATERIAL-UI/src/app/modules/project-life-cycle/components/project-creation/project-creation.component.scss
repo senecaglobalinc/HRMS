@@ -1,0 +1,42 @@
+button[type="submit"]
+{
+    width: 105px;  
+}
+
+@media only screen and (max-width:1024px){
+  
+  .buttons{
+      margin-right:61px !important;
+  }
+}
+@media only screen and (max-width:1440px){
+
+  .buttons{
+      margin-right:74px;
+  }
+}
+
+.buttons {
+  
+  margin-right: 82px;
+  margin-top: -9px;
+}
+
+@media screen and (min-width: 64.063em){
+.ui-lg-4 {
+    width: 27.3333%;
+}
+}
+
+.center {
+  margin-left: 4em;
+
+}
+
+mat-datepicker-toggle {
+  display: inline-block;
+}
+
+
+
+  

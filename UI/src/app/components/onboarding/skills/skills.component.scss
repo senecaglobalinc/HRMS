@@ -1,0 +1,42 @@
+
+button[type="submit"]
+{
+    width: 105px;  
+}
+.buttons {
+    margin-top: 22px;
+    margin-right: 98px;
+  }
+
+::ng-deep .ui-table-thead tr th.editCls {
+    width: 100px;
+    text-align: center;
+}
+
+ 
+.tables{
+   padding-right:82px;
+ }
+   
+    /* tablets, iPads (landscape) ---------- */
+    @media screen and (max-width: 1024px){
+        .buttons{
+            margin-right:27px !important;
+ }
+   .tables{
+
+     padding-right:8px !important;;
+     padding-left: 0px !important;
+    
+   }
+}
+/* Desktops and laptops ---------- */
+@media screen and (max-width: 1440px){
+
+ .tables{
+   padding-right: 66px;
+  }
+  .buttons{
+    margin-right: 89px;
+}
+}
