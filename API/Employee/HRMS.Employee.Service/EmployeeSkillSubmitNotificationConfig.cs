@@ -14,15 +14,32 @@ using System.Web;
 namespace HRMS.Employee.Service
 {
 
+    /// <summary>
+    /// Utility class used to construct notification content when an
+    /// employee submits skills for approval.
+    /// </summary>
     internal class EmployeeSkillSubmitNotificationConfig
     {
         private readonly IConfiguration m_config;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmployeeSkillSubmitNotificationConfig"/> class.
+        /// </summary>
+        /// <param name="configuration">Application configuration instance.</param>
         public EmployeeSkillSubmitNotificationConfig(IConfiguration configuration)
         {
             m_config = configuration;
         }
+
+        /// <summary>
+        /// Builds the notification details for the reporting manager
+        /// using the provided skill details and associate information.
+        /// </summary>
+        /// <param name="skillDetails">List of submitted skills.</param>
+        /// <param name="employeeDetails">Employee submitting the skills.</param>
+        /// <returns>Populated <see cref="NotificationDetail"/> instance.</returns>
         public static NotificationDetail EmpSkillNotificationConfig(List<EmployeeSkillDetails> skillDetails, EmployeeDetails employeeDetails )
-        {                        
+        {
             string FilePath = Utility.GetNotificationTemplatePath(NotificationTemplatePaths.currentDirectory,NotificationTemplatePaths.subDirectories_Employee_Skill_Submit);
             StreamReader stream = new StreamReader(FilePath);
             string MailText = stream.ReadToEnd();
@@ -40,6 +57,12 @@ namespace HRMS.Employee.Service
             notificationDetail.EmailBody = MailText;          
             return notificationDetail;
         }
+
+        /// <summary>
+        /// Generates an HTML table representation of the submitted skills.
+        /// </summary>
+        /// <param name="skillDetails">List of skills to include in the table.</param>
+        /// <returns>Formatted HTML string.</returns>
         public static string GenerateHTMLTable(List<EmployeeSkillDetails> skillDetails)
         {
             string tableHtml = "";

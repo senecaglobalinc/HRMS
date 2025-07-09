@@ -23,8 +23,12 @@ using System.Threading.Tasks;
 
 namespace HRMS.Employee.Service
 {
+   /// <summary>
+   /// Service used for recording and retrieving attendance
+   /// information for associates working remotely or from office.
+   /// </summary>
    public class WorkFromHomeAttendanceService : IWorkFromHomeAttendanceService
-    {
+   {
         #region Global Varibles
         private readonly EmployeeDBContext _employeeDBContext;   
         private readonly IOrganizationService m_OrgService;      
@@ -34,6 +38,13 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WorkFromHomeAttendanceService"/> class.
+        /// </summary>
+        /// <param name="employeeDBContext">Employee database context.</param>
+        /// <param name="logger">Application logger.</param>
+        /// <param name="emailConfigurations">Email configuration options.</param>
+        /// <param name="organizationService">Service for sending notifications.</param>
         public WorkFromHomeAttendanceService(EmployeeDBContext employeeDBContext,
                                   ILogger<AttendanceReportService> logger, IOptions<EmailConfigurations> emailConfigurations, IOrganizationService organizationService)
         {
@@ -45,6 +56,13 @@ namespace HRMS.Employee.Service
         #endregion
         
         #region SaveAttendanceDetais
+        /// <summary>
+        /// Saves sign-in or sign-out attendance details for an associate. If an
+        /// entry already exists for the day, it updates the record and sends
+        /// a notification to the reporting manager when required.
+        /// </summary>
+        /// <param name="bioMetricAttendance">Attendance record to save.</param>
+        /// <returns>Service response indicating success or failure.</returns>
         public async Task<ServiceResponse<bool>> SaveAttendanceDetais(BioMetricAttendance bioMetricAttendance)
         {
             var response = new ServiceResponse<bool>();
@@ -104,6 +122,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetAttendanceDetais
+        /// <summary>
+        /// Retrieves the work from home attendance details for the provided
+        /// associate code for the current date.
+        /// </summary>
+        /// <param name="employeeCode">Associate identifier.</param>
+        /// <returns>Attendance details if present.</returns>
         public async Task<ServiceResponse<BioMetricAttendance>> GetAttendanceDetais(string employeeCode)
         {
             var response = new ServiceResponse<BioMetricAttendance>();
@@ -132,6 +156,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetloginStatus
+        /// <summary>
+        /// Determines the current login status for the associate based on their
+        /// attendance record for the day.
+        /// </summary>
+        /// <param name="employeeCode">Associate identifier.</param>
+        /// <returns>Login status code.</returns>
         public async Task<ServiceResponse<int?>> GetloginStatus(string employeeCode)
         {
             var response = new ServiceResponse<int?>();
@@ -165,6 +195,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Private methods
+        /// <summary>
+        /// Calculates the total hours worked between the provided in and out times.
+        /// </summary>
+        /// <param name="InTime">Sign in time in HH:mm format.</param>
+        /// <param name="OutTime">Sign out time in HH:mm format.</param>
+        /// <returns>Total work duration in HH:mm format.</returns>
         private string GetTotalWorkHourse(string InTime, string OutTime)
         {
             string TotalTime = string.Empty;
@@ -181,6 +217,12 @@ namespace HRMS.Employee.Service
             return TotalTime;
         }
 
+        /// <summary>
+        /// Returns a textual summary of the attendance based on sign in and sign out times.
+        /// </summary>
+        /// <param name="Intime">Sign in time.</param>
+        /// <param name="OutTime">Sign out time.</param>
+        /// <returns>Attendance summary text.</returns>
         private string GetSummary(string Intime, string OutTime)
         {
             string summary = string.Empty;
@@ -207,6 +249,13 @@ namespace HRMS.Employee.Service
             return summary;
         }
 
+        /// <summary>
+        /// Sends an email notification to the reporting manager when an
+        /// associate successfully signs in from the office.
+        /// </summary>
+        /// <param name="employeeDetails">Associate details.</param>
+        /// <param name="RMdetails">Reporting manager details.</param>
+        /// <param name="bioMetricAttendance">Recorded attendance information.</param>
         private void SendNotificationToRMWhenWFOSignIn(Entities.Employee employeeDetails,Entities.Employee RMdetails,BioMetricAttendance bioMetricAttendance)
         {
             string associateName = employeeDetails.FirstName + " " + employeeDetails.LastName;

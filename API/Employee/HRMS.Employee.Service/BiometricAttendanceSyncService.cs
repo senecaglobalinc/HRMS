@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace HRMS.Employee.Service
 {
+    /// <summary>
+    /// Service responsible for synchronizing biometric attendance data
+    /// between external sources and the HRMS database.
+    /// </summary>
     public class BiometricAttendanceSyncService : IBiometricAttendanceSyncService
     {
         #region Global Varibles
@@ -18,6 +22,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of <see cref="BiometricAttendanceSyncService"/>.
+        /// </summary>
+        /// <param name="employeeDBContext">Employee database context.</param>
+        /// <param name="dbService">Database helper service.</param>
         public BiometricAttendanceSyncService(EmployeeDBContext employeeDBContext, IDbService dbService)
         {
             _employeeDBContext = employeeDBContext;
@@ -26,6 +35,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetBiometricAttendance
+        /// <summary>
+        /// Retrieves biometric attendance information for a given date and location.
+        /// </summary>
+        /// <param name="dateToSync">Date for which records are required.</param>
+        /// <param name="location">Attendance location.</param>
+        /// <returns>List of biometric attendance records.</returns>
         public async Task<ServiceListResponse<BiometricAttendance>> GetBiometricAttendance(DateTime dateToSync, string location)
         {
             ServiceListResponse<BiometricAttendance> result = new ServiceListResponse<BiometricAttendance>();
@@ -46,6 +61,13 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region DeleteBiometricAttendance
+        /// <summary>
+        /// Deletes biometric attendance entries for the specified date range and location.
+        /// </summary>
+        /// <param name="dateFromSync">Start date of the range.</param>
+        /// <param name="dateToSync">End date of the range.</param>
+        /// <param name="location">Attendance location.</param>
+        /// <returns>Result of the delete operation.</returns>
         public async Task<BaseServiceResponse> DeleteBiometricAttendance(DateTime dateFromSync, DateTime dateToSync, string location)
         {
             BaseServiceResponse result = new BaseServiceResponse();
@@ -65,6 +87,13 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region WriteBulkData
+        /// <summary>
+        /// Inserts biometric attendance records in bulk after cleaning existing data.
+        /// </summary>
+        /// <param name="dateFromSync">Start date for the sync.</param>
+        /// <param name="dateToSync">End date for the sync.</param>
+        /// <param name="entities">Attendance records to insert.</param>
+        /// <returns>Result of the insert operation.</returns>
         public async Task<BaseServiceResponse> WriteBulkData(DateTime dateFromSync, DateTime dateToSync, List<BiometricAttendance> entities)
         {
             BaseServiceResponse result = new BaseServiceResponse();
@@ -124,6 +153,10 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetExcludedAssociates
+        /// <summary>
+        /// Retrieves the list of associates excluded from biometric processing.
+        /// </summary>
+        /// <returns>List of excluded associates.</returns>
         public async Task<ServiceListResponse<ExcludedAssociates>> GetExcludedAssociates()
         {
             ServiceListResponse<ExcludedAssociates> result = new ServiceListResponse<ExcludedAssociates>();
