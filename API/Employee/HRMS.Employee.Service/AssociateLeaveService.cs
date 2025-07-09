@@ -25,6 +25,9 @@ using System.Threading.Tasks;
 
 namespace HRMS.Employee.Service
 {
+    /// <summary>
+    /// Service handling associate leave data upload and template retrieval.
+    /// </summary>
     public class AssociateLeaveService : IAssociateLeaveService
     {
         #region  Global Varibles
@@ -37,6 +40,13 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of <see cref="AssociateLeaveService"/>.
+        /// </summary>
+        /// <param name="employeeDBContext">Employee database context.</param>
+        /// <param name="logger">Application logger.</param>
+        /// <param name="organizationService">Service used to send notifications.</param>
+        /// <param name="emailConfigurations">Email configuration options.</param>
         public AssociateLeaveService(EmployeeDBContext employeeDBContext, ILogger<AssociateLeaveService> logger, IOrganizationService organizationService,
             IOptions<EmailConfigurations> emailConfigurations)
         {
@@ -50,6 +60,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Uploadleavedata
+        /// <summary>
+        /// Uploads associate leave information from an Excel file.
+        /// </summary>
+        /// <param name="file">Excel file containing leave data.</param>
+        /// <returns>Result indicating success or failure.</returns>
         public async Task<ServiceResponse<bool>> UploadLeaveData(IFormFile file)
         {
 
@@ -182,6 +197,10 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetTemplateFile
+        /// <summary>
+        /// Returns the Excel template used for uploading leave data.
+        /// </summary>
+        /// <returns>Template file details.</returns>
         public FileDetail GetTemplateFile()
         {
             string content = string.Empty;

@@ -13,10 +13,17 @@ namespace HRMS.Employee.API.Controllers
     [Controller]
     [Route("employee/[controller]")]
     [ApiController]
+    /// <summary>
+    /// Controller used for basic API health checks.
+    /// </summary>
     public class HealthCheckController : ControllerBase
     {
-       
+
         [HttpGet("check")]
+        /// <summary>
+        /// Simple endpoint to verify the API is responding.
+        /// </summary>
+        /// <returns>HTTP 200 when the service is healthy.</returns>
         public ActionResult Check()
         {
             return Ok();

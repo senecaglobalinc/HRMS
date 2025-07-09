@@ -25,6 +25,9 @@ using System.Threading.Tasks;
 
 namespace HRMS.Employee.Service
 {
+    /// <summary>
+    /// Service that manages attendance regularization requests and approvals.
+    /// </summary>
     public class AttendanceRegularizationService : IAttendanceRegularizationService
     {
         #region Global Variables
@@ -39,6 +42,15 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of <see cref="AttendanceRegularizationService"/>.
+        /// </summary>
+        /// <param name="context">Employee database context.</param>
+        /// <param name="logger">Application logger.</param>
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="organizationService">Organization service instance.</param>
+        /// <param name="projectService">Project service instance.</param>
+        /// <param name="emailConfigurations">Email configuration options.</param>
         public AttendanceRegularizationService(EmployeeDBContext context, ILogger<AttendanceRegularizationService> logger, IConfiguration configuration,
             IOrganizationService organizationService,IProjectService projectService, IOptions<EmailConfigurations> emailConfigurations)
         {
@@ -52,6 +64,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetNotPunchInDates
+        /// <summary>
+        /// Retrieves dates on which an associate did not punch in.
+        /// </summary>
+        /// <param name="attendanceRegularizationFilter">Filter containing associate and date range.</param>
+        /// <returns>List of dates that require regularization.</returns>
         public async Task<ServiceResponse<AttendanceRegularization>> GetNotPunchInDates( AttendanceRegularizationFilter attendanceRegularizationFilter)
         {
             var response = new ServiceResponse<AttendanceRegularization>();
@@ -109,6 +126,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region SaveAttendanceRegularizationDetails
+        /// <summary>
+        /// Saves new attendance regularization requests submitted by an associate.
+        /// </summary>
+        /// <param name="attendanceRegularizationWorkFlow">List of regularization requests.</param>
+        /// <returns>True when data is saved successfully.</returns>
         public async Task<ServiceResponse<bool>> SaveAttendanceRegularizationDetails(List<AttendanceRegularizationWorkFlow> attendanceRegularizationWorkFlow)
         {
             var response =new ServiceResponse<bool>();
@@ -150,6 +172,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region ApproveAttendanceRegularizationDetails
+        /// <summary>
+        /// Approves or rejects submitted attendance regularization requests.
+        /// </summary>
+        /// <param name="regularizationWorkFlow">Details of the approval or rejection.</param>
+        /// <returns>True when the operation succeeds.</returns>
         public async Task<ServiceResponse<bool>> ApproveOrRejectAttendanceRegularizationDetails(AttendanceRegularizationWorkFlowDetails regularizationWorkFlow)
         {
             var response = new ServiceResponse<bool>();
@@ -238,6 +265,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetAllAssociateSubmittedAttendanceRegularization
+        /// <summary>
+        /// Retrieves all attendance regularization requests submitted to a manager.
+        /// </summary>
+        /// <param name="managerId">Manager employee id.</param>
+        /// <param name="roleName">Role of the manager.</param>
+        /// <returns>List of submitted regularization details.</returns>
         public async Task<ServiceListResponse<AttendanceRegularizationWorkFlowDetails>> GetAllAssociateSubmittedAttendanceRegularization(int managerId, string roleName)
         {
             var response = new ServiceListResponse<AttendanceRegularizationWorkFlowDetails>();
@@ -391,6 +424,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetAssociateSubmittedAttendanceRegularization
+        /// <summary>
+        /// Retrieves regularization requests submitted by a specific associate.
+        /// </summary>
+        /// <param name="AssociateId">Associate employee code.</param>
+        /// <param name="roleName">Role of the requesting user.</param>
+        /// <returns>List of regularization workflow records.</returns>
         public async Task<ServiceListResponse<AttendanceRegularizationWorkFlow>> GetAssociateSubmittedAttendanceRegularization(string AssociateId, string roleName)
         {
             var response = new ServiceListResponse<AttendanceRegularizationWorkFlow>();
@@ -529,8 +568,12 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Send Notification
+        /// <summary>
+        /// Sends notification to reporting manager when an associate submits a regularization request.
+        /// </summary>
+        /// <param name="attendanceRegularizationWorkFlows">Submitted workflows.</param>
         public void RegularizationOnSubmitNotification( List<AttendanceRegularizationWorkFlow> attendanceRegularizationWorkFlows)
-        {            
+        {
             string AssociateId = attendanceRegularizationWorkFlows.First().SubmittedBy;
             var employee = m_employeeDBContext.Employees.Where(emp => emp.EmployeeCode == AssociateId && emp.IsActive == true).FirstOrDefault();
             string associateName = employee.FirstName + " " + employee.LastName;
@@ -554,6 +597,13 @@ namespace HRMS.Employee.Service
             m_organizationService.SendEmail(notificationDetail);
         }
 
+        /// <summary>
+        /// Sends notification to associate on approval or rejection of their request.
+        /// </summary>
+        /// <param name="associateName">Associate name.</param>
+        /// <param name="associateEmail">Associate email address.</param>
+        /// <param name="regularizationDates">Dates of regularization.</param>
+        /// <param name="RegularizationStatus">Status value.</param>
         public void RegularizationApproveOrRejectNotification(string associateName,string associateEmail , List<DateTime> regularizationDates, int RegularizationStatus)
         {
             var attendanceRegularizationDates =string.Join(",", regularizationDates.Select(x => x.ToString("yyyy-MM-dd")).ToList());

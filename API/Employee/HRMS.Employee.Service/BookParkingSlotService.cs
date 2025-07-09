@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 namespace HRMS.Employee.Service
 {
+    /// <summary>
+    /// Service used to book and release parking slots for employees.
+    /// </summary>
     public class BookParkingSlotService : IBookParkingSlot
     {
         #region Global Variables
@@ -29,6 +32,13 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of <see cref="BookParkingSlotService"/>.
+        /// </summary>
+        /// <param name="context">Employee database context.</param>
+        /// <param name="logger">Application logger.</param>
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="parkingSlot">Parking slot settings.</param>
         public BookParkingSlotService(EmployeeDBContext context, ILogger<BookParkingSlotService> logger, IConfiguration configuration, IOptions<ParkingSlot> parkingSlot)
         {
             m_employeeDBContext = context;
@@ -38,6 +48,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region Create
+        /// <summary>
+        /// Books a parking slot for the specified employee.
+        /// </summary>
+        /// <param name="bookedParkingSlot">Parking slot details.</param>
+        /// <returns>Result of the booking operation.</returns>
         public async Task<ServiceResponse<BookedParkingSlotDetails>> Create(BookedParkingSlotDetails bookedParkingSlot)
         {
             
@@ -84,6 +99,11 @@ namespace HRMS.Employee.Service
         }
         #endregion
         #region ReleaseSlot
+        /// <summary>
+        /// Releases the parking slot booked by the specified email address.
+        /// </summary>
+        /// <param name="email">Email address of the employee.</param>
+        /// <returns>Result of the release operation.</returns>
         public async Task<ServiceResponse<BookedParkingSlotDetails>> ReleaseSlot(string email)
         {
             var response = new ServiceResponse<BookedParkingSlotDetails>();
@@ -111,6 +131,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetSlotDetailsByEmailID
+        /// <summary>
+        /// Retrieves parking slot booking details for a specific email address.
+        /// </summary>
+        /// <param name="emailId">Email address of the employee.</param>
+        /// <returns>Parking slot booking information.</returns>
         public async Task<ServiceResponse<BookedParkingSlotDetails>> GetSlotDetailsByEmailID(string emailId)
         {
             var response = new ServiceResponse<BookedParkingSlotDetails>();
@@ -147,6 +172,11 @@ namespace HRMS.Employee.Service
         #endregion
 
         #region GetSlotDetails
+        /// <summary>
+        /// Retrieves available parking slot count for the given location.
+        /// </summary>
+        /// <param name="PlaceName">Parking location name.</param>
+        /// <returns>Information about total and available slots.</returns>
         public async Task<ServiceResponse<AvailableSlots>> GetSlotDetails(string PlaceName)
         {
             var response = new ServiceResponse<AvailableSlots>();
